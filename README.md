@@ -1,27 +1,31 @@
 # EmpenhadosPatrimonioApp
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.4.
+Este projeto foi gerado com [Angular CLI](https://github.com/angular/angular-cli) versão 1.7.4.
 
-## Development server
+## Requisitos
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Instale o nodemon globalmente:
 
-## Code scaffolding
+`npm install -g nodemon`
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Obs: Caso você tenha problemas com o Cors. Execute a instalação do mesmo manualmente: `npm install cors`
 
-## Build
+## Recomendações
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+Depois de clonar o repositório, instale as dependências necessárias:
 
-## Running unit tests
+`npm install`
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Executando
 
-## Running end-to-end tests
+Para executar o ambiente de desenvolvimento do cliente (Angular):
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+`ng serve`
 
-## Further help
+Obs: A aplicação estará disponível em `localhost:4200`
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Para executar o ambiente de desenvolvimento do server (Express + nodejs):
+
+`npm start`
+
+Obs: A api estará disponível em `localhost:3000/api`
