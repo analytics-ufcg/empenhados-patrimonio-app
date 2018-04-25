@@ -1,5 +1,5 @@
 import express from 'express';
-var connection = require('../config/db_config.js').connection;
+var pool = require('../config/db_config.js');
 
 const router = express.Router();
 
@@ -12,26 +12,29 @@ router.get('/', (req, res) => {
  * GET consulta banco de dados
  */
 router.get('/municipios', async (req, res) => {  
-  
-  execSQLQuery("SELECT * FROM municipio", res);        
+  var cod_ibge = "2504009";
+  var query = "SELECT * FROM municipio WHERE cd_IBGE = " + pool.escape(cod_ibge);
+  execSQLQuery(query, res);        
   
 });
 
-function execSQLQuery(sqlQuery, res){
+  function execSQLQuery(sqlQuery, res){
 
-  connection.query(sqlQuery, function(error, results, fields){
-      if(error) {
-        res.status(400).json(error);
-      } else {
-        res.status(200).json(results);
-      }
+    pool.getConnection(function(err, connection) {
+      
+      connection.query(sqlQuery, function (error, results, fields) {
+        
+        if(error) {
+          res.status(400).json(error);
+        } else {
+          res.status(200).json(results);
+        }
 
-      connection.on('error', function(error) {
-        console.log("[mysql error]", error);
+        connection.release();            
+            
       });
+    });
 
-      connection.end();
-  });
 }
 
 module.exports = router;
