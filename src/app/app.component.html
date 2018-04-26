@@ -1,25 +1,27 @@
 <!--The content below is only a placeholder and can be replaced.-->
 
-<div class="main-sidenav-area">
+<div>
+  <mat-toolbar color="primary">
+    <span> {{ title }}</span>
+  </mat-toolbar>
+</div>
+
+<div class = "main-container">
+    <div>
+        <h3>Container</h3>
+        Content          
+    </div> 
+</div>
+
+
+<!-- <ng-container >
     <mat-toolbar color="primary">
         <span> {{ title }}</span>
     </mat-toolbar> 
 
-  <mat-sidenav-container>
-    
-    <mat-sidenav opened mode="side">        
-    </mat-sidenav>
+    <div>
+        <h3>Sidenav</h3>
+        Content          
+    </div>   
 
-    <mat-sidenav opened mode="side" position="end">
-    </mat-sidenav>
-
-    <mat-sidenav-content>
-      <div class="main-sidenav-content">
-        <div>
-          <h3>Sidenav</h3>
-          Content          
-        </div>            
-      </div>      
-    </mat-sidenav-content>    
-  </mat-sidenav-container>
-</div>
+</ng-container> -->
