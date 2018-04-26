@@ -1,0 +1,22 @@
+.main-container {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    margin-left: 100px auto;
+    margin-right: 100px auto;
+  }
+.mat-toolbar {
+    flex: 0;
+}
+
+.mat-sidenav-container {
+    flex: 1;
+}
+
+.main-sidenav-content {
+    padding: 32px;
+}

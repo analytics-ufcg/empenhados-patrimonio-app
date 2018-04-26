@@ -6,10 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Patrimônios app';
+  title = 'Patrimônios app'; 
 }
 
-@Component({
-  selector: 'mat-toolbar-row'
-})
 export class matToolbarRow {}
