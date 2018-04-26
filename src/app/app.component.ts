@@ -8,3 +8,8 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'Patrimônios app';
 }
+
+@Component({
+  selector: 'mat-toolbar-row'
+})
+export class matToolbarRow {}

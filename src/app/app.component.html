@@ -1,8 +1,61 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:center">
-  <h1>
+<!--  <h1>
     {{ title }}!
   </h1>
-</div>
+</div>-->
 
+<mat-toolbar color="primary">
+    <span> {{ title }}</span>
+</mat-toolbar>
 
+<mat-tab-group class="demo-tab-group">
+  <mat-tab label="Raised Buttons">
+    <div class="demo-tab-content">
+      <mat-card>
+        <button mat-raised-button>Basic</button>
+        <button mat-raised-button color="primary">Primary</button>
+        <button mat-raised-button color="accent">Accent</button>
+        <button mat-raised-button color="warn">Warn</button>
+        <button mat-raised-button disabled>Disabled</button>
+        <a mat-raised-button routerLink=".">Link</a>
+      </mat-card>
+    </div>
+  </mat-tab>
+  <mat-tab label="Icon Buttons">
+    <div class="demo-tab-content">
+      <mat-card>
+        <button mat-icon-button>
+          <mat-icon aria-label="Example icon-button with a heart icon">favorite</mat-icon>
+        </button>
+        <button mat-icon-button color="primary">
+          <mat-icon aria-label="Example icon-button with a heart icon">favorite</mat-icon>
+        </button>
+        <button mat-icon-button color="accent">
+          <mat-icon aria-label="Example icon-button with a heart icon">favorite</mat-icon>
+        </button>
+        <button mat-icon-button color="warn">
+          <mat-icon aria-label="Example icon-button with a heart icon">favorite</mat-icon>
+        </button>
+        <button mat-icon-button disabled>
+          <mat-icon aria-label="Example icon-button with a heart icon">favorite</mat-icon>
+        </button>
+      </mat-card>
+    </div>
+  </mat-tab>
+  <mat-tab label="Fab Buttons">
+    <div class="demo-tab-content">
+      <mat-card>
+        <button mat-fab>Basic</button>
+        <button mat-fab color="primary">Primary</button>
+        <button mat-fab color="accent">Accent</button>
+        <button mat-fab color="warn">Warn</button>
+        <button mat-fab disabled>Disabled</button>
+        <button mat-fab>
+          <mat-icon aria-label="Example icon-button with a heart icon">favorite</mat-icon>
+        </button>
+        <a mat-fab routerLink=".">Link</a>
+      </mat-card>
+    </div>
+  </mat-tab>
+</mat-tab-group>
