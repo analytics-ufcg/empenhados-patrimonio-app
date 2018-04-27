@@ -9,22 +9,33 @@ router.get('/', (req, res) => {
 });
 
 /**
- * GET consulta banco de dados
+ * GET retorna patrimonios considerando o estado, ano e cargo
  */
-router.get('/municipios', async (req, res) => {  
-  var cod_ibge = "2504009";
-  var query = "SELECT * FROM municipio WHERE cd_IBGE = " + pool.escape(cod_ibge);
-  execSQLQuery(query, res);        
+router.get('/patrimonio/:estado/:ano/:cargo', async (req, res) => {  
+  let parameters = [req.params.estado, req.params.ano, req.params.cargo];
+
+  var query = "SELECT * FROM patrimonio_candidatos WHERE estado = ? AND ano_dois = ? AND cargo_pleiteado_2 = ?"
+  execSQLQuery(query, parameters, res);        
   
 });
 
-  function execSQLQuery(sqlQuery, res){
+/**
+ * GET retorna patrimonios considerando o estado
+ */
+router.get('/patrimonio/:estado', async (req, res) => {    
+  let parameters = [req.params.estado];
+  var query = "SELECT * FROM patrimonio_candidatos WHERE estado = ?"
+  execSQLQuery(query, parameters, res);        
+  
+});
+
+  function execSQLQuery(sqlQuery, parameters, res){
 
     pool.getConnection(function(err, connection) {
       
-      connection.query(sqlQuery, function (error, results, fields) {
+      connection.query(sqlQuery, parameters, function (error, results, fields) {
         
-        if(error) {
+        if (error) {
           res.status(400).json(error);
         } else {
           res.status(200).json(results);
