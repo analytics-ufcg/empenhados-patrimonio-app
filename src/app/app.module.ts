@@ -1,6 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import {HttpClientModule, HttpClient} from '@angular/common/http';
+import { GlobalService} from './services/global.service';
+import { UtilsService } from './services/utils.service';
 
 import {
   MatToolbarModule,
@@ -40,9 +43,14 @@ import { FilterComponent } from './filter/filter.component';
     MatSidenavModule,
     MatCheckboxModule,
     MatOptionModule,
-    MatSelectModule
+    MatSelectModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+    HttpClientModule,
+    UtilsService,
+    GlobalService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

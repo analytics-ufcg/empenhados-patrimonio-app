@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UtilsService } from '../services/utils.service';
 
 @Component({
   selector: 'app-filter',
@@ -7,14 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FilterComponent implements OnInit {
   
-  estados = [
-    {value: 'PB', viewValue: 'Paraíba'},
-    {value: 'PE', viewValue: 'Pernambuco'}
-  ];
+  public lista_estados: any;
 
-  constructor() { }
+  constructor(private utilsService: UtilsService) { }
 
   ngOnInit() {
-  }
 
+    this.utilsService.recuperaEstados().subscribe(
+      data => {
+        this.lista_estados = data;
+      }, err => {
+        console.log(err);
+      }
+    );
+  }
 }

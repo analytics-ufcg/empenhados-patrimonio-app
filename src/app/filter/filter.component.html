@@ -1,8 +1,8 @@
 <div>
     <mat-form-field>
         <mat-select placeholder="Estado">
-          <mat-option *ngFor="let estado of estados" [value]="estado.value">
-            {{ estado.viewValue }}
+          <mat-option *ngFor="let estado of lista_estados" [value]="estado.estado">
+            {{ estado.estado }}
           </mat-option>
         </mat-select>
       </mat-form-field>

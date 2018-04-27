@@ -29,22 +29,33 @@ router.get('/patrimonio/:estado', async (req, res) => {
   
 });
 
-  function execSQLQuery(sqlQuery, parameters, res){
+/**
+ * GET retorna lista dos estados
+ */
+router.get('/patrimonio/busca/estados', async (req, res) => {   
+     
+  var query = "SELECT DISTINCT(estado) FROM patrimonio_candidatos ORDER BY estado"
+  execSQLQuery(query, [], res); 
+  
+});
 
-    pool.getConnection(function(err, connection) {
+
+function execSQLQuery(sqlQuery, parameters, res){
+
+  pool.getConnection(function(err, connection) {
+    
+    connection.query(sqlQuery, parameters, function (error, results, fields) {
       
-      connection.query(sqlQuery, parameters, function (error, results, fields) {
-        
-        if (error) {
-          res.status(400).json(error);
-        } else {
-          res.status(200).json(results);
-        }
+      if (error) {
+        res.status(400).json(error);
+      } else {
+        res.status(200).json(results);
+      }
 
-        connection.release();            
-            
-      });
+      connection.release();            
+          
     });
+  });
 
 }
 
