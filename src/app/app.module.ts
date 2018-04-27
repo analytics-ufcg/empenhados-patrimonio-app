@@ -9,7 +9,9 @@ import {
   MatIconModule,
   MatCardModule,
   MatSidenavModule,
-  MatCheckboxModule
+  MatCheckboxModule,
+  MatOptionModule,
+  MatSelectModule
 } from '@angular/material';
 
 import {
@@ -17,11 +19,13 @@ import {
 } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
+import { FilterComponent } from './filter/filter.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    FilterComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -34,7 +38,9 @@ import { AppComponent } from './app.component';
     MatIconModule,
     MatCardModule,
     MatSidenavModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatOptionModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

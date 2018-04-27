@@ -1,8 +1,8 @@
 .main-container {
     margin-left: 12%;
     margin-right: 12%;
-    background-color: #EEEEEE;
-  }
+    margin-top: 1%;
+}
 
 .mat-toolbar {
     flex: 0;

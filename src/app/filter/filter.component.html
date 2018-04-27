@@ -1,0 +1,9 @@
+<div>
+    <mat-form-field>
+        <mat-select placeholder="Estado">
+          <mat-option *ngFor="let estado of estados" [value]="estado.value">
+            {{ estado.viewValue }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+</div>
