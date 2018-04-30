@@ -21,4 +21,16 @@ export class UtilsService {
     });
   }
 
+  public recuperaCargos() {
+    return this.http.get(this.serverHost + '/patrimonio/busca/cargos', {
+      headers: this.headers
+    });
+  }
+
+  public recuperaMunicipios(estado) {
+    return this.http.get(this.serverHost + '/patrimonio/municipios/' + estado, {
+      headers: this.headers
+    });
+  }
+
 }

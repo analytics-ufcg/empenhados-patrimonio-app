@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
 router.get('/patrimonio/:estado/:ano/:cargo', async (req, res) => {  
   let parameters = [req.params.estado, req.params.ano, req.params.cargo];
 
-  var query = "SELECT * FROM patrimonio_candidatos WHERE estado = ? AND ano_dois = ? AND cargo_pleiteado_2 = ?"
+  var query = "SELECT * FROM patrimonio_candidatos WHERE estado = ? AND ano_dois = ? AND cargo_pleiteado_2 = ?";
   execSQLQuery(query, parameters, res);        
   
 });
@@ -24,7 +24,7 @@ router.get('/patrimonio/:estado/:ano/:cargo', async (req, res) => {
  */
 router.get('/patrimonio/:estado', async (req, res) => {    
   let parameters = [req.params.estado];
-  var query = "SELECT * FROM patrimonio_candidatos WHERE estado = ?"
+  var query = "SELECT * FROM patrimonio_candidatos WHERE estado = ?";
   execSQLQuery(query, parameters, res);        
   
 });
@@ -34,8 +34,28 @@ router.get('/patrimonio/:estado', async (req, res) => {
  */
 router.get('/patrimonio/busca/estados', async (req, res) => {   
      
-  var query = "SELECT DISTINCT(estado) FROM patrimonio_candidatos ORDER BY estado"
+  var query = "SELECT DISTINCT(estado) FROM patrimonio_candidatos ORDER BY estado";
   execSQLQuery(query, [], res); 
+  
+});
+
+/**
+ * GET retorna lista de cargos
+ */
+router.get('/patrimonio/busca/cargos', async (req, res) => {   
+     
+  var query = "SELECT DISTINCT(cargo_pleiteado_2) FROM patrimonio_candidatos ORDER BY cargo_pleiteado_2";
+  execSQLQuery(query, [], res); 
+  
+});
+
+/**
+ * GET retorna lista de municípios de um estado
+ */
+router.get('/patrimonio/municipios/:estado', async (req, res) => {   
+  let parameters = [req.params.estado];
+  var query = "SELECT DISTINCT(unidade_eleitoral) FROM patrimonio_candidatos WHERE estado = ? ORDER BY unidade_eleitoral";
+  execSQLQuery(query, parameters, res); 
   
 });
 

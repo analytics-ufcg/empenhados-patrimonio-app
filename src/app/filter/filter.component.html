@@ -1,9 +1,35 @@
 <div>
     <mat-form-field>
-        <mat-select placeholder="Estado">
-          <mat-option *ngFor="let estado of lista_estados" [value]="estado.estado">
+        <mat-select placeholder="Estado" [ngModel]="estadoSelecionado" (ngModelChange)="onChange($event)">
+          <mat-option *ngFor="let estado of listaEstados" [value]="estado.estado">
             {{ estado.estado }}
           </mat-option>
         </mat-select>
       </mat-form-field>
+
+    <mat-form-field>
+        <mat-select placeholder="Cargo">
+          <mat-option *ngFor="let cargo of listaCargos" [value]="cargo.cargo_pleiteado_2">
+            {{ cargo.cargo_pleiteado_2 }}
+          </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <!-- <mat-form-field>
+        <mat-select placeholder="Município">
+          <mat-option *ngFor="let mun of lista_municipios" [value]="mun.unidade_eleitoral">
+            {{ mun.unidade_eleitoral }}
+          </mat-option>
+        </mat-select>
+    </mat-form-field> -->
+
+    <mat-form-field>
+      <input type="text" placeholder="Município" aria-label="Number" matInput [formControl]="controlMunicipio" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let municipio of filteredOptions | async" [value]="municipio">
+          {{ municipio }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
 </div>

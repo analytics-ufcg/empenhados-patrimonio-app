@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {HttpClientModule, HttpClient} from '@angular/common/http';
 import { GlobalService} from './services/global.service';
 import { UtilsService } from './services/utils.service';
@@ -14,7 +14,9 @@ import {
   MatSidenavModule,
   MatCheckboxModule,
   MatOptionModule,
-  MatSelectModule
+  MatSelectModule,
+  MatAutocompleteModule,
+  MatInputModule
 } from '@angular/material';
 
 import {
@@ -35,6 +37,7 @@ import { FilterComponent } from './filter/filter.component';
     
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     MatToolbarModule,
     MatTabsModule,
     MatButtonModule,
@@ -44,6 +47,8 @@ import { FilterComponent } from './filter/filter.component';
     MatCheckboxModule,
     MatOptionModule,
     MatSelectModule,
+    MatAutocompleteModule,
+    MatInputModule,
     HttpClientModule
   ],
   providers: [
