@@ -1,6 +1,6 @@
 <div class = "section-filter">
     <mat-form-field class = "filter">
-        <mat-select placeholder="Estado" [ngModel]="estadoSelecionado" (ngModelChange)="onChange($event)">
+        <mat-select placeholder="Estado" [ngModel]="estadoSelecionado" (ngModelChange)="onChangeEstado($event)">
           <mat-option *ngFor="let estado of listaEstados" [value]="estado.estado">
             {{ estado.estado }}
           </mat-option>
@@ -8,7 +8,7 @@
       </mat-form-field>
 
     <mat-form-field class = "filter">
-        <mat-select placeholder="Cargo">
+        <mat-select placeholder="Cargo" [ngModel]="cargoSelecionado" (ngModelChange)="onChangeCargo($event)">
           <mat-option *ngFor="let cargo of listaCargos" [value]="cargo.cargo_pleiteado_2">
             {{ cargo.cargo_pleiteado_2 }}
           </mat-option>
@@ -16,7 +16,7 @@
     </mat-form-field>
 
     <mat-form-field class = "filter">
-      <input type="text" placeholder="Município" aria-label="Number" matInput [formControl]="controlMunicipio" [matAutocomplete]="auto">
+      <input type="text" placeholder="Unidade Eleitoral" aria-label="Number" matInput [formControl]="controlMunicipio" [matAutocomplete]="auto">
       <mat-autocomplete #auto="matAutocomplete">
         <mat-option *ngFor="let municipio of filteredOptions | async" [value]="municipio">
           {{ municipio }}

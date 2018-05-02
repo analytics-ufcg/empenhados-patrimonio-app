@@ -39,4 +39,10 @@ export class UtilsService {
     });
   }
 
+  public recuperaPatrimoniosEstado(estado){
+    return this.http.get(this.serverHost + '/patrimonio/' + estado, {
+      headers: this.headers
+    });
+  }
+
 }

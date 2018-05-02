@@ -25,11 +25,12 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   private z: any;
   private xAxis: any;
   private yAxis: any;
+  private svg: any;
+    
   private data: any;
   private maior_patrimonio_eleicao1: any;
-  private svg: any;
-  
-  private estado_atual: String;
+  private estadoAtual: String;
+  private cargo: String;
 
   constructor(private utilsService: UtilsService,
               private filterService: FilterService) {
@@ -42,31 +43,16 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.svg = d3.select('svg');
   }
 
-  private parseData(data: any[]): Patrimonio[] {
-    return data.map(v => <Patrimonio>{patrimonio_eleicao_1: v.patrimonio_eleicao_1, patrimonio_eleicao_2: v.patrimonio_eleicao_2, nome_urna: v.nome_urna, unidade_eleitoral: v.unidade_eleitoral});
+  plotPatrimonio(){      
+    this.filterService.estadoAtual.subscribe(estado => this.estadoAtual = estado);    
+    this.cargo = this.filterService.cargoSelecionado;   
+    this.data = this.filterService.dadosEstado.filter(d => d.cargo_pleiteado_2 === this.cargo);    
+    
+    this.maior_patrimonio_eleicao1 = d3.max(this.data, (d: any) => d.patrimonio_eleicao_1);  
+    this.initD3Patrimonio();  
   }
 
-  plot(){      
-    this.recuperaDados();
-    //this.initScatterplotPatrimonio();
-  }
-  
-  private recuperaDados(){
-    let dadosBD;    
-    this.filterService.estado_atual.subscribe(estado => this.estado_atual = estado);    
-    this.utilsService.recuperaPatrimonios(this.estado_atual, "2016", "PREFEITO").subscribe(
-      data => {
-        dadosBD = data;
-        this.data = this.parseData(dadosBD);
-        this.maior_patrimonio_eleicao1 = d3.max(this.data, (d: any) => d.patrimonio_eleicao_1);           
-        this.initScatterplotPatrimonio();
-      }, err => {
-        console.log(err);
-      }
-    );
-  }
-
-  initScatterplotPatrimonio(){
+  initD3Patrimonio(){
     this.initX();
     this.initY();
     this.initZ();
@@ -161,8 +147,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         .attr("opacity", 0.7)
         .attr("r", 6)
         .append("title").text((d: any) => d.nome_urna + ", " + d.unidade_eleitoral);
-  
-      
+       
     return this.svg.node();
   }
 

@@ -1,16 +1,50 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { UtilsService } from './utils.service';
+
+interface Patrimonio {
+  patrimonio_eleicao_1: Number;
+  patrimonio_eleicao_2: Number;
+  nome_urna: String;
+  unidade_eleitoral: String;
+  cargo_pleiteado_1: String;
+  cargo_pleiteado_2: String;
+}
 
 @Injectable()
 export class FilterService {
 
-  private estado_selecionado = new BehaviorSubject<string>("default message");
-  estado_atual = this.estado_selecionado.asObservable();
+  private estadoSelecionado = new BehaviorSubject<string>("default message");
+  estadoAtual = this.estadoSelecionado.asObservable();
 
-  constructor() { }
+  cargoSelecionado: String;
+  dadosEstado: any;
+
+  constructor(private utilsService: UtilsService) { }
 
   mudaEstado(novoEstado: string) {
-    this.estado_selecionado.next(novoEstado)
+    this.estadoSelecionado.next(novoEstado)
+  }
+
+  mudaCargo(novoCargo: String){
+    this.cargoSelecionado = novoCargo;
+  }
+
+  mudaDadosEstado(estado: String){
+    let dadosBD;        
+    this.utilsService.recuperaPatrimoniosEstado(estado).subscribe(
+      data => {
+        dadosBD = data;
+        this.dadosEstado = this.parseData(dadosBD);
+      }, err => {
+        console.log(err);
+      }
+    );
+  }
+
+  private parseData(data: any[]): Patrimonio[] {
+    return data.map(v => <Patrimonio>{patrimonio_eleicao_1: v.patrimonio_eleicao_1, patrimonio_eleicao_2: v.patrimonio_eleicao_2, 
+      nome_urna: v.nome_urna, unidade_eleitoral: v.unidade_eleitoral, cargo_pleiteado_1: v.cargo_pleiteado_1, cargo_pleiteado_2: v.cargo_pleiteado_2});
   }
 
 }

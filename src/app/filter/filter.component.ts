@@ -18,6 +18,7 @@ export class FilterComponent implements OnInit {
   public listaCargos: any;
   public listaMunicipios: any;
   public estadoSelecionado = '';
+  public cargoSelecionado = '';
 
   public controlMunicipio: FormControl = new FormControl();
   public filteredOptions: Observable<string[]>;
@@ -39,11 +40,12 @@ export class FilterComponent implements OnInit {
     this.recuperaCargos();
   }
   
-  // Altera a lista de municipios a partir de um estado selecionado
-  onChange(novoEstado) {
+  /* Atualiza dados de patrimônio e o estado atual
+  Altera a lista de municipios a partir de um estado selecionado */
+  onChangeEstado(novoEstado) {
     this.estadoSelecionado = novoEstado;
     this.filterService.mudaEstado(novoEstado);
-    
+    this.filterService.mudaDadosEstado(novoEstado);
     this.utilsService.recuperaMunicipios(this.estadoSelecionado).subscribe(
       data => {
         let municipios = data;
@@ -54,13 +56,20 @@ export class FilterComponent implements OnInit {
     );
   }
 
+  // Atualiza cargo atual selecionado
+  onChangeCargo(novoCargo) {
+    this.cargoSelecionado = novoCargo;    
+    this.filterService.mudaCargo(novoCargo);
+  }
+
+  // filtro para a pesquisa por muninicipio
   filter(val: string): string[] {
     return this.listaMunicipios.filter(mun =>
     mun.toLowerCase().indexOf(val.toLowerCase()) === 0);
   }
 
+  // Recupera lista de estados
   private recuperaEstados(){
-    // Recupera lista de estados
     this.utilsService.recuperaEstados().subscribe(
       data => {
         this.listaEstados = data;
@@ -70,8 +79,8 @@ export class FilterComponent implements OnInit {
     );
   }
 
-  private recuperaCargos(){
-    // Recupera lista de cargos
+  // Recupera lista de cargos
+  private recuperaCargos(){    
     this.utilsService.recuperaCargos().subscribe(
       data => {
         this.listaCargos = data;
@@ -81,6 +90,7 @@ export class FilterComponent implements OnInit {
     );
   }
 
+  // Converte formato de dados que vem do banco para um formato que possibilite usar o autocomplete do Angular Material
   private jsonToArray(data){
     let result = [];
     let i;
