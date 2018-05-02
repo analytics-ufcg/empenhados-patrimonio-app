@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as d3 from 'd3';
 import { UtilsService } from '../services/utils.service';
+import { FilterService } from '../services/filter.service';
 
 interface Patrimonio {
   patrimonio_eleicao_1: Number;
@@ -26,16 +27,19 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   private yAxis: any;
   private data: any;
   private maior_patrimonio_eleicao1: any;
-  private svg: any;  
+  private svg: any;
+  
+  private estado_atual: String;
 
-  constructor(private utilsService: UtilsService) {
+  constructor(private utilsService: UtilsService,
+              private filterService: FilterService) {
     this.height = 600;
     this.width = 900;
     this.margin = ({top: 20, right: 30, bottom: 30, left: 40});
   }
 
   ngOnInit() {
-    this.recuperaDados();
+    this.svg = d3.select('svg');
   }
 
   private parseData(data: any[]): Patrimonio[] {
@@ -43,24 +47,31 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   }
 
   plot(){      
+    this.recuperaDados();
+    //this.initScatterplotPatrimonio();
+  }
+  
+  private recuperaDados(){
+    let dadosBD;    
+    this.filterService.estado_atual.subscribe(estado => this.estado_atual = estado);    
+    this.utilsService.recuperaPatrimonios(this.estado_atual, "2016", "PREFEITO").subscribe(
+      data => {
+        dadosBD = data;
+        this.data = this.parseData(dadosBD);
+        this.maior_patrimonio_eleicao1 = d3.max(this.data, (d: any) => d.patrimonio_eleicao_1);           
+        this.initScatterplotPatrimonio();
+      }, err => {
+        console.log(err);
+      }
+    );
+  }
+
+  initScatterplotPatrimonio(){
     this.initX();
     this.initY();
     this.initZ();
     this.initAxes();
     this.initScatterplot();
-}
-
-  private recuperaDados(){
-    let dadosBD;    
-    this.utilsService.recuperaPatrimonios("PB", "2016", "PREFEITO").subscribe(
-      data => {
-        dadosBD = data;        
-        this.data = this.parseData(dadosBD);              
-        this.maior_patrimonio_eleicao1 = d3.max(this.data, (d: any) => d.patrimonio_eleicao_1);           
-      }, err => {
-        console.log(err);
-      }
-    );
   }
 
   private initX() {
@@ -107,9 +118,12 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         .text("Patrimônio em 2016"))
   }
 
-  private initScatterplot() {
-    this.svg = d3.select('svg');        
-      
+  private initScatterplot() {    
+    
+    this.svg.selectAll("*").remove();
+
+    this.svg = d3.select('svg');
+
     this.svg.append("g")
         .call(this.xAxis);
     

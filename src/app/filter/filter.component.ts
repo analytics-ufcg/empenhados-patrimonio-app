@@ -4,6 +4,7 @@ import { FormControl } from '@angular/forms';
 import {Observable} from 'rxjs/Observable';
 import {startWith} from 'rxjs/operators/startWith';
 import {map} from 'rxjs/operators/map';
+import { FilterService } from '../services/filter.service';
 
 
 @Component({
@@ -21,7 +22,8 @@ export class FilterComponent implements OnInit {
   public controlMunicipio: FormControl = new FormControl();
   public filteredOptions: Observable<string[]>;
 
-  constructor(private utilsService: UtilsService) {
+  constructor(private utilsService: UtilsService, 
+              private filterService: FilterService) {
     this.listaMunicipios = [];
   }
 
@@ -40,6 +42,8 @@ export class FilterComponent implements OnInit {
   // Altera a lista de municipios a partir de um estado selecionado
   onChange(novoEstado) {
     this.estadoSelecionado = novoEstado;
+    this.filterService.mudaEstado(novoEstado);
+    
     this.utilsService.recuperaMunicipios(this.estadoSelecionado).subscribe(
       data => {
         let municipios = data;
@@ -47,7 +51,7 @@ export class FilterComponent implements OnInit {
       }, err => {
         console.log(err);
       }
-    );    
+    );
   }
 
   filter(val: string): string[] {

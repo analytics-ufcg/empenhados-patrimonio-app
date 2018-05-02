@@ -4,6 +4,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {HttpClientModule, HttpClient} from '@angular/common/http';
 import { GlobalService} from './services/global.service';
 import { UtilsService } from './services/utils.service';
+import { FilterService } from './services/filter.service';
+
 
 import {
   MatToolbarModule,
@@ -57,6 +59,7 @@ import { ScatterplotPatrimonioComponent } from './scatterplot-patrimonio/scatter
     HttpClientModule,
     UtilsService,
     GlobalService,
+    FilterService
   ],
   bootstrap: [AppComponent]
 })
