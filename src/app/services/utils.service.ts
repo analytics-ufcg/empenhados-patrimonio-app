@@ -33,4 +33,10 @@ export class UtilsService {
     });
   }
 
+  public recuperaPatrimonios(estado, ano, cargo){
+    return this.http.get(this.serverHost + '/patrimonio/' + estado + "/" + ano + "/" + cargo, {
+      headers: this.headers
+    });
+  }
+
 }

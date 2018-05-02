@@ -1,0 +1,15 @@
+.section {
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 2%;    
+}
+
+.plot {
+    display: block;
+    margin: auto;    
+}
+
+.button {
+    display: block;
+    margin: auto;
+}

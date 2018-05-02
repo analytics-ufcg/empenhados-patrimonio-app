@@ -1,5 +1,5 @@
-<div>
-    <mat-form-field>
+<div class = "section-filter">
+    <mat-form-field class = "filter">
         <mat-select placeholder="Estado" [ngModel]="estadoSelecionado" (ngModelChange)="onChange($event)">
           <mat-option *ngFor="let estado of listaEstados" [value]="estado.estado">
             {{ estado.estado }}
@@ -7,7 +7,7 @@
         </mat-select>
       </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field class = "filter">
         <mat-select placeholder="Cargo">
           <mat-option *ngFor="let cargo of listaCargos" [value]="cargo.cargo_pleiteado_2">
             {{ cargo.cargo_pleiteado_2 }}
@@ -15,15 +15,7 @@
         </mat-select>
     </mat-form-field>
 
-    <!-- <mat-form-field>
-        <mat-select placeholder="Município">
-          <mat-option *ngFor="let mun of lista_municipios" [value]="mun.unidade_eleitoral">
-            {{ mun.unidade_eleitoral }}
-          </mat-option>
-        </mat-select>
-    </mat-form-field> -->
-
-    <mat-form-field>
+    <mat-form-field class = "filter">
       <input type="text" placeholder="Município" aria-label="Number" matInput [formControl]="controlMunicipio" [matAutocomplete]="auto">
       <mat-autocomplete #auto="matAutocomplete">
         <mat-option *ngFor="let municipio of filteredOptions | async" [value]="municipio">

@@ -25,12 +25,14 @@ import {
 
 import { AppComponent } from './app.component';
 import { FilterComponent } from './filter/filter.component';
+import { ScatterplotPatrimonioComponent } from './scatterplot-patrimonio/scatterplot-patrimonio.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    FilterComponent
+    FilterComponent,
+    ScatterplotPatrimonioComponent
   ],
   imports: [
     BrowserAnimationsModule,
