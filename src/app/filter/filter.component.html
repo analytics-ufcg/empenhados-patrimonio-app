@@ -16,7 +16,15 @@
     </mat-form-field>
 
     <mat-form-field class = "filter">
-      <input type="text" placeholder="Unidade Eleitoral" aria-label="Number" matInput [formControl]="controlMunicipio" [matAutocomplete]="auto">
+      <mat-select placeholder="Ano" [ngModel]="anoSelecionado" (ngModelChange)="onChangeAno($event)">
+        <mat-option *ngFor="let ano of listaAnos" [value]="ano.ano">
+          {{ ano.ano }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class = "filter">
+      <input type="text" placeholder="Unidade Eleitoral" aria-label="Number" [ngModel]="municipioSelecionado" (ngModelChange)="onChangeMunicipio($event)" matInput [formControl]="controlMunicipio" [matAutocomplete]="auto">
       <mat-autocomplete #auto="matAutocomplete">
         <mat-option *ngFor="let municipio of filteredOptions | async" [value]="municipio">
           {{ municipio }}

@@ -3,13 +3,6 @@ import * as d3 from 'd3';
 import { UtilsService } from '../services/utils.service';
 import { FilterService } from '../services/filter.service';
 
-interface Patrimonio {
-  patrimonio_eleicao_1: Number;
-  patrimonio_eleicao_2: Number;
-  nome_urna: String;
-  unidade_eleitoral: String;
-}
-
 @Component({
   selector: 'app-scatterplot-patrimonio',
   templateUrl: './scatterplot-patrimonio.component.html',
@@ -31,6 +24,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   private maior_patrimonio_eleicao1: any;
   private estadoAtual: String;
   private cargo: String;
+  private ano: Number;
 
   constructor(private utilsService: UtilsService,
               private filterService: FilterService) {
@@ -45,10 +39,13 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
   plotPatrimonio(){      
     this.filterService.estadoAtual.subscribe(estado => this.estadoAtual = estado);    
-    this.cargo = this.filterService.cargoSelecionado;   
-    this.data = this.filterService.dadosEstado.filter(d => d.cargo_pleiteado_2 === this.cargo);    
+    this.cargo = this.filterService.cargoSelecionado;
+    this.ano = this.filterService.ano_dois;    
+    
+    this.data = this.filterService.dadosEstado.filter(d => d.cargo_pleiteado_2 === this.cargo && d.ano_dois === this.ano);        
     
     this.maior_patrimonio_eleicao1 = d3.max(this.data, (d: any) => d.patrimonio_eleicao_1);  
+    console.log(this.data);
     this.initD3Patrimonio();  
   }
 

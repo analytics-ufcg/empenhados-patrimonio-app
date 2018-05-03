@@ -17,8 +17,17 @@ export class FilterComponent implements OnInit {
   public listaEstados: any;
   public listaCargos: any;
   public listaMunicipios: any;
+  
+  public listaAnos = [
+    {ano: '2016'},
+    {ano: '2014'},
+    {ano: '2012'}
+  ];
+
   public estadoSelecionado = '';
   public cargoSelecionado = '';
+  public municipioSelecionado = '';
+  public anoSelecionado = '';
 
   public controlMunicipio: FormControl = new FormControl();
   public filteredOptions: Observable<string[]>;
@@ -60,6 +69,15 @@ export class FilterComponent implements OnInit {
   onChangeCargo(novoCargo) {
     this.cargoSelecionado = novoCargo;    
     this.filterService.mudaCargo(novoCargo);
+  }
+
+  onChangeMunicipio(novoMunicipio){
+    this.municipioSelecionado = novoMunicipio;
+  }
+
+  onChangeAno(novoAno){
+    this.anoSelecionado = novoAno;
+    this.filterService.mudaAno(novoAno);
   }
 
   // filtro para a pesquisa por muninicipio
