@@ -19,7 +19,7 @@ export class FilterService {
   estadoAtual = this.estadoSelecionado.asObservable();
 
   cargoSelecionado: String;
-  ano_dois: Number;
+  anoDois: Number;
   dadosEstado: any;
 
   constructor(private utilsService: UtilsService) { }
@@ -33,7 +33,7 @@ export class FilterService {
   }
 
   mudaAno(novoAno: Number){    
-    this.ano_dois = Number(novoAno);    
+    this.anoDois = Number(novoAno);    
   }
 
   mudaDadosEstado(estado: String){
