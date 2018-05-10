@@ -39,8 +39,20 @@ export class UtilsService {
     });
   }
 
+  public recuperaPatrimoniosSituacao(estado, ano, cargo, situacao){
+    return this.http.get(this.serverHost + '/patrimonio/' + estado + "/" + ano + "/" + cargo + "/" + situacao, {
+      headers: this.headers
+    });
+  }
+
   public recuperaPatrimoniosEstado(estado){
     return this.http.get(this.serverHost + '/patrimonio/' + estado, {
+      headers: this.headers
+    });
+  }
+
+  public recuperaSituacoes(){
+    return this.http.get(this.serverHost + '/patrimonio/busca/situacao', {
       headers: this.headers
     });
   }

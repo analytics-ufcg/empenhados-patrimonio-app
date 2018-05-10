@@ -9,12 +9,23 @@ router.get('/', (req, res) => {
 });
 
 /**
+ * GET retorna patrimonios considerando o estado, ano e cargo e situacao
+ */
+router.get('/patrimonio/:estado/:ano/:cargo/:situacao', async (req, res) => {  
+  let parameters = [req.params.estado, req.params.ano, req.params.cargo, req.params.situacao];
+
+  var query = "SELECT * FROM patrimonio_candidatos WHERE estado = ? AND ano_um = ? AND cargo_pleiteado_2 = ? AND resultado_1 = ?";
+  execSQLQuery(query, parameters, res);        
+  
+});
+
+/**
  * GET retorna patrimonios considerando o estado, ano e cargo
  */
 router.get('/patrimonio/:estado/:ano/:cargo', async (req, res) => {  
   let parameters = [req.params.estado, req.params.ano, req.params.cargo];
 
-  var query = "SELECT * FROM patrimonio_candidatos WHERE estado = ? AND ano_dois = ? AND cargo_pleiteado_2 = ?";
+  var query = "SELECT * FROM patrimonio_candidatos WHERE estado = ? AND ano_um = ? AND cargo_pleiteado_2 = ?";
   execSQLQuery(query, parameters, res);        
   
 });
@@ -58,6 +69,16 @@ router.get('/patrimonio/municipios/:estado', async (req, res) => {
   execSQLQuery(query, parameters, res); 
   
 });
+
+
+/**
+ * GET retorna lista de situações
+ * Temporário!!! Enquanto os dados são são atualizados
+ */
+router.get('/patrimonio/busca/situacao', async(req, res) => {
+  var query = " SELECT DISTINCT(resultado_1) FROM patrimonio_candidatos";
+  execSQLQuery(query, [], res);
+})
 
 
 function execSQLQuery(sqlQuery, parameters, res){

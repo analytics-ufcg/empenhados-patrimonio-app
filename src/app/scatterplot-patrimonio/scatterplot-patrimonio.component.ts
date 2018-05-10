@@ -25,6 +25,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   private estadoAtual: String;
   private cargo: String;
   private ano: Number;
+  private situacao: String;
 
   constructor(private utilsService: UtilsService,
               private filterService: FilterService) {
@@ -40,9 +41,10 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   plotPatrimonio(){      
     this.filterService.estadoAtual.subscribe(estado => this.estadoAtual = estado);    
     this.cargo = this.filterService.cargoSelecionado;
-    this.ano = this.filterService.anoDois;    
+    this.ano = this.filterService.anoDois;
+    this.situacao = this.filterService.situacao;    
     
-    this.data = this.filterService.dadosEstado.filter(d => d.cargo_pleiteado_2 === this.cargo && d.ano_dois === this.ano);        
+    this.data = this.filterService.dadosEstado.filter(d => d.cargo_pleiteado_2 === this.cargo && d.ano_dois === this.ano && d.resultado_1 === this.situacao);        
     
     this.maior_patrimonio_eleicao1 = d3.max(this.data, (d: any) => d.patrimonio_eleicao_1);  
     console.log(this.data);

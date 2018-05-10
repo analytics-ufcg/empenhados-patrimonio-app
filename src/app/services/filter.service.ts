@@ -10,6 +10,7 @@ interface Patrimonio {
   cargo_pleiteado_1: String;
   cargo_pleiteado_2: String;
   ano_dois: Number;
+  resultado_1: String;
 }
 
 @Injectable()
@@ -56,7 +57,7 @@ export class FilterService {
   private parseData(data: any[]): Patrimonio[] {
     return data.map(v => <Patrimonio>{patrimonio_eleicao_1: v.patrimonio_eleicao_1, patrimonio_eleicao_2: v.patrimonio_eleicao_2, 
       nome_urna: v.nome_urna, unidade_eleitoral: v.unidade_eleitoral, cargo_pleiteado_1: v.cargo_pleiteado_1, 
-      cargo_pleiteado_2: v.cargo_pleiteado_2, ano_dois: v.ano_dois});
+      cargo_pleiteado_2: v.cargo_pleiteado_2, ano_dois: v.ano_dois, resultado_1: v.resultado_1});
   }
 
 }

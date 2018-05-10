@@ -5,6 +5,7 @@ import {Observable} from 'rxjs/Observable';
 import {startWith} from 'rxjs/operators/startWith';
 import {map} from 'rxjs/operators/map';
 import { FilterService } from '../services/filter.service';
+import { ConsoleReporter } from 'jasmine';
 
 
 @Component({
@@ -17,15 +18,12 @@ export class FilterComponent implements OnInit {
   public listaEstados: any;
   public listaCargos: any;
   public listaMunicipios: any;
-  
+  public listaSituacoes: any;
+
   public listaAnos = [
     {ano: '2016'},
     {ano: '2014'},
     {ano: '2012'}
-  ];
-  public listaSituacao = [
-    {situacao: 'Foi eleito'},
-    {situacao: 'Concorreu'}
   ];
 
   public estadoSelecionado = '';
@@ -53,6 +51,7 @@ export class FilterComponent implements OnInit {
 
     this.recuperaEstados();
     this.recuperaCargos();
+    this.recuperaSituacoes();
   }
   
   /* Atualiza dados de patrimônio e o estado atual
@@ -124,6 +123,16 @@ export class FilterComponent implements OnInit {
         console.log(err);
       }
     );
+  }
+
+  private recuperaSituacoes(){
+    this.utilsService.recuperaSituacoes().subscribe(
+      data => {
+        this.listaSituacoes = data;
+      }, err => {
+        console.log(err);
+      }
+    )
   }
 
   // Converte formato de dados que vem do banco para um formato que possibilite usar o autocomplete do Angular Material
