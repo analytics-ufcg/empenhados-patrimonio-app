@@ -81,12 +81,12 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   private initAxes(){
     this.xAxis = g => g
     .attr("transform", `translate(0,${this.height - this.margin.bottom})`)
-    .call(d3.axisBottom(this.x).ticks(this.width / 80))
+    .call(d3.axisBottom(this.x).ticks(this.width / 80).tickFormat(d3.format('.2s')))
     .call(g => g.select(".domain").remove())
 
     this.yAxis = g => g
     .attr("transform", `translate(${this.margin.left},0)`)
-    .call(d3.axisLeft(this.y).ticks(null, "+"))
+    .call(d3.axisLeft(this.y).ticks(this.height / 50).tickFormat(d3.format('.2s')))
     .call(g => g.select(".domain").remove())
     .call(g => g.selectAll(".tick line")
       .filter(d => d === 0)

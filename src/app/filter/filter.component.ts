@@ -5,7 +5,7 @@ import {Observable} from 'rxjs/Observable';
 import {startWith} from 'rxjs/operators/startWith';
 import {map} from 'rxjs/operators/map';
 import { FilterService } from '../services/filter.service';
-import { ConsoleReporter } from 'jasmine';
+
 
 
 @Component({
@@ -54,7 +54,7 @@ export class FilterComponent implements OnInit {
     this.recuperaSituacoes();
   }
   
-  /* Atualiza dados de patrimônio e o estado atual
+  /* Atualiza dados de patrimônio e o estado atual==
   Altera a lista de municipios a partir de um estado selecionado */
   onChangeEstado(novoEstado) {
     this.estadoSelecionado = novoEstado;
