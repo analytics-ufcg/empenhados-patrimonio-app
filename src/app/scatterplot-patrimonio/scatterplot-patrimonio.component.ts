@@ -38,13 +38,15 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.svg = d3.select('svg');
   }
 
-  plotPatrimonio(){      
-    this.filterService.estadoAtual.subscribe(estado => this.estadoAtual = estado);    
+  plotPatrimonio(){    
+    this.filterService.estadoAtual.subscribe(estado => this.estadoAtual = estado);
     this.cargo = this.filterService.cargoSelecionado;
-    this.ano = this.filterService.anoDois;
-    this.situacao = this.filterService.situacao;    
+    this.ano = this.filterService.anoUm;
+    this.situacao = this.filterService.situacao;
+    //this.filterService.mudaDados(this.estadoAtual, this.ano, this.cargo, this.situacao); 
     
-    this.data = this.filterService.dadosEstado.filter(d => d.cargo_pleiteado_2 === this.cargo && d.ano_dois === this.ano && d.resultado_1 === this.situacao);        
+    this.data = this.filterService.dadosPatrimonio;
+    // this.data = this.filterService.dadosEstado.filter(d => d.cargo_pleiteado_2 === this.cargo && d.ano_dois === this.ano && d.resultado_1 === this.situacao);        
     
     this.maior_patrimonio_eleicao1 = d3.max(this.data, (d: any) => d.patrimonio_eleicao_1);  
     console.log(this.data);

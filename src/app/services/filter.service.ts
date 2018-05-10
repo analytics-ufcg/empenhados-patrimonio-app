@@ -9,8 +9,9 @@ interface Patrimonio {
   unidade_eleitoral: String;
   cargo_pleiteado_1: String;
   cargo_pleiteado_2: String;
-  ano_dois: Number;
+  ano_um: Number;
   resultado_1: String;
+  resultado_2: String;
 }
 
 @Injectable()
@@ -20,9 +21,9 @@ export class FilterService {
   estadoAtual = this.estadoSelecionado.asObservable();
 
   cargoSelecionado: String;
-  anoDois: Number;
+  anoUm: Number;
   situacao: String;
-  dadosEstado: any;
+  dadosPatrimonio: any;
 
   constructor(private utilsService: UtilsService) { }
 
@@ -35,19 +36,19 @@ export class FilterService {
   }
 
   mudaAno(novoAno: Number){    
-    this.anoDois = Number(novoAno);    
+    this.anoUm = Number(novoAno);    
   }
 
   mudaSituacao(novaSituacao: String){
     this.situacao = novaSituacao;
   }
 
-  mudaDadosEstado(estado: String){
+  mudaDados(estado: String, ano: Number, cargo: String, situacao: String){
     let dadosBD;        
-    this.utilsService.recuperaPatrimoniosEstado(estado).subscribe(
+    this.utilsService.recuperaPatrimonios(estado, ano, cargo, situacao).subscribe(
       data => {
         dadosBD = data;
-        this.dadosEstado = this.parseData(dadosBD);
+        this.dadosPatrimonio = this.parseData(dadosBD);
       }, err => {
         console.log(err);
       }
@@ -57,7 +58,7 @@ export class FilterService {
   private parseData(data: any[]): Patrimonio[] {
     return data.map(v => <Patrimonio>{patrimonio_eleicao_1: v.patrimonio_eleicao_1, patrimonio_eleicao_2: v.patrimonio_eleicao_2, 
       nome_urna: v.nome_urna, unidade_eleitoral: v.unidade_eleitoral, cargo_pleiteado_1: v.cargo_pleiteado_1, 
-      cargo_pleiteado_2: v.cargo_pleiteado_2, ano_dois: v.ano_dois, resultado_1: v.resultado_1});
+      cargo_pleiteado_2: v.cargo_pleiteado_2, ano_um: v.ano_um, resultado_1: v.resultado_1, resultado_2: v.resultado_2});
   }
 
 }
