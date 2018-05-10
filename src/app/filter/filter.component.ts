@@ -6,6 +6,8 @@ import {startWith} from 'rxjs/operators/startWith';
 import {map} from 'rxjs/operators/map';
 import { FilterService } from '../services/filter.service';
 
+const ELEICOES_FEDERAIS = 1;
+const ELEICOES_MUNICIPAIS = 2;
 
 @Component({
   selector: 'app-filter',
@@ -19,21 +21,22 @@ export class FilterComponent implements OnInit {
   public listaMunicipios: any;
   
   public listaAnos = [
-    {ano: '2016'},
-    {ano: '2014'},
-    {ano: '2012'}
-  ];
+    {ano: 2008},
+    {ano: 2010},
+    {ano: 2012}
+  ];  
   public listaSituacao = [
-    {situacao: 'Foi eleito'},
-    {situacao: 'Concorreu'}
+    {situacao: 'foi eleito'},
+    {situacao: 'concorreu'}
   ];
 
-  public estadoSelecionado = '';
-  public cargoSelecionado = '';
-  public municipioSelecionado = '';
-  public anoSelecionado = '';
-  public situacaoSelecionada = '';
+  public estadoSelecionado: String;
+  public cargoSelecionado: String;
+  public municipioSelecionado: String;
+  public anoSelecionado: number;
+  public situacaoSelecionada: String;
   public isVereador;
+  public tipoEleicao;
 
   public controlMunicipio: FormControl = new FormControl();
   public filteredOptions: Observable<string[]>;
@@ -44,7 +47,6 @@ export class FilterComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.filteredOptions = this.controlMunicipio.valueChanges
       .pipe(
         startWith(''),
@@ -52,7 +54,6 @@ export class FilterComponent implements OnInit {
       );
 
     this.recuperaEstados();
-    this.recuperaCargos();
   }
   
   /* Atualiza dados de patrimônio e o estado atual
@@ -81,19 +82,25 @@ export class FilterComponent implements OnInit {
     } else {
       this.isVereador = false;
     }
-
   }
 
-  onChangeMunicipio(novoMunicipio){
+  onChangeMunicipio(novoMunicipio) {
     this.municipioSelecionado = novoMunicipio;
   }
 
-  onChangeAno(novoAno){
-    this.anoSelecionado = novoAno;
+  onChangeAno(novoAno) {
+    this.anoSelecionado = novoAno;    
     this.filterService.mudaAno(novoAno);
+
+    if (this.anoSelecionado % 4) {
+      this.tipoEleicao = ELEICOES_FEDERAIS;
+    } else {
+      this.tipoEleicao = ELEICOES_MUNICIPAIS;
+    }
+    this.recuperaCargos();
   }
 
-  onChangeSituacao(novaSituacao){
+  onChangeSituacao(novaSituacao) {
     this.situacaoSelecionada = novaSituacao;
     this.filterService.mudaSituacao(novaSituacao);
   }
@@ -105,7 +112,7 @@ export class FilterComponent implements OnInit {
   }
 
   // Recupera lista de estados
-  private recuperaEstados(){
+  private recuperaEstados() {
     this.utilsService.recuperaEstados().subscribe(
       data => {
         this.listaEstados = data;
@@ -116,18 +123,30 @@ export class FilterComponent implements OnInit {
   }
 
   // Recupera lista de cargos
-  private recuperaCargos(){    
+  private recuperaCargos() {    
     this.utilsService.recuperaCargos().subscribe(
       data => {
-        this.listaCargos = data;
+        let todosCargos
+        todosCargos = data;
+        this.listaCargos = todosCargos.filter(element => this.cargosEleicao(element.cargo_pleiteado_2));              
       }, err => {
         console.log(err);
       }
     );
   }
 
+  private cargosEleicao(cargo) {
+    let cargos_municipais = ["PREFEITO", "VEREADOR"];
+
+    if (this.tipoEleicao === ELEICOES_MUNICIPAIS) {
+      return cargos_municipais.indexOf(cargo) !== -1;
+    } else {
+      return cargos_municipais.indexOf(cargo) === -1;
+    }    
+  }
+
   // Converte formato de dados que vem do banco para um formato que possibilite usar o autocomplete do Angular Material
-  private jsonToArray(data){
+  private jsonToArray(data) {
     let result = [];
     let i;
     for (i in data) {
