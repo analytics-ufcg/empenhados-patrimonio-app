@@ -23,11 +23,17 @@ export class FilterComponent implements OnInit {
     {ano: '2014'},
     {ano: '2012'}
   ];
+  public listaSituacao = [
+    {situacao: 'Foi eleito'},
+    {situacao: 'Concorreu'}
+  ];
 
   public estadoSelecionado = '';
   public cargoSelecionado = '';
   public municipioSelecionado = '';
   public anoSelecionado = '';
+  public situacaoSelecionada = '';
+  public isVereador;
 
   public controlMunicipio: FormControl = new FormControl();
   public filteredOptions: Observable<string[]>;
@@ -69,6 +75,13 @@ export class FilterComponent implements OnInit {
   onChangeCargo(novoCargo) {
     this.cargoSelecionado = novoCargo;    
     this.filterService.mudaCargo(novoCargo);
+
+    if (novoCargo === 'VEREADOR') {
+      this.isVereador = true;
+    } else {
+      this.isVereador = false;
+    }
+
   }
 
   onChangeMunicipio(novoMunicipio){
@@ -78,6 +91,11 @@ export class FilterComponent implements OnInit {
   onChangeAno(novoAno){
     this.anoSelecionado = novoAno;
     this.filterService.mudaAno(novoAno);
+  }
+
+  onChangeSituacao(novaSituacao){
+    this.situacaoSelecionada = novaSituacao;
+    this.filterService.mudaSituacao(novaSituacao);
   }
 
   // filtro para a pesquisa por muninicipio

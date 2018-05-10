@@ -20,6 +20,7 @@ export class FilterService {
 
   cargoSelecionado: String;
   anoDois: Number;
+  situacao: String;
   dadosEstado: any;
 
   constructor(private utilsService: UtilsService) { }
@@ -34,6 +35,10 @@ export class FilterService {
 
   mudaAno(novoAno: Number){    
     this.anoDois = Number(novoAno);    
+  }
+
+  mudaSituacao(novaSituacao: String){
+    this.situacao = novaSituacao;
   }
 
   mudaDadosEstado(estado: String){
