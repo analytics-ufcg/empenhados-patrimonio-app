@@ -65,7 +65,8 @@ export class FilterComponent implements OnInit {
   onChangeEstado(novoEstado) {
     this.estadoSelecionado = novoEstado;
     this.filterService.mudaEstado(novoEstado);
-    this.filterService.mudaDados(novoEstado, this.anoSelecionado, this.cargoSelecionado, this.situacaoSelecionada);
+    this.mudaDados();
+        
     this.utilsService.recuperaMunicipios(this.estadoSelecionado).subscribe(
       data => {
         let municipios = data;
@@ -80,7 +81,8 @@ export class FilterComponent implements OnInit {
   onChangeCargo(novoCargo) {
     this.cargoSelecionado = novoCargo;    
     this.filterService.mudaCargo(novoCargo);
-
+    this.mudaDados();
+    
     if (novoCargo === 'VEREADOR') {
       this.isVereador = true;
     } else {
@@ -89,12 +91,13 @@ export class FilterComponent implements OnInit {
   }
 
   onChangeMunicipio(novoMunicipio) {
-    this.municipioSelecionado = novoMunicipio;
+    this.municipioSelecionado = novoMunicipio;    
   }
 
   onChangeAno(novoAno) {
     this.anoSelecionado = novoAno;    
     this.filterService.mudaAno(novoAno);
+    this.mudaDados();
 
     if (this.anoSelecionado % 4) {
       this.tipoEleicao = ELEICOES_FEDERAIS;
@@ -107,6 +110,7 @@ export class FilterComponent implements OnInit {
   onChangeSituacao(novaSituacao) {
     this.situacaoSelecionada = novaSituacao;
     this.filterService.mudaSituacao(novaSituacao);
+    this.mudaDados();
   }
 
   // filtro para a pesquisa por muninicipio
@@ -124,6 +128,10 @@ export class FilterComponent implements OnInit {
         console.log(err);
       }
     );
+  }
+
+  private mudaDados(){
+    this.filterService.mudaDados(this.estadoSelecionado, this.anoSelecionado, this.cargoSelecionado, this.situacaoSelecionada);
   }
 
   // Recupera lista de cargos
