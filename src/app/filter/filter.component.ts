@@ -150,7 +150,7 @@ export class FilterComponent implements OnInit {
   }
   
   private cargosEleicao(cargo) {
-    let cargos_municipais = ["PREFEITO", "VEREADOR"];
+    let cargos_municipais = ["PREFEITO", "VEREADOR", "VICE-PREFEITO"];
 
     if (this.tipoEleicao === ELEICOES_MUNICIPAIS) {
       return cargos_municipais.indexOf(cargo) !== -1;

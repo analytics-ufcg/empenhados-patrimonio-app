@@ -41,7 +41,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   plotPatrimonio(){    
     this.filterService.estadoAtual.subscribe(estado => this.estadoAtual = estado);
     this.cargo = this.filterService.cargoSelecionado;
-    this.ano = this.filterService.anoUm;
+    this.ano = this.filterService.anoUm;    
     this.situacao = this.filterService.situacao;
     //this.filterService.mudaDados(this.estadoAtual, this.ano, this.cargo, this.situacao); 
     
@@ -102,7 +102,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         .attr("dy", "0.32em")
         .attr("text-anchor", "start")
         .attr("font-weight", "bold")
-        .text("Patrimônio em " + this.ano))
+        .text("Patrimônio em " + (this.ano.valueOf() + 4)))
   }
 
   private initScatterplot() {    

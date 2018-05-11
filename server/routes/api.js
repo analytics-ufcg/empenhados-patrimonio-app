@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
 router.get('/patrimonio/:estado/:ano/:cargo/:situacao', async (req, res) => {  
   let parameters = [req.params.estado, req.params.ano, req.params.cargo, req.params.situacao];
 
-  var query = "SELECT * FROM patrimonio_candidatos WHERE estado = ? AND ano_um = ? AND cargo_pleiteado_2 = ? AND resultado_1 = ?";
+  var query = "SELECT * FROM patrimonio_candidatos WHERE estado = ? AND ano_um = ? AND cargo_pleiteado_1 = ? AND resultado_1 = ?";
   execSQLQuery(query, parameters, res);        
   
 });
@@ -25,7 +25,7 @@ router.get('/patrimonio/:estado/:ano/:cargo/:situacao', async (req, res) => {
 router.get('/patrimonio/:estado/:ano/:cargo', async (req, res) => {  
   let parameters = [req.params.estado, req.params.ano, req.params.cargo];
 
-  var query = "SELECT * FROM patrimonio_candidatos WHERE estado = ? AND ano_um = ? AND cargo_pleiteado_2 = ?";
+  var query = "SELECT * FROM patrimonio_candidatos WHERE estado = ? AND ano_um = ? AND cargo_pleiteado_1 = ?";
   execSQLQuery(query, parameters, res);        
   
 });
