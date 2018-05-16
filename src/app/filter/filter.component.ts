@@ -97,7 +97,9 @@ export class FilterComponent implements OnInit {
   }
 
   onChangeMunicipio(novoMunicipio) {
-    this.municipioSelecionado = novoMunicipio;    
+    this.municipioSelecionado = novoMunicipio;
+    this.mudaDados();
+
   }
 
   onChangeAno(novoAno) {
@@ -137,7 +139,7 @@ export class FilterComponent implements OnInit {
   }
 
   private mudaDados(){
-    this.filterService.mudaDados(this.estadoSelecionado, this.anoSelecionado, this.cargoSelecionado, this.situacaoSelecionada);
+    this.filterService.mudaDados(this.estadoSelecionado, this.anoSelecionado, this.cargoSelecionado, this.situacaoSelecionada, this.municipioSelecionado);
   }
 
   // Recupera lista de cargos

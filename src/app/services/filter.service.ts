@@ -43,9 +43,9 @@ export class FilterService {
     this.situacao = novaSituacao;
   }
 
-  mudaDados(estado: String, ano: Number, cargo: String, situacao: String){
+  mudaDados(estado: String, ano: Number, cargo: String, situacao: String, municipio: String){
     let dadosBD;        
-    this.utilsService.recuperaPatrimonios(estado, ano, cargo, situacao).subscribe(
+    this.utilsService.recuperaPatrimonios(estado, ano, cargo, situacao, municipio).subscribe(
       data => {
         dadosBD = data;
         this.dadosPatrimonio = this.parseData(dadosBD);
