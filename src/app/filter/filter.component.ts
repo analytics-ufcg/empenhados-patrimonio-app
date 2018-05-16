@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { UtilsService } from '../services/utils.service';
 import { FormControl } from '@angular/forms';
 import {Observable} from 'rxjs/Observable';
@@ -16,6 +16,8 @@ const ELEICOES_MUNICIPAIS = 2;
   styleUrls: ['./filter.component.css']
 })
 export class FilterComponent implements OnInit {
+
+  @Output() visualizaClique = new EventEmitter<any>();
   
   public listaEstados: any;
   public listaCargos: any;
@@ -58,6 +60,10 @@ export class FilterComponent implements OnInit {
     this.recuperaEstados();
     this.recuperaCargos();
     this.recuperaSituacoes();
+  }
+
+  emiteEventoVisualizacao() {
+    this.visualizaClique.next();
   }
   
   /* Atualiza dados de patrimônio e o estado atual==
