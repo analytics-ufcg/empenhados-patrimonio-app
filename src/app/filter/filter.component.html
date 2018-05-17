@@ -34,9 +34,9 @@
         </mat-select>
       </mat-form-field>
 
-    <mat-form-field class = "filter" *ngIf="isVereador">
-      <input type="text" placeholder="unidade eleitoral" aria-label="Number" [ngModel]="municipioSelecionado" (ngModelChange)="onChangeMunicipio($event)" matInput [formControl]="controlMunicipio" [matAutocomplete]="auto">
-      <mat-autocomplete #auto="matAutocomplete">
+    <mat-form-field *ngIf="isVereador">
+      <input type="text" placeholder="município" aria-label="Number" [ngModel]="municipioSelecionado" (ngModelChange)="onChangeMunicipio($event)" matInput [formControl]="controlMunicipio" [matAutocomplete]="auto">
+      <mat-autocomplete class = "auto-complete" #auto="matAutocomplete">
         <mat-option *ngFor="let municipio of filteredOptions | async" [value]="municipio">
           {{ municipio }}
         </mat-option>

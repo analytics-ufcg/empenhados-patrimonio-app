@@ -4,6 +4,7 @@
 
 .filter {
     margin: auto;
+    width: 15% !important;
 }
 
 .text-filter {
@@ -12,5 +13,9 @@
 }
 
 .button {
-    background-color: #EEEEEE;
+    background-color: #EEEEEE;    
+}
+
+.auto-complete {
+    width: 100%;
 }
