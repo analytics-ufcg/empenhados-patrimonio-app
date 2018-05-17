@@ -3,6 +3,8 @@ export class QueryService {
     static recuperaParametros(req) {
         let parameters;
 
+        console.log(req.params);
+
         if (req.params.estado === 'todos') {
             parameters = [req.params.ano, req.params.cargo, req.params.situacao];
         } else {
@@ -20,7 +22,7 @@ export class QueryService {
         } else {
             query = "SELECT * FROM patrimonio_candidatos WHERE estado = ? AND ano_um = ? AND cargo_pleiteado_1 = ? AND resultado_1 = ?";
         }       
-         
+
         return query;
     }
 

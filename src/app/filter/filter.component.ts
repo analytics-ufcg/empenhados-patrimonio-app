@@ -73,11 +73,7 @@ export class FilterComponent implements OnInit {
     this.filterService.mudaEstado(novoEstado);
     this.mudaDados();
 
-    if (novoEstado === 'todos'){
-      this.isVereador = false;
-    } else {
-      this.isVereador = true;
-    }
+    this.atualizaFiltroMunicipio();
         
     this.utilsService.recuperaMunicipios(this.estadoSelecionado).subscribe(
       data => {
@@ -95,11 +91,7 @@ export class FilterComponent implements OnInit {
     this.filterService.mudaCargo(novoCargo);
     this.mudaDados();
     
-    if (novoCargo === 'VEREADOR') {
-      this.isVereador = true;
-    } else {
-      this.isVereador = false;
-    }
+    this.atualizaFiltroMunicipio();
   }
 
   onChangeMunicipio(novoMunicipio) {
@@ -190,6 +182,17 @@ export class FilterComponent implements OnInit {
       result.push(data[i].unidade_eleitoral);
     }
     return result;
+  }
+
+  private atualizaFiltroMunicipio() {
+
+    if (this.estadoSelecionado === 'todos'){
+      this.isVereador = false;
+    } else if (this.cargoSelecionado === 'VEREADOR'){
+      this.isVereador = true;
+    } else {
+      this.isVereador = false;
+    }
   }
 
 }
