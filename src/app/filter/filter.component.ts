@@ -186,6 +186,7 @@ export class FilterComponent implements OnInit {
       this.isVereador = true;
     } else {
       this.isVereador = false;
+      this.municipioSelecionado = '';
     }
   }
 
