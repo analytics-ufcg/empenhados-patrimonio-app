@@ -29,10 +29,6 @@ export class FilterComponent implements OnInit {
     {ano: 2010},
     {ano: 2012}
   ];  
-  public listaSituacao = [
-    {situacao: 'foi eleito'},
-    {situacao: 'concorreu'}
-  ];
 
   public estadoSelecionado: String;
   public cargoSelecionado: String;
@@ -62,7 +58,8 @@ export class FilterComponent implements OnInit {
     this.recuperaSituacoes();
   }
 
-  emiteEventoVisualizacao() {
+  async emiteEventoVisualizacao() {
+    await this.mudaDados();
     this.visualizaClique.next();
   }
   
@@ -71,7 +68,6 @@ export class FilterComponent implements OnInit {
   onChangeEstado(novoEstado) {
     this.estadoSelecionado = novoEstado;
     this.filterService.mudaEstado(novoEstado);
-    this.mudaDados();
 
     this.atualizaFiltroMunicipio();
         
@@ -89,21 +85,17 @@ export class FilterComponent implements OnInit {
   onChangeCargo(novoCargo) {
     this.cargoSelecionado = novoCargo;    
     this.filterService.mudaCargo(novoCargo);
-    this.mudaDados();
     
     this.atualizaFiltroMunicipio();
   }
 
   onChangeMunicipio(novoMunicipio) {
     this.municipioSelecionado = novoMunicipio;
-    this.mudaDados();
-
   }
 
   onChangeAno(novoAno) {
     this.anoSelecionado = novoAno;    
     this.filterService.mudaAno(novoAno);
-    this.mudaDados();
 
     if (this.anoSelecionado % 4) {
       this.tipoEleicao = ELEICOES_FEDERAIS;
@@ -116,7 +108,6 @@ export class FilterComponent implements OnInit {
   onChangeSituacao(novaSituacao) {
     this.situacaoSelecionada = novaSituacao;
     this.filterService.mudaSituacao(novaSituacao);
-    this.mudaDados();
   }
 
   // filtro para a pesquisa por muninicipio
@@ -137,8 +128,8 @@ export class FilterComponent implements OnInit {
     );
   }
 
-  private mudaDados(){
-    this.filterService.mudaDados(this.estadoSelecionado, this.anoSelecionado, this.cargoSelecionado, this.situacaoSelecionada, this.municipioSelecionado);
+  private async mudaDados(){
+    await this.filterService.mudaDados(this.estadoSelecionado, this.anoSelecionado, this.cargoSelecionado, this.situacaoSelecionada, this.municipioSelecionado);
   }
 
   // Recupera lista de cargos

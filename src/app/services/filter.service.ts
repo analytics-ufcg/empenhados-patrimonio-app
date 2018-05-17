@@ -43,15 +43,20 @@ export class FilterService {
     this.situacao = novaSituacao;
   }
 
-  mudaDados(estado: String, ano: Number, cargo: String, situacao: String, municipio: String){
-    let dadosBD;        
-    this.utilsService.recuperaPatrimonios(estado, ano, cargo, situacao, municipio).subscribe(
-      data => {
-        dadosBD = data;
-        this.dadosPatrimonio = this.parseData(dadosBD);
-      }, err => {
-        console.log(err);
-      }
+  async mudaDados(estado: String, ano: Number, cargo: String, situacao: String, municipio: String){
+    let dadosBD;   
+         
+    return new Promise((resolve, reject) =>
+      this.utilsService.recuperaPatrimonios(estado, ano, cargo, situacao, municipio).subscribe(
+        data => {
+          dadosBD = data;
+          this.dadosPatrimonio = this.parseData(dadosBD);
+          return resolve("Dados alterados");
+        }, err => {
+          console.log(err);
+          return reject(err);
+        }
+      )
     );
   }
 
