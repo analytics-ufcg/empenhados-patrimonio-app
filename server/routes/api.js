@@ -13,8 +13,8 @@ router.get('/', (req, res) => {
  * GET retorna patrimonios considerando o estado, ano, cargo e situacao
  */
 router.get('/patrimonio/:estado/:ano/:cargo/:situacao', async (req, res) => {    
-  let parameters = await QueryService.recuperaParametros(req);
-  let query = await QueryService.recuperaConsulta(req);  
+  let parameters = await QueryService.recuperaParametrosPatrimonio(req);
+  let query = await QueryService.recuperaConsultaPatrimonio(req);  
   
   execSQLQuery(query, parameters, res);        
   
@@ -24,9 +24,9 @@ router.get('/patrimonio/:estado/:ano/:cargo/:situacao', async (req, res) => {
  * GET retorna patrimonios considerando o estado, ano, cargo, situacao e municipio
  */
 router.get('/patrimonio/:estado/:ano/:cargo/:situacao/:municipio', async (req, res) => {  
-  let parameters = [req.params.estado, req.params.ano, req.params.cargo, req.params.situacao, req.params.municipio];
-
-  var query = "SELECT * FROM patrimonio_candidatos WHERE estado = ? AND ano_um = ? AND cargo_pleiteado_1 = ? AND resultado_1 = ? AND unidade_eleitoral = ?";
+  let parameters = await QueryService.recuperaParametrosPatrimonio(req);
+  let query = await QueryService.recuperaConsultaPatrimonio(req);
+  
   execSQLQuery(query, parameters, res);        
   
 });

@@ -1,27 +1,39 @@
 export class QueryService {
 
-    static recuperaParametros(req) {
-        let parameters;
+    static recuperaParametrosPatrimonio(req) {
+        let parameters = [];
 
-        console.log(req.params);
+        let request = Object.values(req.params);
 
-        if (req.params.estado === 'todos') {
-            parameters = [req.params.ano, req.params.cargo, req.params.situacao];
-        } else {
-            parameters = [req.params.estado, req.params.ano, req.params.cargo, req.params.situacao];
-        }
+        request.forEach(function (item, indice, array) {
+            if (item !== 'todos') {
+                parameters.push(item);
+            }
+        });
 
         return parameters;
     }
 
-    static recuperaConsulta(req) {
+    static recuperaConsultaPatrimonio(req) {
         let query;
 
-        if (req.params.estado === 'todos') {
-            query = "SELECT * FROM patrimonio_candidatos WHERE ano_um = ? AND cargo_pleiteado_1 = ? AND resultado_1 = ?";
-        } else {
-            query = "SELECT * FROM patrimonio_candidatos WHERE estado = ? AND ano_um = ? AND cargo_pleiteado_1 = ? AND resultado_1 = ?";
-        }       
+        let filtros = '';
+
+        let request = Object.values(req.params);
+        let columns = ['estado', 'ano_um', 'cargo_pleiteado_1', 'resultado_1', 'unidade_eleitoral'];
+
+        request.forEach(function (item, indice, array) {
+            
+            if (item !== 'todos') {
+                if (filtros === '') {
+                    filtros = filtros + columns[indice] + ' = ?';    
+                } else {
+                    filtros = filtros + ' AND ' + columns[indice] + ' = ?';    
+                }
+            }
+        });
+
+        query = "SELECT * FROM patrimonio_candidatos WHERE " + filtros;
 
         return query;
     }
