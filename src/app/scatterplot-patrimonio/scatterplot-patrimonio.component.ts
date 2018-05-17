@@ -45,10 +45,17 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.situacao = this.filterService.situacao;
     
     this.data = this.filterService.dadosPatrimonio;
+
+    if (typeof this.data !== 'undefined' && this.data.length === 0) {
+      // TODO: uma mensagem de aviso deve ser mostrada ao cliente
+      console.log("Não há dados referentes a esses filtros");
+    } else {
+      this.maior_patrimonio_eleicao1 = d3.max(this.data, (d: any) => d.patrimonio_eleicao_1);  
+      console.log(this.data);
+      this.initD3Patrimonio();  
+    }
     
-    this.maior_patrimonio_eleicao1 = d3.max(this.data, (d: any) => d.patrimonio_eleicao_1);  
-    console.log(this.data);
-    this.initD3Patrimonio();  
+    
   }
 
   initD3Patrimonio(){
