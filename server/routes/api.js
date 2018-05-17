@@ -1,5 +1,6 @@
 import express from 'express';
 var pool = require('../config/db_config.js');
+import { QueryService } from '../services/QueryService';
 
 const router = express.Router();
 
@@ -9,44 +10,23 @@ router.get('/', (req, res) => {
 });
 
 /**
- * GET retorna patrimonios considerando o estado, ano e cargo e situacao
+ * GET retorna patrimonios considerando o estado, ano, cargo e situacao
  */
-router.get('/patrimonio/:estado/:ano/:cargo/:situacao', async (req, res) => {  
-  let parameters = [req.params.estado, req.params.ano, req.params.cargo, req.params.situacao];
-
-  var query = "SELECT * FROM patrimonio_candidatos WHERE estado = ? AND ano_um = ? AND cargo_pleiteado_1 = ? AND resultado_1 = ?";
+router.get('/patrimonio/:estado/:ano/:cargo/:situacao', async (req, res) => {    
+  let parameters = await QueryService.recuperaParametros(req);
+  let query = await QueryService.recuperaConsulta(req);  
+  
   execSQLQuery(query, parameters, res);        
   
 });
 
 /**
- * GET retorna patrimonios considerando o estado, ano e cargo e situacao
+ * GET retorna patrimonios considerando o estado, ano, cargo, situacao e municipio
  */
 router.get('/patrimonio/:estado/:ano/:cargo/:situacao/:municipio', async (req, res) => {  
   let parameters = [req.params.estado, req.params.ano, req.params.cargo, req.params.situacao, req.params.municipio];
 
   var query = "SELECT * FROM patrimonio_candidatos WHERE estado = ? AND ano_um = ? AND cargo_pleiteado_1 = ? AND resultado_1 = ? AND unidade_eleitoral = ?";
-  execSQLQuery(query, parameters, res);        
-  
-});
-
-/**
- * GET retorna patrimonios considerando o estado, ano e cargo
- */
-router.get('/patrimonio/:estado/:ano/:cargo', async (req, res) => {  
-  let parameters = [req.params.estado, req.params.ano, req.params.cargo];
-
-  var query = "SELECT * FROM patrimonio_candidatos WHERE estado = ? AND ano_um = ? AND cargo_pleiteado_1 = ?";
-  execSQLQuery(query, parameters, res);        
-  
-});
-
-/**
- * GET retorna patrimonios considerando o estado
- */
-router.get('/patrimonio/:estado', async (req, res) => {    
-  let parameters = [req.params.estado];
-  var query = "SELECT * FROM patrimonio_candidatos WHERE estado = ?";
   execSQLQuery(query, parameters, res);        
   
 });

@@ -46,12 +46,6 @@ export class UtilsService {
     }    
   }
 
-  public recuperaPatrimoniosEstado(estado){
-    return this.http.get(this.serverHost + '/patrimonio/' + estado, {
-      headers: this.headers
-    });
-  }
-
   public recuperaSituacoes(){
     return this.http.get(this.serverHost + '/patrimonio/busca/situacao', {
       headers: this.headers

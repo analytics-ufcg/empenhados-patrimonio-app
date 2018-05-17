@@ -72,6 +72,12 @@ export class FilterComponent implements OnInit {
     this.estadoSelecionado = novoEstado;
     this.filterService.mudaEstado(novoEstado);
     this.mudaDados();
+
+    if (novoEstado === 'todos'){
+      this.isVereador = false;
+    } else {
+      this.isVereador = true;
+    }
         
     this.utilsService.recuperaMunicipios(this.estadoSelecionado).subscribe(
       data => {
@@ -130,8 +136,9 @@ export class FilterComponent implements OnInit {
   // Recupera lista de estados
   private recuperaEstados() {
     this.utilsService.recuperaEstados().subscribe(
-      data => {
+      data => {        
         this.listaEstados = data;
+        this.listaEstados.push({'estado': 'todos'});
       }, err => {
         console.log(err);
       }
