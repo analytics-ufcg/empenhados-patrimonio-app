@@ -34,7 +34,7 @@ export class UtilsService {
   }
 
   public recuperaPatrimonios(estado, ano, cargo, situacao, municipio){
-    console.log(municipio);
+
     if (municipio === undefined || municipio === '') {
       return this.http.get(this.serverHost + '/patrimonio/' + estado + "/" + ano + "/" + cargo + "/" + situacao, {
         headers: this.headers

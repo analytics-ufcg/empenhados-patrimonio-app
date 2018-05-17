@@ -138,7 +138,8 @@ export class FilterComponent implements OnInit {
       data => {
         let todosCargos
         todosCargos = data;
-        this.listaCargos = todosCargos.filter(element => this.cargosEleicao(element.cargo_pleiteado_2));              
+        this.listaCargos = todosCargos.filter(element => this.cargosEleicao(element.cargo_pleiteado_2));
+        this.listaCargos.push({'cargo_pleiteado_2': 'todos'});
       }, err => {
         console.log(err);
       }
@@ -149,6 +150,7 @@ export class FilterComponent implements OnInit {
     this.utilsService.recuperaSituacoes().subscribe(
       data => {
         this.listaSituacoes = data;
+        this.listaSituacoes.push({'resultado_1': 'todos'});
       }, err => {
         console.log(err);
       }
