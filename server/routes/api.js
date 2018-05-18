@@ -1,5 +1,6 @@
 import express from 'express';
 var pool = require('../config/db_config.js');
+import { QueryService } from '../services/QueryService';
 
 const router = express.Router();
 
@@ -9,22 +10,23 @@ router.get('/', (req, res) => {
 });
 
 /**
- * GET retorna patrimonios considerando o estado, ano e cargo
+ * GET retorna patrimonios considerando o estado, ano, cargo e situacao
  */
-router.get('/patrimonio/:estado/:ano/:cargo', async (req, res) => {  
-  let parameters = [req.params.estado, req.params.ano, req.params.cargo];
-
-  var query = "SELECT * FROM patrimonio_candidatos WHERE estado = ? AND ano_dois = ? AND cargo_pleiteado_2 = ?";
+router.get('/patrimonio/:estado/:ano/:cargo/:situacao', async (req, res) => {    
+  let parameters = await QueryService.recuperaParametrosPatrimonio(req);
+  let query = await QueryService.recuperaConsultaPatrimonio(req);  
+  
   execSQLQuery(query, parameters, res);        
   
 });
 
 /**
- * GET retorna patrimonios considerando o estado
+ * GET retorna patrimonios considerando o estado, ano, cargo, situacao e municipio
  */
-router.get('/patrimonio/:estado', async (req, res) => {    
-  let parameters = [req.params.estado];
-  var query = "SELECT * FROM patrimonio_candidatos WHERE estado = ?";
+router.get('/patrimonio/:estado/:ano/:cargo/:situacao/:municipio', async (req, res) => {  
+  let parameters = await QueryService.recuperaParametrosPatrimonio(req);
+  let query = await QueryService.recuperaConsultaPatrimonio(req);
+  
   execSQLQuery(query, parameters, res);        
   
 });
@@ -58,6 +60,16 @@ router.get('/patrimonio/municipios/:estado', async (req, res) => {
   execSQLQuery(query, parameters, res); 
   
 });
+
+
+/**
+ * GET retorna lista de situações
+ * Temporário!!! Enquanto os dados são são atualizados
+ */
+router.get('/patrimonio/busca/situacao', async(req, res) => {
+  var query = " SELECT DISTINCT(resultado_1) FROM patrimonio_candidatos";
+  execSQLQuery(query, [], res);
+})
 
 
 function execSQLQuery(sqlQuery, parameters, res){

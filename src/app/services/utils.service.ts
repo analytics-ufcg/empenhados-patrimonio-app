@@ -33,4 +33,23 @@ export class UtilsService {
     });
   }
 
+  public recuperaPatrimonios(estado, ano, cargo, situacao, municipio){
+
+    if (municipio === undefined || municipio === '') {
+      return this.http.get(this.serverHost + '/patrimonio/' + estado + "/" + ano + "/" + cargo + "/" + situacao, {
+        headers: this.headers
+      });
+    } else {
+      return this.http.get(this.serverHost + '/patrimonio/' + estado + "/" + ano + "/" + cargo + "/" + situacao + "/" + municipio, {
+        headers: this.headers
+      });
+    }    
+  }
+
+  public recuperaSituacoes(){
+    return this.http.get(this.serverHost + '/patrimonio/busca/situacao', {
+      headers: this.headers
+    });
+  }
+
 }

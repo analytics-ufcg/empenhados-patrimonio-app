@@ -1,0 +1,21 @@
+.section-filter {    
+    text-align: left;
+}
+
+.filter {
+    margin: auto;
+    width: 15% !important;
+}
+
+.text-filter {
+    margin: 0.5%;
+    font-weight:normal;
+}
+
+.button {
+    background-color: #EEEEEE;    
+}
+
+.auto-complete {
+    width: 100%;
+}

@@ -4,6 +4,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {HttpClientModule, HttpClient} from '@angular/common/http';
 import { GlobalService} from './services/global.service';
 import { UtilsService } from './services/utils.service';
+import { FilterService } from './services/filter.service';
+
 
 import {
   MatToolbarModule,
@@ -25,12 +27,14 @@ import {
 
 import { AppComponent } from './app.component';
 import { FilterComponent } from './filter/filter.component';
+import { ScatterplotPatrimonioComponent } from './scatterplot-patrimonio/scatterplot-patrimonio.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    FilterComponent
+    FilterComponent,
+    ScatterplotPatrimonioComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -55,6 +59,7 @@ import { FilterComponent } from './filter/filter.component';
     HttpClientModule,
     UtilsService,
     GlobalService,
+    FilterService
   ],
   bootstrap: [AppComponent]
 })
