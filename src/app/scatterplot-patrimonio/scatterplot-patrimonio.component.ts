@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import * as d3 from 'd3';
 import { UtilsService } from '../services/utils.service';
 import { FilterService } from '../services/filter.service';
+import { AlertService } from '../services/alert.service';
+
 
 @Component({
   selector: 'app-scatterplot-patrimonio',
@@ -28,7 +30,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   private situacao: String;
 
   constructor(private utilsService: UtilsService,
-              private filterService: FilterService) {
+              private filterService: FilterService,
+              private alertService: AlertService) {
     this.height = 600;
     this.width = 900;
     this.margin = ({top: 20, right: 30, bottom: 30, left: 40});
@@ -46,16 +49,15 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     
     this.data = this.filterService.dadosPatrimonio;
 
-    if (typeof this.data !== 'undefined' && this.data.length === 0) {
-      // TODO: uma mensagem de aviso deve ser mostrada ao cliente
-      console.log("Não há dados referentes a esses filtros");
+    if (typeof this.data !== 'undefined' && this.data.length === 0) {      
+      console.log("Não temos dados para este filtro!");
+      this.alertService.openSnackBar("Não temos dados para este filtro!", "OK")
+      
     } else {
       this.maior_patrimonio_eleicao1 = d3.max(this.data, (d: any) => d.patrimonio_eleicao_1);  
       console.log(this.data);
       this.initD3Patrimonio();  
     }
-    
-    
   }
 
   initD3Patrimonio(){

@@ -5,7 +5,7 @@ import {HttpClientModule, HttpClient} from '@angular/common/http';
 import { GlobalService} from './services/global.service';
 import { UtilsService } from './services/utils.service';
 import { FilterService } from './services/filter.service';
-
+import { AlertService } from './services/alert.service';
 
 import {
   MatToolbarModule,
@@ -18,7 +18,8 @@ import {
   MatOptionModule,
   MatSelectModule,
   MatAutocompleteModule,
-  MatInputModule
+  MatInputModule,
+  MatSnackBarModule
 } from '@angular/material';
 
 import {
@@ -53,13 +54,15 @@ import { ScatterplotPatrimonioComponent } from './scatterplot-patrimonio/scatter
     MatSelectModule,
     MatAutocompleteModule,
     MatInputModule,
+    MatSnackBarModule,
     HttpClientModule
   ],
   providers: [
     HttpClientModule,
     UtilsService,
     GlobalService,
-    FilterService
+    FilterService,
+    AlertService
   ],
   bootstrap: [AppComponent]
 })
