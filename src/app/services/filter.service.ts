@@ -14,6 +14,10 @@ interface Patrimonio {
   resultado_2: String;
 }
 
+const TODOS_CONSULTA = "todos";
+const TODOS_CARGOS = "qualquer cargo";
+const TODOS_ESTADOS = "qualquer estado";
+
 @Injectable()
 export class FilterService {
 
@@ -44,7 +48,15 @@ export class FilterService {
   }
 
   async mudaDados(estado: String, ano: Number, cargo: String, situacao: String, municipio: String){
-    let dadosBD;   
+    let dadosBD;
+    
+    if (cargo === TODOS_CARGOS) {
+      cargo = TODOS_CONSULTA;
+    }
+
+    if (estado === TODOS_ESTADOS) {
+      estado = TODOS_CONSULTA;
+    }
          
     return new Promise((resolve, reject) =>
       this.utilsService.recuperaPatrimonios(estado, ano, cargo, situacao, municipio).subscribe(
@@ -64,6 +76,18 @@ export class FilterService {
     return data.map(v => <Patrimonio>{patrimonio_eleicao_1: v.patrimonio_eleicao_1, patrimonio_eleicao_2: v.patrimonio_eleicao_2, 
       nome_urna: v.nome_urna, unidade_eleitoral: v.unidade_eleitoral, cargo_pleiteado_1: v.cargo_pleiteado_1, 
       cargo_pleiteado_2: v.cargo_pleiteado_2, ano_um: v.ano_um, resultado_1: v.resultado_1, resultado_2: v.resultado_2});
+  }
+
+  public getTodos (){
+    return TODOS_CONSULTA;
+  }
+
+  public getTodosCargos() {
+    return TODOS_CARGOS;
+  }
+
+  public getTodosEstados() {
+    return TODOS_ESTADOS;
   }
 
 }

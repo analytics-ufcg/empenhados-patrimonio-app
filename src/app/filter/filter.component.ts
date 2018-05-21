@@ -9,7 +9,6 @@ import { FilterService } from '../services/filter.service';
 const ELEICOES_FEDERAIS = 1;
 const ELEICOES_MUNICIPAIS = 2;
 
-
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
@@ -35,15 +34,24 @@ export class FilterComponent implements OnInit {
   public municipioSelecionado: String;
   public anoSelecionado: number;
   public situacaoSelecionada: String;
+
   public isVereador;
   public tipoEleicao;
+  private todosConsulta;
+  private todosCargos;
+  private todosEstados;
 
   public controlMunicipio: FormControl = new FormControl();
   public filteredOptions: Observable<string[]>;
 
   constructor(private utilsService: UtilsService, 
               private filterService: FilterService) {
+
     this.listaMunicipios = [];
+
+    this.todosConsulta = filterService.getTodos();
+    this.todosCargos = filterService.getTodosCargos();
+    this.todosEstados = filterService.getTodosEstados();
   }
 
   ngOnInit() {
@@ -63,8 +71,7 @@ export class FilterComponent implements OnInit {
     this.visualizaClique.next();
   }
   
-  /* Atualiza dados de patrimônio e o estado atual==
-  Altera a lista de municipios a partir de um estado selecionado */
+  /* Altera a lista de municipios a partir de um estado selecionado */
   onChangeEstado(novoEstado) {
     this.estadoSelecionado = novoEstado;
     this.filterService.mudaEstado(novoEstado);
@@ -121,7 +128,7 @@ export class FilterComponent implements OnInit {
     this.utilsService.recuperaEstados().subscribe(
       data => {        
         this.listaEstados = data;
-        this.listaEstados.push({'estado': 'todos'});
+        this.listaEstados.push({'estado': this.todosEstados});
       }, err => {
         console.log(err);
       }
@@ -139,7 +146,7 @@ export class FilterComponent implements OnInit {
         let todosCargos
         todosCargos = data;
         this.listaCargos = todosCargos.filter(element => this.cargosEleicao(element.cargo_pleiteado_2));
-        this.listaCargos.push({'cargo_pleiteado_2': 'todos'});
+        this.listaCargos.push({'cargo_pleiteado_2': this.todosCargos});
       }, err => {
         console.log(err);
       }
@@ -158,12 +165,12 @@ export class FilterComponent implements OnInit {
   }
   
   private cargosEleicao(cargo) {
-    let cargos_municipais = ["PREFEITO", "VEREADOR", "VICE-PREFEITO"];
+    let cargosMunicipais = ["PREFEITO", "VEREADOR", "VICE-PREFEITO"];
 
     if (this.tipoEleicao === ELEICOES_MUNICIPAIS) {
-      return cargos_municipais.indexOf(cargo) !== -1;
+      return cargosMunicipais.indexOf(cargo) !== -1;
     } else {
-      return cargos_municipais.indexOf(cargo) === -1;
+      return cargosMunicipais.indexOf(cargo) === -1;
     }    
   }
 
@@ -179,7 +186,7 @@ export class FilterComponent implements OnInit {
 
   private atualizaFiltroMunicipio() {
 
-    if (this.estadoSelecionado === 'todos'){
+    if (this.estadoSelecionado === this.todosEstados){
       this.isVereador = false;
       this.municipioSelecionado = '';
     } else if (this.cargoSelecionado === 'VEREADOR'){
