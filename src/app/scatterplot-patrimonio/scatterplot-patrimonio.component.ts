@@ -21,13 +21,17 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   private xAxis: any;
   private yAxis: any;
   private svg: any;
+  private line: any;
+  private g: any;
     
   private data: any;
   private maior_patrimonio_eleicao1: any;
+  private maior_patrimonio_eleicao2: any;
   private estadoAtual: String;
   private cargo: String;
   private ano: Number;
   private situacao: String;
+  private transitionToogle: boolean;
 
   constructor(private utilsService: UtilsService,
               private filterService: FilterService,
@@ -35,6 +39,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.height = 600;
     this.width = 900;
     this.margin = ({top: 20, right: 30, bottom: 30, left: 40});
+    this.transitionToogle = false;
   }
 
   ngOnInit() {
@@ -55,8 +60,40 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       
     } else {
       this.maior_patrimonio_eleicao1 = d3.max(this.data, (d: any) => d.patrimonio_eleicao_1);  
+      this.maior_patrimonio_eleicao2 = d3.max(this.data, (d: any) => d.patrimonio_eleicao_2);    
       console.log(this.data);
       this.initD3Patrimonio();  
+    }
+  }
+
+  executeTransition(evento){
+    this.transitionToogle = evento.checked
+    
+    if (this.transitionToogle) {
+
+      let novo_y = Math.max(this.maior_patrimonio_eleicao2 / 2, this.maior_patrimonio_eleicao1 / 2);
+
+      this.line
+      .transition()
+      .duration(2000)
+      .attr("y1", this.y(novo_y))
+      .attr("y2", this.y(novo_y))
+
+      this.g
+      .selectAll("circle")
+      .transition()
+      .duration(2000)
+      .attr("cx", (d: any) => this.x(d.patrimonio_eleicao_1))
+      .attr("cy", (d: any) => this.y(novo_y + d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1));
+
+      this.g
+      .selectAll("rect")
+      .transition()
+      .duration(2000)
+      .attr("y", (d: any) => d.patrimonio_eleicao_2 > d.patrimonio_eleicao_1 ? this.y(novo_y + d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1) : this.y(novo_y));
+
+    } else {
+      this.initScatterplot()
     }
   }
 
@@ -125,7 +162,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         .call(this.yAxis);
   
     // referência
-    this.svg.append("line")          
+    this.line = this.svg.append("line")          
       .style("stroke", "grey")  
       .attr("x1", this.x(0))     
       .attr("y1", this.y(0))      
@@ -144,7 +181,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         .attr("y", (d: any) => d.patrimonio_eleicao_2 > d.patrimonio_eleicao_1 ? this.y(d.patrimonio_eleicao_2) : this.y(d.patrimonio_eleicao_1))
         .attr("height", (d: any) => {if(d.patrimonio_eleicao_2 >= d.patrimonio_eleicao_1){return this.y(d.patrimonio_eleicao_1) - this.y(d.patrimonio_eleicao_2)} else {return this.y(d.patrimonio_eleicao_2) - this.y(d.patrimonio_eleicao_1)}})
         .attr("fill", (d: any) => this.z(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1))
-        .attr("opacity", 0.5)
+        .attr("opacity", 0.5);
   
       g.selectAll("circle")
       .data(this.data)
@@ -154,7 +191,11 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         .attr("fill", (d: any) => this.z(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1))
         .attr("opacity", 0.7)
         .attr("r", 6)
-        .append("title").text((d: any) => d.nome_urna + ", " + d.unidade_eleitoral);
+        .append("title").html((d: any) => d.nome_urna + ", " + d.unidade_eleitoral + 
+        "<br>Em " + this.ano.valueOf() + ": " + d.patrimonio_eleicao_1 +
+        "<br>Em " + (this.ano.valueOf() + 4) + ": " + d.patrimonio_eleicao_2);
+      
+      this.g = g;
        
     return this.svg.node();
   }
