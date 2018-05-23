@@ -1,4 +1,4 @@
-<mat-slide-toggle (change)="executeTransition($event)">Ver diferença</mat-slide-toggle>
+<mat-slide-toggle [checked]="transitionToogle" (change)="executaTransicao($event)">Ver diferença</mat-slide-toggle>
 <div class = "section">
   <svg width="900" height="600" class = "plot"></svg>
 </div>
