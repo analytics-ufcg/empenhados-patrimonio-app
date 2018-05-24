@@ -76,7 +76,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     if (this.transitionToogle) {
       this.plotDiferencaPatrimonio();
     } else {
-      this.plotPatrimonio();      
+      this.plotPatrimonioTransicao();      
     }
   }
 
@@ -185,7 +185,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     return this.svg.node();
   }
 
-  plotDiferencaPatrimonio() {
+  private plotDiferencaPatrimonio() {
     this.y.domain([-this.maiorDiferencaNegativa, this.maiorDiferencaPositiva]).nice();
 
     this.line
@@ -213,6 +213,37 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     .duration(1500)
     .call(this.yAxis);
 
+  }
+
+  private plotPatrimonioTransicao(){
+
+    this.y.domain([0, d3.max(this.data, (d: any) => Math.max(d.patrimonio_eleicao_1, d.patrimonio_eleicao_2))]).nice();
+
+    this.line
+    .transition()
+    .duration(2000)
+    .attr("y1", this.y(0))
+    .attr("y2", this.y(this.maiorPatrimonioEleicao1 + 1e3));
+
+    this.g
+    .selectAll("circle")
+    .transition()
+    .duration(2000)
+    .attr("cx", (d: any) => this.x(d.patrimonio_eleicao_1))
+    .attr("cy", (d: any) => this.y(d.patrimonio_eleicao_2));
+
+    this.g
+    .selectAll("rect")
+    .transition()
+    .duration(2000)
+    .attr("y", (d: any) => d.patrimonio_eleicao_2 > d.patrimonio_eleicao_1 ? this.y(d.patrimonio_eleicao_2) : this.y(d.patrimonio_eleicao_1))
+    .attr("height", (d: any) => {if(d.patrimonio_eleicao_2 >= d.patrimonio_eleicao_1){return this.y(d.patrimonio_eleicao_1) - this.y(d.patrimonio_eleicao_2)} else {return this.y(d.patrimonio_eleicao_2) - this.y(d.patrimonio_eleicao_1)}})
+
+    this.svg.select("#y-axis")
+    .transition()
+    .duration(1500)
+    .call(this.yAxis);
+  
   }
 
 }
