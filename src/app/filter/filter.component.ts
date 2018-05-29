@@ -18,31 +18,31 @@ export class FilterComponent implements OnInit {
 
   @Output() visualizaClique = new EventEmitter<any>();
   
-  public listaEstados: any;
-  public listaCargos: any;
-  public listaMunicipios: any;
-  public listaSituacoes: any;
+  private listaEstados: any;
+  private listaCargos: any;
+  private listaMunicipios: any;
+  private listaSituacoes: any;
 
-  public listaAnos = [
+  private listaAnos = [
     {ano: 2008},
     {ano: 2010},
     {ano: 2012}
   ];  
 
-  public estadoSelecionado: String;
-  public cargoSelecionado: String;
-  public municipioSelecionado: String;
-  public anoSelecionado: number;
-  public situacaoSelecionada: String;
+  private estadoSelecionado: String;
+  private cargoSelecionado: String;
+  private municipioSelecionado: String;
+  private anoSelecionado: number;
+  private situacaoSelecionada: String;
 
-  public isVereador;
-  public tipoEleicao;
+  private isVereador;
+  private tipoEleicao;
   private todosConsulta;
   private todosCargos;
   private todosEstados;
 
-  public controlMunicipio: FormControl = new FormControl();
-  public filteredOptions: Observable<string[]>;
+  private controlMunicipio: FormControl = new FormControl();
+  private filteredOptions: Observable<string[]>;
 
   constructor(private utilsService: UtilsService, 
               private filterService: FilterService) {

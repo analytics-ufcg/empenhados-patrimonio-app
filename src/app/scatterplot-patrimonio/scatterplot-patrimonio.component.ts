@@ -25,9 +25,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   private data: any;
   private maior_patrimonio_eleicao1: any;
   private estadoAtual: String;
-  private cargo: String;
   private ano: Number;
-  private situacao: String;
 
   constructor(private utilsService: UtilsService,
               private filterService: FilterService,
@@ -42,12 +40,11 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   }
 
   plotPatrimonio(){    
-    this.filterService.estadoAtual.subscribe(estado => this.estadoAtual = estado);
-    this.cargo = this.filterService.cargoSelecionado;
-    this.ano = this.filterService.anoUm;    
-    this.situacao = this.filterService.situacao;
+
+    this.estadoAtual = this.filterService.getEstado();    
+    this.ano = this.filterService.getAno();    
     
-    this.data = this.filterService.dadosPatrimonio;
+    this.filterService.dadosPatrimonio.subscribe(data => this.data = data);    
 
     if (typeof this.data !== 'undefined' && this.data.length === 0) {      
       console.log("Não temos dados para este filtro!");
