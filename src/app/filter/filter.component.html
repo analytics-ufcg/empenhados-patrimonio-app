@@ -25,8 +25,8 @@
         </mat-select>
     </mat-form-field>
 
-    <strong class = "text-filter">em</strong>
-    <mat-form-field class = "filter">
+    <strong class = "text-filter" *ngIf="!isPresidente">em</strong>
+    <mat-form-field class = "filter" *ngIf="!isPresidente">
         <mat-select placeholder="estado" [ngModel]="estadoSelecionado" (ngModelChange)="onChangeEstado($event)">
           <mat-option *ngFor="let estado of listaEstados" [value]="estado.estado">
             {{ estado.estado }}
@@ -44,5 +44,10 @@
     </mat-form-field>
 
     <button mat-button (click)="emiteEventoVisualizacao()" class = "button">Visualizar</button>
-
+    
+    <div *ngIf="anoSelecionado">
+      <strong class = "text-filter">Em {{ anoSelecionado + 4 }} também declarou patrimônio.</strong>
+    </div>
+    
 </div>
+

@@ -36,6 +36,7 @@ export class FilterComponent implements OnInit {
   private situacaoSelecionada: String;
 
   private isVereador;
+  private isPresidente;
   private tipoEleicao;
   private todosConsulta;
   private todosCargos;
@@ -196,6 +197,13 @@ export class FilterComponent implements OnInit {
     } else {
       this.isVereador = false;
       this.municipioSelecionado = '';
+    }
+
+    if (this.cargoSelecionado === 'PRESIDENTE') {
+      this.isPresidente = true;
+      this.estadoSelecionado = this.todosEstados;
+    } else {
+      this.isPresidente = false;
     }
   }
 
