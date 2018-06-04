@@ -10,8 +10,8 @@
 
     <mat-form-field class = "filter">
         <mat-select placeholder="Situação" [ngModel]="situacaoSelecionada" (ngModelChange)="onChangeSituacao($event)">
-          <mat-option *ngFor="let situacao of listaSituacoes" [value]="situacao.resultado_1">
-            {{ situacao.resultado_1 }}
+          <mat-option *ngFor="let situacao of listaSituacoes" [value]="situacao.situacaoEleicao1">
+            {{ situacao.situacaoEleicao1 }}
           </mat-option>
         </mat-select>
     </mat-form-field>

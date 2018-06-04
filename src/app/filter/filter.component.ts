@@ -157,7 +157,7 @@ export class FilterComponent implements OnInit {
     this.utilsService.recuperaSituacoes().subscribe(
       data => {
         this.listaSituacoes = data;
-        this.listaSituacoes.push({'resultado_1': 'todos'});
+        this.listaSituacoes.push({'situacaoEleicao1': 'todos'});
       }, err => {
         console.log(err);
       }

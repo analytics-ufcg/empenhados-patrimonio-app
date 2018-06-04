@@ -64,10 +64,9 @@ router.get('/patrimonio/municipios/:estado', async (req, res) => {
 
 /**
  * GET retorna lista de situações
- * Temporário!!! Enquanto os dados são são atualizados
  */
 router.get('/patrimonio/busca/situacao', async(req, res) => {
-  var query = " SELECT DISTINCT(resultado_1) FROM patrimonio_candidatos";
+  var query = "SELECT DISTINCT(situacaoEleicao1) FROM patrimonio_candidatos";
   execSQLQuery(query, [], res);
 })
 
