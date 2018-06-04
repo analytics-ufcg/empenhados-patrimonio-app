@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import {Observable} from 'rxjs/Observable';
 import { UtilsService } from './utils.service';
 
 interface Patrimonio {
@@ -21,18 +22,18 @@ const TODOS_ESTADOS = "qualquer estado";
 @Injectable()
 export class FilterService {
 
-  private estadoSelecionado = new BehaviorSubject<string>("default message");
-  estadoAtual = this.estadoSelecionado.asObservable();
+  private estadoSelecionado: String;
+  private cargoSelecionado: String;
+  private anoUm: Number;
+  private situacao: String;
 
-  cargoSelecionado: String;
-  anoUm: Number;
-  situacao: String;
-  dadosPatrimonio: any;
+  private _dadosPatrimonio = new BehaviorSubject<Patrimonio[]>(undefined);
+  public dadosPatrimonio = this._dadosPatrimonio.asObservable();
 
   constructor(private utilsService: UtilsService) { }
 
   mudaEstado(novoEstado: string) {
-    this.estadoSelecionado.next(novoEstado);
+    this.estadoSelecionado = novoEstado;
   }
 
   mudaCargo(novoCargo: String){
@@ -62,7 +63,7 @@ export class FilterService {
       this.utilsService.recuperaPatrimonios(estado, ano, cargo, situacao, municipio).subscribe(
         data => {
           dadosBD = data;
-          this.dadosPatrimonio = this.parseData(dadosBD);
+          this._dadosPatrimonio.next(this.parseData(dadosBD));
           return resolve("Dados alterados");
         }, err => {
           console.log(err);
@@ -88,6 +89,22 @@ export class FilterService {
 
   public getTodosEstados() {
     return TODOS_ESTADOS;
+  }
+
+  public getEstado() {
+    return this.estadoSelecionado;
+  }
+
+  public getAno() {
+    return this.anoUm;
+  }
+
+  public getSituacao() {
+    return this.situacao;
+  }
+
+  public getCargo() {
+    return this.cargoSelecionado;
   }
 
 }
