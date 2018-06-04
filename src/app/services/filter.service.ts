@@ -20,6 +20,7 @@ interface Patrimonio {
 const TODOS_CONSULTA = "todos";
 const TODOS_CARGOS = "qualquer cargo";
 const TODOS_ESTADOS = "qualquer estado";
+const TODAS_SITUACOES = "declarou patrimônio";
 
 @Injectable()
 export class FilterService {
@@ -60,6 +61,10 @@ export class FilterService {
     if (estado === TODOS_ESTADOS) {
       estado = TODOS_CONSULTA;
     }
+
+    if (situacao === TODAS_SITUACOES) {
+      situacao = TODOS_CONSULTA;
+    }
          
     return new Promise((resolve, reject) =>
       this.utilsService.recuperaPatrimonios(estado, ano, cargo, situacao, municipio).subscribe(
@@ -92,6 +97,10 @@ export class FilterService {
 
   public getTodosEstados() {
     return TODOS_ESTADOS;
+  }
+
+  public getTodasSituacoes(){
+    return TODAS_SITUACOES;
   }
 
   public getEstado() {

@@ -40,6 +40,7 @@ export class FilterComponent implements OnInit {
   private todosConsulta;
   private todosCargos;
   private todosEstados;
+  private todasSituacoes;
 
   private controlMunicipio: FormControl = new FormControl();
   private filteredOptions: Observable<string[]>;
@@ -52,6 +53,7 @@ export class FilterComponent implements OnInit {
     this.todosConsulta = filterService.getTodos();
     this.todosCargos = filterService.getTodosCargos();
     this.todosEstados = filterService.getTodosEstados();
+    this.todasSituacoes = filterService.getTodasSituacoes();
   }
 
   ngOnInit() {
@@ -157,7 +159,7 @@ export class FilterComponent implements OnInit {
     this.utilsService.recuperaSituacoes().subscribe(
       data => {
         this.listaSituacoes = data;
-        this.listaSituacoes.push({'situacaoEleicao1': 'todos'});
+        this.listaSituacoes.push({'situacaoEleicao1': this.todasSituacoes});
       }, err => {
         console.log(err);
       }
