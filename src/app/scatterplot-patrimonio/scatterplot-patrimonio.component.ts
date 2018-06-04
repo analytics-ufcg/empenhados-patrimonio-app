@@ -32,7 +32,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
               private alertService: AlertService) {
     this.height = 600;
     this.width = 900;
-    this.margin = ({top: 20, right: 30, bottom: 30, left: 40});
+    this.margin = ({top: 20, right: 30, bottom: 40, left: 40});
   }
 
   ngOnInit() {
@@ -89,6 +89,14 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     .attr("transform", `translate(0,${this.height - this.margin.bottom})`)
     .call(d3.axisBottom(this.x).ticks(this.width / 80).tickFormat(d3.format('.2s')))
     .call(g => g.select(".domain").remove())
+    .call(g => g.append("text")
+        .attr("fill", "#000")
+        .attr("x", this.width/2)
+        .attr("y", this.margin.bottom*3/4)
+        .attr("dy", "0.32em")
+        .attr("text-anchor", "middle")
+        .attr("font-weight", "bold")
+        .text("Patrimônio em " + this.ano));
 
     this.yAxis = g => g
     .attr("transform", `translate(${this.margin.left},0)`)
@@ -106,7 +114,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         .attr("dy", "0.32em")
         .attr("text-anchor", "start")
         .attr("font-weight", "bold")
-        .text("Patrimônio em " + (this.ano.valueOf() + 4)))
+        .text("Patrimônio em " + (this.ano.valueOf() + 4)));
   }
 
   private initScatterplot() {    
