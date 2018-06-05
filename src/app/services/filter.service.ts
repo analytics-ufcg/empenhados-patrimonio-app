@@ -13,11 +13,14 @@ interface Patrimonio {
   ano_um: Number;
   resultado_1: String;
   resultado_2: String;
+  situacaoEleicao1: String;
+  situacaoEleicao2: String;
 }
 
 const TODOS_CONSULTA = "todos";
 const TODOS_CARGOS = "qualquer cargo";
 const TODOS_ESTADOS = "qualquer estado";
+const TODAS_SITUACOES = "declarou patrimônio";
 
 @Injectable()
 export class FilterService {
@@ -58,6 +61,10 @@ export class FilterService {
     if (estado === TODOS_ESTADOS) {
       estado = TODOS_CONSULTA;
     }
+
+    if (situacao === TODAS_SITUACOES) {
+      situacao = TODOS_CONSULTA;
+    }
          
     return new Promise((resolve, reject) =>
       this.utilsService.recuperaPatrimonios(estado, ano, cargo, situacao, municipio).subscribe(
@@ -76,7 +83,8 @@ export class FilterService {
   private parseData(data: any[]): Patrimonio[] {
     return data.map(v => <Patrimonio>{patrimonio_eleicao_1: v.patrimonio_eleicao_1, patrimonio_eleicao_2: v.patrimonio_eleicao_2, 
       nome_urna: v.nome_urna, unidade_eleitoral: v.unidade_eleitoral, cargo_pleiteado_1: v.cargo_pleiteado_1, 
-      cargo_pleiteado_2: v.cargo_pleiteado_2, ano_um: v.ano_um, resultado_1: v.resultado_1, resultado_2: v.resultado_2});
+      cargo_pleiteado_2: v.cargo_pleiteado_2, ano_um: v.ano_um, resultado_1: v.resultado_1, resultado_2: v.resultado_2, 
+      situacaoEleicao1: v.situacaoEleicao1, situacaoEleicao2: v.situacaoEleicao2});
   }
 
   public getTodos (){
@@ -89,6 +97,10 @@ export class FilterService {
 
   public getTodosEstados() {
     return TODOS_ESTADOS;
+  }
+
+  public getTodasSituacoes(){
+    return TODAS_SITUACOES;
   }
 
   public getEstado() {

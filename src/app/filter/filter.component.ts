@@ -36,10 +36,12 @@ export class FilterComponent implements OnInit {
   private situacaoSelecionada: String;
 
   private isVereador;
+  private isPresidente;
   private tipoEleicao;
   private todosConsulta;
   private todosCargos;
   private todosEstados;
+  private todasSituacoes;
 
   private controlMunicipio: FormControl = new FormControl();
   private filteredOptions: Observable<string[]>;
@@ -52,6 +54,7 @@ export class FilterComponent implements OnInit {
     this.todosConsulta = filterService.getTodos();
     this.todosCargos = filterService.getTodosCargos();
     this.todosEstados = filterService.getTodosEstados();
+    this.todasSituacoes = filterService.getTodasSituacoes();
   }
 
   ngOnInit() {
@@ -157,7 +160,7 @@ export class FilterComponent implements OnInit {
     this.utilsService.recuperaSituacoes().subscribe(
       data => {
         this.listaSituacoes = data;
-        this.listaSituacoes.push({'resultado_1': 'todos'});
+        this.listaSituacoes.push({'situacaoEleicao1': this.todasSituacoes});
       }, err => {
         console.log(err);
       }
@@ -194,6 +197,13 @@ export class FilterComponent implements OnInit {
     } else {
       this.isVereador = false;
       this.municipioSelecionado = '';
+    }
+
+    if (this.cargoSelecionado === 'PRESIDENTE') {
+      this.isPresidente = true;
+      this.estadoSelecionado = this.todosEstados;
+    } else {
+      this.isPresidente = false;
     }
   }
 
