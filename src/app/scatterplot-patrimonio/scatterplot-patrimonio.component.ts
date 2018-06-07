@@ -21,11 +21,18 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   private xAxis: any;
   private yAxis: any;
   private svg: any;
+  private line: any;
+  private g: any;
     
   private data: any;
-  private maior_patrimonio_eleicao1: any;
+  private maiorPatrimonioEleicao1: any;
+  private maiorDiferencaPositiva: any;
+  private maiorDiferencaNegativa: any;
+
   private estadoAtual: String;
   private ano: Number;
+  private situacao: String;
+  private transitionToogle: boolean;
 
   constructor(private utilsService: UtilsService,
               private filterService: FilterService,
@@ -33,6 +40,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.height = 600;
     this.width = 900;
     this.margin = ({top: 20, right: 30, bottom: 40, left: 40});
+    this.transitionToogle = false;
   }
 
   ngOnInit() {
@@ -51,13 +59,27 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       this.alertService.openSnackBar("Não temos dados para este filtro!", "OK")
       
     } else {
-      this.maior_patrimonio_eleicao1 = d3.max(this.data, (d: any) => d.patrimonio_eleicao_1);  
+      this.maiorPatrimonioEleicao1 = d3.max(this.data, (d: any) => d.patrimonio_eleicao_1);  
+      this.maiorDiferencaPositiva = d3.max(this.data, (d: any) => d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1);
+      this.maiorDiferencaNegativa = d3.max(this.data, (d: any) => d.patrimonio_eleicao_1 - d.patrimonio_eleicao_2);
+      
       console.log(this.data);
       this.initD3Patrimonio();  
     }
   }
 
+  executaTransicao(evento){
+    this.transitionToogle = evento.checked
+    
+    if (this.transitionToogle) {
+      this.plotDiferencaPatrimonio();
+    } else {
+      this.plotPatrimonioTransicao();      
+    }
+  }
+
   initD3Patrimonio(){
+    this.transitionToogle = false;
     this.initX();
     this.initY();
     this.initZ();
@@ -67,7 +89,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
   private initX() {
     this.x = d3.scaleLinear()
-    .domain([0, this.maior_patrimonio_eleicao1]).nice()
+    .domain([0, this.maiorPatrimonioEleicao1]).nice()
     .range([this.margin.left, this.width - this.margin.right]);
   }
 
@@ -78,10 +100,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   }
 
   private initZ(){
-    function zFunction(){
-      return d3.scaleSequential(d3.interpolateRdBu).domain([-1e6, 1e6]);
-    }
-    this.z = zFunction();    
+    this.z = d3.scaleSequential(d3.interpolateRdBu).domain([-1e6, 1e6]);
+    
   }
 
   private initAxes(){
@@ -127,15 +147,16 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         .call(this.xAxis);
     
     this.svg.append("g")
+        .attr("id", "y-axis")
         .call(this.yAxis);
   
     // referência
-    this.svg.append("line")          
+    this.line = this.svg.append("line")          
       .style("stroke", "grey")  
       .attr("x1", this.x(0))     
       .attr("y1", this.y(0))      
-      .attr("x2", this.x(this.maior_patrimonio_eleicao1 + 1e3))    
-      .attr("y2", this.y(this.maior_patrimonio_eleicao1 + 1e3));
+      .attr("x2", this.x(this.maiorPatrimonioEleicao1 + 1e3))    
+      .attr("y2", this.y(this.maiorPatrimonioEleicao1 + 1e3));
     
     const g = this.svg.append("g")
         .attr("stroke", "#000")
@@ -149,7 +170,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         .attr("y", (d: any) => d.patrimonio_eleicao_2 > d.patrimonio_eleicao_1 ? this.y(d.patrimonio_eleicao_2) : this.y(d.patrimonio_eleicao_1))
         .attr("height", (d: any) => {if(d.patrimonio_eleicao_2 >= d.patrimonio_eleicao_1){return this.y(d.patrimonio_eleicao_1) - this.y(d.patrimonio_eleicao_2)} else {return this.y(d.patrimonio_eleicao_2) - this.y(d.patrimonio_eleicao_1)}})
         .attr("fill", (d: any) => this.z(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1))
-        .attr("opacity", 0.5)
+        .attr("opacity", 0.5);
   
       g.selectAll("circle")
       .data(this.data)
@@ -159,9 +180,74 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         .attr("fill", (d: any) => this.z(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1))
         .attr("opacity", 0.7)
         .attr("r", 6)
-        .append("title").text((d: any) => d.nome_urna + ", " + d.unidade_eleitoral);
+        .append("title").html((d: any) => d.nome_urna + ", " + d.unidade_eleitoral + 
+        "<br>Em " + this.ano.valueOf() + ": " + d.patrimonio_eleicao_1 +
+        "<br>Em " + (this.ano.valueOf() + 4) + ": " + d.patrimonio_eleicao_2);
+      
+      this.g = g;
        
     return this.svg.node();
+  }
+
+  private plotDiferencaPatrimonio() {
+    this.y.domain([-this.maiorDiferencaNegativa, this.maiorDiferencaPositiva]).nice();
+
+    this.line
+    .transition()
+    .duration(2000)
+    .attr("y1", this.y(0))
+    .attr("y2", this.y(0))
+
+    this.g
+    .selectAll("circle")
+    .transition()
+    .duration(2000)
+    .attr("cx", (d: any) => this.x(d.patrimonio_eleicao_1))
+    .attr("cy", (d: any) => this.y(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1));
+
+    this.g
+    .selectAll("rect")
+    .transition()
+    .duration(2000)
+    .attr("y", (d: any) => d.patrimonio_eleicao_2 > d.patrimonio_eleicao_1 ? this.y(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1) : this.y(0))
+    .attr("height", (d: any) => {if(d.patrimonio_eleicao_2 >= d.patrimonio_eleicao_1){return this.y(d.patrimonio_eleicao_1) - this.y(d.patrimonio_eleicao_2)} else {return this.y(d.patrimonio_eleicao_2) - this.y(d.patrimonio_eleicao_1)}})
+
+    this.svg.select("#y-axis")
+    .transition()
+    .duration(1500)
+    .call(this.yAxis);
+
+  }
+
+  private plotPatrimonioTransicao(){
+
+    this.y.domain([0, d3.max(this.data, (d: any) => Math.max(d.patrimonio_eleicao_1, d.patrimonio_eleicao_2))]).nice();
+
+    this.line
+    .transition()
+    .duration(2000)
+    .attr("y1", this.y(0))
+    .attr("y2", this.y(this.maiorPatrimonioEleicao1 + 1e3));
+
+    this.g
+    .selectAll("circle")
+    .transition()
+    .duration(2000)
+    .attr("cx", (d: any) => this.x(d.patrimonio_eleicao_1))
+    .attr("cy", (d: any) => this.y(d.patrimonio_eleicao_2));
+
+    this.g
+    .selectAll("rect")
+    .transition()
+    .duration(2000)
+    .attr("y", (d: any) => d.patrimonio_eleicao_2 > d.patrimonio_eleicao_1 ? this.y(d.patrimonio_eleicao_2) : this.y(d.patrimonio_eleicao_1))
+    .attr("height", (d: any) => {if(d.patrimonio_eleicao_2 >= d.patrimonio_eleicao_1){return this.y(d.patrimonio_eleicao_1) - this.y(d.patrimonio_eleicao_2)} else {return this.y(d.patrimonio_eleicao_2) - this.y(d.patrimonio_eleicao_1)}})
+
+    this.svg.select("#y-axis")
+    .transition()
+    .duration(1500)
+    .call(this.yAxis);
+  
   }
 
 }

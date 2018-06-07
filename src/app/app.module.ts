@@ -19,7 +19,8 @@ import {
   MatSelectModule,
   MatAutocompleteModule,
   MatInputModule,
-  MatSnackBarModule
+  MatSnackBarModule,
+  MatSlideToggleModule
 } from '@angular/material';
 
 import {
@@ -55,6 +56,7 @@ import { ScatterplotPatrimonioComponent } from './scatterplot-patrimonio/scatter
     MatAutocompleteModule,
     MatInputModule,
     MatSnackBarModule,
+    MatSlideToggleModule,
     HttpClientModule
   ],
   providers: [
