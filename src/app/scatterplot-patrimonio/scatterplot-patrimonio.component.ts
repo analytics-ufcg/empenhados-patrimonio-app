@@ -28,6 +28,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   private maiorPatrimonioEleicao1: any;
   private maiorDiferencaPositiva: any;
   private maiorDiferencaNegativa: any;
+  private maiorDiferencaModulo: any;
 
   private estadoAtual: String;
   private ano: Number;
@@ -62,7 +63,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       this.maiorPatrimonioEleicao1 = d3.max(this.data, (d: any) => d.patrimonio_eleicao_1);  
       this.maiorDiferencaPositiva = d3.max(this.data, (d: any) => d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1);
       this.maiorDiferencaNegativa = d3.max(this.data, (d: any) => d.patrimonio_eleicao_1 - d.patrimonio_eleicao_2);
-      
+      this.maiorDiferencaModulo =  Math.max(this.maiorDiferencaPositiva, Math.abs(this.maiorDiferencaNegativa));
       
       console.log(this.data);
       this.initD3Patrimonio();  
@@ -162,15 +163,19 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     const g = this.svg.append("g")
         .attr("stroke", "#000")
         .attr("stroke-opacity", 0.2)
+   
     
-    g.selectAll("rect")
+    g.selectAll("line")
       .data(this.data)
-      .enter().append("rect")
-        .attr("x", (d: any) => this.x(d.patrimonio_eleicao_1 - .5))
-        .attr("width", 1)
-        .attr("y", (d: any) => d.patrimonio_eleicao_2 > d.patrimonio_eleicao_1 ? this.y(d.patrimonio_eleicao_2) : this.y(d.patrimonio_eleicao_1))
-        .attr("height", (d: any) => {if(d.patrimonio_eleicao_2 >= d.patrimonio_eleicao_1){return this.y(d.patrimonio_eleicao_1) - this.y(d.patrimonio_eleicao_2)} else {return this.y(d.patrimonio_eleicao_2) - this.y(d.patrimonio_eleicao_1)}})
-        .attr("fill", (d: any) => this.z(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1))
+      .enter().append("line")
+        .attr("x1", (d: any) => this.x(d.patrimonio_eleicao_1 - .5))
+        .attr("x2", (d: any) => this.x(d.patrimonio_eleicao_1 - .5))
+        .attr("y1", (d: any) => d.patrimonio_eleicao_2 < d.patrimonio_eleicao_1 ? this.y(d.patrimonio_eleicao_2) : this.y(d.patrimonio_eleicao_1))
+        .attr("y2", (d: any) => d.patrimonio_eleicao_2 > d.patrimonio_eleicao_1 ? this.y(d.patrimonio_eleicao_2) : this.y(d.patrimonio_eleicao_1))
+        .attr("stroke-width", 1)
+
+       // .attr("height", (d: any) => {if(d.patrimonio_eleicao_2 >= d.patrimonio_eleicao_1){return this.y(d.patrimonio_eleicao_1) - this.y(d.patrimonio_eleicao_2)} else {return this.y(d.patrimonio_eleicao_2) - this.y(d.patrimonio_eleicao_1)}})
+        //.attr("fill", (d: any) => this.z(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1))
         .attr("opacity", 0.5);
   
       g.selectAll("circle")
@@ -191,7 +196,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   }
 
   private plotDiferencaPatrimonio() {
-    this.y.domain([-this.maiorDiferencaPositiva, this.maiorDiferencaPositiva]).nice();
+    this.y.domain([-this.maiorDiferencaModulo, this.maiorDiferencaModulo]).nice();
     
     this.line
     .transition()
