@@ -63,6 +63,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       this.maiorDiferencaPositiva = d3.max(this.data, (d: any) => d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1);
       this.maiorDiferencaNegativa = d3.max(this.data, (d: any) => d.patrimonio_eleicao_1 - d.patrimonio_eleicao_2);
       
+      
       console.log(this.data);
       this.initD3Patrimonio();  
     }
@@ -190,8 +191,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   }
 
   private plotDiferencaPatrimonio() {
-    this.y.domain([-this.maiorDiferencaNegativa, this.maiorDiferencaPositiva]).nice();
-
+    this.y.domain([-this.maiorDiferencaPositiva, this.maiorDiferencaPositiva]).nice();
+    
     this.line
     .transition()
     .duration(2000)
