@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import {Observable} from 'rxjs/Observable';
 import { UtilsService } from './utils.service';
-import { resolve } from 'dns';
-import { reject } from 'q';
+  
 
 interface Patrimonio {
   patrimonio_eleicao_1: Number;
