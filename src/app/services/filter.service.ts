@@ -13,8 +13,8 @@ interface Patrimonio {
   ano_um: Number;
   resultado_1: String;
   resultado_2: String;
-  situacaoEleicao1: String;
-  situacaoEleicao2: String;
+  situacao_eleicao_1: String;
+  situacao_eleicao_2: String;
 }
 
 const TODOS_CONSULTA = "todos";
@@ -84,7 +84,7 @@ export class FilterService {
     return data.map(v => <Patrimonio>{patrimonio_eleicao_1: v.patrimonio_eleicao_1, patrimonio_eleicao_2: v.patrimonio_eleicao_2, 
       nome_urna: v.nome_urna, unidade_eleitoral: v.unidade_eleitoral, cargo_pleiteado_1: v.cargo_pleiteado_1, 
       cargo_pleiteado_2: v.cargo_pleiteado_2, ano_um: v.ano_um, resultado_1: v.resultado_1, resultado_2: v.resultado_2, 
-      situacaoEleicao1: v.situacaoEleicao1, situacaoEleicao2: v.situacaoEleicao2});
+      situacao_eleicao_1: v.situacao_eleicao_1, situacao_eleicao_2: v.situacao_eleicao_2});
   }
 
   public getTodos (){

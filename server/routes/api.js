@@ -66,7 +66,7 @@ router.get('/patrimonio/municipios/:estado', async (req, res) => {
  * GET retorna lista de situações
  */
 router.get('/patrimonio/busca/situacao', async(req, res) => {
-  var query = "SELECT DISTINCT(situacaoEleicao1) FROM patrimonio_candidatos";
+  var query = "SELECT DISTINCT(situacao_eleicao_1) FROM patrimonio_candidatos";
   execSQLQuery(query, [], res);
 })
 
