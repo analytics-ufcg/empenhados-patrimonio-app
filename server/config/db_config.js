@@ -5,7 +5,7 @@ var pool = mysql.createPool({
     user     : 'empenhados',
     port     : '3306',
     password : 'm15t3r10z05',
-    database : 'utils',
+    database : 'eleicoes',
     charset: 'latin1'
 })
 

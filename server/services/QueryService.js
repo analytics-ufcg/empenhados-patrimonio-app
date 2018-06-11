@@ -20,7 +20,7 @@ export class QueryService {
         let filtros = '';
 
         let request = Object.values(req.params);
-        let columns = ['estado', 'ano_um', 'cargo_pleiteado_1', 'situacaoEleicao1', 'unidade_eleitoral'];
+        let columns = ['estado', 'ano_um', 'cargo_pleiteado_1', 'situacao_eleicao_1', 'unidade_eleitoral'];
 
         request.forEach(function (item, indice, array) {
             
