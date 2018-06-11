@@ -8,9 +8,8 @@ import { FilterService } from '../services/filter.service';
   styleUrls: ['./resumo-candidato.component.css']
 })
 export class ResumoCandidatoComponent implements OnInit {
-  private data : any;
   private candidato : any;
-  private candidatoSelecionado = false; 
+  private isCandidatoSelecionado = false; 
 
   constructor(private filterService: FilterService) { }
 
@@ -18,11 +17,9 @@ export class ResumoCandidatoComponent implements OnInit {
   }
 
   texto(){
-    this.filterService.dadosPatrimonio.subscribe(data => this.data = data)
-    this.candidato = this.data[0];
-    this.candidatoSelecionado = true;
+   this.filterService.candidatoSelecionado.subscribe(data =>  this.candidato = data);
+    this.isCandidatoSelecionado = true;
     console.log("Resumo atualizado");
-
   }
 
 }

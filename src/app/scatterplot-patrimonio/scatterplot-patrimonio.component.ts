@@ -49,7 +49,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.svg = d3.select('svg');
   }
 
-  async emiteSelecaoCandidato(){
+  async emiteSelecaoCandidato(d: any){
+    await this.filterService.atualizaCandidato(d);
     this.selecaoCandidato.next();
   }
 
@@ -187,20 +188,20 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         .attr("r", 6)
         .append("title").html((d: any) => d.nome_urna + ", " + d.unidade_eleitoral + 
                 "<br>Em " + this.ano.valueOf() + ": " + d.patrimonio_eleicao_1 +
-                "<br>Em " + (this.ano.valueOf() + 4) + ": " + d.patrimonio_eleicao_2)
-        .on("click", this.emiteSelecaoCandidato());
+                "<br>Em " + (this.ano.valueOf() + 4) + ": " + d.patrimonio_eleicao_2);
 
+      g.selectAll("circle")
+      .on("click", this.onClick());
 
-
-
-      
       this.g = g;
        
     return this.svg.node();
   }
 
-  private exibeResumoCandidato(){
-    console.log("Click");
+  private onClick(): (d, i) => void {
+    return (d, i) => {
+      this.emiteSelecaoCandidato(d);
+    }
   }
 
   private plotDiferencaPatrimonio() {

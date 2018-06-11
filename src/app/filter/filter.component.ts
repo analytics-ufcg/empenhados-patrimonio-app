@@ -75,7 +75,7 @@ export class FilterComponent implements OnInit {
   }
   
   /* Altera a lista de municipios a partir de um estado selecionado */
-  onChangeEstado(novoEstado) {
+  async onChangeEstado(novoEstado) {
     this.estadoSelecionado = novoEstado;
     this.filterService.mudaEstado(novoEstado);
 
