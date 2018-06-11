@@ -30,13 +30,15 @@ import {
 import { AppComponent } from './app.component';
 import { FilterComponent } from './filter/filter.component';
 import { ScatterplotPatrimonioComponent } from './scatterplot-patrimonio/scatterplot-patrimonio.component';
+import { ResumoCandidatoComponent } from './resumo-candidato/resumo-candidato.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     FilterComponent,
-    ScatterplotPatrimonioComponent
+    ScatterplotPatrimonioComponent,
+    ResumoCandidatoComponent
   ],
   imports: [
     BrowserAnimationsModule,
