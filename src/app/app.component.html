@@ -8,5 +8,6 @@
 
 <div class = "main-container">
   <app-filter (visualizaClique)="onRecebeEventoFiltro($event)"></app-filter>
-  <app-scatterplot-patrimonio></app-scatterplot-patrimonio>
+  <app-scatterplot-patrimonio (selecaoCandidato)="onRecebeCliquePlot($event)"></app-scatterplot-patrimonio> 
+  <app-resumo-candidato></app-resumo-candidato>
 </div>

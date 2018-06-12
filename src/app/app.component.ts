@@ -1,5 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { ScatterplotPatrimonioComponent }  from './scatterplot-patrimonio/scatterplot-patrimonio.component';
+import { ResumoCandidatoComponent }  from './resumo-candidato/resumo-candidato.component';
+
 
 @Component({
   selector: 'app-root',
@@ -8,11 +10,16 @@ import { ScatterplotPatrimonioComponent }  from './scatterplot-patrimonio/scatte
 })
 export class AppComponent {
   @ViewChild(ScatterplotPatrimonioComponent) private scatterplotPatrimonio: ScatterplotPatrimonioComponent;
+  @ViewChild(ResumoCandidatoComponent) private resumoCandidato: ResumoCandidatoComponent;
   
   title = 'Patrimônios app'; 
 
   onRecebeEventoFiltro($event) {
     this.scatterplotPatrimonio.plotPatrimonio();
+  }
+
+  onRecebeCliquePlot($event) {
+    this.resumoCandidato.texto();
   }
 }
 

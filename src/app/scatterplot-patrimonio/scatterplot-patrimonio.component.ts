@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import * as d3 from 'd3';
 import { UtilsService } from '../services/utils.service';
 import { FilterService } from '../services/filter.service';
 import { AlertService } from '../services/alert.service';
-
+import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'app-scatterplot-patrimonio',
@@ -11,6 +11,8 @@ import { AlertService } from '../services/alert.service';
   styleUrls: ['./scatterplot-patrimonio.component.css']
 })
 export class ScatterplotPatrimonioComponent implements OnInit {
+
+  @Output() selecaoCandidato = new EventEmitter<any>();
 
   private height: any;
   private width: any;
@@ -48,6 +50,11 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.svg = d3.select('svg');
   }
 
+  async emiteSelecaoCandidato(d: any){
+    await this.filterService.atualizaCandidato(d);
+    this.selecaoCandidato.next();
+  }
+
   plotPatrimonio(){    
 
     this.estadoAtual = this.filterService.getEstado();    
@@ -65,7 +72,6 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       this.maiorDiferencaNegativa = d3.max(this.data, (d: any) => d.patrimonio_eleicao_1 - d.patrimonio_eleicao_2);
       this.maiorDiferencaModulo =  Math.max(this.maiorDiferencaPositiva, Math.abs(this.maiorDiferencaNegativa));
       
-      console.log(this.data);
       this.initD3Patrimonio();  
     }
   }
@@ -184,12 +190,21 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         .attr("opacity", 0.7)
         .attr("r", 6)
         .append("title").html((d: any) => d.nome_urna + ", " + d.unidade_eleitoral + 
-        "<br>Em " + this.ano.valueOf() + ": " + d.patrimonio_eleicao_1 +
-        "<br>Em " + (this.ano.valueOf() + 4) + ": " + d.patrimonio_eleicao_2);
-      
+                "<br>Em " + this.ano.valueOf() + ": " + d.patrimonio_eleicao_1 +
+                "<br>Em " + (this.ano.valueOf() + 4) + ": " + d.patrimonio_eleicao_2);
+
+      g.selectAll("circle")
+      .on("click", this.onClick());
+
       this.g = g;
        
     return this.svg.node();
+  }
+
+  private onClick(): (d, i) => void {
+    return (d, i) => {
+      this.emiteSelecaoCandidato(d);
+    }
   }
 
   private plotDiferencaPatrimonio() {

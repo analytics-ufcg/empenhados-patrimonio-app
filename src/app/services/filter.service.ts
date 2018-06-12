@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import {Observable} from 'rxjs/Observable';
 import { UtilsService } from './utils.service';
+  
 
 interface Patrimonio {
   patrimonio_eleicao_1: Number;
@@ -16,6 +17,7 @@ interface Patrimonio {
   situacao_eleicao_1: String;
   situacao_eleicao_2: String;
 }
+
 
 const TODOS_CONSULTA = "todos";
 const TODOS_CARGOS = "qualquer cargo";
@@ -32,6 +34,9 @@ export class FilterService {
 
   private _dadosPatrimonio = new BehaviorSubject<Patrimonio[]>(undefined);
   public dadosPatrimonio = this._dadosPatrimonio.asObservable();
+
+  private _candidatoSelecionado = new BehaviorSubject<Patrimonio[]>(undefined);
+  public candidatoSelecionado = this._candidatoSelecionado.asObservable();
 
   constructor(private utilsService: UtilsService) { }
 
@@ -50,6 +55,15 @@ export class FilterService {
   mudaSituacao(novaSituacao: String){
     this.situacao = novaSituacao;
   }
+
+  async atualizaCandidato(candidato){
+    return new Promise ((resolve, reject) => {
+      this._candidatoSelecionado.next(candidato);
+      return resolve("Candidato Atualizado!");
+    }
+    );
+  }
+  
 
   async mudaDados(estado: String, ano: Number, cargo: String, situacao: String, municipio: String){
     let dadosBD;
