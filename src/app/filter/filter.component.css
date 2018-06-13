@@ -1,15 +1,22 @@
 .section-filter {    
     text-align: left;
+    border-radius: 3%;    
+}
+
+.filter-card {
+    border-radius: 3%;    
 }
 
 .filter {
     margin: auto;
     width: 15% !important;
+    color: #5E400B;
 }
 
 .text-filter {
     margin: 0.5%;
     font-weight:normal;
+    color: #5E400B;
 }
 
 .button {

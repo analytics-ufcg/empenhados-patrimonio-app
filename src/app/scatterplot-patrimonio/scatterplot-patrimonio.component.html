@@ -1,6 +1,8 @@
-<mat-slide-toggle [checked]="transitionToogle" (change)="executaTransicao($event)">Ver diferença</mat-slide-toggle>
-<div class = "section">
-  <svg width="900" height="600" class = "plot"></svg>
-</div>
-
-
+<mat-card class="scatterplot-card">
+  <div>
+    <mat-slide-toggle [checked]="transitionToogle" (change)="executaTransicao($event)">Ver diferença</mat-slide-toggle>
+    <div class = "section">
+      <svg height="600" class = "plot"></svg>
+    </div>
+  </div>
+</mat-card>

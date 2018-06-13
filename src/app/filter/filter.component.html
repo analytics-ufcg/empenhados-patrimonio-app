@@ -1,4 +1,5 @@
-<div class = "section-filter">
+<div class="section-filter">
+  <mat-card class = "filter-card">
     <strong class = "text-filter">Em</strong>
     <mat-form-field class = "filter">
         <mat-select placeholder="ano" [ngModel]="anoSelecionado" (ngModelChange)="onChangeAno($event)">
@@ -48,6 +49,6 @@
     <div *ngIf="anoSelecionado">
       <strong class = "text-filter">Em {{ anoSelecionado + 4 }} também declarou patrimônio.</strong>
     </div>
-    
+  </mat-card>
 </div>
 

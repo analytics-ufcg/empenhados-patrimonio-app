@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { ScatterplotPatrimonioComponent }  from './scatterplot-patrimonio/scatterplot-patrimonio.component';
 import { ResumoCandidatoComponent }  from './resumo-candidato/resumo-candidato.component';
+import { JoyplotEstadosComponent} from './joyplot-estados/joyplot-estados.component';
 
 
 @Component({

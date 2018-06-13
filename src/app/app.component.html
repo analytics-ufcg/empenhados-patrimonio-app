@@ -1,13 +1,20 @@
 <!--The content below is only a placeholder and can be replaced.-->
 
 <div>
-  <mat-toolbar color="primary">
+  <mat-toolbar>
     <span> {{ title }}</span>
+    <span class="fill-remaining-space-navbar"></span>
+    <a mat-button>Q que é?</a>
+    <a mat-button href="https://github.com/analytics-ufcg/empenhados-patrimonio" target="_blank">GitHub</a>
+    <a mat-button>Mais</a>
   </mat-toolbar>
 </div>
 
 <div class = "main-container">
   <app-filter (visualizaClique)="onRecebeEventoFiltro($event)"></app-filter>
-  <app-scatterplot-patrimonio (selecaoCandidato)="onRecebeCliquePlot($event)"></app-scatterplot-patrimonio> 
-  <app-resumo-candidato></app-resumo-candidato>
+  <div class="plots-div">
+    <app-scatterplot-patrimonio (selecaoCandidato)="onRecebeCliquePlot($event)"></app-scatterplot-patrimonio> 
+    <app-joyplot-estados></app-joyplot-estados>
+  </div>
+    <app-resumo-candidato></app-resumo-candidato>
 </div>

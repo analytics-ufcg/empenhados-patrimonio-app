@@ -1,11 +1,15 @@
-.section {
-    margin-left: 5%;
-    margin-right: 5%;
-    margin-top: 2%;    
-    width: 60%
+
+.scatterplot-card {
+    margin: none;
+    margin-top: 1%;
+    width: 60%;
+    border-radius: 1%;
+    display: inline-block;
 }
 
 .plot {
     display: block;
-    margin: auto;    
+    margin: auto;
+    width: 100%;
+    height: 100%;
 }
