@@ -192,7 +192,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         .attr("r", 6)
         .append("title").html((d: any) => d.nome_urna + ", " + d.unidade_eleitoral + 
                 "<br>Em " + this.ano.valueOf() + ": " + d.patrimonio_eleicao_1 +
-                "<br>Em " + (this.ano.valueOf() + 4) + ": " + d.patrimonio_eleicao_2);
+                "<br>Em " + (this.ano.valueOf() + 4) + ": " + d.patrimonio_eleicao_2)
+        ;
 
       g.selectAll("circle")
       .on("click", this.onClick());

@@ -1,6 +1,6 @@
 .section-filter {    
-    text-align: left;
-    border-radius: 3%;    
+    text-align: center  ;
+    border-radius: 3%;  
 }
 
 .filter-card {
@@ -23,6 +23,24 @@
     background-color: #EEEEEE;    
 }
 
-.auto-complete {
-    width: 100%;
+::ng-deep .mat-form-field-underline  {
+    background-color: #5E400B;
+}
+
+::ng-deep  .mat-select-placeholder  {
+    color: #5E400B;
+}
+::ng-deep .mat-select {
+    color: #5E400B;
+}
+.mat-option {
+    color: #5E400B;
+}
+
+.input {
+    color: #5E400B;
+}
+
+.mat-form-field {
+    color: #5E400B
 }
