@@ -35,7 +35,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   private estadoAtual: String;
   private ano: Number;
   private situacao: String;
-  private transitionToogle: boolean;
+  public transitionToogle: boolean;
 
   constructor(private utilsService: UtilsService,
               private filterService: FilterService,

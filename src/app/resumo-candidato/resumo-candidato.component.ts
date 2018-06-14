@@ -9,7 +9,7 @@ import { FilterService } from '../services/filter.service';
 })
 export class ResumoCandidatoComponent implements OnInit {
   private candidato : any;
-  private isCandidatoSelecionado = false; 
+  public isCandidatoSelecionado = false; 
 
   constructor(private filterService: FilterService) { }
 
