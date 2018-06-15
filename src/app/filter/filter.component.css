@@ -23,18 +23,20 @@
     background-color: #EEEEEE;    
 }
 
-::ng-deep .mat-form-field-underline  {
+.mat-form-field-underline  {
     background-color: #5E400B;
 }
 
-::ng-deep  .mat-select-placeholder  {
+.mat-select-value {
     color: #5E400B;
 }
-::ng-deep .mat-select {
+
+.mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
     color: #5E400B;
 }
+
 .mat-option {
-    color: #5E400B;
+    color: #5E400B;    
 }
 
 .input {
