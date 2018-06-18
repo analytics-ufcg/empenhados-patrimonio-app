@@ -24,7 +24,7 @@
 }
 
 .mat-form-field-underline  {
-    background-color: #5E400B;
+    background-color: #B68115;
 }
 
 .mat-select-value {
@@ -41,8 +41,4 @@
 
 .input {
     color: #5E400B;
-}
-
-.mat-form-field {
-    color: #5E400B
 }
