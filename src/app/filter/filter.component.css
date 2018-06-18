@@ -1,21 +1,44 @@
 .section-filter {    
-    text-align: left;
+    text-align: center  ;
+    border-radius: 3%;  
+}
+
+.filter-card {
+    border-radius: 3%;    
 }
 
 .filter {
     margin: auto;
     width: 15% !important;
+    color: #5E400B;
 }
 
 .text-filter {
     margin: 0.5%;
     font-weight:normal;
+    color: #5E400B;
 }
 
 .button {
     background-color: #EEEEEE;    
 }
 
-.auto-complete {
-    width: 100%;
+.mat-form-field-underline  {
+    background-color: #B68115;
+}
+
+.mat-select-value {
+    color: #5E400B;
+}
+
+.mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+    color: #5E400B;
+}
+
+.mat-option {
+    color: #5E400B;    
+}
+
+.input {
+    color: #5E400B;
 }

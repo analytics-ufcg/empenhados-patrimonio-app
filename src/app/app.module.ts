@@ -31,6 +31,7 @@ import { AppComponent } from './app.component';
 import { FilterComponent } from './filter/filter.component';
 import { ScatterplotPatrimonioComponent } from './scatterplot-patrimonio/scatterplot-patrimonio.component';
 import { ResumoCandidatoComponent } from './resumo-candidato/resumo-candidato.component';
+import { JoyplotEstadosComponent } from './joyplot-estados/joyplot-estados.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { ResumoCandidatoComponent } from './resumo-candidato/resumo-candidato.co
     AppComponent,
     FilterComponent,
     ScatterplotPatrimonioComponent,
-    ResumoCandidatoComponent
+    ResumoCandidatoComponent,
+    JoyplotEstadosComponent
   ],
   imports: [
     BrowserAnimationsModule,

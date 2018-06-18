@@ -5,6 +5,8 @@ import {Observable} from 'rxjs/Observable';
 import {startWith} from 'rxjs/operators/startWith';
 import {map} from 'rxjs/operators/map';
 import { FilterService } from '../services/filter.service';
+import { ViewEncapsulation } from '@angular/core';
+
 
 const ELEICOES_FEDERAIS = 1;
 const ELEICOES_MUNICIPAIS = 2;
@@ -12,7 +14,8 @@ const ELEICOES_MUNICIPAIS = 2;
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
-  styleUrls: ['./filter.component.css']
+  styleUrls: ['./filter.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class FilterComponent implements OnInit {
 
@@ -75,7 +78,7 @@ export class FilterComponent implements OnInit {
   }
   
   /* Altera a lista de municipios a partir de um estado selecionado */
-  async onChangeEstado(novoEstado) {
+  onChangeEstado(novoEstado) {
     this.estadoSelecionado = novoEstado;
     this.filterService.mudaEstado(novoEstado);
 
@@ -190,7 +193,7 @@ export class FilterComponent implements OnInit {
   private atualizaFiltroMunicipio() {
 
     if (this.estadoSelecionado === this.todosEstados){
-      this.isVereador = false;
+      this.isVereador = false; 
       this.municipioSelecionado = '';
     } else if (this.cargoSelecionado === 'VEREADOR'){
       this.isVereador = true;

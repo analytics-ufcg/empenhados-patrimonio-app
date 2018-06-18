@@ -1,14 +1,15 @@
-<div class = "section-filter">
+<div class="section-filter">
+  <mat-card class = "filter-card">
     <strong class = "text-filter">Em</strong>
-    <mat-form-field class = "filter">
+    <mat-form-field class = "filter" floatLabel="never" color="accent">
         <mat-select placeholder="ano" [ngModel]="anoSelecionado" (ngModelChange)="onChangeAno($event)">
           <mat-option *ngFor="let ano of listaAnos" [value]="ano.ano">
             {{ ano.ano }}
           </mat-option>
-        </mat-select>
+        </mat-select> 
       </mat-form-field>    
 
-    <mat-form-field class = "filter">
+    <mat-form-field class = "filter" floatLabel="never" color="accent">
         <mat-select placeholder="Situação" [ngModel]="situacaoSelecionada" (ngModelChange)="onChangeSituacao($event)">
           <mat-option *ngFor="let situacao of listaSituacoes" [value]="situacao.situacao_eleicao_1">
             {{ situacao.situacao_eleicao_1 }}
@@ -17,7 +18,7 @@
     </mat-form-field>
 
     <strong class = "text-filter">para</strong>
-    <mat-form-field class = "filter">
+    <mat-form-field class = "filter" floatLabel="never" color="accent">
         <mat-select placeholder="cargo" [ngModel]="cargoSelecionado" (ngModelChange)="onChangeCargo($event)">
           <mat-option *ngFor="let cargo of listaCargos" [value]="cargo.cargo_pleiteado_2">
             {{ cargo.cargo_pleiteado_2 }}
@@ -26,7 +27,7 @@
     </mat-form-field>
 
     <strong class = "text-filter" *ngIf="!isPresidente">em</strong>
-    <mat-form-field class = "filter" *ngIf="!isPresidente">
+    <mat-form-field class = "filter" *ngIf="!isPresidente" floatLabel="never" color="accent">
         <mat-select placeholder="estado" [ngModel]="estadoSelecionado" (ngModelChange)="onChangeEstado($event)">
           <mat-option *ngFor="let estado of listaEstados" [value]="estado.estado">
             {{ estado.estado }}
@@ -34,7 +35,7 @@
         </mat-select>
       </mat-form-field>
 
-    <mat-form-field *ngIf="isVereador">
+    <mat-form-field class = "filter" *ngIf="isVereador" floatLabel="never" color="accent">
       <input type="text" placeholder="município" aria-label="Number" [ngModel]="municipioSelecionado" (ngModelChange)="onChangeMunicipio($event)" matInput [formControl]="controlMunicipio" [matAutocomplete]="auto">
       <mat-autocomplete class = "auto-complete" #auto="matAutocomplete">
         <mat-option *ngFor="let municipio of filteredOptions | async" [value]="municipio">
@@ -48,6 +49,6 @@
     <div *ngIf="anoSelecionado">
       <strong class = "text-filter">Em {{ anoSelecionado + 4 }} também declarou patrimônio.</strong>
     </div>
-    
+  </mat-card>
 </div>
 
