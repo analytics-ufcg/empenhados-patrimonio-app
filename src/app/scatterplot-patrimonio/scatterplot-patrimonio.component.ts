@@ -25,8 +25,6 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   private svg: any;
   private line: any;
   private g: any;
-
-  private bounds: any;
     
   private data: any;
   private maiorPatrimonioEleicao1: any;

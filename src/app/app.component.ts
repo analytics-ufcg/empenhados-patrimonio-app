@@ -12,11 +12,14 @@ import { JoyplotEstadosComponent} from './joyplot-estados/joyplot-estados.compon
 export class AppComponent {
   @ViewChild(ScatterplotPatrimonioComponent) private scatterplotPatrimonio: ScatterplotPatrimonioComponent;
   @ViewChild(ResumoCandidatoComponent) private resumoCandidato: ResumoCandidatoComponent;
+  @ViewChild(JoyplotEstadosComponent) private joyplotEstados: JoyplotEstadosComponent;
   
   title = 'Patrimônios app'; 
 
   onRecebeEventoFiltro($event) {
     this.scatterplotPatrimonio.plotPatrimonio();
+    this.joyplotEstados.plotJoyplot();
+
   }
 
   onRecebeCliquePlot($event) {

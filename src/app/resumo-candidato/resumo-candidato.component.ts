@@ -20,6 +20,7 @@ export class ResumoCandidatoComponent implements OnInit {
    this.filterService.candidatoSelecionado.subscribe(data =>  this.candidato = data);
     this.isCandidatoSelecionado = true;
     console.log("Resumo atualizado");
+    console.log(this.candidato);
   }
 
   numberToReal(numero) {
