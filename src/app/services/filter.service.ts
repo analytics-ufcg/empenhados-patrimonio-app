@@ -8,6 +8,7 @@ interface Patrimonio {
   patrimonio_eleicao_1: Number;
   patrimonio_eleicao_2: Number;
   nome_urna: String;
+  sigla_partido: String;
   unidade_eleitoral: String;
   cargo_pleiteado_1: String;
   cargo_pleiteado_2: String;
@@ -96,7 +97,7 @@ export class FilterService {
 
   private parseData(data: any[]): Patrimonio[] {
     return data.map(v => <Patrimonio>{patrimonio_eleicao_1: v.patrimonio_eleicao_1, patrimonio_eleicao_2: v.patrimonio_eleicao_2, 
-      nome_urna: v.nome_urna, unidade_eleitoral: v.unidade_eleitoral, cargo_pleiteado_1: v.cargo_pleiteado_1, 
+      nome_urna: v.nome_urna, sigla_partido: v.sigla_partido, unidade_eleitoral: v.unidade_eleitoral, cargo_pleiteado_1: v.cargo_pleiteado_1, 
       cargo_pleiteado_2: v.cargo_pleiteado_2, ano_um: v.ano_um, resultado_1: v.resultado_1, resultado_2: v.resultado_2, 
       situacao_eleicao_1: v.situacao_eleicao_1, situacao_eleicao_2: v.situacao_eleicao_2});
   }
