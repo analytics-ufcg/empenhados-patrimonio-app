@@ -70,6 +70,23 @@ router.get('/patrimonio/busca/situacao', async(req, res) => {
   execSQLQuery(query, [], res);
 })
 
+/*
+* GET retorna a lista de ganho relativo por candidato por estado
+*/
+router.get('/patrimonio/estados', async(req, res) => {
+  var query = "SELECT estado, ganho_relativo FROM patrimonio_candidatos"
+  execSQLQuery(query, [], res);
+}) 
+
+
+/*
+* GET retorna a lista de ganho relativo por candidato por estado filtrando por ano
+*/
+router.get('/patrimonio/estados/:ano', async(req, res) => {
+  let parameters = [req.params.ano]
+  var query = "SELECT estado, ganho_relativo FROM patrimonio_candidatos WHERE ano_um = ?"
+  execSQLQuery(query, parameters, res);
+}) 
 
 function execSQLQuery(sqlQuery, parameters, res){
 
@@ -89,5 +106,6 @@ function execSQLQuery(sqlQuery, parameters, res){
   });
 
 }
+
 
 module.exports = router;

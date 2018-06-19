@@ -1,5 +1,18 @@
+<!-- <head>
+  <script src="https://vega.github.io/vega/vega.min.js"></script>
+</head>
+
 <mat-card class="joyplot-card">
-  <div class = "joyplot-section" id="joyplot">
-      <svg height="600" class = "plot"></svg>
-    </div>
-</mat-card>
+  <div class="joyplot-section" id="joyplot">
+    <svg height="600" class="plot"></svg>
+  </div>
+
+  <div *ngFor="let chart of charts" class="chart-container">
+    <app-vega-viz id="{{chart.name}}" [pathToData]="chart.path" (outgoingData)="handleMainChart($event)">
+    </app-vega-viz>
+  </div>
+</mat-card> -->
+
+<div>
+  <div id={{id}}></div>
+</div>

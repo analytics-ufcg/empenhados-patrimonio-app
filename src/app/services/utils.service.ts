@@ -4,13 +4,13 @@ import { GlobalService } from './global.service';
 
 @Injectable()
 export class UtilsService {
-  
-  private headers : HttpHeaders;
-  private serverHost : String;
 
-  constructor(private http: HttpClient,    
-              private globalService: GlobalService) { 
-    
+  private headers: HttpHeaders;
+  private serverHost: String;
+
+  constructor(private http: HttpClient,
+    private globalService: GlobalService) {
+
     this.headers = new HttpHeaders().set('Content-Type', 'application/json');
     this.serverHost = globalService.getServerHost();
   }
@@ -33,7 +33,7 @@ export class UtilsService {
     });
   }
 
-  public recuperaPatrimonios(estado, ano, cargo, situacao, municipio){
+  public recuperaPatrimonios(estado, ano, cargo, situacao, municipio) {
 
     if (municipio === undefined || municipio === '') {
       return this.http.get(this.serverHost + '/patrimonio/' + estado + "/" + ano + "/" + cargo + "/" + situacao, {
@@ -43,13 +43,25 @@ export class UtilsService {
       return this.http.get(this.serverHost + '/patrimonio/' + estado + "/" + ano + "/" + cargo + "/" + situacao + "/" + municipio, {
         headers: this.headers
       });
-    }    
+    }
   }
 
-  public recuperaSituacoes(){
+  public recuperaSituacoes() {
     return this.http.get(this.serverHost + '/patrimonio/busca/situacao', {
       headers: this.headers
     });
+  }
+
+  public recuperaGanhoRelativo(ano) {
+    if (ano === undefined || ano === '') {
+      return this.http.get(this.serverHost + '/patrimonio/estados', {
+        headers: this.headers
+      });
+    } else {
+      return this.http.get(this.serverHost + '/patrimonio/estados/' + ano, {
+        headers: this.headers
+      });
+    }
   }
 
 }
