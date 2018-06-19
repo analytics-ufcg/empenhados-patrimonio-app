@@ -3,11 +3,11 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import {Observable} from 'rxjs/Observable';
 import { UtilsService } from './utils.service';
   
-
 interface Patrimonio {
   patrimonio_eleicao_1: Number;
   patrimonio_eleicao_2: Number;
   nome_urna: String;
+  cpf: String;
   sigla_partido: String;
   unidade_eleitoral: String;
   cargo_pleiteado_1: String;
@@ -17,8 +17,15 @@ interface Patrimonio {
   resultado_2: String;
   situacao_eleicao_1: String;
   situacao_eleicao_2: String;
-}
+};
 
+interface Candidato {  
+  cpf_Candidato: String;
+  nome_Urna_Candidato: String;
+  desc_Ocupacao: String;
+  desc_Unid_Eleitoral: String;
+  idade_Cand_Data_Eleicao: Number;
+};
 
 const TODOS_CONSULTA = "todos";
 const TODOS_CARGOS = "qualquer cargo";
@@ -38,6 +45,9 @@ export class FilterService {
 
   private _candidatoSelecionado = new BehaviorSubject<Patrimonio[]>(undefined);
   public candidatoSelecionado = this._candidatoSelecionado.asObservable();
+
+  private _infoCandidatoSelecionado = new BehaviorSubject<Candidato[]>(undefined);
+  public infoCandidatoSelecionado = this._infoCandidatoSelecionado.asObservable();
 
   constructor(private utilsService: UtilsService) { }
 
@@ -63,8 +73,7 @@ export class FilterService {
       return resolve("Candidato Atualizado!");
     }
     );
-  }
-  
+  }  
 
   async mudaDados(estado: String, ano: Number, cargo: String, situacao: String, municipio: String){
     let dadosBD;
@@ -95,11 +104,33 @@ export class FilterService {
     );
   }
 
+  async mudaInfoCandidato(ano: Number, cpf: String){
+    let dadosCandidato;
+             
+    return new Promise((resolve, reject) =>
+      this.utilsService.recuperaInfoCandidato(ano, cpf).subscribe(
+        data => {          
+          dadosCandidato = data;
+          this._infoCandidatoSelecionado.next(this.parseDataCandidato(dadosCandidato));
+          return resolve("Dados alterados");
+        }, err => {
+          console.log(err);
+          return reject(err);
+        }
+      )
+    );
+  }
+
   private parseData(data: any[]): Patrimonio[] {
     return data.map(v => <Patrimonio>{patrimonio_eleicao_1: v.patrimonio_eleicao_1, patrimonio_eleicao_2: v.patrimonio_eleicao_2, 
-      nome_urna: v.nome_urna, sigla_partido: v.sigla_partido, unidade_eleitoral: v.unidade_eleitoral, cargo_pleiteado_1: v.cargo_pleiteado_1, 
+      nome_urna: v.nome_urna, cpf: v.cpf, sigla_partido: v.sigla_partido, unidade_eleitoral: v.unidade_eleitoral, cargo_pleiteado_1: v.cargo_pleiteado_1, 
       cargo_pleiteado_2: v.cargo_pleiteado_2, ano_um: v.ano_um, resultado_1: v.resultado_1, resultado_2: v.resultado_2, 
       situacao_eleicao_1: v.situacao_eleicao_1, situacao_eleicao_2: v.situacao_eleicao_2});
+  }
+
+  private parseDataCandidato(data: any[]): Candidato[] {
+    return data.map(v => <Candidato>{cpf_Candidato: v.cpf_Candidato, nome_Urna_Candidato: v.nome_Urna_Candidato, 
+      desc_Ocupacao: v.desc_Ocupacao, desc_Unid_Eleitoral: v.desc_Unid_Eleitoral, idade_Cand_Data_Eleicao: v.idade_Cand_Data_Eleicao});
   }
 
   public getTodos (){

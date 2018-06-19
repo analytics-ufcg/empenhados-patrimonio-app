@@ -1,5 +1,5 @@
 <mat-card *ngIf="isCandidatoSelecionado" class="card-resumo">
   <p>
-    {{ candidato.nome_urna}}    
+    {{ candidato.nome_urna}}, {{ infoCandidato.desc_Ocupacao | lowercase }} - {{ infoCandidato.idade_Cand_Data_Eleicao }}, foi candidato em {{ infoCandidato.desc_Unid_Eleitoral }}, cujo IDH é Q.
   </p>
 </mat-card>

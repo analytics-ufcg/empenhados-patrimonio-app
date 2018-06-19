@@ -52,4 +52,10 @@ export class UtilsService {
     });
   }
 
+  public recuperaInfoCandidato(ano, cpfCandidato){
+    return this.http.get(this.serverHost + '/candidato/' + ano + '/' + cpfCandidato, {
+      headers: this.headers
+    });
+  }
+
 }
