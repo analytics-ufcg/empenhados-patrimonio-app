@@ -27,6 +27,11 @@ interface Candidato {
   idade_Cand_Data_Eleicao: Number;
 };
 
+interface Eleicao {
+  quantidade_candidatos: Number;
+  media_patrimonio: Number;
+}
+
 const TODOS_CONSULTA = "todos";
 const TODOS_CARGOS = "qualquer cargo";
 const TODOS_ESTADOS = "qualquer estado";
@@ -49,6 +54,9 @@ export class FilterService {
   private _infoCandidatoSelecionado = new BehaviorSubject<Candidato[]>(undefined);
   public infoCandidatoSelecionado = this._infoCandidatoSelecionado.asObservable();
 
+  private _infoEleicao = new BehaviorSubject<Eleicao[]>(undefined);
+  public infoEleicao = this._infoEleicao.asObservable();
+  
   constructor(private utilsService: UtilsService) { }
 
   mudaEstado(novoEstado: string) {
@@ -117,8 +125,26 @@ export class FilterService {
           console.log(err);
           return reject(err);
         }
-      )
+      )      
     );
+  }
+
+  async mudaDadosEleicao(ano: Number, unidadeEleitoral: String, cargo: String) {
+    let dadosEleicao;
+
+    return new Promise((resolve, reject) =>
+    this.utilsService.recuperaInfoEleicao(ano, unidadeEleitoral, cargo).subscribe(
+      data => {          
+        dadosEleicao = data;        
+        this._infoEleicao.next(this.parseDataEleicao(dadosEleicao));
+        return resolve("Dados alterados");
+      }, err => {
+        console.log(err);
+        return reject(err);
+      }
+    )      
+  );
+
   }
 
   private parseData(data: any[]): Patrimonio[] {
@@ -131,6 +157,10 @@ export class FilterService {
   private parseDataCandidato(data: any[]): Candidato[] {
     return data.map(v => <Candidato>{cpf_Candidato: v.cpf_Candidato, nome_Urna_Candidato: v.nome_Urna_Candidato, 
       desc_Ocupacao: v.desc_Ocupacao, desc_Unid_Eleitoral: v.desc_Unid_Eleitoral, idade_Cand_Data_Eleicao: v.idade_Cand_Data_Eleicao});
+  }
+
+  private parseDataEleicao(data:any[]): Eleicao[] {
+    return data.map(v => <Eleicao>{quantidade_candidatos: v.quantidade_candidatos, media_patrimonio: v.media_patrimonio});
   }
 
   public getTodos (){

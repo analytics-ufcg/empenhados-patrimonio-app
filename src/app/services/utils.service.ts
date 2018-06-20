@@ -58,4 +58,10 @@ export class UtilsService {
     });
   }
 
+  public recuperaInfoEleicao(ano, unidadeEleitoral, cargo){
+    return this.http.get(this.serverHost + '/eleicao/' + ano + '/' + unidadeEleitoral + '/' + cargo, {
+      headers: this.headers
+    });
+  }
+
 }
