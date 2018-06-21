@@ -1,7 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { ScatterplotPatrimonioComponent }  from './scatterplot-patrimonio/scatterplot-patrimonio.component';
 import { ResumoCandidatoComponent }  from './resumo-candidato/resumo-candidato.component';
-import { JoyplotEstadosComponent} from './joyplot-estados/joyplot-estados.component';
+import { FactSheetComponent }  from './fact-sheet/fact-sheet.component';
+import { JoyplotEstadosComponent } from './joyplot-estados/joyplot-estados.component';
 
 
 @Component({
@@ -12,6 +13,7 @@ import { JoyplotEstadosComponent} from './joyplot-estados/joyplot-estados.compon
 export class AppComponent {
   @ViewChild(ScatterplotPatrimonioComponent) private scatterplotPatrimonio: ScatterplotPatrimonioComponent;
   @ViewChild(ResumoCandidatoComponent) private resumoCandidato: ResumoCandidatoComponent;
+  @ViewChild(FactSheetComponent) private factSheet: FactSheetComponent;
   
   title = 'Patrimônios app'; 
 
@@ -21,6 +23,7 @@ export class AppComponent {
 
   onRecebeCliquePlot($event) {
     this.resumoCandidato.texto();
+    this.factSheet.texto();
   }
 }
 

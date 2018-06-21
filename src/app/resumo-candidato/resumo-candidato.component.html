@@ -1,6 +1,7 @@
 <mat-card *ngIf="isCandidatoSelecionado" class="card-resumo">
-  <p class="card-resumo-texto">
-    {{ candidato.nome_urna }} foi {{candidato.situacao_eleicao_1 }} para {{ candidato.cargo_pleiteado_1 }} e tinha {{ numberToReal(candidato.patrimonio_eleicao_1) }} 
-    em {{ candidato.ano_um }} e em {{ candidato.ano_um + 4 }} tinha {{ numberToReal(candidato.patrimonio_eleicao_2) }}.
+  <p class="card-resumo-texto">    
+    Em {{ candidato.ano_um }}, {{ candidato.nome_urna }} se {{ formataSituacao(candidato.situacao_eleicao_1) }} a {{ candidato.cargo_pleiteado_1 | lowercase }} e tinha {{ numberToReal(candidato.patrimonio_eleicao_1) }};
+    em {{ candidato.ano_um + 4 }} se {{ formataSituacao(candidato.situacao_eleicao_2) }} a {{ candidato.cargo_pleiteado_2 | lowercase }} pelo {{ candidato.sigla_partido }} e declarou patrimônio de {{ numberToReal(candidato.patrimonio_eleicao_2) }}.
+    O patrimônio do canditado {{ situacaoCrescimento }}.
   </p>
 </mat-card>

@@ -1,0 +1,6 @@
+<mat-card *ngIf="isCandidatoSelecionado" class="card-resumo">
+  <p>
+    {{ candidato.nome_urna}}, {{ infoCandidato.desc_Ocupacao | lowercase }} - {{ infoCandidato.idade_Cand_Data_Eleicao }}, foi candidato em {{ infoCandidato.desc_Unid_Eleitoral }}.
+    Também houveram outros {{ dadosEleicao.quantidade_candidatos }} candidatos a {{ candidato.cargo_pleiteado_1 | lowercase }}, com uma média de patrimônio de {{ numberToReal(dadosEleicao.media_patrimonio) }}.
+  </p>
+</mat-card>

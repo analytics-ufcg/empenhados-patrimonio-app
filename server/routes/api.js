@@ -70,6 +70,19 @@ router.get('/patrimonio/busca/situacao', async(req, res) => {
   execSQLQuery(query, [], res);
 })
 
+router.get('/candidato/:ano/:cpfcandidato', async(req, res) => {
+  let parameters = [req.params.ano, req.params.cpfcandidato];
+  var query = "SELECT DISTINCT(cpf_Candidato), c.nome_Urna_Candidato, o.desc_Ocupacao, u.desc_Unid_Eleitoral, c.idade_Cand_Data_Eleicao FROM candidatos_eleicao c, cod_ocupacao o, cod_unidade_eleitoral u WHERE c.cod_Ocupacao = o.cod_Ocupacao AND c.sigla_Unid_Eleitoral = u.sigla_Unid_Eleitoral AND ano_Eleicao = ? AND c.cpf_Candidato = ?";
+
+  execSQLQuery(query, parameters, res);
+});
+
+router.get('/eleicao/:ano/:unidadeeleitoral/:cargo', async(req, res) => {
+  let parameters = [req.params.ano, req.params.unidadeeleitoral, req.params.cargo];
+  var query = "select COUNT(*) AS quantidade_candidatos, IFNULL(AVG(patrimonio_eleicao_2), 0) AS media_patrimonio from patrimonio_candidatos where ano_dois = ? AND unidade_eleitoral = ? AND cargo_pleiteado_2 = ?";
+
+  execSQLQuery(query, parameters, res);
+});
 
 function execSQLQuery(sqlQuery, parameters, res){
 

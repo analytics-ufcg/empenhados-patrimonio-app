@@ -42,8 +42,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   constructor(private utilsService: UtilsService,
               private filterService: FilterService,
               private alertService: AlertService) {
-    this.height = 580;
-    this.width = 800;
+
     this.margin = ({top: 20, right: 30, bottom: 20, left: 40});
     this.transitionToogle = false;
   }
@@ -52,16 +51,15 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.svg = d3.select('svg');
 
     this.width = parseInt(this.svg.style("width"))
-    this.height = this.width - this.margin.bottom;
+    this.height = (this.width * 0.7) - this.margin.bottom;
 
-    this.svg.attr("height", this.width);
+    this.svg.attr("height", this.width * 0.7);
     
-
     window.addEventListener('resize', () => {
       this.width = parseInt(this.svg.style("width"));
-      this.height = this.width - this.margin.bottom;
+      this.height = (this.width * 0.7) - this.margin.bottom;
 
-      this.svg.attr("height", this.width);
+      this.svg.attr("height", this.width * 0.7);
       if(this.data){
         this.plotPatrimonio()
       }

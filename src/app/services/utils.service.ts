@@ -52,4 +52,16 @@ export class UtilsService {
     });
   }
 
+  public recuperaInfoCandidato(ano, cpfCandidato){
+    return this.http.get(this.serverHost + '/candidato/' + ano + '/' + cpfCandidato, {
+      headers: this.headers
+    });
+  }
+
+  public recuperaInfoEleicao(ano, unidadeEleitoral, cargo){
+    return this.http.get(this.serverHost + '/eleicao/' + ano + '/' + unidadeEleitoral + '/' + cargo, {
+      headers: this.headers
+    });
+  }
+
 }
