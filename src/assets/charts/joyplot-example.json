@@ -3,7 +3,7 @@
     "width": 500,
     "height": 380,
     "padding": 5,
-    "autosize": "fit",
+    "autosize": "pad",
     "config": {
         "text": {
             "font": "Ideal Sans, Avenir Next, Helvetica"
@@ -26,11 +26,11 @@
         },
         {
             "name": "domainMax",
-            "value": 500
+            "value": 100
         },
         {
             "name": "bandwidth",
-            "value": 0.0005
+            "value": 0.5
         },
         {
             "name": "categories",
@@ -139,7 +139,7 @@
             "values": [
                 {
                     "name": "-100x",
-                    "align": "left",
+                    "align": "center",
                     "ganho_relativo": 0.01
                 },
                 {
@@ -181,7 +181,6 @@
             "type": "log",
             "range": "width",
             "zero": false,
-            "nice": true,
             "domain": {
                 "data": "source",
                 "field": "ganho_relativo"
@@ -192,7 +191,6 @@
             "type": "band",
             "range": "height",
             "round": true,
-            "padding": 0,
             "domain": {
                 "signal": "categories"
             }
@@ -259,13 +257,13 @@
             "encode": {
                 "update": {
                     "x": {
-                        "signal": "round(scale('xscale', datum.ganho_relativo)) + 0.5"
+                        "signal": "scale('xscale', datum.ganho_relativo) + 0.5"
                     },
                     "y": {
                         "value": 20
                     },
                     "x2": {
-                        "signal": "round(scale('xscale', datum.ganho_relativo)) + 0.5"
+                        "signal": "scale('xscale', datum.ganho_relativo) + 0.5"
                     },
                     "y2": {
                         "signal": "height",
@@ -326,19 +324,20 @@
                     "groupby": "estado",
                     "aggregate": {
                         "ops": [
-                            "min",
+                            "count",
                             "max",
-                            "count"
+                            "min"
+
                         ],
                         "fields": [
-                            "ganho_relativo",
+                            "ganho_relativo", 
                             "ganho_relativo",
                             "ganho_relativo"
                         ],
                         "as": [
-                            "min_ganho",
+                            "count",
                             "max_ganho",
-                            "count"
+                            "min_ganho"
                         ]
                     }
                 }
@@ -375,7 +374,6 @@
                     "transform": [
                         {
                             "type": "density",
-                            "steps": 200,
                             "extent": {
                                 "signal": "domain('xscale')"
                             },
@@ -399,7 +397,7 @@
                             "signal": "height"
                         },
                         {
-                            "signal": "0 - size * height"
+                            "signal": "-size * height"
                         }
                     ],
                     "domain": [
@@ -457,7 +455,7 @@
                         "update": {
                             "y": {
                                 "signal": "height",
-                                "offset": -0.5
+                                "offset": 0.5
                             },
                             "x": {
                                 "scale": "xscale",
@@ -490,11 +488,8 @@
                     },
                     "encode": {
                         "enter": {
-                            "fillOpacity": {
-                                "value": 0
-                            },
                             "size": {
-                                "value": 50
+                                "value": 10
                             },
                             "tooltip": {
                                 "field": "name"
