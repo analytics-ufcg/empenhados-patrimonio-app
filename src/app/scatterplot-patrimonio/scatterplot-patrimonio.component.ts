@@ -1,7 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import * as d3 from 'd3';
-import { UtilsService } from '../services/utils.service';
-import { FilterService } from '../services/filter.service';
+import { DataService } from '../services/data.service';
 import { AlertService } from '../services/alert.service';
 import {Observable} from 'rxjs/Observable';
 
@@ -39,8 +38,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   private situacao: String;
   public transitionToogle: boolean;
 
-  constructor(private utilsService: UtilsService,
-              private filterService: FilterService,
+  constructor(private dataService: DataService,
               private alertService: AlertService) {
 
     this.margin = ({top: 20, right: 30, bottom: 20, left: 40});
@@ -67,16 +65,16 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   }
 
   async emiteSelecaoCandidato(d: any){
-    await this.filterService.atualizaCandidato(d);
+    await this.dataService.atualizaCandidato(d);
     this.selecaoCandidato.next();
   }
 
   plotPatrimonio(){    
 
-    this.estadoAtual = this.filterService.getEstado();    
-    this.ano = this.filterService.getAno();    
+    this.estadoAtual = this.dataService.getEstado();    
+    this.ano = this.dataService.getAno();    
     
-    this.filterService.dadosPatrimonio.subscribe(data => this.data = data);    
+    this.dataService.dadosPatrimonio.subscribe(data => this.data = data);    
 
     if (typeof this.data !== 'undefined' && this.data.length === 0) {      
       console.log("Não temos dados para este filtro!");

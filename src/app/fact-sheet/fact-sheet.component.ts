@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FilterService } from '../services/filter.service';
-import { UtilsService } from '../services/utils.service';
+import { DataService } from '../services/data.service';
 
 
 @Component({
@@ -15,24 +14,23 @@ export class FactSheetComponent implements OnInit {
   private infoCandidato : any;
   private dadosEleicao : any;
 
-  constructor(private filterService: FilterService,
-              private utilsService: UtilsService) { }
+  constructor(private dataService: DataService) { }
 
   ngOnInit() {
   }
 
   async texto(){
-    await this.filterService.candidatoSelecionado.subscribe(
+    await this.dataService.candidatoSelecionado.subscribe(
       data => {
         this.candidato = data;        
       }, err => {
         console.log(err);
       }
     );     
-    await this.filterService.mudaInfoCandidato(this.candidato.ano_um+4, this.candidato.cpf);
-    await this.filterService.mudaDadosEleicao(this.candidato.ano_um+4, this.candidato.unidade_eleitoral, this.candidato.cargo_pleiteado_2);
+    await this.dataService.mudaInfoCandidato(this.candidato.ano_um+4, this.candidato.cpf);
+    await this.dataService.mudaDadosEleicao(this.candidato.ano_um+4, this.candidato.unidade_eleitoral, this.candidato.cargo_pleiteado_2);
 
-    this.filterService.infoCandidatoSelecionado.subscribe(
+    this.dataService.infoCandidatoSelecionado.subscribe(
       data => {
         this.infoCandidato = data[0];
         this.isCandidatoSelecionado = true;
@@ -41,7 +39,7 @@ export class FactSheetComponent implements OnInit {
       }
     );
 
-    this.filterService.infoEleicao.subscribe(
+    this.dataService.infoEleicao.subscribe(
       data => {
         this.dadosEleicao = data[0];        
       }, err => {

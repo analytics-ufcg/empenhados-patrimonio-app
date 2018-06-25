@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { GlobalService } from './global.service';
 
 @Injectable()
-export class UtilsService {
+export class RequestService {
   
   private headers : HttpHeaders;
   private serverHost : String;

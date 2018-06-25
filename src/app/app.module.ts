@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {HttpClientModule, HttpClient} from '@angular/common/http';
 import { GlobalService} from './services/global.service';
-import { UtilsService } from './services/utils.service';
-import { FilterService } from './services/filter.service';
+import { RequestService } from './services/request.service';
+import { DataService } from './services/data.service';
 import { AlertService } from './services/alert.service';
 
 import {
@@ -67,9 +67,9 @@ import { FactSheetComponent } from './fact-sheet/fact-sheet.component';
   ],
   providers: [
     HttpClientModule,
-    UtilsService,
+    RequestService,
     GlobalService,
-    FilterService,
+    DataService,
     AlertService
   ],
   bootstrap: [AppComponent]
