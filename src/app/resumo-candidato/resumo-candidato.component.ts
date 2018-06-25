@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FilterService } from '../services/filter.service';
+import { DataService } from '../services/data.service';
+import { UtilsService } from '../services/utils.service'
 
 
 @Component({
@@ -12,21 +13,20 @@ export class ResumoCandidatoComponent implements OnInit {
   public situacaoCrescimento: String;
   public isCandidatoSelecionado = false; 
 
-  constructor(private filterService: FilterService) { }
+  constructor(private dataService: DataService,
+              private utilsService: UtilsService) { }
 
   ngOnInit() {
   }
 
   texto(){
-   this.filterService.candidatoSelecionado.subscribe(data =>  this.candidato = data);
+   this.dataService.candidatoSelecionado.subscribe(data =>  this.candidato = data);
     this.isCandidatoSelecionado = true;
     this.determinaCrescimento(this.candidato.patrimonio_eleicao_1, this.candidato.patrimonio_eleicao_2);
   }
 
   numberToReal(numero) {
-    var numero = numero.toFixed(2).split('.');
-    numero[0] = "R$ " + numero[0].split(/(?=(?:...)*$)/).join('.');
-    return numero.join(',');
+    return this.utilsService.formataReais(numero);
   }
 
   formataSituacao(cargo) {
