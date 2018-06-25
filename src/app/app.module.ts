@@ -5,6 +5,7 @@ import {HttpClientModule, HttpClient} from '@angular/common/http';
 import { GlobalService} from './services/global.service';
 import { RequestService } from './services/request.service';
 import { DataService } from './services/data.service';
+import { UtilsService } from './services/utils.service';
 import { AlertService } from './services/alert.service';
 
 import {
@@ -70,6 +71,7 @@ import { FactSheetComponent } from './fact-sheet/fact-sheet.component';
     RequestService,
     GlobalService,
     DataService,
+    UtilsService,
     AlertService
   ],
   bootstrap: [AppComponent]

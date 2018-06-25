@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../services/data.service';
+import { UtilsService } from '../services/utils.service';
 
 
 @Component({
@@ -14,7 +15,8 @@ export class FactSheetComponent implements OnInit {
   private infoCandidato : any;
   private dadosEleicao : any;
 
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService,
+              private utilsService: UtilsService) { }
 
   ngOnInit() {
   }
@@ -49,8 +51,6 @@ export class FactSheetComponent implements OnInit {
   }
 
   numberToReal(numero) {
-    var numero = numero.toFixed(2).split('.');
-    numero[0] = "R$ " + numero[0].split(/(?=(?:...)*$)/).join('.');
-    return numero.join(',');
+    return this.utilsService.formataReais(numero);
   }
 }
