@@ -49,15 +49,15 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.svg = d3.select('svg');
 
     this.width = parseInt(this.svg.style("width"))
-    this.height = (this.width * 0.7) - this.margin.bottom;
+    this.height = (this.width * 0.6) - this.margin.bottom;
 
-    this.svg.attr("height", this.width * 0.7);
+    this.svg.attr("height", this.width * 0.6);
     
     window.addEventListener('resize', () => {
       this.width = parseInt(this.svg.style("width"));
-      this.height = (this.width * 0.7) - this.margin.bottom;
+      this.height = (this.width * 0.6) - this.margin.bottom;
 
-      this.svg.attr("height", this.width * 0.7);
+      this.svg.attr("height", this.width * 0.6);
       if(this.data){
         this.plotPatrimonio()
       }
