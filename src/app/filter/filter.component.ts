@@ -76,11 +76,42 @@ export class FilterComponent implements OnInit {
     await this.mudaDados();
     this.visualizaClique.next();
   }
+
+  // Verifica se o filtro está pronto, com dados suficientes para apresentar uma visualização
+  filtroPronto(){
+    if(this.anoSelecionado && this.situacaoSelecionada && this.cargoSelecionado){
+      if(this.cargoSelecionado == "PRESIDENTE"){
+        return true;
+      }else if(this.cargoSelecionado == "VEREADOR"){
+        if(this.estadoSelecionado){
+          if(!this.municipioSelecionado ||
+            this.listaMunicipios.includes(this.municipioSelecionado) ||
+            this.municipioSelecionado == ""){
+            return true;
+          }
+        }
+      }else{
+        if(this.estadoSelecionado){
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  // Se o filtro estiver pronto, exibe visualização de patrimônio
+  decideSobreVisualizacao(){
+    if(this.filtroPronto()){
+      this.emiteEventoVisualizacao();
+    }
+  }
   
   /* Altera a lista de municipios a partir de um estado selecionado */
   onChangeEstado(novoEstado) {
     this.estadoSelecionado = novoEstado;
     this.dataService.mudaEstado(novoEstado);
+
+    this.municipioSelecionado = "";
 
     this.atualizaFiltroMunicipio();
         
@@ -92,18 +123,26 @@ export class FilterComponent implements OnInit {
         console.log(err);
       }
     );
+
+    this.decideSobreVisualizacao();
   }
 
   // Atualiza cargo atual selecionado
   onChangeCargo(novoCargo) {
+    this.municipioSelecionado = undefined;
+
     this.cargoSelecionado = novoCargo;    
     this.dataService.mudaCargo(novoCargo);
     
     this.atualizaFiltroMunicipio();
+
+    this.decideSobreVisualizacao();
   }
 
   onChangeMunicipio(novoMunicipio) {
     this.municipioSelecionado = novoMunicipio;
+
+    this.decideSobreVisualizacao();
   }
 
   onChangeAno(novoAno) {
@@ -115,12 +154,23 @@ export class FilterComponent implements OnInit {
     } else {
       this.tipoEleicao = ELEICOES_MUNICIPAIS;
     }
+
     this.recuperaCargos();
+
+    if(this.listaCargos.filter((cargo) => cargo.cargo_pleiteado_2 == this.cargoSelecionado).length == 0){
+      this.cargoSelecionado = undefined;
+      this.dataService.mudaCargo(undefined);
+    }
+    
+    this.atualizaFiltroMunicipio();
+    this.decideSobreVisualizacao();
   }
 
   onChangeSituacao(novaSituacao) {
     this.situacaoSelecionada = novaSituacao;
     this.dataService.mudaSituacao(novaSituacao);
+
+    this.decideSobreVisualizacao();
   }
 
   // filtro para a pesquisa por muninicipio

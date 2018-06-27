@@ -13,7 +13,7 @@
     <mat-form-field class = "filter" floatLabel="never" color="accent">
         <mat-select placeholder="Situação" [ngModel]="situacaoSelecionada" (ngModelChange)="onChangeSituacao($event)">
           <mat-option *ngFor="let situacao of listaSituacoes" [value]="situacao.situacao_eleicao_1">
-            {{ situacao.situacao_eleicao_1 }}
+            {{ situacao.situacao_eleicao_1.toLowerCase() }}
           </mat-option>
         </mat-select>
     </mat-form-field>
@@ -22,7 +22,7 @@
     <mat-form-field class = "filter" floatLabel="never" color="accent">
         <mat-select placeholder="cargo" [ngModel]="cargoSelecionado" (ngModelChange)="onChangeCargo($event)">
           <mat-option *ngFor="let cargo of listaCargos" [value]="cargo.cargo_pleiteado_2">
-            {{ cargo.cargo_pleiteado_2 }}
+            {{ cargo.cargo_pleiteado_2.toLowerCase() }}
           </mat-option>
         </mat-select>
     </mat-form-field>
@@ -45,7 +45,7 @@
       </mat-autocomplete>
     </mat-form-field>
 
-    <button mat-button (click)="emiteEventoVisualizacao()" class = "button">Visualizar</button>
+    <!--<button mat-button (click)="emiteEventoVisualizacao()" class = "button">Visualizar</button>-->
   </div>
 
     <div *ngIf="anoSelecionado">
