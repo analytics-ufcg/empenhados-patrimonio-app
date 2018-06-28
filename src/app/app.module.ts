@@ -22,6 +22,7 @@ import {
   MatAutocompleteModule,
   MatInputModule,
   MatSnackBarModule,
+  MatListModule,
   MatSlideToggleModule
 } from '@angular/material';
 
@@ -65,6 +66,7 @@ import { FactSheetComponent } from './fact-sheet/fact-sheet.component';
     MatInputModule,
     MatSnackBarModule,
     MatSlideToggleModule,
+    MatListModule,
     HttpClientModule
   ],
   providers: [

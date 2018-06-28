@@ -2,3 +2,27 @@
     margin-top: 1%;
     border-radius: 3%;
 }
+
+mat-card-title {
+    color: #B68115;
+    font-size: 20px;
+}
+
+.resumo-item-header {
+    -webkit-margin-after: 0;
+    -webkit-margin-before: 15px;
+    font-weight: normal;
+}
+
+.resumo-text-value {
+    color: #B68115;
+    text-align: right;
+}
+
+.resumo-ganho-text {
+    padding-left: 16px;
+}
+
+.mat-list .mat-list-item .mat-line:nth-child(n+2), .mat-nav-list .mat-list-item .mat-line:nth-child(n+2), .mat-selection-list .mat-list-item .mat-line:nth-child(n+2) {
+    font-size: inherit;
+}

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../services/data.service';
 import { UtilsService } from '../services/utils.service'
 
-
 @Component({
   selector: 'app-resumo-candidato',
   templateUrl: './resumo-candidato.component.html',
@@ -11,7 +10,11 @@ import { UtilsService } from '../services/utils.service'
 export class ResumoCandidatoComponent implements OnInit {
   private candidato : any;
   public situacaoCrescimento: String;
-  public isCandidatoSelecionado = false; 
+  public isCandidatoSelecionado = false;
+  public razao : any;
+  public crescimentoPatrimonio = false;
+  public reducaoPatrimonio = false;
+  public patrimonioEstavel = false;
 
   constructor(private dataService: DataService,
               private utilsService: UtilsService) { }
@@ -42,11 +45,15 @@ export class ResumoCandidatoComponent implements OnInit {
   }
 
   determinaCrescimento(numero1, numero2) {
-    let razao = this.calculaRazao(numero1, numero2);
-    if (numero1 > numero2) {
-      this.situacaoCrescimento = "é "+ razao + " vezes menor";
-    } else if (numero1 < numero2) {
-      this.situacaoCrescimento = "é "+ razao + " vezes maior";
+     this.razao = this.calculaRazao(numero1, numero2);
+     this.patrimonioEstavel = numero1 == numero2;
+     this.crescimentoPatrimonio = numero1 < numero2;
+     this.reducaoPatrimonio = numero1 > numero2;
+
+    if (this.crescimentoPatrimonio) {
+      this.situacaoCrescimento = "é "+ this.razao + " vezes maior";
+    } else if (this.reducaoPatrimonio) {
+      this.situacaoCrescimento = "é "+ this.razao + " vezes menor";
     } else {
       this.situacaoCrescimento = "permaneceu o mesmo"
     }
