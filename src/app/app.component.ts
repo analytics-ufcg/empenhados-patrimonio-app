@@ -23,7 +23,7 @@ export class AppComponent {
 
   onRecebeCliquePlot($event) {
     this.resumoCandidato.texto();
-    this.factSheet.texto();
+    // this.factSheet.texto();
   }
 }
 
