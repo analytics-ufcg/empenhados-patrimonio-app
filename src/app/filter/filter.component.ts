@@ -133,7 +133,7 @@ export class FilterComponent implements OnInit {
 
     this.cargoSelecionado = novoCargo;    
     this.dataService.mudaCargo(novoCargo);
-    
+    //this.atualizaFiltroAno();
     this.atualizaFiltroMunicipio();
 
     this.decideSobreVisualizacao();
@@ -202,7 +202,7 @@ export class FilterComponent implements OnInit {
         data => {
           let todosCargos
           todosCargos = data;
-          this.listaCargos = todosCargos.filter(element => this.cargosEleicao(element.cargo_pleiteado_2));
+          this.listaCargos = todosCargos;
           this.listaCargos.push({'cargo_pleiteado_2': this.todosCargos});
           resolve();
         }, err => {
@@ -242,6 +242,10 @@ export class FilterComponent implements OnInit {
       result.push(data[i].unidade_eleitoral);
     }
     return result;
+  }
+
+  private atualizaFiltroAno() {
+    //this.listaAnos = this.dataService.mudaAnos(this.cargoSelecionado);
   }
 
   private atualizaFiltroMunicipio() {

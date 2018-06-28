@@ -1,24 +1,7 @@
 <div class="section-filter">
   <mat-card class = "filter-card">
     <div class="alt">
-    <strong class = "text-filter">Em</strong>
-    <mat-form-field class = "filter" floatLabel="never" color="accent">
-        <mat-select placeholder="ano" [ngModel]="anoSelecionado" (ngModelChange)="onChangeAno($event)">
-          <mat-option *ngFor="let ano of listaAnos" [value]="ano.ano">
-            {{ ano.ano }}
-          </mat-option>
-        </mat-select> 
-      </mat-form-field>    
-
-    <mat-form-field class = "filter" floatLabel="never" color="accent">
-        <mat-select placeholder="Situação" [ngModel]="situacaoSelecionada" (ngModelChange)="onChangeSituacao($event)">
-          <mat-option *ngFor="let situacao of listaSituacoes" [value]="situacao.situacao_eleicao_1">
-            {{ situacao.situacao_eleicao_1.toLowerCase() }}
-          </mat-option>
-        </mat-select>
-    </mat-form-field>
-
-    <strong class = "text-filter">para</strong>
+    <strong class = "text-filter">Candidatos a</strong>
     <mat-form-field class = "filter" floatLabel="never" color="accent">
         <mat-select placeholder="cargo" [ngModel]="cargoSelecionado" (ngModelChange)="onChangeCargo($event)">
           <mat-option *ngFor="let cargo of listaCargos" [value]="cargo.cargo_pleiteado_2">
@@ -26,6 +9,24 @@
           </mat-option>
         </mat-select>
     </mat-form-field>
+
+    <mat-form-field class = "filter" floatLabel="never" color="accent">
+        <mat-select placeholder="situação" [ngModel]="situacaoSelecionada" (ngModelChange)="onChangeSituacao($event)">
+          <mat-option *ngFor="let situacao of listaSituacoes" [value]="situacao.situacao_eleicao_1">
+            {{ situacao.situacao_eleicao_1.toLowerCase() }}
+          </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <strong class = "text-filter">em</strong>
+    <mat-form-field class = "filter" floatLabel="never" color="accent">
+        <mat-select placeholder="ano" [ngModel]="anoSelecionado" (ngModelChange)="onChangeAno($event)">
+          <mat-option *ngFor="let ano of listaAnos" [value]="ano.ano">
+            {{ ano.ano }}
+          </mat-option>
+        </mat-select> 
+      </mat-form-field> 
+
 
     <strong class = "text-filter" *ngIf="!isPresidente">em</strong>
     <mat-form-field class = "filter" *ngIf="!isPresidente" floatLabel="never" color="accent">
