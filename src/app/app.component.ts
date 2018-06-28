@@ -15,13 +15,17 @@ export class AppComponent {
   @ViewChild(ResumoCandidatoComponent) private resumoCandidato: ResumoCandidatoComponent;
   @ViewChild(FactSheetComponent) private factSheet: FactSheetComponent;
   
-  title = 'Patrimônios app'; 
+  novaVisualizacao : boolean;
+  title = 'Patrimônios app';
+
 
   onRecebeEventoFiltro($event) {
     this.scatterplotPatrimonio.plotPatrimonio();
+    this.novaVisualizacao = false;
   }
 
   onRecebeCliquePlot($event) {
+    this.novaVisualizacao = true;
     this.resumoCandidato.texto();
     // this.factSheet.texto();
   }

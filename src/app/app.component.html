@@ -19,8 +19,8 @@
           <app-scatterplot-patrimonio (selecaoCandidato)="onRecebeCliquePlot($event)"></app-scatterplot-patrimonio> 
         </div>
     </div>
-    <div fxFlex="30%">
-      <app-resumo-candidato></app-resumo-candidato>
+    <div fxFlex="30%">      
+      <app-resumo-candidato [hidden]="!novaVisualizacao"></app-resumo-candidato>      
       <!-- <app-fact-sheet></app-fact-sheet> -->
     </div>
   </div>
