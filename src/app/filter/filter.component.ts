@@ -91,7 +91,7 @@ export class FilterComponent implements OnInit {
           }
         }
       }else{
-        if(this.estadoSelecionado){
+        if(this.cargoSelecionado && this.estadoSelecionado){
           return true;
         }
       }
@@ -155,15 +155,15 @@ export class FilterComponent implements OnInit {
       this.tipoEleicao = ELEICOES_MUNICIPAIS;
     }
 
-    this.recuperaCargos();
+    this.recuperaCargos().then(() => {    
+      if(this.listaCargos.filter((cargo) => cargo.cargo_pleiteado_2 == this.cargoSelecionado).length == 0){
+        this.cargoSelecionado = undefined;
+        this.dataService.mudaCargo(undefined);
+      }
 
-    if(this.listaCargos.filter((cargo) => cargo.cargo_pleiteado_2 == this.cargoSelecionado).length == 0){
-      this.cargoSelecionado = undefined;
-      this.dataService.mudaCargo(undefined);
-    }
-    
-    this.atualizaFiltroMunicipio();
-    this.decideSobreVisualizacao();
+      this.atualizaFiltroMunicipio();
+      this.decideSobreVisualizacao();
+    });
   }
 
   onChangeSituacao(novaSituacao) {
@@ -196,17 +196,21 @@ export class FilterComponent implements OnInit {
   }
 
   // Recupera lista de cargos
-  private recuperaCargos() {    
-    this.requestService.recuperaCargos().subscribe(
-      data => {
-        let todosCargos
-        todosCargos = data;
-        this.listaCargos = todosCargos.filter(element => this.cargosEleicao(element.cargo_pleiteado_2));
-        this.listaCargos.push({'cargo_pleiteado_2': this.todosCargos});
-      }, err => {
-        console.log(err);
-      }
-    );
+  private recuperaCargos() {
+    return new Promise((resolve, reject) => {
+      this.requestService.recuperaCargos().subscribe(
+        data => {
+          let todosCargos
+          todosCargos = data;
+          this.listaCargos = todosCargos.filter(element => this.cargosEleicao(element.cargo_pleiteado_2));
+          this.listaCargos.push({'cargo_pleiteado_2': this.todosCargos});
+          resolve();
+        }, err => {
+          console.log(err);
+          reject();
+        }
+      );
+    });
   }
 
   private recuperaSituacoes(){

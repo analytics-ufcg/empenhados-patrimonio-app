@@ -19,11 +19,14 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   private x: any;
   private y: any;
   private z: any;
+  private circleRadius: any;
   private xAxis: any;
   private yAxis: any;
   private svg: any;
   private line: any;
   private g: any;
+
+  private clickedCircle: any;
 
   private bounds: any;
     
@@ -42,6 +45,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
               private alertService: AlertService) {
 
     this.margin = ({top: 20, right: 30, bottom: 20, left: 40});
+    this.circleRadius = 6;
     this.transitionToogle = false;
   }
 
@@ -194,6 +198,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         .style("stroke-width", 2)
         .attr("stroke", (d: any) => this.z(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1))
   
+      
+      
       g.selectAll("circle")
       .data(this.data)
       .enter().append("circle")
@@ -201,23 +207,51 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         .attr("cy", (d: any) => this.y(d.patrimonio_eleicao_2))
         .attr("fill", (d: any) => this.z(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1))
         .attr("opacity", 0.7)
-        .attr("r", 6)
+        .attr("r", this.circleRadius)
         .append("title").html((d: any) => d.nome_urna + ", " + d.unidade_eleitoral + 
                 "<br>Em " + this.ano.valueOf() + ": " + d.patrimonio_eleicao_1 +
-                "<br>Em " + (this.ano.valueOf() + 4) + ": " + d.patrimonio_eleicao_2)
-        ;
+                "<br>Em " + (this.ano.valueOf() + 4) + ": " + d.patrimonio_eleicao_2);
 
       g.selectAll("circle")
-      .on("click", this.onClick());
+      .on("click", this.onClick())
+      .on("mouseover", (d, i, n) => {this.highlightCircle(n[i])})
+      .on("mouseout", (d, i, n) => {this.standardizeCircle(d, n[i])});
 
       this.g = g;
        
     return this.svg.node();
   }
 
-  private onClick(): (d, i) => void {
-    return (d, i) => {
-      this.emiteSelecaoCandidato(d);
+  private highlightCircle(circle){
+    d3.select(circle)
+        .attr("r", this.circleRadius * 1.5)
+        .style("stroke", "#673AB7")
+        .style("stroke-width", 10)
+        .style("cursor", "pointer")
+  }
+
+  private standardizeCircle(d, circle){
+    if(!d.isclicked){
+      d3.select(circle)
+      .attr("r", this.circleRadius)
+      .style("stroke", "none");
+    }
+  }
+
+  private onClick(): (d, i, n) => void {
+    return (d, i, n) => {
+      if(this.clickedCircle && this.clickedCircle.d !== d){
+        this.clickedCircle.d.isclicked = false;
+        let previousCircle = this.clickedCircle.n[this.clickedCircle.i]
+        this.standardizeCircle(this.clickedCircle.d, previousCircle);
+      }
+      if(!d.isclicked){
+        d.isclicked = true;
+        this.clickedCircle = {'d': d, 'i': i, 'n': n};
+        this.highlightCircle(n[i]);
+      
+        this.emiteSelecaoCandidato(d);
+      }      
     }
   }
 
