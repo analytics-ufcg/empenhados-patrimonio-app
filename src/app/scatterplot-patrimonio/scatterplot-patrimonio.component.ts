@@ -250,8 +250,9 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
     this.svg.select("#y-axis")
     .transition()
-    .duration(1500)
-    .call(this.yAxis);
+    .duration(1500)    
+    .call(d3.axisLeft(this.y).ticks(this.height / 50).tickFormat(d3.format('.2s')))
+    .call(g => g.select(".domain").remove());    
 
   }
 
@@ -285,7 +286,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.svg.select("#y-axis")
     .transition()
     .duration(1500)
-    .call(this.yAxis);
+    .call(d3.axisLeft(this.y).ticks(this.height / 50).tickFormat(d3.format('.2s')))
+    .call(g => g.select(".domain").remove()); 
 
   }
 
