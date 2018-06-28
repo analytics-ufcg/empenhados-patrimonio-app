@@ -10,12 +10,15 @@
   </mat-toolbar>
 </div>
 
-<div class = "main-container">
+<div class="main-container">
   <app-filter (visualizaClique)="onRecebeEventoFiltro($event)"></app-filter>
   <div class="plots-div">
-    <app-scatterplot-patrimonio (selecaoCandidato)="onRecebeCliquePlot($event)"></app-scatterplot-patrimonio> 
-    <app-joyplot-estados></app-joyplot-estados>    
-  </div>
+    <app-scatterplot-patrimonio (selecaoCandidato)="onRecebeCliquePlot($event)"></app-scatterplot-patrimonio>
     <app-resumo-candidato></app-resumo-candidato>
     <app-fact-sheet></app-fact-sheet>
+  </div>
+  <div>
+    <app-joyplot-estados></app-joyplot-estados>
+  </div>
+
 </div>

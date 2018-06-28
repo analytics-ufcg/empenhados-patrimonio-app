@@ -1,7 +1,34 @@
 <mat-card *ngIf="isCandidatoSelecionado" class="card-resumo">
-  <p class="card-resumo-texto">    
-    Em {{ candidato.ano_um }}, {{ candidato.nome_urna }} se {{ formataSituacao(candidato.situacao_eleicao_1) }} a {{ candidato.cargo_pleiteado_1 | lowercase }} e tinha {{ numberToReal(candidato.patrimonio_eleicao_1) }};
-    em {{ candidato.ano_um + 4 }} se {{ formataSituacao(candidato.situacao_eleicao_2) }} a {{ candidato.cargo_pleiteado_2 | lowercase }} pelo {{ candidato.sigla_partido }} e declarou patrimônio de {{ numberToReal(candidato.patrimonio_eleicao_2) }}.
-    O patrimônio do canditado {{ situacaoCrescimento }}.
-  </p>
+  <mat-card-title>{{ candidato.nome_urna }} ({{candidato.sigla_partido}})</mat-card-title>
+  <mat-divider></mat-divider>
+
+  <mat-list>
+    <h3 class="resumo-item-header">Patrimônio</h3>
+    <mat-list-item>
+      <mat-icon mat-list-icon>attach_money</mat-icon>
+      <h4 mat-line>{{ candidato.ano_um }}:
+        <a class="resumo-text-value">{{ numberToReal(candidato.patrimonio_eleicao_1) }} </a>
+      </h4>
+    <br>
+      <h4 mat-line>{{ candidato.ano_um + 4 }}:
+          <a class="resumo-text-value">{{ numberToReal(candidato.patrimonio_eleicao_2) }}</a>
+        </h4>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    <h3 class="resumo-item-header">Ganho</h3>
+    <mat-list-item >
+      <mat-icon mat-list-icon *ngIf="crescimentoPatrimonio" >trending_up</mat-icon>
+      <mat-icon mat-list-icon *ngIf="reducaoPatrimonio" >trending_down</mat-icon>
+      <mat-icon mat-list-icon *ngIf="patrimonioEstavel" >trending_flat</mat-icon>
+      <p class="resumo-ganho-text">O patrimônio do canditado <a class="resumo-text-value">{{ situacaoCrescimento }} </a></p>
+    </mat-list-item>
+  </mat-list>
+
+  <!-- <p class="card-resumo-texto">
+    Em {{ candidato.ano_um }} se {{ formataSituacao(candidato.situacao_eleicao_1) }} a {{ candidato.cargo_pleiteado_1 | lowercase
+    }} e tinha
+    <b>{{ numberToReal(candidato.patrimonio_eleicao_1) }}</b>; em {{ candidato.ano_um + 4 }} se {{ formataSituacao(candidato.situacao_eleicao_2)
+    }} a {{ candidato.cargo_pleiteado_2 | lowercase }} pelo {{ candidato.sigla_partido }} e declarou patrimônio de
+    <b>{{ numberToReal(candidato.patrimonio_eleicao_2) }}</b>. O patrimônio do canditado {{ situacaoCrescimento }}.
+  </p> -->
 </mat-card>
