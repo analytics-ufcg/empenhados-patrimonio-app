@@ -52,7 +52,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   ngOnInit() {
     this.svg = d3.select('svg');
 
-    this.width = parseInt(this.svg.style("width"))
+    this.width = parseInt(this.svg.style("width")) - this.margin.right;
     this.height = (this.width * 0.6) - this.margin.bottom;
 
     this.svg.attr("height", this.width * 0.6);
