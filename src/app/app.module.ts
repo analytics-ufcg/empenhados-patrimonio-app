@@ -3,9 +3,11 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {HttpClientModule, HttpClient} from '@angular/common/http';
 import { GlobalService} from './services/global.service';
+import { RequestService } from './services/request.service';
+import { DataService } from './services/data.service';
 import { UtilsService } from './services/utils.service';
-import { FilterService } from './services/filter.service';
 import { AlertService } from './services/alert.service';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import {
   MatToolbarModule,
@@ -47,6 +49,7 @@ import { FactSheetComponent } from './fact-sheet/fact-sheet.component';
   ],
   imports: [
     BrowserAnimationsModule,
+    FlexLayoutModule,
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
@@ -68,9 +71,10 @@ import { FactSheetComponent } from './fact-sheet/fact-sheet.component';
   ],
   providers: [
     HttpClientModule,
-    UtilsService,
+    RequestService,
     GlobalService,
-    FilterService,
+    DataService,
+    UtilsService,
     AlertService
   ],
   bootstrap: [AppComponent]

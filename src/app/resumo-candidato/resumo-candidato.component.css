@@ -1,10 +1,6 @@
 .card-resumo {
     margin-top: 1%;
-    margin-left: 1%;
-    width: 30%;
     border-radius: 3%;
-    float: right; 
-    
 }
 
 mat-card-title {

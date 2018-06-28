@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FilterService } from '../services/filter.service';
+import { DataService } from '../services/data.service';
 import { UtilsService } from '../services/utils.service';
 
 
@@ -15,24 +15,24 @@ export class FactSheetComponent implements OnInit {
   private infoCandidato : any;
   private dadosEleicao : any;
 
-  constructor(private filterService: FilterService,
+  constructor(private dataService: DataService,
               private utilsService: UtilsService) { }
 
   ngOnInit() {
   }
 
   async texto(){
-    await this.filterService.candidatoSelecionado.subscribe(
+    await this.dataService.candidatoSelecionado.subscribe(
       data => {
         this.candidato = data;        
       }, err => {
         console.log(err);
       }
     );     
-    await this.filterService.mudaInfoCandidato(this.candidato.ano_um+4, this.candidato.cpf);
-    await this.filterService.mudaDadosEleicao(this.candidato.ano_um+4, this.candidato.unidade_eleitoral, this.candidato.cargo_pleiteado_2);
+    await this.dataService.mudaInfoCandidato(this.candidato.ano_um+4, this.candidato.cpf);
+    await this.dataService.mudaDadosEleicao(this.candidato.ano_um+4, this.candidato.unidade_eleitoral, this.candidato.cargo_pleiteado_2);
 
-    this.filterService.infoCandidatoSelecionado.subscribe(
+    this.dataService.infoCandidatoSelecionado.subscribe(
       data => {
         this.infoCandidato = data[0];
         this.isCandidatoSelecionado = true;
@@ -41,7 +41,7 @@ export class FactSheetComponent implements OnInit {
       }
     );
 
-    this.filterService.infoEleicao.subscribe(
+    this.dataService.infoEleicao.subscribe(
       data => {
         this.dadosEleicao = data[0];        
       }, err => {
@@ -51,8 +51,6 @@ export class FactSheetComponent implements OnInit {
   }
 
   numberToReal(numero) {
-    var numero = numero.toFixed(2).split('.');
-    numero[0] = "R$ " + numero[0].split(/(?=(?:...)*$)/).join('.');
-    return numero.join(',');
+    return this.utilsService.formataReais(numero);
   }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import {Observable} from 'rxjs/Observable';
-import { UtilsService } from './utils.service';
+import { RequestService } from './request.service';
   
 interface Patrimonio {
   patrimonio_eleicao_1: Number;
@@ -38,7 +38,7 @@ const TODOS_ESTADOS = "qualquer estado";
 const TODAS_SITUACOES = "declarou patrimônio";
 
 @Injectable()
-export class FilterService {
+export class DataService {
 
   private estadoSelecionado: String;
   private cargoSelecionado: String;
@@ -57,7 +57,7 @@ export class FilterService {
   private _infoEleicao = new BehaviorSubject<Eleicao[]>(undefined);
   public infoEleicao = this._infoEleicao.asObservable();
   
-  constructor(private utilsService: UtilsService) { }
+  constructor(private requestService: RequestService) { }
 
   mudaEstado(novoEstado: string) {
     this.estadoSelecionado = novoEstado;
@@ -99,7 +99,7 @@ export class FilterService {
     }
          
     return new Promise((resolve, reject) =>
-      this.utilsService.recuperaPatrimonios(estado, ano, cargo, situacao, municipio).subscribe(
+      this.requestService.recuperaPatrimonios(estado, ano, cargo, situacao, municipio).subscribe(
         data => {
           dadosBD = data;
           this._dadosPatrimonio.next(this.parseData(dadosBD));
@@ -116,7 +116,7 @@ export class FilterService {
     let dadosCandidato;
              
     return new Promise((resolve, reject) =>
-      this.utilsService.recuperaInfoCandidato(ano, cpf).subscribe(
+      this.requestService.recuperaInfoCandidato(ano, cpf).subscribe(
         data => {          
           dadosCandidato = data;
           this._infoCandidatoSelecionado.next(this.parseDataCandidato(dadosCandidato));
@@ -133,7 +133,7 @@ export class FilterService {
     let dadosEleicao;
 
     return new Promise((resolve, reject) =>
-    this.utilsService.recuperaInfoEleicao(ano, unidadeEleitoral, cargo).subscribe(
+    this.requestService.recuperaInfoEleicao(ano, unidadeEleitoral, cargo).subscribe(
       data => {          
         dadosEleicao = data;        
         this._infoEleicao.next(this.parseDataEleicao(dadosEleicao));
