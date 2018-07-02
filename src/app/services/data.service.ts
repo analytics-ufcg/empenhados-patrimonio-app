@@ -162,8 +162,6 @@ export class DataService {
   async mudaAnos(cargo: String) {
     let dadosAno;
 
-    this.listaAnos = this.requestService.recuperaAnos(cargo);
-    
     return new Promise((resolve, reject) =>
       this.requestService.recuperaAnos(cargo).subscribe(
         data => {
