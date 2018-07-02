@@ -73,12 +73,12 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     })
   }
 
-  async emiteSelecaoCandidato(d: any){
+  async emiteSelecaoCandidato(d: any) {
     await this.dataService.atualizaCandidato(d);
     this.selecaoCandidato.next();
   }
 
-  plotPatrimonio(){    
+  plotPatrimonio() {    
 
     this.estadoAtual = this.dataService.getEstado();    
     this.ano = this.dataService.getAno();    
@@ -98,7 +98,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     }
   }
 
-  executaTransicao(evento){
+  executaTransicao(evento) {
     this.transitionToogle = evento.checked
     
     if (this.transitionToogle) {
@@ -108,7 +108,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     }
   }
 
-  initD3Patrimonio(){
+  initD3Patrimonio() {
     this.transitionToogle = false;
     this.initX();
     this.initY();
@@ -135,17 +135,15 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     
   }
 
-  private initTooltip(){
+  private initTooltip() {
     this.tip = d3Tip()
     .attr('class', 'd3-tip')
     .attr('id', 'tooltip')
     .offset([-10, 0])
-    .html((d: any) => "<strong>" + d.nome_urna + "</strong><br><span>" + d.unidade_eleitoral + "</span>" + "<br>" +
-    "<span>" + d.ano_um + ": " + this.utilsService.formataReais(d.patrimonio_eleicao_1) + "</span>" + "<br>" +
-    "<span>" + "Diferença: " + this.utilsService.formataReais(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1) + "</span>");
+    .html((d: any) => this.tooltipDiferenca(d));
   }
 
-  private initAxes(){
+  private initAxes() {
     this.xAxis = g => g
     .attr("transform", `translate(0,${this.height - this.margin.bottom})`)
     .call(d3.axisBottom(this.x).ticks(this.width / 80).tickFormat(d3.format('.2s')))
@@ -238,7 +236,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     return this.svg.node();
   }
 
-  private highlightCircle(circle){
+  private highlightCircle(circle) {
     d3.select(circle)        
         .attr("r", this.circleRadius * 1.5)
         .style("stroke", "#673AB7")
@@ -246,7 +244,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         .style("cursor", "pointer")             
   }
 
-  private standardizeCircle(d, circle){
+  private standardizeCircle(d, circle) {
     if(!d.isclicked){      
       d3.select(circle)
       .attr("r", this.circleRadius)
@@ -299,9 +297,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     .text("Diferença de patrimônio");
     
     this.tip
-    .html((d: any) => "<strong>" + d.nome_urna + "</strong><br><span>" + d.unidade_eleitoral + "</span>" + "<br>" +
-    "<span>" + d.ano_um + ": " + this.utilsService.formataReais(d.patrimonio_eleicao_1) + "</span>" + "<br>" +
-    "<span>" + "Diferença: " + this.utilsService.formataReais(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1) + "</span>");
+    .html((d: any) => this.tooltipDiferenca(d));
 
     this.svg.call(this.tip);
 
@@ -313,7 +309,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
   }
 
-  private plotPatrimonioTransicao(){
+  private plotPatrimonioTransicao() {
 
     this.y.domain([0, d3.max(this.data, (d: any) => Math.max(d.patrimonio_eleicao_1, d.patrimonio_eleicao_2))]).nice();
 
@@ -341,9 +337,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     .text("Patrimônio em " + (this.ano.valueOf() + 4));
 
     this.tip
-    .html((d: any) => "<strong>" + d.nome_urna + "</strong><br><span>" + d.unidade_eleitoral + "</span>" + "<br>" +
-    "<span>" + d.ano_um + ": " + this.utilsService.formataReais(d.patrimonio_eleicao_1) + "</span>" + "<br>" +
-    "<span>" + (d.ano_um+4) + ": " + this.utilsService.formataReais(d.patrimonio_eleicao_2) + "</span>");
+    .html((d: any) => this.tooltipPatrimonio(d));
 
     this.svg.call(this.tip);
 
@@ -354,5 +348,17 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     .call(g => g.select(".domain").remove()); 
 
   }
-  
+
+  private tooltipPatrimonio(d: any) {
+    return "<strong>" + d.nome_urna + "</strong><br><span>" + d.unidade_eleitoral + "</span>" + "<br>" +
+    "<span>" + d.ano_um + ": " + this.utilsService.formataReais(d.patrimonio_eleicao_1) + "</span>" + "<br>" +
+    "<span>" + (d.ano_um+4) + ": " + this.utilsService.formataReais(d.patrimonio_eleicao_2) + "</span>";
+  }
+
+  private tooltipDiferenca(d: any) {
+    return "<strong>" + d.nome_urna + "</strong><br><span>" + d.unidade_eleitoral + "</span>" + "<br>" +
+    "<span>" + d.ano_um + ": " + this.utilsService.formataReais(d.patrimonio_eleicao_1) + "</span>" + "<br>" +
+    "<span>" + "Diferença: " + this.utilsService.formataReais(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1) + "</span>";
+  }
+
 }
