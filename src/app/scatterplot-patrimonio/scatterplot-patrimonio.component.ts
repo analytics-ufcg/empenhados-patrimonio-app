@@ -142,8 +142,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     .offset([-10, 0])
     .html((d: any) => "<strong>" + d.nome_urna + "</strong><br><span>" + d.unidade_eleitoral + "</span>" + "<br>" +
     "<span>" + d.ano_um + ": " + this.utilsService.formataReais(d.patrimonio_eleicao_1) + "</span>" + "<br>" +
-    "<span>" + (d.ano_um+4) + ": " + this.utilsService.formataReais(d.patrimonio_eleicao_2) + "</span>");
-  }  
+    "<span>" + "Diferença: " + this.utilsService.formataReais(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1) + "</span>");
+  }
 
   private initAxes(){
     this.xAxis = g => g
@@ -297,6 +297,13 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
     this.svg.select("#y-title")    
     .text("Diferença de patrimônio");
+    
+    this.tip
+    .html((d: any) => "<strong>" + d.nome_urna + "</strong><br><span>" + d.unidade_eleitoral + "</span>" + "<br>" +
+    "<span>" + d.ano_um + ": " + this.utilsService.formataReais(d.patrimonio_eleicao_1) + "</span>" + "<br>" +
+    "<span>" + "Diferença: " + this.utilsService.formataReais(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1) + "</span>");
+
+    this.svg.call(this.tip);
 
     this.svg.select("#y-axis")
     .transition()
@@ -333,6 +340,13 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.svg.select("#y-title")    
     .text("Patrimônio em " + (this.ano.valueOf() + 4));
 
+    this.tip
+    .html((d: any) => "<strong>" + d.nome_urna + "</strong><br><span>" + d.unidade_eleitoral + "</span>" + "<br>" +
+    "<span>" + d.ano_um + ": " + this.utilsService.formataReais(d.patrimonio_eleicao_1) + "</span>" + "<br>" +
+    "<span>" + (d.ano_um+4) + ": " + this.utilsService.formataReais(d.patrimonio_eleicao_2) + "</span>");
+
+    this.svg.call(this.tip);
+
     this.svg.select("#y-axis")
     .transition()
     .duration(1500)
@@ -340,5 +354,5 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     .call(g => g.select(".domain").remove()); 
 
   }
-
+  
 }
