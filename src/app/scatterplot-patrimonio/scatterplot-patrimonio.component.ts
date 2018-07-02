@@ -140,7 +140,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     .attr('class', 'd3-tip')
     .attr('id', 'tooltip')
     .offset([-10, 0])
-    .html((d: any) => "<strong>" + d.nome_urna + "</strong> <br> <span>" + d.unidade_eleitoral + "</span>" + "<br>" +
+    .html((d: any) => "<strong>" + d.nome_urna + "</strong><br><span>" + d.unidade_eleitoral + "</span>" + "<br>" +
     "<span>" + d.ano_um + ": " + this.utilsService.formataReais(d.patrimonio_eleicao_1) + "</span>" + "<br>" +
     "<span>" + (d.ano_um+4) + ": " + this.utilsService.formataReais(d.patrimonio_eleicao_2) + "</span>");
   }  
@@ -228,8 +228,10 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
       g.selectAll("circle")
       .on("click", this.onClick())
-      .on("mouseover", this.tip.show)      
-      .on("mouseout", this.tip.hide);
+      .on("mouseover.circle", (d, i, n) => {this.highlightCircle(n[i])})
+      .on("mouseover.tip", this.tip.show)   
+      .on("mouseout.circle", (d, i, n) => {this.standardizeCircle(d, n[i])})
+      .on("mouseout.tip", this.tip.hide);
 
       this.g = g;
        
@@ -241,7 +243,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         .attr("r", this.circleRadius * 1.5)
         .style("stroke", "#673AB7")
         .style("stroke-width", 10)
-        .style("cursor", "pointer")                        
+        .style("cursor", "pointer")             
   }
 
   private standardizeCircle(d, circle){
