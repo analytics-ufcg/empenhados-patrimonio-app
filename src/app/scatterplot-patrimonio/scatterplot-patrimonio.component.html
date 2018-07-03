@@ -1,6 +1,6 @@
 <mat-card class="scatterplot-card">
 
-  <h3 class="plot-title">Variação no patrimônio dos candidatos a {{ cargo.toLowerCase() }}</h3>
+  <h3 class="plot-title">Variação no patrimônio dos candidatos a {{ toTitleCase(cargo.toLowerCase()) }}</h3>
   <p class="plot-subtitle" *ngIf="!transitionToogle">
     Veja a variação de patrimônio entre {{ ano }} e {{ ano + 4 }}. As observações acima da linha pontilhada indicam aumento de patrimônio. 
     Clique em um ponto para obter mais detalhes.

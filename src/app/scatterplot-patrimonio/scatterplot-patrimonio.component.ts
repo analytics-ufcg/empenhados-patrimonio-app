@@ -364,4 +364,12 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     "<span>" + "Diferença: " + this.utilsService.formataReais(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1) + "</span>";
   }
 
+  public toTitleCase(str) {
+    if (str === this.dataService.getTodosCargos()) {
+      return str;
+    }
+    return str.replace(/\w\S*/g, function(txt){
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+
 }
