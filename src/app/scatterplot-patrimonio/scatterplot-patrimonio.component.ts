@@ -238,9 +238,9 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
   private highlightCircle(circle) {
     d3.select(circle)        
-        .attr("r", this.circleRadius * 1.5)
-        .style("stroke", "#673AB7")
-        .style("stroke-width", 10)
+        .attr("r", this.circleRadius * 1.8)
+        .style("stroke", "#230a4f")
+        .style("stroke-width", 15)        
         .style("cursor", "pointer")             
   }
 
