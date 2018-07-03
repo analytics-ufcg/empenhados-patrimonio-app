@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import {Observable} from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 import { RequestService } from './request.service';
-  
+import { resolve } from 'url';
+import { reject } from 'q';
+
 interface Patrimonio {
   patrimonio_eleicao_1: Number;
   patrimonio_eleicao_2: Number;
@@ -19,7 +21,7 @@ interface Patrimonio {
   situacao_eleicao_2: String;
 };
 
-interface Candidato {  
+interface Candidato {
   cpf_Candidato: String;
   nome_Urna_Candidato: String;
   desc_Ocupacao: String;
@@ -32,10 +34,14 @@ interface Eleicao {
   media_patrimonio: Number;
 }
 
+interface Ano {
+  ano_um: Number;
+}
+
 const TODOS_CONSULTA = "todos";
 const TODOS_CARGOS = "qualquer cargo";
 const TODOS_ESTADOS = "qualquer estado";
-const TODAS_SITUACOES = "declarou patrimônio";
+const TODAS_SITUACOES = "que declararam patrimônio";
 
 @Injectable()
 export class DataService {
@@ -56,36 +62,42 @@ export class DataService {
 
   private _infoEleicao = new BehaviorSubject<Eleicao[]>(undefined);
   public infoEleicao = this._infoEleicao.asObservable();
-  
+
+  private _anos = new BehaviorSubject<Ano[]>(undefined);
+  public anos = this._anos.asObservable();
+
+  public listaAnos : any;
+
+
   constructor(private requestService: RequestService) { }
 
   mudaEstado(novoEstado: string) {
     this.estadoSelecionado = novoEstado;
   }
 
-  mudaCargo(novoCargo: String){
+  mudaCargo(novoCargo: String) {
     this.cargoSelecionado = novoCargo;
   }
 
-  mudaAno(novoAno: Number){    
-    this.anoUm = Number(novoAno);    
+  mudaAno(novoAno: Number) {
+    this.anoUm = Number(novoAno);
   }
 
-  mudaSituacao(novaSituacao: String){
+  mudaSituacao(novaSituacao: String) {
     this.situacao = novaSituacao;
   }
 
-  async atualizaCandidato(candidato){
-    return new Promise ((resolve, reject) => {
+  async atualizaCandidato(candidato) {
+    return new Promise((resolve, reject) => {
       this._candidatoSelecionado.next(candidato);
       return resolve("Candidato Atualizado!");
     }
     );
-  }  
+  }
 
-  async mudaDados(estado: String, ano: Number, cargo: String, situacao: String, municipio: String){
+  async mudaDados(estado: String, ano: Number, cargo: String, situacao: String, municipio: String) {
     let dadosBD;
-    
+
     if (cargo === TODOS_CARGOS) {
       cargo = TODOS_CONSULTA;
     }
@@ -97,7 +109,7 @@ export class DataService {
     if (situacao === TODAS_SITUACOES) {
       situacao = TODOS_CONSULTA;
     }
-         
+
     return new Promise((resolve, reject) =>
       this.requestService.recuperaPatrimonios(estado, ano, cargo, situacao, municipio).subscribe(
         data => {
@@ -112,12 +124,12 @@ export class DataService {
     );
   }
 
-  async mudaInfoCandidato(ano: Number, cpf: String){
+  async mudaInfoCandidato(ano: Number, cpf: String) {
     let dadosCandidato;
-             
+
     return new Promise((resolve, reject) =>
       this.requestService.recuperaInfoCandidato(ano, cpf).subscribe(
-        data => {          
+        data => {
           dadosCandidato = data;
           this._infoCandidatoSelecionado.next(this.parseDataCandidato(dadosCandidato));
           return resolve("Dados alterados");
@@ -125,7 +137,7 @@ export class DataService {
           console.log(err);
           return reject(err);
         }
-      )      
+      )
     );
   }
 
@@ -133,37 +145,63 @@ export class DataService {
     let dadosEleicao;
 
     return new Promise((resolve, reject) =>
-    this.requestService.recuperaInfoEleicao(ano, unidadeEleitoral, cargo).subscribe(
-      data => {          
-        dadosEleicao = data;        
-        this._infoEleicao.next(this.parseDataEleicao(dadosEleicao));
-        return resolve("Dados alterados");
-      }, err => {
-        console.log(err);
-        return reject(err);
-      }
-    )      
-  );
+      this.requestService.recuperaInfoEleicao(ano, unidadeEleitoral, cargo).subscribe(
+        data => {
+          dadosEleicao = data;
+          this._infoEleicao.next(this.parseDataEleicao(dadosEleicao));
+          return resolve("Dados alterados");
+        }, err => {
+          console.log(err);
+          return reject(err);
+        }
+      )
+    );
 
+  }
+
+  async mudaAnos(cargo: String) {
+    let dadosAno;
+
+    return new Promise((resolve, reject) =>
+      this.requestService.recuperaAnos(cargo).subscribe(
+        data => {
+          dadosAno = data;
+          this._anos.next(this.parseDataAno(dadosAno));
+          return resolve("Anos alterados");
+        }, err => {
+          console.log(err);
+          return reject(err);
+        }
+      )
+    );
   }
 
   private parseData(data: any[]): Patrimonio[] {
-    return data.map(v => <Patrimonio>{patrimonio_eleicao_1: v.patrimonio_eleicao_1, patrimonio_eleicao_2: v.patrimonio_eleicao_2, 
-      nome_urna: v.nome_urna, cpf: v.cpf, sigla_partido: v.sigla_partido, unidade_eleitoral: v.unidade_eleitoral, cargo_pleiteado_1: v.cargo_pleiteado_1, 
-      cargo_pleiteado_2: v.cargo_pleiteado_2, ano_um: v.ano_um, resultado_1: v.resultado_1, resultado_2: v.resultado_2, 
-      situacao_eleicao_1: v.situacao_eleicao_1, situacao_eleicao_2: v.situacao_eleicao_2});
+    return data.map(v => <Patrimonio>{
+      patrimonio_eleicao_1: v.patrimonio_eleicao_1, patrimonio_eleicao_2: v.patrimonio_eleicao_2,
+      nome_urna: v.nome_urna, cpf: v.cpf, sigla_partido: v.sigla_partido, unidade_eleitoral: v.unidade_eleitoral, cargo_pleiteado_1: v.cargo_pleiteado_1,
+      cargo_pleiteado_2: v.cargo_pleiteado_2, ano_um: v.ano_um, resultado_1: v.resultado_1, resultado_2: v.resultado_2,
+      situacao_eleicao_1: v.situacao_eleicao_1, situacao_eleicao_2: v.situacao_eleicao_2
+    });
   }
 
   private parseDataCandidato(data: any[]): Candidato[] {
-    return data.map(v => <Candidato>{cpf_Candidato: v.cpf_Candidato, nome_Urna_Candidato: v.nome_Urna_Candidato, 
-      desc_Ocupacao: v.desc_Ocupacao, desc_Unid_Eleitoral: v.desc_Unid_Eleitoral, idade_Cand_Data_Eleicao: v.idade_Cand_Data_Eleicao});
+    return data.map(v => <Candidato>{
+      cpf_Candidato: v.cpf_Candidato, nome_Urna_Candidato: v.nome_Urna_Candidato,
+      desc_Ocupacao: v.desc_Ocupacao, desc_Unid_Eleitoral: v.desc_Unid_Eleitoral, idade_Cand_Data_Eleicao: v.idade_Cand_Data_Eleicao
+    });
   }
 
-  private parseDataEleicao(data:any[]): Eleicao[] {
-    return data.map(v => <Eleicao>{quantidade_candidatos: v.quantidade_candidatos, media_patrimonio: v.media_patrimonio});
+  private parseDataEleicao(data: any[]): Eleicao[] {
+    return data.map(v => <Eleicao>{ quantidade_candidatos: v.quantidade_candidatos, media_patrimonio: v.media_patrimonio });
   }
 
-  public getTodos (){
+
+  private parseDataAno(data: any[]): Ano[] {
+    return data.map(v => <Ano>{ ano_um: v.ano_um });
+  }
+
+  public getTodos() {
     return TODOS_CONSULTA;
   }
 
@@ -175,7 +213,7 @@ export class DataService {
     return TODOS_ESTADOS;
   }
 
-  public getTodasSituacoes(){
+  public getTodasSituacoes() {
     return TODAS_SITUACOES;
   }
 

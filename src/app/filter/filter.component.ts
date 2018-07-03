@@ -1,9 +1,9 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { RequestService } from '../services/request.service';
 import { FormControl } from '@angular/forms';
-import {Observable} from 'rxjs/Observable';
-import {startWith} from 'rxjs/operators/startWith';
-import {map} from 'rxjs/operators/map';
+import { Observable } from 'rxjs/Observable';
+import { startWith } from 'rxjs/operators/startWith';
+import { map } from 'rxjs/operators/map';
 import { DataService } from '../services/data.service';
 import { ViewEncapsulation } from '@angular/core';
 
@@ -20,17 +20,13 @@ const ELEICOES_MUNICIPAIS = 2;
 export class FilterComponent implements OnInit {
 
   @Output() visualizaClique = new EventEmitter<any>();
-  
+
   public listaEstados: any;
   public listaCargos: any;
   public listaMunicipios: any;
   public listaSituacoes: any;
 
-  public listaAnos = [
-    {ano: 2008},
-    {ano: 2010},
-    {ano: 2012}
-  ];  
+  public listaAnos: any;
 
   public estadoSelecionado: String;
   public cargoSelecionado: String;
@@ -49,8 +45,14 @@ export class FilterComponent implements OnInit {
   private controlMunicipio: FormControl = new FormControl();
   private filteredOptions: Observable<string[]>;
 
-  constructor(private requestService: RequestService, 
-              private dataService: DataService) {
+  private estados_prep_no = ["AC", "AL", "AM", "AP", "BR", "CE", "DF", "ES", "MA", "MS", "MT", "PA", "PI", "PR", "RJ", "RN", "RS", "TO"];
+  private estados_prep_na = ["BA", "PB"];
+  private estados_prep_em = ["GO", "MG", "PE", "RO", "RR", "SC", "SE", "SP"];
+  public preposicao_estado = "no";
+
+
+  constructor(private requestService: RequestService,
+    private dataService: DataService) {
 
     this.listaMunicipios = [];
 
@@ -58,6 +60,8 @@ export class FilterComponent implements OnInit {
     this.todosCargos = dataService.getTodosCargos();
     this.todosEstados = dataService.getTodosEstados();
     this.todasSituacoes = dataService.getTodasSituacoes();
+
+    this.estados_prep_em.push(this.todosEstados);
   }
 
   ngOnInit() {
@@ -93,20 +97,20 @@ export class FilterComponent implements OnInit {
   }
 
   // Verifica se o filtro está pronto, com dados suficientes para apresentar uma visualização
-  filtroPronto(){
-    if(this.anoSelecionado && this.situacaoSelecionada && this.cargoSelecionado){
-      if(this.cargoSelecionado == "PRESIDENTE"){
+  filtroPronto() {
+    if (this.anoSelecionado && this.situacaoSelecionada && this.cargoSelecionado) {
+      if (this.cargoSelecionado == "PRESIDENTE") {
         return true;
-      }else if(this.cargoSelecionado == "VEREADOR"){
-        if(this.estadoSelecionado){
-          if(!this.municipioSelecionado ||
+      } else if (this.cargoSelecionado == "VEREADOR") {
+        if (this.estadoSelecionado) {
+          if (!this.municipioSelecionado ||
             this.listaMunicipios.includes(this.municipioSelecionado) ||
-            this.municipioSelecionado == ""){
+            this.municipioSelecionado == "") {
             return true;
           }
         }
-      }else{
-        if(this.cargoSelecionado && this.estadoSelecionado){
+      } else {
+        if (this.cargoSelecionado && this.estadoSelecionado) {
           return true;
         }
       }
@@ -115,21 +119,22 @@ export class FilterComponent implements OnInit {
   }
 
   // Se o filtro estiver pronto, exibe visualização de patrimônio
-  decideSobreVisualizacao(){
-    if(this.filtroPronto()){
+  decideSobreVisualizacao() {
+    if (this.filtroPronto()) {
       this.emiteEventoVisualizacao();
     }
   }
-  
+
   /* Altera a lista de municipios a partir de um estado selecionado */
   onChangeEstado(novoEstado) {
     this.estadoSelecionado = novoEstado;
     this.dataService.mudaEstado(novoEstado);
+    this.definePreposicao();
 
     this.municipioSelecionado = "";
 
     this.atualizaFiltroMunicipio();
-        
+
     this.requestService.recuperaMunicipios(this.estadoSelecionado).subscribe(
       data => {
         let municipios = data;
@@ -145,10 +150,11 @@ export class FilterComponent implements OnInit {
   // Atualiza cargo atual selecionado
   onChangeCargo(novoCargo) {
     this.municipioSelecionado = undefined;
+    this.anoSelecionado = undefined;
 
-    this.cargoSelecionado = novoCargo;    
+    this.cargoSelecionado = novoCargo;
     this.dataService.mudaCargo(novoCargo);
-    
+    this.atualizaFiltroAno();
     this.atualizaFiltroMunicipio();
 
     this.decideSobreVisualizacao();
@@ -161,7 +167,7 @@ export class FilterComponent implements OnInit {
   }
 
   onChangeAno(novoAno) {
-    this.anoSelecionado = novoAno;    
+    this.anoSelecionado = novoAno;
     this.dataService.mudaAno(novoAno);
 
     if (this.anoSelecionado % 4) {
@@ -170,8 +176,8 @@ export class FilterComponent implements OnInit {
       this.tipoEleicao = ELEICOES_MUNICIPAIS;
     }
 
-    this.recuperaCargos().then(() => {    
-      if(this.listaCargos.filter((cargo) => cargo.cargo_pleiteado_2 == this.cargoSelecionado).length == 0){
+    this.recuperaCargos().then(() => {
+      if (this.listaCargos.filter((cargo) => cargo.cargo_pleiteado_2 == this.cargoSelecionado).length == 0) {
         this.cargoSelecionado = undefined;
         this.dataService.mudaCargo(undefined);
       }
@@ -191,22 +197,22 @@ export class FilterComponent implements OnInit {
   // filtro para a pesquisa por muninicipio
   filter(val: string): string[] {
     return this.listaMunicipios.filter(mun =>
-    mun.toLowerCase().indexOf(val.toLowerCase()) === 0);
+      mun.toLowerCase().indexOf(val.toLowerCase()) === 0);
   }
 
   // Recupera lista de estados
   private recuperaEstados() {
     this.requestService.recuperaEstados().subscribe(
-      data => {        
+      data => {
         this.listaEstados = data;
-        this.listaEstados.push({'estado': this.todosEstados});
+        this.listaEstados.push({ 'estado': this.todosEstados });
       }, err => {
         console.log(err);
       }
     );
   }
 
-  private async mudaDados(){
+  private async mudaDados() {
     await this.dataService.mudaDados(this.estadoSelecionado, this.anoSelecionado, this.cargoSelecionado, this.situacaoSelecionada, this.municipioSelecionado);
   }
 
@@ -217,8 +223,8 @@ export class FilterComponent implements OnInit {
         data => {
           let todosCargos
           todosCargos = data;
-          this.listaCargos = todosCargos.filter(element => this.cargosEleicao(element.cargo_pleiteado_2));
-          this.listaCargos.push({'cargo_pleiteado_2': this.todosCargos});
+          this.listaCargos = todosCargos;
+          this.listaCargos.push({ 'cargo_pleiteado_2': this.todosCargos });
           resolve();
         }, err => {
           console.log(err);
@@ -228,17 +234,17 @@ export class FilterComponent implements OnInit {
     });
   }
 
-  private recuperaSituacoes(){
+  private recuperaSituacoes() {
     this.requestService.recuperaSituacoes().subscribe(
       data => {
         this.listaSituacoes = data;
-        this.listaSituacoes.push({'situacao_eleicao_1': this.todasSituacoes});
+        this.listaSituacoes.push({ 'situacao_eleicao_1': this.todasSituacoes });
       }, err => {
         console.log(err);
       }
     )
   }
-  
+
   private cargosEleicao(cargo) {
     let cargosMunicipais = ["PREFEITO", "VEREADOR", "VICE-PREFEITO"];
 
@@ -246,7 +252,7 @@ export class FilterComponent implements OnInit {
       return cargosMunicipais.indexOf(cargo) !== -1;
     } else {
       return cargosMunicipais.indexOf(cargo) === -1;
-    }    
+    }
   }
 
   // Converte formato de dados que vem do banco para um formato que possibilite usar o autocomplete do Angular Material
@@ -259,12 +265,30 @@ export class FilterComponent implements OnInit {
     return result;
   }
 
+  private atualizaFiltroAno() {
+    if (this.cargoSelecionado == this.todosCargos) {
+      this.listaAnos = [
+        { ano_um: 2008 },
+        { ano_um: 2010 },
+        { ano_um: 2012 }
+      ];
+    } else {
+      this.requestService.recuperaAnos(this.cargoSelecionado).subscribe(
+        data => {
+          this.listaAnos = data;
+        }, err => {
+          console.log(err);
+        }
+      )
+    }
+  }
+
   private atualizaFiltroMunicipio() {
 
-    if (this.estadoSelecionado === this.todosEstados){
-      this.isVereador = false; 
+    if (this.estadoSelecionado === this.todosEstados) {
+      this.isVereador = false;
       this.municipioSelecionado = '';
-    } else if (this.cargoSelecionado === 'VEREADOR'){
+    } else if (this.cargoSelecionado === 'VEREADOR') {
       this.isVereador = true;
     } else {
       this.isVereador = false;
@@ -279,4 +303,18 @@ export class FilterComponent implements OnInit {
     }
   }
 
+
+  private definePreposicao() {
+
+    if (this.estados_prep_na.indexOf( this.estadoSelecionado.toString() ) !== -1) {
+      this.preposicao_estado = "na";
+    } else if (this.estados_prep_no.indexOf( this.estadoSelecionado.toString() ) !== -1) {
+      this.preposicao_estado = "no";
+    } else if (this.estados_prep_em.indexOf( this.estadoSelecionado.toString() ) !== -1) {
+      this.preposicao_estado = "em"
+    }
+  }
+
 }
+
+

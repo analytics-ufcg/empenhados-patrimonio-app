@@ -4,13 +4,13 @@ import { GlobalService } from './global.service';
 
 @Injectable()
 export class RequestService {
-  
-  private headers : HttpHeaders;
-  private serverHost : String;
 
-  constructor(private http: HttpClient,    
-              private globalService: GlobalService) { 
-    
+  private headers: HttpHeaders;
+  private serverHost: String;
+
+  constructor(private http: HttpClient,
+    private globalService: GlobalService) {
+
     this.headers = new HttpHeaders().set('Content-Type', 'application/json');
     this.serverHost = globalService.getServerHost();
   }
@@ -33,7 +33,7 @@ export class RequestService {
     });
   }
 
-  public recuperaPatrimonios(estado, ano, cargo, situacao, municipio){
+  public recuperaPatrimonios(estado, ano, cargo, situacao, municipio) {
 
     if (municipio === undefined || municipio === '') {
       return this.http.get(this.serverHost + '/patrimonio/' + estado + "/" + ano + "/" + cargo + "/" + situacao, {
@@ -43,23 +43,29 @@ export class RequestService {
       return this.http.get(this.serverHost + '/patrimonio/' + estado + "/" + ano + "/" + cargo + "/" + situacao + "/" + municipio, {
         headers: this.headers
       });
-    }    
+    }
   }
 
-  public recuperaSituacoes(){
+  public recuperaSituacoes() {
     return this.http.get(this.serverHost + '/patrimonio/busca/situacao', {
       headers: this.headers
     });
   }
 
-  public recuperaInfoCandidato(ano, cpfCandidato){
+  public recuperaInfoCandidato(ano, cpfCandidato) {
     return this.http.get(this.serverHost + '/candidato/' + ano + '/' + cpfCandidato, {
       headers: this.headers
     });
   }
 
-  public recuperaInfoEleicao(ano, unidadeEleitoral, cargo){
+  public recuperaInfoEleicao(ano, unidadeEleitoral, cargo) {
     return this.http.get(this.serverHost + '/eleicao/' + ano + '/' + unidadeEleitoral + '/' + cargo, {
+      headers: this.headers
+    });
+  }
+
+  public recuperaAnos(cargo) {
+    return this.http.get(this.serverHost + '/patrimonio/busca/ano/' + cargo, {
       headers: this.headers
     });
   }

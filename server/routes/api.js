@@ -52,6 +52,17 @@ router.get('/patrimonio/busca/cargos', async (req, res) => {
 });
 
 /**
+ * GET retorna lista de anos em que um cargo pode aparecer
+ */
+router.get('/patrimonio/busca/ano/:cargo', async (req, res) => {   
+  let parameters = [req.params.cargo];
+  var query = "SELECT DISTINCT(ano_um) FROM patrimonio_candidatos WHERE cargo_pleiteado_1 = ?";
+  
+  execSQLQuery(query, parameters, res); 
+  
+});
+
+/**
  * GET retorna lista de municípios de um estado
  */
 router.get('/patrimonio/municipios/:estado', async (req, res) => {   

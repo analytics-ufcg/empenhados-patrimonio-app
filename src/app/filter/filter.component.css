@@ -19,6 +19,17 @@
     color: #5E400B;
 }
 
+.text-filter-comma {
+    margin-right: 0.5%;
+    font-weight:normal;
+    color: #5E400B;
+}
+
+.text-filter-second-comma {
+    font-weight:normal;
+    color: #5E400B;
+}
+
 .button {
     background-color: #EEEEEE;    
 }
