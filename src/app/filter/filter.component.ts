@@ -6,6 +6,7 @@ import { startWith } from 'rxjs/operators/startWith';
 import { map } from 'rxjs/operators/map';
 import { DataService } from '../services/data.service';
 import { ViewEncapsulation } from '@angular/core';
+import { ThrowStmt } from '@angular/compiler';
 
 
 const ELEICOES_FEDERAIS = 1;
@@ -146,8 +147,11 @@ export class FilterComponent implements OnInit {
 
   // Atualiza cargo atual selecionado
   onChangeCargo(novoCargo) {
+    if(!this.mesmoTipoEleicao(novoCargo, this.cargoSelecionado)) {
+      this.anoSelecionado = undefined;
+    }
+
     this.municipioSelecionado = undefined;
-    this.anoSelecionado = undefined;
 
     this.cargoSelecionado = novoCargo;
     this.dataService.mudaCargo(novoCargo);
@@ -233,6 +237,10 @@ export class FilterComponent implements OnInit {
         console.log(err);
       }
     )
+  }
+
+  private mesmoTipoEleicao(cargo1, cargo2) {
+    return this.cargosEleicao(cargo1) === this.cargosEleicao(cargo2);
   }
 
   private cargosEleicao(cargo) {
