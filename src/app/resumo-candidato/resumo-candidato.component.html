@@ -1,5 +1,6 @@
 <mat-card *ngIf="isCandidatoSelecionado" class="card-resumo">
   <mat-card-title>{{ candidato.nome_urna }} ({{candidato.sigla_partido}})</mat-card-title>
+  <mat-card-subtitle>{{ formataCargo(candidato.cargo_pleiteado_1) }} - {{ candidato.unidade_eleitoral }} </mat-card-subtitle>
   <mat-divider></mat-divider>
 
   <mat-list>
