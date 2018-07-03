@@ -1,10 +1,13 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import * as d3 from 'd3';
+import d3Tip from 'd3-tip';
 import { DataService } from '../services/data.service';
 import { AlertService } from '../services/alert.service';
+import { UtilsService } from '../services/utils.service';
 import {Observable} from 'rxjs/Observable';
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
   selector: 'app-scatterplot-patrimonio',
   templateUrl: './scatterplot-patrimonio.component.html',
   styleUrls: ['./scatterplot-patrimonio.component.css']
@@ -19,6 +22,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   private x: any;
   private y: any;
   private z: any;
+  private tip: any;
   private circleRadius: any;
   private xAxis: any;
   private yAxis: any;
@@ -42,7 +46,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   public transitionToogle: boolean;
 
   constructor(private dataService: DataService,
-              private alertService: AlertService) {
+              private alertService: AlertService,
+              private utilsService: UtilsService) {
 
     this.margin = ({top: 20, right: 30, bottom: 20, left: 40});
     this.circleRadius = 6;
@@ -68,12 +73,12 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     })
   }
 
-  async emiteSelecaoCandidato(d: any){
+  async emiteSelecaoCandidato(d: any) {
     await this.dataService.atualizaCandidato(d);
     this.selecaoCandidato.next();
   }
 
-  plotPatrimonio(){    
+  plotPatrimonio() {    
 
     this.estadoAtual = this.dataService.getEstado();    
     this.ano = this.dataService.getAno();    
@@ -93,7 +98,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     }
   }
 
-  executaTransicao(evento){
+  executaTransicao(evento) {
     this.transitionToogle = evento.checked
     
     if (this.transitionToogle) {
@@ -103,11 +108,12 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     }
   }
 
-  initD3Patrimonio(){
+  initD3Patrimonio() {
     this.transitionToogle = false;
     this.initX();
     this.initY();
     this.initZ();
+    this.initTooltip();
     this.initAxes();
     this.initScatterplot();
   }
@@ -129,7 +135,15 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     
   }
 
-  private initAxes(){
+  private initTooltip() {
+    this.tip = d3Tip()
+    .attr('class', 'd3-tip')
+    .attr('id', 'tooltip')
+    .offset([-10, 0])
+    .html((d: any) => this.tooltipDiferenca(d));
+  }
+
+  private initAxes() {
     this.xAxis = g => g
     .attr("transform", `translate(0,${this.height - this.margin.bottom})`)
     .call(d3.axisBottom(this.x).ticks(this.width / 80).tickFormat(d3.format('.2s')))
@@ -176,6 +190,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         .attr("id", "y-axis")
         .call(this.yAxis);
   
+    this.svg.call(this.tip);
+  
     // referência
     this.line = this.svg.append("line")          
       .style("stroke", "grey")  
@@ -199,8 +215,6 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         .style("stroke-width", 2)
         .attr("stroke", (d: any) => this.z(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1))
   
-      
-      
       g.selectAll("circle")
       .data(this.data)
       .enter().append("circle")
@@ -208,31 +222,30 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         .attr("cy", (d: any) => this.y(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1))
         .attr("fill", (d: any) => this.z(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1))
         .attr("opacity", 0.7)
-        .attr("r", this.circleRadius)
-        .append("title").html((d: any) => d.nome_urna + ", " + d.unidade_eleitoral + 
-                "<br>Em " + this.ano.valueOf() + ": " + d.patrimonio_eleicao_1 +
-                "<br>Em " + (this.ano.valueOf() + 4) + ": " + d.patrimonio_eleicao_2);
+        .attr("r", this.circleRadius);
 
       g.selectAll("circle")
       .on("click", this.onClick())
-      .on("mouseover", (d, i, n) => {this.highlightCircle(n[i])})
-      .on("mouseout", (d, i, n) => {this.standardizeCircle(d, n[i])});
+      .on("mouseover.circle", (d, i, n) => {this.highlightCircle(n[i])})
+      .on("mouseover.tip", this.tip.show)   
+      .on("mouseout.circle", (d, i, n) => {this.standardizeCircle(d, n[i])})
+      .on("mouseout.tip", this.tip.hide);
 
       this.g = g;
        
     return this.svg.node();
   }
 
-  private highlightCircle(circle){
-    d3.select(circle)
-        .attr("r", this.circleRadius * 1.5)
-        .style("stroke", "#673AB7")
-        .style("stroke-width", 10)
-        .style("cursor", "pointer")
+  private highlightCircle(circle) {
+    d3.select(circle)        
+        .attr("r", this.circleRadius * 1.8)
+        .style("stroke", "#230a4f")
+        .style("stroke-width", 15)        
+        .style("cursor", "pointer")             
   }
 
-  private standardizeCircle(d, circle){
-    if(!d.isclicked){
+  private standardizeCircle(d, circle) {
+    if(!d.isclicked){      
       d3.select(circle)
       .attr("r", this.circleRadius)
       .style("stroke", "none");
@@ -282,6 +295,11 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
     this.svg.select("#y-title")    
     .text("Diferença de patrimônio");
+    
+    this.tip
+    .html((d: any) => this.tooltipDiferenca(d));
+
+    this.svg.call(this.tip);
 
     this.svg.select("#y-axis")
     .transition()
@@ -291,7 +309,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
   }
 
-  private plotPatrimonioTransicao(){
+  private plotPatrimonioTransicao() {
 
     this.y.domain([0, d3.max(this.data, (d: any) => Math.max(d.patrimonio_eleicao_1, d.patrimonio_eleicao_2))]).nice();
 
@@ -318,12 +336,29 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.svg.select("#y-title")    
     .text("Patrimônio em " + (this.ano.valueOf() + 4));
 
+    this.tip
+    .html((d: any) => this.tooltipPatrimonio(d));
+
+    this.svg.call(this.tip);
+
     this.svg.select("#y-axis")
     .transition()
     .duration(1500)
     .call(d3.axisLeft(this.y).ticks(this.height / 50).tickFormat(d3.format('.2s')))
     .call(g => g.select(".domain").remove()); 
 
+  }
+
+  private tooltipPatrimonio(d: any) {
+    return "<strong>" + d.nome_urna + "</strong><br><span>" + d.unidade_eleitoral + "</span>" + "<br>" +
+    "<span>" + d.ano_um + ": " + this.utilsService.formataReais(d.patrimonio_eleicao_1) + "</span>" + "<br>" +
+    "<span>" + (d.ano_um+4) + ": " + this.utilsService.formataReais(d.patrimonio_eleicao_2) + "</span>";
+  }
+
+  private tooltipDiferenca(d: any) {
+    return "<strong>" + d.nome_urna + "</strong><br><span>" + d.unidade_eleitoral + "</span>" + "<br>" +
+    "<span>" + d.ano_um + ": " + this.utilsService.formataReais(d.patrimonio_eleicao_1) + "</span>" + "<br>" +
+    "<span>" + "Diferença: " + this.utilsService.formataReais(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1) + "</span>";
   }
 
 }
