@@ -11,7 +11,7 @@ mat-card-title {
 .resumo-item-header {
     -webkit-margin-after: 0;
     -webkit-margin-before: 15px;
-    font-weight: normal;
+    font-weight: bold;
 }
 
 .resumo-text-value {
@@ -25,4 +25,10 @@ mat-card-title {
 
 .mat-list .mat-list-item .mat-line:nth-child(n+2), .mat-nav-list .mat-list-item .mat-line:nth-child(n+2), .mat-selection-list .mat-list-item .mat-line:nth-child(n+2) {
     font-size: inherit;
+}
+
+.material-icons {
+    font-size: 32px !important;
+    width: 36px !important;
+    height: 36px !important;
 }
