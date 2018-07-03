@@ -46,10 +46,8 @@
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
-    </div>
 
-    <div *ngIf="anoSelecionado">
-      <strong class="text-filter">em {{ anoSelecionado + 4 }} também declarou patrimônio.</strong>
+      <strong *ngIf="anoSelecionado" class="text-filter">e em {{ anoSelecionado + 4 }} também declarou patrimônio.</strong>
     </div>
   </mat-card>
 </div>
