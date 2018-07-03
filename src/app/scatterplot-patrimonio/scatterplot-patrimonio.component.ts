@@ -131,7 +131,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   }
 
   private initZ(){
-    this.z = d3.scaleSequential(d3.interpolateRdBu).domain([-1e6, 1e6]);
+    this.z = d3.scaleSequential(d3.interpolateViridis).domain([1e6, -1e6]);
     
   }
 
