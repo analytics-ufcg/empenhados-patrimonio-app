@@ -9,7 +9,7 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <strong class="text-filter">,</strong>
+      <strong class="text-filter-comma">, </strong>
       <mat-form-field class="filter" floatLabel="never" color="accent">
         <mat-select placeholder="situação" [ngModel]="situacaoSelecionada" (ngModelChange)="onChangeSituacao($event)">
           <mat-option *ngFor="let situacao of listaSituacoes" [value]="situacao.situacao_eleicao_1">
@@ -17,7 +17,7 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-
+      <strong class="text-filter-second-comma">, </strong>
       <strong class="text-filter">em</strong>
       <mat-form-field class="filter" floatLabel="never" color="accent">
         <mat-select placeholder="ano" [ngModel]="anoSelecionado" (ngModelChange)="onChangeAno($event)">

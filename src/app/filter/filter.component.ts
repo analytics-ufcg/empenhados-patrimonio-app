@@ -47,7 +47,7 @@ export class FilterComponent implements OnInit {
 
   private estados_prep_no = ["AC", "AL", "AM", "AP", "BR", "CE", "DF", "ES", "MA", "MS", "MT", "PA", "PI", "PR", "RJ", "RN", "RS", "TO"];
   private estados_prep_na = ["BA", "PB"];
-  private estados_prep_em = ["GO", "MG", "PE", "RO", "RR", "SC", "SE","SP"];
+  private estados_prep_em = ["GO", "MG", "PE", "RO", "RR", "SC", "SE", "SP"];
   public preposicao_estado = "no";
 
 
@@ -60,6 +60,8 @@ export class FilterComponent implements OnInit {
     this.todosCargos = dataService.getTodosCargos();
     this.todosEstados = dataService.getTodosEstados();
     this.todasSituacoes = dataService.getTodasSituacoes();
+
+    this.estados_prep_em.push(this.todosEstados);
   }
 
   ngOnInit() {
