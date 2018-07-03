@@ -70,6 +70,21 @@ export class FilterComponent implements OnInit {
     this.recuperaEstados();
     this.recuperaCargos();
     this.recuperaSituacoes();
+
+    // O site inicia com a visualização dos deputados federais de todos os estados
+    this.anoSelecionado = 2010;
+    this.dataService.mudaAno(2010)
+
+    this.situacaoSelecionada = "ELEITO";
+    this.dataService.mudaSituacao("ELEITO");
+
+    this.cargoSelecionado = "DEPUTADO FEDERAL";
+    this.dataService.mudaCargo("DEPUTADO FEDERAL");
+    
+    this.estadoSelecionado = "qualquer estado";
+    this.dataService.mudaEstado("qualquer estado");
+
+    this.decideSobreVisualizacao();
   }
 
   async emiteEventoVisualizacao() {
