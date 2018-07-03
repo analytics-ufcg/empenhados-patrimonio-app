@@ -41,8 +41,9 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   private maiorDiferencaModulo: any;
 
   private estadoAtual: String;
-  private ano: Number;
+  public ano: Number;
   private situacao: String;
+  public cargo: String;
   public transitionToogle: boolean;
 
   constructor(private dataService: DataService,
@@ -81,7 +82,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   plotPatrimonio() {    
 
     this.estadoAtual = this.dataService.getEstado();    
-    this.ano = this.dataService.getAno();    
+    this.ano = this.dataService.getAno(); 
+    this.cargo = this.dataService.getCargo();   
     
     this.dataService.dadosPatrimonio.subscribe(data => this.data = data);    
 
@@ -194,7 +196,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   
     // referência
     this.line = this.svg.append("line")          
-      .style("stroke", "grey")  
+      .style("stroke", "grey") 
+      .style("stroke-dasharray", ("10, 10")) 
       .attr("x1", this.x(0))     
       .attr("y1", this.y(0))      
       .attr("x2", this.x(this.maiorPatrimonioEleicao1 + 1e3))    
