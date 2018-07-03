@@ -135,6 +135,7 @@ export class FilterComponent implements OnInit {
   // Atualiza cargo atual selecionado
   onChangeCargo(novoCargo) {
     this.municipioSelecionado = undefined;
+    this.anoSelecionado = undefined;
 
     this.cargoSelecionado = novoCargo;
     this.dataService.mudaCargo(novoCargo);
@@ -265,7 +266,6 @@ export class FilterComponent implements OnInit {
         }
       )
     }
-    //this.listaAnos = this.dataService.mudaAnos(this.cargoSelecionado);
   }
 
   private atualizaFiltroMunicipio() {
