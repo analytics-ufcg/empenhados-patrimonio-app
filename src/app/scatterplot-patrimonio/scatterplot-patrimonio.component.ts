@@ -357,7 +357,6 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
   private tooltipDiferenca(d: any) {
     return "<strong>" + d.nome_urna + "</strong><br><span>" + d.unidade_eleitoral + "</span>" + "<br>" +
-    "<span>" + d.ano_um + ": " + this.utilsService.formataReais(d.patrimonio_eleicao_1) + "</span>" + "<br>" +
     "<span>" + "Diferença: " + this.utilsService.formataReais(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1) + "</span>";
   }
 
