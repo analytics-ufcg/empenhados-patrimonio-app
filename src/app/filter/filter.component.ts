@@ -107,7 +107,6 @@ export class FilterComponent implements OnInit {
         }
       }else{
         if(this.cargoSelecionado && this.estadoSelecionado){
-          console.log(this.anoSelecionado, this.situacaoSelecionada, this.cargoSelecionado, this.estadoSelecionado);
           return true;
         }
       }
