@@ -1,6 +1,13 @@
 <mat-card class="scatterplot-card">
   <div>
-    <mat-slide-toggle [checked]="transitionToogle" (change)="executaTransicao($event)">Ver patrimônios</mat-slide-toggle>
+    <mat-slide-toggle [checked]="transitionToogle" (change)="executaTransicao($event)">
+      <div *ngIf="transitionToogle">
+        Ver variação
+      </div>
+      <div *ngIf="!transitionToogle">
+        Ver comparativo
+      </div>
+    </mat-slide-toggle>
     <div class = "section">
       <svg class = "plot"></svg>
     </div>
