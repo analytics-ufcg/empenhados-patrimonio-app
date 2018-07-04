@@ -1,6 +1,7 @@
 <mat-card class="scatterplot-card">
   <div>
     <mat-slide-toggle [checked]="transitionToogle" (change)="executaTransicao($event)">Ver patrimônios</mat-slide-toggle>
+    <mat-slide-toggle [checked]="logToogle" (change)="executaTransicaoLog($event)">Aplicar log</mat-slide-toggle>
     <div class = "section">
       <svg class = "plot"></svg>
     </div>
