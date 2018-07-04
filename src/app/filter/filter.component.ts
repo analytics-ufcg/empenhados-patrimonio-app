@@ -160,6 +160,16 @@ export class FilterComponent implements OnInit {
   onChangeMunicipio(novoMunicipio) {
     this.municipioSelecionado = novoMunicipio;
 
+    if(novoMunicipio){
+      let input = document.getElementById("input-municipio");
+      
+      if(this.listaMunicipios.includes(novoMunicipio)){
+        input.setAttribute("size", (novoMunicipio.length - 2).toString());
+      }else{
+        input.removeAttribute("size")
+      }
+    }
+
     this.decideSobreVisualizacao();
   }
 
