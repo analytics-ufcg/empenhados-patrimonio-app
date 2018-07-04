@@ -11,6 +11,7 @@ import { ThrowStmt } from '@angular/compiler';
 
 const ELEICOES_FEDERAIS = 1;
 const ELEICOES_MUNICIPAIS = 2;
+const CARGOS_MUNICIPAIS = ["PREFEITO", "VEREADOR", "VICE-PREFEITO"];
 
 @Component({
   selector: 'app-filter',
@@ -148,7 +149,11 @@ export class FilterComponent implements OnInit {
   // Atualiza cargo atual selecionado
   onChangeCargo(novoCargo) {
     if(!this.mesmoTipoEleicao(novoCargo, this.cargoSelecionado)) {
-      this.anoSelecionado = undefined;
+      if(CARGOS_MUNICIPAIS.indexOf(novoCargo) === -1 && novoCargo !== this.dataService.getTodosCargos()) {
+        this.anoSelecionado = 2010;
+      } else {
+        this.anoSelecionado = undefined;
+      }
     }
 
     this.municipioSelecionado = undefined;
@@ -244,12 +249,14 @@ export class FilterComponent implements OnInit {
   }
 
   private cargosEleicao(cargo) {
-    let cargosMunicipais = ["PREFEITO", "VEREADOR", "VICE-PREFEITO"];
+    if(cargo === this.dataService.getTodosCargos()) {
+      return false;
+    }
 
     if (this.tipoEleicao === ELEICOES_MUNICIPAIS) {
-      return cargosMunicipais.indexOf(cargo) !== -1;
+      return CARGOS_MUNICIPAIS.indexOf(cargo) !== -1;
     } else {
-      return cargosMunicipais.indexOf(cargo) === -1;
+      return CARGOS_MUNICIPAIS.indexOf(cargo) === -1;
     }
   }
 
