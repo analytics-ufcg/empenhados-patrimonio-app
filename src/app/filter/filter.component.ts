@@ -20,6 +20,7 @@ const ELEICOES_MUNICIPAIS = 2;
 export class FilterComponent implements OnInit {
 
   @Output() visualizaClique = new EventEmitter<any>();
+  @Output() apagaVisualizacao = new EventEmitter<any>();
 
   public listaEstados: any;
   public listaCargos: any;
@@ -119,6 +120,8 @@ export class FilterComponent implements OnInit {
   decideSobreVisualizacao() {
     if (this.filtroPronto()) {
       this.emiteEventoVisualizacao();
+    }else{
+      this.apagaVisualizacao.next();
     }
   }
 

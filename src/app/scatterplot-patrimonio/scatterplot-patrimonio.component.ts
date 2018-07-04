@@ -100,6 +100,10 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     }
   }
 
+  apagaPlot(){
+    d3.selectAll("svg > *").remove();
+  }
+
   executaTransicao(evento) {
     this.transitionToogle = evento.checked
     
