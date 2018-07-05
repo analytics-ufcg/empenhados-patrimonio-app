@@ -26,6 +26,8 @@ export class ResumoCandidatoComponent implements OnInit {
    this.dataService.candidatoSelecionado.subscribe(data =>  this.candidato = data);
     this.isCandidatoSelecionado = true;
     this.determinaCrescimento(this.candidato.patrimonio_eleicao_1, this.candidato.patrimonio_eleicao_2);
+
+    console.log(this.candidato);
   }
 
   numberToReal(numero) {
@@ -57,6 +59,15 @@ export class ResumoCandidatoComponent implements OnInit {
     } else {
       this.situacaoCrescimento = "permaneceu o mesmo"
     }
+  }
+
+  formataCargo(cargo) {
+    if (cargo == this.dataService.getTodosCargos()) {
+      return cargo;
+    }
+
+    return this.utilsService.toTitleCase(cargo);
+
   }
 
 }

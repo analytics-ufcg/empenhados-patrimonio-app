@@ -173,15 +173,8 @@ export class FilterComponent implements OnInit {
       this.tipoEleicao = ELEICOES_MUNICIPAIS;
     }
 
-    this.recuperaCargos().then(() => {
-      if (this.listaCargos.filter((cargo) => cargo.cargo_pleiteado_2 == this.cargoSelecionado).length == 0) {
-        this.cargoSelecionado = undefined;
-        this.dataService.mudaCargo(undefined);
-      }
-
-      this.atualizaFiltroMunicipio();
-      this.decideSobreVisualizacao();
-    });
+    this.atualizaFiltroMunicipio();
+    this.decideSobreVisualizacao();
   }
 
   onChangeSituacao(novaSituacao) {
