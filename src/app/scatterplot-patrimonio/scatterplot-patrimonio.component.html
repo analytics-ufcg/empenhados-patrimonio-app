@@ -12,13 +12,13 @@
   <div>
     <mat-slide-toggle [checked]="transitionToogle" (change)="executaTransicao($event)">
       <div *ngIf="transitionToogle">
-        Ver variação
+        variação
       </div>
       <div *ngIf="!transitionToogle">
-        Ver comparativo
+        comparativo
       </div>
     </mat-slide-toggle>
-    <mat-slide-toggle [checked]="logToogle" (change)="executaTransicaoLog($event)">Aplicar log</mat-slide-toggle>
+    <mat-slide-toggle [checked]="logToogle" (change)="executaTransicaoLog($event)">log10</mat-slide-toggle>
     <div class = "section">
       <svg class = "plot"></svg>
     </div>
