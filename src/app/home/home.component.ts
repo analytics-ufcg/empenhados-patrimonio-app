@@ -11,14 +11,16 @@ import { AboutComponent } from '../about/about.component';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent {
+export class HomeComponent  implements OnInit {
   @ViewChild(ScatterplotPatrimonioComponent) private scatterplotPatrimonio: ScatterplotPatrimonioComponent;
   @ViewChild(ResumoCandidatoComponent) private resumoCandidato: ResumoCandidatoComponent;
   @ViewChild(FactSheetComponent) private factSheet: FactSheetComponent;
 
   novaVisualizacao: boolean;
 
-  constructor() { }
+  constructor(){}
+
+  ngOnInit(){}
 
   onRecebeEventoFiltro($event) {
     this.scatterplotPatrimonio.plotPatrimonio();
