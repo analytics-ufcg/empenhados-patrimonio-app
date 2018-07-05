@@ -6,10 +6,12 @@ import { startWith } from 'rxjs/operators/startWith';
 import { map } from 'rxjs/operators/map';
 import { DataService } from '../services/data.service';
 import { ViewEncapsulation } from '@angular/core';
+import { ThrowStmt } from '@angular/compiler';
 
 
 const ELEICOES_FEDERAIS = 1;
 const ELEICOES_MUNICIPAIS = 2;
+const CARGOS_MUNICIPAIS = ["PREFEITO", "VEREADOR", "VICE-PREFEITO"];
 
 @Component({
   selector: 'app-filter',
@@ -20,6 +22,7 @@ const ELEICOES_MUNICIPAIS = 2;
 export class FilterComponent implements OnInit {
 
   @Output() visualizaClique = new EventEmitter<any>();
+  @Output() apagaVisualizacao = new EventEmitter<any>();
 
   public listaEstados: any;
   public listaCargos: any;
@@ -119,6 +122,8 @@ export class FilterComponent implements OnInit {
   decideSobreVisualizacao() {
     if (this.filtroPronto()) {
       this.emiteEventoVisualizacao();
+    }else{
+      this.apagaVisualizacao.next();
     }
   }
 
@@ -146,8 +151,15 @@ export class FilterComponent implements OnInit {
 
   // Atualiza cargo atual selecionado
   onChangeCargo(novoCargo) {
+    if(!this.mesmoTipoEleicao(novoCargo, this.cargoSelecionado)) {
+      if(CARGOS_MUNICIPAIS.indexOf(novoCargo) === -1 && novoCargo !== this.dataService.getTodosCargos()) {
+        this.anoSelecionado = 2010;
+      } else {
+        this.anoSelecionado = undefined;
+      }
+    }
+
     this.municipioSelecionado = undefined;
-    this.anoSelecionado = undefined;
 
     this.cargoSelecionado = novoCargo;
     this.dataService.mudaCargo(novoCargo);
@@ -159,6 +171,28 @@ export class FilterComponent implements OnInit {
 
   onChangeMunicipio(novoMunicipio) {
     this.municipioSelecionado = novoMunicipio;
+
+    // Escolhe o maior município entre a lista dos municípios do estado selecionado
+    let tamanhoMaximoMunicipio = (input) => {
+      let maiorNomeMunicipio = this.listaMunicipios
+                                  .map(municipio => (municipio.length + 1)/ 2)
+                                  .reduce((a, b) => Math.max(a, b));
+      input.style.width = maiorNomeMunicipio.toString() + "em";
+    }
+
+    let input = document.getElementById("input-municipio");
+
+    // Na unidade 'em', a largura do texto é representada pelo número de caracteres
+    // dividido por 2
+    if(novoMunicipio){      
+      if(this.listaMunicipios.includes(novoMunicipio)){
+        input.style.width = ((novoMunicipio.length  + 1)/ 2).toString() + "em";
+      }else{
+        tamanhoMaximoMunicipio(input);
+      }
+    }else{
+      tamanhoMaximoMunicipio(input);
+    }
 
     this.decideSobreVisualizacao();
   }
@@ -235,13 +269,19 @@ export class FilterComponent implements OnInit {
     )
   }
 
+  private mesmoTipoEleicao(cargo1, cargo2) {
+    return this.cargosEleicao(cargo1) === this.cargosEleicao(cargo2);
+  }
+
   private cargosEleicao(cargo) {
-    let cargosMunicipais = ["PREFEITO", "VEREADOR", "VICE-PREFEITO"];
+    if(cargo === this.dataService.getTodosCargos()) {
+      return false;
+    }
 
     if (this.tipoEleicao === ELEICOES_MUNICIPAIS) {
-      return cargosMunicipais.indexOf(cargo) !== -1;
+      return CARGOS_MUNICIPAIS.indexOf(cargo) !== -1;
     } else {
-      return cargosMunicipais.indexOf(cargo) === -1;
+      return CARGOS_MUNICIPAIS.indexOf(cargo) === -1;
     }
   }
 

@@ -11,12 +11,16 @@
 </div>
 
 <div class = "main-container">
-  <app-filter (visualizaClique)="onRecebeEventoFiltro($event)"></app-filter>
+  <app-filter 
+    (visualizaClique)="onRecebeEventoFiltro($event)"
+    (apagaVisualizacao)="onRecebeEventoApagaPlot($event)">
+  </app-filter>
 
   <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%" fxLayoutAlign="center">
     <div fxFlex="70%">
       <div class="plots-div">
-          <app-scatterplot-patrimonio (selecaoCandidato)="onRecebeCliquePlot($event)"></app-scatterplot-patrimonio> 
+          <app-scatterplot-patrimonio (selecaoCandidato)="onRecebeCliquePlot($event)">
+          </app-scatterplot-patrimonio> 
         </div>
     </div>
     <div fxFlex="30%">      
