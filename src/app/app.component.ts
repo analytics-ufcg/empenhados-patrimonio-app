@@ -26,6 +26,7 @@ export class AppComponent {
 
   onRecebeEventoApagaPlot($event){
     this.scatterplotPatrimonio.apagaPlot();
+    this.novaVisualizacao = false;
   }
 
   onRecebeCliquePlot($event) {
