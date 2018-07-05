@@ -89,6 +89,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
     if (typeof this.data !== 'undefined' && this.data.length === 0) {      
       console.log("Não temos dados para este filtro!");
+      this.apagaPlot();
       this.alertService.openSnackBar("Não temos dados para este filtro!", "OK")
       
     } else {
