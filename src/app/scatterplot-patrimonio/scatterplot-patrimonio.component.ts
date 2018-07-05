@@ -31,11 +31,12 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   private g: any;
 
   private clickedCircle: any;
-
+  private transitionTime: any;
   private bounds: any;
 
   private data: any;
   private maiorPatrimonioEleicao1: any;
+  private menorPatrimonioEleicao1: any;
   private maiorDiferencaPositiva: any;
   private maiorDiferencaNegativa: any;
   private maiorDiferencaModulo: any;
@@ -45,12 +46,14 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   private situacao: String;
   public cargo: String;
   public transitionToogle: boolean;
+  public logToogle: boolean;
 
   constructor(private dataService: DataService,
     private alertService: AlertService,
     private utilsService: UtilsService) {
 
-    this.margin = ({ top: 20, right: 30, bottom: 20, left: 40 });
+    this.margin = ({top: 20, right: 30, bottom: 20, left: 40});
+    this.transitionTime = ({short: 1000, medium: 1500, long: 2000});
     this.circleRadius = 6;
     this.transitionToogle = false;
   }
@@ -93,7 +96,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       this.alertService.openSnackBar("Não temos dados para este filtro!", "OK")
 
     } else {
-      this.maiorPatrimonioEleicao1 = d3.max(this.data, (d: any) => d.patrimonio_eleicao_1);
+      this.maiorPatrimonioEleicao1 = d3.max(this.data, (d: any) => d.patrimonio_eleicao_1);  
+      this.menorPatrimonioEleicao1 = d3.min(this.data, (d: any) => d.patrimonio_eleicao_1);
       this.maiorDiferencaPositiva = d3.max(this.data, (d: any) => d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1);
       this.maiorDiferencaNegativa = d3.max(this.data, (d: any) => d.patrimonio_eleicao_1 - d.patrimonio_eleicao_2);
 
@@ -106,17 +110,20 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   }
 
   executaTransicao(evento) {
-    this.transitionToogle = evento.checked
+    this.transitionToogle = evento.checked;
+    
+    this.decideVisualizacao();    
+  }
 
-    if (this.transitionToogle) {
-      this.plotPatrimonioTransicao();
-    } else {
-      this.plotDiferencaPatrimonio();
-    }
+  executaTransicaoLog(evento) {
+    this.logToogle = evento.checked;
+
+    this.decideVisualizacao();
   }
 
   initD3Patrimonio() {
     this.transitionToogle = false;
+    this.logToogle = false;
     this.initX();
     this.initY();
     this.initZ();
@@ -152,10 +159,11 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
   private initAxes() {
     this.xAxis = g => g
-      .attr("transform", `translate(0,${this.height - this.margin.bottom})`)
-      .call(d3.axisBottom(this.x).ticks(this.width / 80).tickFormat(d3.format('.2s')))
-      .call(g => g.select(".domain").remove())
-      .call(g => g.append("text")
+    .attr("transform", `translate(0,${this.height - this.margin.bottom})`)
+    .call(d3.axisBottom(this.x).ticks(this.width / 80).tickFormat(d3.format('.2s')))
+    .call(g => g.select(".domain").remove())
+    .call(g => g.append("text")
+        .attr("id", "x-title")
         .attr("fill", "#000")
         .attr("x", this.width / 2)
         .attr("y", this.margin.bottom * 1.5)
@@ -191,8 +199,9 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.svg = d3.select('svg');
 
     this.svg.append("g")
-      .call(this.xAxis);
-
+        .attr("id", "x-axis")
+        .call(this.xAxis);
+    
     this.svg.append("g")
       .attr("id", "y-axis")
       .call(this.yAxis);
@@ -209,10 +218,9 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       .attr("y2", this.y(0));
 
     const g = this.svg.append("g")
-      .attr("stroke", "#000")
-      .attr("stroke-opacity", 0.2)
-
-
+        .attr("stroke", "#000")
+        .attr("stroke-opacity", 0.2)
+       
     g.selectAll("line")
       .data(this.data)
       .enter().append("line")
@@ -277,83 +285,179 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     }
   }
 
-  private plotDiferencaPatrimonio() {
+  private difference() {
+    
+    this.x.domain([0, this.maiorPatrimonioEleicao1]).nice();
     this.y.domain([-Math.abs(this.maiorDiferencaNegativa), this.maiorDiferencaPositiva]).nice();
 
     this.line
-      .transition()
-      .duration(2000)
-      .attr("y1", this.y(0))
-      .attr("y2", this.y(0))
+    .transition()
+    .duration(this.transitionTime.long)
+    .attr("x1", this.x(0))
+    .attr("y1", this.y(0))
+    .attr("x2", this.x(this.maiorPatrimonioEleicao1 + 1e3))
+    .attr("y2", this.y(0))
 
     this.g
-      .selectAll("circle")
-      .transition()
-      .duration(2000)
-      .attr("cx", (d: any) => this.x(d.patrimonio_eleicao_1))
-      .attr("cy", (d: any) => this.y(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1));
+    .selectAll("circle")
+    .transition()
+    .duration(this.transitionTime.long)
+    .attr("cx", (d: any) => this.x(d.patrimonio_eleicao_1))
+    .attr("cy", (d: any) => this.y(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1));
 
     this.g
-      .selectAll("line")
-      .transition()
-      .duration(2000)
-      .attr("y1", (d: any) => d.patrimonio_eleicao_2 > d.patrimonio_eleicao_1 ? this.y(0) : this.y(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1))
-      .attr("y2", (d: any) => d.patrimonio_eleicao_2 > d.patrimonio_eleicao_1 ? this.y(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1) : this.y(0))
-      .attr("stroke", (d: any) => this.z(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1));
+    .selectAll("line")
+    .transition()
+    .duration(this.transitionTime.long)
+    .attr("x1", (d: any) => this.x(d.patrimonio_eleicao_1 - .5))
+    .attr("x2", (d: any) => this.x(d.patrimonio_eleicao_1 - .5))
+    .attr("y1", (d: any) => d.patrimonio_eleicao_2 > d.patrimonio_eleicao_1 ? this.y(0) : this.y(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1))
+    .attr("y2", (d: any) => d.patrimonio_eleicao_2 > d.patrimonio_eleicao_1 ? this.y(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1) : this.y(0))
+    .attr("stroke", (d: any) => this.z(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1));
 
-    this.svg.select("#y-title")
-      .text("Diferença de patrimônio");
+    this.svg.select("#y-title")    
+    .text("Diferença de patrimônio");
 
+    this.svg.select("#x-title")    
+    .text("Patrimônio em " + this.ano);
+    
     this.tip
       .html((d: any) => this.tooltipDiferenca(d));
 
     this.svg.call(this.tip);
 
-    this.svg.select("#y-axis")
-      .transition()
-      .duration(1500)
-      .call(d3.axisLeft(this.y).ticks(this.height / 50).tickFormat(d3.format('.2s')))
-      .call(g => g.select(".domain").remove());
-
+    this.updateXAxis();
+    this.updateYAxis();
   }
 
-  private plotPatrimonioTransicao() {
+  private patrimonio() {
 
+    this.x.domain([0, this.maiorPatrimonioEleicao1]).nice();
     this.y.domain([0, d3.max(this.data, (d: any) => Math.max(d.patrimonio_eleicao_1, d.patrimonio_eleicao_2))]).nice();
 
     this.line
-      .transition()
-      .duration(2000)
-      .attr("y1", this.y(0))
-      .attr("y2", this.y(this.maiorPatrimonioEleicao1 + 1e3));
+    .transition()
+    .duration(this.transitionTime.long)
+    .attr("x1", this.x(0))
+    .attr("y1", this.y(0))
+    .attr("x2", this.x(this.maiorPatrimonioEleicao1 + 1e3))
+    .attr("y2", this.y(this.maiorPatrimonioEleicao1 + 1e3));
 
     this.g
-      .selectAll("circle")
-      .transition()
-      .duration(2000)
-      .attr("cx", (d: any) => this.x(d.patrimonio_eleicao_1))
-      .attr("cy", (d: any) => this.y(d.patrimonio_eleicao_2));
+    .selectAll("circle")
+    .transition()
+    .duration(this.transitionTime.long)
+    .attr("cx", (d: any) => this.x(d.patrimonio_eleicao_1))
+    .attr("cy", (d: any) => this.y(d.patrimonio_eleicao_2));
 
     this.g
-      .selectAll("line")
-      .transition()
-      .duration(2000)
-      .attr("y1", (d: any) => d.patrimonio_eleicao_2 < d.patrimonio_eleicao_1 ? this.y(d.patrimonio_eleicao_2) : this.y(d.patrimonio_eleicao_1))
-      .attr("y2", (d: any) => d.patrimonio_eleicao_2 > d.patrimonio_eleicao_1 ? this.y(d.patrimonio_eleicao_2) : this.y(d.patrimonio_eleicao_1))
+    .selectAll("line")
+    .transition()
+    .duration(this.transitionTime.long)
+    .attr("x1", (d: any) => this.x(d.patrimonio_eleicao_1 - .5))
+    .attr("x2", (d: any) => this.x(d.patrimonio_eleicao_1 - .5))
+    .attr("y1", (d: any) => d.patrimonio_eleicao_2 < d.patrimonio_eleicao_1 ? this.y(d.patrimonio_eleicao_2) : this.y(d.patrimonio_eleicao_1))
+    .attr("y2", (d: any) => d.patrimonio_eleicao_2 > d.patrimonio_eleicao_1 ? this.y(d.patrimonio_eleicao_2) : this.y(d.patrimonio_eleicao_1))  
 
     this.svg.select("#y-title")
       .text("Patrimônio em " + (this.ano.valueOf() + 4));
+
+    this.svg.select("#x-title")    
+    .text("Patrimônio em " + this.ano);    
 
     this.tip
       .html((d: any) => this.tooltipPatrimonio(d));
 
     this.svg.call(this.tip);
 
-    this.svg.select("#y-axis")
-      .transition()
-      .duration(1500)
-      .call(d3.axisLeft(this.y).ticks(this.height / 50).tickFormat(d3.format('.2s')))
-      .call(g => g.select(".domain").remove());
+    this.updateXAxis();
+    this.updateYAxis();
+  }
+
+  private differenceLog() {
+    this.x.domain([Math.log10(this.menorPatrimonioEleicao1), Math.log10(this.maiorPatrimonioEleicao1)]).nice();
+    this.y.domain([-Math.abs(this.maiorDiferencaNegativa), this.maiorDiferencaPositiva]).nice();
+
+    this.line
+    .transition()
+    .duration(this.transitionTime.medium)
+    .attr("x1", this.x(Math.log10(this.menorPatrimonioEleicao1)))
+    .attr("y1", this.y(0))      
+    .attr("x2", this.x(Math.log10(this.maiorPatrimonioEleicao1 + 1e3)))
+    .attr("y2", this.y(0));
+
+    this.g
+    .selectAll("circle")
+    .transition()
+    .duration(this.transitionTime.medium)
+    .attr("cx", (d: any) => this.x(Math.log10(d.patrimonio_eleicao_1)))
+    .attr("cy", (d: any) => this.y(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1));
+
+    this.g
+    .selectAll("line")
+    .transition()
+    .duration(this.transitionTime.medium)
+    .attr("x1", (d: any) => this.x(Math.log10(d.patrimonio_eleicao_1)))
+    .attr("x2", (d: any) => this.x(Math.log10(d.patrimonio_eleicao_1)))
+    .attr("y1", (d: any) => d.patrimonio_eleicao_2 > d.patrimonio_eleicao_1 ? this.y(0) : this.y(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1))
+    .attr("y2", (d: any) => d.patrimonio_eleicao_2 > d.patrimonio_eleicao_1 ? this.y(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1) : this.y(0));
+
+    this.svg.select("#y-title")    
+    .text("Diferença de patrimônio");
+
+    this.svg.select("#x-title")    
+    .text("Patrimônio em " + this.ano + " (log10)");
+
+    this.tip
+    .html((d: any) => this.tooltipDiferenca(d));
+
+    this.svg.call(this.tip);
+
+    this.updateXAxis();
+    this.updateYAxis();
+  }
+
+  private patrimonioLog() {
+    this.x.domain([Math.log10(this.menorPatrimonioEleicao1), Math.log10(this.maiorPatrimonioEleicao1)]).nice();
+    this.y.domain([Math.log10(this.menorPatrimonioEleicao1), d3.max(this.data, (d: any) => Math.log10(Math.max(d.patrimonio_eleicao_1, d.patrimonio_eleicao_2)))]).nice();
+
+    this.line
+    .transition()
+    .duration(this.transitionTime.long)
+    .attr("x1", this.x(Math.log10(this.menorPatrimonioEleicao1)))
+    .attr("y1", this.y(Math.log10(this.menorPatrimonioEleicao1)))
+    .attr("y2", this.y(Math.log10(this.maiorPatrimonioEleicao1 + 1e3)))
+    .attr("x2", this.x(Math.log10(this.maiorPatrimonioEleicao1 + 1e3)));
+
+    this.g
+    .selectAll("circle")
+    .transition()
+    .duration(this.transitionTime.long)
+    .attr("cx", (d: any) => this.x(Math.log10(d.patrimonio_eleicao_1)))
+    .attr("cy", (d: any) => this.y(Math.log10(d.patrimonio_eleicao_2)));
+
+    this.g
+    .selectAll("line")
+    .transition()
+    .duration(this.transitionTime.long)
+    .attr("y1", (d: any) => d.patrimonio_eleicao_2 < d.patrimonio_eleicao_1 ? this.y(Math.log10(d.patrimonio_eleicao_2)) : this.y(Math.log10(d.patrimonio_eleicao_1)))
+    .attr("y2", (d: any) => d.patrimonio_eleicao_2 > d.patrimonio_eleicao_1 ? this.y(Math.log10(d.patrimonio_eleicao_2)) : this.y(Math.log10(d.patrimonio_eleicao_1)))
+    .attr("x1", (d: any) => this.x(Math.log10(d.patrimonio_eleicao_1)))
+    .attr("x2", (d: any) => this.x(Math.log10(d.patrimonio_eleicao_1)));
+
+    this.svg.select("#y-title")    
+    .text("Patrimônio em " + (this.ano.valueOf() + 4) + " (log10)");
+
+    this.svg.select("#x-title")    
+    .text("Patrimônio em " + this.ano + " (log10)");
+
+    this.tip
+    .html((d: any) => this.tooltipPatrimonio(d));
+
+    this.svg.call(this.tip);
+
+    this.updateXAxis();
+    this.updateYAxis();
 
   }
 
@@ -366,6 +470,43 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   private tooltipDiferenca(d: any) {
     return "<strong>" + d.nome_urna + "</strong><br><span>" + d.unidade_eleitoral + "</span>" + "<br>" +
       "<span>" + "Diferença: " + this.utilsService.formataReais(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1) + "</span>";
+  }
+
+  private updateXAxis() {
+    this.svg.select("#x-axis")
+    .transition()
+    .duration(this.transitionTime.short)
+    .call(d3.axisBottom(this.x).ticks(this.width / 80).tickFormat(d3.format('.2s')))    
+  }
+
+  private updateYAxis() {
+    this.svg.select("#y-axis")
+    .transition()
+    .duration(this.transitionTime.short)
+    .call(d3.axisLeft(this.y).ticks(this.height / 50).tickFormat(d3.format('.2s')))
+    .call(g => g.select(".domain").remove());
+  }
+
+  private decideVisualizacao() {
+    
+    if (this.logToogle && this.transitionToogle) {
+      this.patrimonioLog();
+    } else if (this.logToogle && !this.transitionToogle) {
+      this.differenceLog();
+    } else if (!this.logToogle && this.transitionToogle) {
+      this.patrimonio();
+    }else {
+      this.difference();
+    }
+  }
+
+  public toTitleCase(str) {
+    if (str === this.dataService.getTodosCargos()) {
+      return str;
+    }
+    return str.replace(/\w\S*/g, function(txt){
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
   }
 
   public formataCargo(cargo) {
