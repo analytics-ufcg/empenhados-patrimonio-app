@@ -9,6 +9,7 @@ import { UtilsService } from './services/utils.service';
 import { AlertService } from './services/alert.service';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
+
 import {
   MatToolbarModule,
   MatTabsModule,
@@ -38,7 +39,9 @@ import { ResumoCandidatoComponent } from './resumo-candidato/resumo-candidato.co
 import { JoyplotEstadosComponent } from './joyplot-estados/joyplot-estados.component';
 import { FactSheetComponent } from './fact-sheet/fact-sheet.component';
 import { AboutComponent } from './about/about.component';
+import { HomeComponent } from './home/home.component';
 
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -48,7 +51,8 @@ import { AboutComponent } from './about/about.component';
     ResumoCandidatoComponent,
     JoyplotEstadosComponent,
     FactSheetComponent,
-    AboutComponent
+    AboutComponent,
+    HomeComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -71,7 +75,8 @@ import { AboutComponent } from './about/about.component';
     MatSlideToggleModule,
     MatListModule,
     HttpClientModule,
-    MatDialogModule
+    MatDialogModule,
+    AppRoutingModule 
   ],
   providers: [
     HttpClientModule,
@@ -81,7 +86,6 @@ import { AboutComponent } from './about/about.component';
     UtilsService,
     AlertService
   ],
-  bootstrap: [AppComponent],
-  entryComponents: [AboutComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -2,32 +2,13 @@
 
 <div>
   <mat-toolbar>
-    <span> {{ title }}</span>
+    <span routerLink="/"> {{ title }}</span>
     <span class="fill-remaining-space-navbar"></span>
-    <a mat-button (click)="openDialog()">O que é?</a>
+    <a mat-button (click)='openAbout()'>O que é?</a>
     <a mat-button href="https://github.com/analytics-ufcg/empenhados-patrimonio" target="_blank">GitHub</a>
     <a mat-button>Mais</a>
   </mat-toolbar>
 </div>
-
-<div class = "main-container">
-  <app-filter (visualizaClique)="onRecebeEventoFiltro($event)"></app-filter>
-
-  <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%" fxLayoutAlign="center">
-    <div fxFlex="70%">
-      <div class="plots-div">
-          <app-scatterplot-patrimonio (selecaoCandidato)="onRecebeCliquePlot($event)"></app-scatterplot-patrimonio> 
-        </div>
-    </div>
-    <div fxFlex="30%">      
-      <app-resumo-candidato [hidden]="!novaVisualizacao"></app-resumo-candidato>      
-      <!-- <app-fact-sheet></app-fact-sheet> -->
-    </div>
-  </div>
-
-  <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%" fxLayoutAlign="center">
-    <div fxFlex="100%">    
-      <!-- <app-joyplot-estados></app-joyplot-estados> -->
-    </div>
-  </div>
+<div class="main-container">
+  <router-outlet></router-outlet>
 </div>
