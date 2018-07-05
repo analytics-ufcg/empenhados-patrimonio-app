@@ -1,0 +1,22 @@
+.about-card {
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-top: 3%;
+    border-radius: 5pt;
+}
+
+.about-container {
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 3%;
+}
+
+.about-text {
+    font-size: 16px;
+    line-height: 2;
+}
+
+.about-title {
+    text-align: center;
+    margin-bottom: 5%;
+}
