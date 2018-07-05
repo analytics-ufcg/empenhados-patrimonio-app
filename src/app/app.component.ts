@@ -14,8 +14,6 @@ export class AppComponent {
 
   constructor(private router: Router) { }
 
-
-
   openAbout() {
     this.router.navigate(['/sobre']);
   }
