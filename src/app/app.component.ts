@@ -24,6 +24,11 @@ export class AppComponent {
     this.novaVisualizacao = false;
   }
 
+  onRecebeEventoApagaPlot($event){
+    this.scatterplotPatrimonio.apagaPlot();
+    this.novaVisualizacao = false;
+  }
+
   onRecebeCliquePlot($event) {
     this.novaVisualizacao = true;
     this.resumoCandidato.texto();

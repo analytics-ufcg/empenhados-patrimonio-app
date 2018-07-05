@@ -22,6 +22,7 @@ const CARGOS_MUNICIPAIS = ["PREFEITO", "VEREADOR", "VICE-PREFEITO"];
 export class FilterComponent implements OnInit {
 
   @Output() visualizaClique = new EventEmitter<any>();
+  @Output() apagaVisualizacao = new EventEmitter<any>();
 
   public listaEstados: any;
   public listaCargos: any;
@@ -121,6 +122,8 @@ export class FilterComponent implements OnInit {
   decideSobreVisualizacao() {
     if (this.filtroPronto()) {
       this.emiteEventoVisualizacao();
+    }else{
+      this.apagaVisualizacao.next();
     }
   }
 
@@ -168,6 +171,28 @@ export class FilterComponent implements OnInit {
 
   onChangeMunicipio(novoMunicipio) {
     this.municipioSelecionado = novoMunicipio;
+
+    // Escolhe o maior município entre a lista dos municípios do estado selecionado
+    let tamanhoMaximoMunicipio = (input) => {
+      let maiorNomeMunicipio = this.listaMunicipios
+                                  .map(municipio => (municipio.length + 1)/ 2)
+                                  .reduce((a, b) => Math.max(a, b));
+      input.style.width = maiorNomeMunicipio.toString() + "em";
+    }
+
+    let input = document.getElementById("input-municipio");
+
+    // Na unidade 'em', a largura do texto é representada pelo número de caracteres
+    // dividido por 2
+    if(novoMunicipio){      
+      if(this.listaMunicipios.includes(novoMunicipio)){
+        input.style.width = ((novoMunicipio.length  + 1)/ 2).toString() + "em";
+      }else{
+        tamanhoMaximoMunicipio(input);
+      }
+    }else{
+      tamanhoMaximoMunicipio(input);
+    }
 
     this.decideSobreVisualizacao();
   }

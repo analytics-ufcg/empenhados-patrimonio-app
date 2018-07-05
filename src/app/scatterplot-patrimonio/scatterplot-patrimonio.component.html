@@ -5,7 +5,7 @@
     Veja a variação de patrimônio entre {{ ano }} e {{ ano + 4 }}. As observações acima da linha pontilhada indicam aumento de patrimônio. 
     Clique em um ponto para obter mais detalhes.
   </p>
-  <p class="plot-subtitle" *ngIf="transitionToogle">
+  <p class="plot-subtitle" *ngIf="transitionToogle && ano">
       Veja a comparação entre patrimônio de {{ ano }} e de {{ ano + 4 }}. As observações acima da linha pontilhada indicam aumento de patrimônio.
       Clique em um ponto para obter mais detalhes.
     </p>

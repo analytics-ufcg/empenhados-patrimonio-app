@@ -59,16 +59,16 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.svg = d3.select('svg');
 
     this.width = parseInt(this.svg.style("width")) - this.margin.right;
-    this.height = (this.width * 0.6) - this.margin.bottom;
+    this.height = (this.width * 0.5) - this.margin.bottom;
 
-    this.svg.attr("height", this.width * 0.6);
-
+    this.svg.attr("height", this.width * 0.5);
+    
     window.addEventListener('resize', () => {
       this.width = parseInt(this.svg.style("width"));
-      this.height = (this.width * 0.6) - this.margin.bottom;
+      this.height = (this.width * 0.5) - this.margin.bottom;
 
-      this.svg.attr("height", this.width * 0.6);
-      if (this.data) {
+      this.svg.attr("height", this.width * 0.5);
+      if(this.data){
         this.plotPatrimonio()
       }
     })
@@ -89,6 +89,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
     if (typeof this.data !== 'undefined' && this.data.length === 0) {
       console.log("Não temos dados para este filtro!");
+      this.apagaPlot();
       this.alertService.openSnackBar("Não temos dados para este filtro!", "OK")
 
     } else {
@@ -98,6 +99,10 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
       this.initD3Patrimonio();
     }
+  }
+
+  apagaPlot(){
+    d3.selectAll("svg > *").remove();
   }
 
   executaTransicao(evento) {
