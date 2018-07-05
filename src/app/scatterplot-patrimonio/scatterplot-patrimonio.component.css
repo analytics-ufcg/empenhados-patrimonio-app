@@ -1,8 +1,4 @@
 
-.scatterplot-card {
-    margin: none;
-    border-radius: 3%;
-}
 
 .plot {
     display: inline-block;
@@ -15,7 +11,6 @@
     padding: 12px;
     background: rgba(0, 0, 0, 0.8);
     color: #fff;    
-    border-radius: 2px;
     text-align: right;
     font-family: 'Roboto';
 }
@@ -40,8 +35,28 @@
 
 .plot-subtitle {
     color: #888888;
+    font-size: .8em;
+    margin-bottom: 2%;
+    -webkit-margin-before: -1em;
 }
 
 .slide-toogle {
     padding-left: 10px;
+}
+
+.slide-toogle-text {
+    font-size: 12px;
+}
+
+.plot-container {
+    margin-top: 2em;
+}
+
+.mat-slide-toggle-content {
+    font-size: 12px;
+}
+
+.mat-card:not([class*=mat-elevation-z]) {
+    border-radius: 0 !important;
+    box-shadow: 0 -2px 0px 0px rgba(5, 156, 227) !important;
 }
