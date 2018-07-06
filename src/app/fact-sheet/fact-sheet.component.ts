@@ -14,6 +14,7 @@ export class FactSheetComponent implements OnInit {
   private candidato : any;
   private infoCandidato : any;
   private dadosEleicao : any;
+  private ano : any;
 
   constructor(private dataService: DataService,
               private utilsService: UtilsService) { }
@@ -48,6 +49,8 @@ export class FactSheetComponent implements OnInit {
         console.log(err);
       }
     );
+
+    this.ano = this.dataService.getAno();
   }
 
   numberToReal(numero) {
