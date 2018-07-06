@@ -46,11 +46,56 @@ export class FilterComponent implements OnInit {
   private controlMunicipio: FormControl = new FormControl();
   private filteredOptions: Observable<string[]>;
 
+  private municipiosPronto: any;
+
   private estados_prep_no = ["AC", "AL", "AM", "AP", "BR", "CE", "DF", "ES", "MA", "MS", "MT", "PA", "PI", "PR", "RJ", "RN", "RS", "TO"];
   private estados_prep_na = ["BA", "PB"];
   private estados_prep_em = ["GO", "MG", "PE", "RO", "RR", "SC", "SE", "SP"];
   public preposicao_estado = "no";
 
+
+  private estados = [
+    {sigla: "AC", capital: "Rio Branco"},
+    {sigla:"AL", capital: "Maceió"},
+    {sigla:"AP", capital: "Macapá"},
+    {sigla:"AM", capital: "Manaus"},
+    {sigla:"BA", capital: "Salvador"},
+    {sigla:"CE", capital: "Fortaleza"},
+    {sigla:"DF", capital: "Distrito Federal"},
+    {sigla:"ES", capital: "Vitória"},
+    {sigla:"GO", capital: "Goiânia"},
+    {sigla:"MA", capital: "São Luís"},
+    {sigla:"MT", capital: "Cuiabá"},
+    {sigla:"MS", capital: "Campo Grande"},
+    {sigla:"MG", capital: "Belo Horizonte"},
+    {sigla:"PA", capital: "Belém"},
+    {sigla:"PB", capital: "João Pessoa"},
+    {sigla:"PR", capital: "Curitiba"},
+    {sigla:"PE", capital: "Recife"},
+    {sigla:"PI", capital: "Teresina"},
+    {sigla:"RJ", capital: "Rio de Janeiro"},
+    {sigla:"RN", capital: "Natal"},
+    {sigla:"RS", capital: "Porto Alegre"},
+    {sigla:"RO", capital: "Porto Velho"},
+    {sigla:"RR", capital: "Boa Vista"},
+    {sigla:"SC", capital: "Florianópolis"},
+    {sigla:"SP", capital: "São Paulo"},
+    {sigla:"SE", capital: "Aracaju"},
+    {sigla:"TO", capital: "Palmas"}
+  ]
+
+  encontraCapital = (sigla) => {
+    let estado = this.estados.filter(
+      (estado) => {
+        if(estado.sigla === sigla){
+          return estado.capital;
+        }
+      }
+    )[0];
+
+    if(estado) return estado.capital;
+    return "";
+  }
 
   constructor(private requestService: RequestService,
     private dataService: DataService) {
@@ -126,25 +171,28 @@ export class FilterComponent implements OnInit {
   }
 
   /* Altera a lista de municipios a partir de um estado selecionado */
-  onChangeEstado(novoEstado) {
+  async onChangeEstado(novoEstado) {
     this.estadoSelecionado = novoEstado;
     this.dataService.mudaEstado(novoEstado);
     this.definePreposicao();
-
-    this.municipioSelecionado = "";
-
     this.atualizaFiltroMunicipio();
-
-    this.requestService.recuperaMunicipios(this.estadoSelecionado).subscribe(
+    
+    await this.requestService.recuperaMunicipios(this.estadoSelecionado).subscribe(
       data => {
         let municipios = data;
         this.listaMunicipios = this.jsonToArray(municipios);
+
+        if(this.isVereador){
+          this.municipioSelecionado = this.encontraCapital(this.estadoSelecionado);
+        }else{
+          this.decideSobreVisualizacao();
+        }
       }, err => {
         console.log(err);
       }
     );
 
-    this.decideSobreVisualizacao();
+    
   }
 
   // Atualiza cargo atual selecionado
