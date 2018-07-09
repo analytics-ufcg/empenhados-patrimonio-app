@@ -44,7 +44,7 @@ export class FactSheetComponent implements OnInit {
 
     this.dataService.infoEleicao.subscribe(
       data => {
-        this.dadosEleicao = data[0];        
+        this.dadosEleicao = data[0];                
       }, err => {
         console.log(err);
       }
@@ -54,6 +54,14 @@ export class FactSheetComponent implements OnInit {
   }
 
   numberToReal(numero) {
-    return this.utilsService.formataReais(numero);
+    return this.utilsService.formataReais(numero);    
   }
+
+  defineIdade(dataNascimento) {    
+    let idade = this.utilsService.calculaIdade(dataNascimento);    
+
+    if (isNaN(idade)) return "";    
+    return " - " + idade;
+  }
+
 }

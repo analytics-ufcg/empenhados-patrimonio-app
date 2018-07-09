@@ -83,7 +83,7 @@ router.get('/patrimonio/busca/situacao', async(req, res) => {
 
 router.get('/candidato/:ano/:cpfcandidato', async(req, res) => {
   let parameters = [req.params.ano, req.params.cpfcandidato];
-  var query = "SELECT DISTINCT(cpf_Candidato), c.nome_Urna_Candidato, o.desc_Ocupacao, u.desc_Unid_Eleitoral, c.idade_Cand_Data_Eleicao FROM candidatos_eleicao c, cod_ocupacao o, cod_unidade_eleitoral u WHERE c.cod_Ocupacao = o.cod_Ocupacao AND c.sigla_Unid_Eleitoral = u.sigla_Unid_Eleitoral AND ano_Eleicao = ? AND c.cpf_Candidato = ?";
+  var query = "SELECT DISTINCT(cpf_Candidato), c.nome_Urna_Candidato, o.desc_Ocupacao, u.desc_Unid_Eleitoral, c.idade_Cand_Data_Eleicao, c.data_Nascimento FROM candidatos_eleicao c, cod_ocupacao o, cod_unidade_eleitoral u WHERE c.cod_Ocupacao = o.cod_Ocupacao AND c.sigla_Unid_Eleitoral = u.sigla_Unid_Eleitoral AND ano_Eleicao = ? AND c.cpf_Candidato = ?";
 
   execSQLQuery(query, parameters, res);
 });

@@ -15,6 +15,19 @@ export class UtilsService {
     return str.replace(/\w\S*/g, function(txt){
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
-}
+  }
+
+  public strToDate(data) {
+    const [day, month, year] = data.split("/");
+    return new Date(year, month - 1, day);
+  }
+
+  public calculaIdade(dataNascimento) {
+    var date = this.strToDate(dataNascimento);
+    var ageDifMs = Date.now() - date.getTime();
+    var ageDate = new Date(ageDifMs);
+    
+    return Math.abs(ageDate.getUTCFullYear() - 1970); 
+  }
 
 }
