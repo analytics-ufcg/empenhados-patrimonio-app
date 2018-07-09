@@ -36,7 +36,11 @@ export class FactSheetComponent implements OnInit {
     this.dataService.infoCandidatoSelecionado.subscribe(
       data => {
         this.infoCandidato = data[0];
-        this.isCandidatoSelecionado = true;
+        if (this.infoCandidato === undefined) {
+          this.isCandidatoSelecionado = false;
+        } else {
+          this.isCandidatoSelecionado = true;
+        }        
       }, err => {
         console.log(err);
       }
