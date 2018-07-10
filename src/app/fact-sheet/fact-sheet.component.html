@@ -2,13 +2,13 @@
   <p>
     {{ candidato.nome_urna}}, {{ infoCandidato.desc_Ocupacao | lowercase }} {{ defineIdade(infoCandidato.data_Nascimento) }}, foi
     candidato em {{ infoCandidato.desc_Unid_Eleitoral }}. Também houveram outros {{ dadosEleicao.quantidade_candidatos }}
-    candidatos a {{ candidato.cargo_pleiteado_1 | lowercase }}, com uma média de patrimônio de {{ numberToReal(dadosEleicao.media_patrimonio)
+    candidatos a {{ formataCargo(candidato.cargo_pleiteado_1) }}, com uma média de patrimônio de {{ numberToReal(dadosEleicao.media_patrimonio)
     }}.
   </p>
   <p>
-    Em {{ ano }} foi {{ candidato.situacao_eleicao_1 }} para {{ candidato.cargo_pleiteado_1 }}
+    Em {{ ano }} foi {{ candidato.situacao_eleicao_1 | lowercase }} para {{ formataCargo(candidato.cargo_pleiteado_1) }}.
   </p>
   <p>
-    Concorreu em {{ ano + 4 }} a {{ candidato.cargo_pleiteado_2 }} e foi {{ candidato.situacao_eleicao_2 }}
+    Concorreu em {{ ano + 4 }} a {{ formataCargo(candidato.cargo_pleiteado_2) }} e foi {{ candidato.situacao_eleicao_2 | lowercase }}.
   </p>
 </mat-card>

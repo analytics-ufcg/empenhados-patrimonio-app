@@ -65,7 +65,15 @@ export class FactSheetComponent implements OnInit {
     let idade = this.utilsService.calculaIdade(dataNascimento);    
 
     if (isNaN(idade)) return "";    
-    return " - " + idade;
+    return " - " + idade + " anos";
+  }
+
+  formataCargo(cargo) {
+    if (cargo == this.dataService.getTodosCargos()) {
+      return cargo;
+    }
+
+    return this.utilsService.toTitleCase(cargo);
   }
 
 }
