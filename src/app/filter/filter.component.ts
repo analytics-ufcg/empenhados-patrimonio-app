@@ -6,10 +6,12 @@ import { startWith } from 'rxjs/operators/startWith';
 import { map } from 'rxjs/operators/map';
 import { DataService } from '../services/data.service';
 import { ViewEncapsulation } from '@angular/core';
+import { ThrowStmt } from '@angular/compiler';
 
 
 const ELEICOES_FEDERAIS = 1;
 const ELEICOES_MUNICIPAIS = 2;
+const CARGOS_MUNICIPAIS = ["PREFEITO", "VEREADOR", "VICE-PREFEITO"];
 
 @Component({
   selector: 'app-filter',
@@ -20,6 +22,7 @@ const ELEICOES_MUNICIPAIS = 2;
 export class FilterComponent implements OnInit {
 
   @Output() visualizaClique = new EventEmitter<any>();
+  @Output() apagaVisualizacao = new EventEmitter<any>();
 
   public listaEstados: any;
   public listaCargos: any;
@@ -45,11 +48,56 @@ export class FilterComponent implements OnInit {
   private controlMunicipio: FormControl = new FormControl();
   private filteredOptions: Observable<string[]>;
 
+  private municipiosPronto: any;
+
   private estados_prep_no = ["AC", "AL", "AM", "AP", "BR", "CE", "DF", "ES", "MA", "MS", "MT", "PA", "PI", "PR", "RJ", "RN", "RS", "TO"];
   private estados_prep_na = ["BA", "PB"];
   private estados_prep_em = ["GO", "MG", "PE", "RO", "RR", "SC", "SE", "SP"];
   public preposicao_estado = "no";
 
+
+  private estados = [
+    {sigla: "AC", capital: "Rio Branco"},
+    {sigla:"AL", capital: "Maceió"},
+    {sigla:"AP", capital: "Macapá"},
+    {sigla:"AM", capital: "Manaus"},
+    {sigla:"BA", capital: "Salvador"},
+    {sigla:"CE", capital: "Fortaleza"},
+    {sigla:"DF", capital: "Distrito Federal"},
+    {sigla:"ES", capital: "Vitória"},
+    {sigla:"GO", capital: "Goiânia"},
+    {sigla:"MA", capital: "São Luís"},
+    {sigla:"MT", capital: "Cuiabá"},
+    {sigla:"MS", capital: "Campo Grande"},
+    {sigla:"MG", capital: "Belo Horizonte"},
+    {sigla:"PA", capital: "Belém"},
+    {sigla:"PB", capital: "João Pessoa"},
+    {sigla:"PR", capital: "Curitiba"},
+    {sigla:"PE", capital: "Recife"},
+    {sigla:"PI", capital: "Teresina"},
+    {sigla:"RJ", capital: "Rio de Janeiro"},
+    {sigla:"RN", capital: "Natal"},
+    {sigla:"RS", capital: "Porto Alegre"},
+    {sigla:"RO", capital: "Porto Velho"},
+    {sigla:"RR", capital: "Boa Vista"},
+    {sigla:"SC", capital: "Florianópolis"},
+    {sigla:"SP", capital: "São Paulo"},
+    {sigla:"SE", capital: "Aracaju"},
+    {sigla:"TO", capital: "Palmas"}
+  ]
+
+  encontraCapital = (sigla) => {
+    let estado = this.estados.filter(
+      (estado) => {
+        if(estado.sigla === sigla){
+          return estado.capital;
+        }
+      }
+    )[0];
+
+    if(estado) return estado.capital;
+    return "";
+  }
 
   constructor(private requestService: RequestService,
     private dataService: DataService) {
@@ -119,35 +167,47 @@ export class FilterComponent implements OnInit {
   decideSobreVisualizacao() {
     if (this.filtroPronto()) {
       this.emiteEventoVisualizacao();
+    }else{
+      this.apagaVisualizacao.next();
     }
   }
 
   /* Altera a lista de municipios a partir de um estado selecionado */
-  onChangeEstado(novoEstado) {
+  async onChangeEstado(novoEstado) {
     this.estadoSelecionado = novoEstado;
     this.dataService.mudaEstado(novoEstado);
     this.definePreposicao();
-
-    this.municipioSelecionado = "";
-
     this.atualizaFiltroMunicipio();
-
-    this.requestService.recuperaMunicipios(this.estadoSelecionado).subscribe(
+    
+    await this.requestService.recuperaMunicipios(this.estadoSelecionado).subscribe(
       data => {
         let municipios = data;
         this.listaMunicipios = this.jsonToArray(municipios);
+
+        if(this.isVereador){
+          this.municipioSelecionado = this.encontraCapital(this.estadoSelecionado);
+        }else{
+          this.decideSobreVisualizacao();
+        }
       }, err => {
         console.log(err);
       }
     );
 
-    this.decideSobreVisualizacao();
+    
   }
 
   // Atualiza cargo atual selecionado
   onChangeCargo(novoCargo) {
+    if(!this.mesmoTipoEleicao(novoCargo, this.cargoSelecionado)) {
+      if(CARGOS_MUNICIPAIS.indexOf(novoCargo) === -1 && novoCargo !== this.dataService.getTodosCargos()) {
+        this.anoSelecionado = 2010;
+      } else {
+        this.anoSelecionado = undefined;
+      }
+    }
+
     this.municipioSelecionado = undefined;
-    this.anoSelecionado = undefined;
 
     this.cargoSelecionado = novoCargo;
     this.dataService.mudaCargo(novoCargo);
@@ -258,13 +318,19 @@ export class FilterComponent implements OnInit {
     )
   }
 
+  private mesmoTipoEleicao(cargo1, cargo2) {
+    return this.cargosEleicao(cargo1) === this.cargosEleicao(cargo2);
+  }
+
   private cargosEleicao(cargo) {
-    let cargosMunicipais = ["PREFEITO", "VEREADOR", "VICE-PREFEITO"];
+    if(cargo === this.dataService.getTodosCargos()) {
+      return false;
+    }
 
     if (this.tipoEleicao === ELEICOES_MUNICIPAIS) {
-      return cargosMunicipais.indexOf(cargo) !== -1;
+      return CARGOS_MUNICIPAIS.indexOf(cargo) !== -1;
     } else {
-      return cargosMunicipais.indexOf(cargo) === -1;
+      return CARGOS_MUNICIPAIS.indexOf(cargo) === -1;
     }
   }
 

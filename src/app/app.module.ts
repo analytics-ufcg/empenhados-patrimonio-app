@@ -9,6 +9,7 @@ import { UtilsService } from './services/utils.service';
 import { AlertService } from './services/alert.service';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
+
 import {
   MatToolbarModule,
   MatTabsModule,
@@ -23,7 +24,8 @@ import {
   MatInputModule,
   MatSnackBarModule,
   MatListModule,
-  MatSlideToggleModule
+  MatSlideToggleModule,
+  MatDialogModule
 } from '@angular/material';
 
 import {
@@ -36,7 +38,10 @@ import { ScatterplotPatrimonioComponent } from './scatterplot-patrimonio/scatter
 import { ResumoCandidatoComponent } from './resumo-candidato/resumo-candidato.component';
 import { JoyplotEstadosComponent } from './joyplot-estados/joyplot-estados.component';
 import { FactSheetComponent } from './fact-sheet/fact-sheet.component';
+import { AboutComponent } from './about/about.component';
+import { HomeComponent } from './home/home.component';
 
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -45,7 +50,9 @@ import { FactSheetComponent } from './fact-sheet/fact-sheet.component';
     ScatterplotPatrimonioComponent,
     ResumoCandidatoComponent,
     JoyplotEstadosComponent,
-    FactSheetComponent
+    FactSheetComponent,
+    AboutComponent,
+    HomeComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -67,7 +74,9 @@ import { FactSheetComponent } from './fact-sheet/fact-sheet.component';
     MatSnackBarModule,
     MatSlideToggleModule,
     MatListModule,
-    HttpClientModule
+    HttpClientModule,
+    MatDialogModule,
+    AppRoutingModule 
   ],
   providers: [
     HttpClientModule,
