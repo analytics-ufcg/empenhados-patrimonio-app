@@ -76,5 +76,6 @@ $patrimonio-theme: mat-light-theme($patrimonio-primary, $patrimonio-accent);
 @include angular-material-theme($patrimonio-theme);
 
 body {
-    margin: 0px;
+  height: 100%;
+  margin: 0px;
 }

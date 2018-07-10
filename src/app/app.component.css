@@ -1,7 +1,9 @@
 .main-container {
     margin-left: 5%;
     margin-right: 5%;
+    margin-bottom: 5%;
     margin-top: 1%;
+    min-height: 60vh;
 }
 
 .mat-toolbar {
@@ -15,4 +17,23 @@
 
 .title {
     cursor: pointer !important;
+}
+
+#site-footer {
+    background-color: #2f3640;
+    color: #f5f6fa;
+    padding: 2%;
+}
+
+#site-footer mat-divider {
+    border-color: #636e72;
+}
+
+.footer-content {
+    padding: 3%;
+}
+
+.footer-icon {
+    height: 100px;
+    width: 100px;
 }
