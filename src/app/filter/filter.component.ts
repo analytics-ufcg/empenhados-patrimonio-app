@@ -245,6 +245,7 @@ export class FilterComponent implements OnInit {
     this.decideSobreVisualizacao();
   }
 
+
   onChangeAno(novoAno) {
     this.anoSelecionado = novoAno;
     this.dataService.mudaAno(novoAno);
