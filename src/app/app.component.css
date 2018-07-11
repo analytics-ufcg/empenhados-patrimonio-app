@@ -6,7 +6,12 @@
 
 .mat-toolbar {
     flex: 0;
-    background-color: #f6d129;
+    background-color: #059CE3;
+    color: #ffffff;
+}
+
+.mat-toolbar-row, .mat-toolbar-single-row {
+    height: 4.5em;
 }
 
 .fill-remaining-space-navbar {
@@ -15,4 +20,6 @@
 
 .title {
     cursor: pointer !important;
+    padding: 0 5%;
 }
+

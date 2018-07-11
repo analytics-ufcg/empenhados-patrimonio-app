@@ -17,8 +17,8 @@
     </mat-list-item>
     <h3 class="resumo-item-header">Ganho</h3>
     <mat-list-item >
-      <mat-icon mat-list-icon *ngIf="crescimentoPatrimonio" >trending_up</mat-icon>
-      <mat-icon mat-list-icon *ngIf="reducaoPatrimonio" >trending_down</mat-icon>
+      <mat-icon mat-list-icon *ngIf="crescimentoPatrimonio" style="color: #27ae60" >trending_up</mat-icon>
+      <mat-icon mat-list-icon *ngIf="reducaoPatrimonio" style="color: #c0392b" >trending_down</mat-icon>
       <mat-icon mat-list-icon *ngIf="patrimonioEstavel" >trending_flat</mat-icon>
       <p class="resumo-ganho-text">O patrimônio do canditado <a class="resumo-text-value">{{ situacaoCrescimento }} </a></p>
     </mat-list-item>
