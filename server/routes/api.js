@@ -88,9 +88,9 @@ router.get('/candidato/:ano/:cpfcandidato', async(req, res) => {
   execSQLQuery(query, parameters, res);
 });
 
-router.get('/eleicao/:ano/:unidadeeleitoral/:cargo', async(req, res) => {
-  let parameters = [req.params.ano, req.params.unidadeeleitoral, req.params.cargo];
-  var query = "select COUNT(*) AS quantidade_candidatos, IFNULL(AVG(patrimonio_eleicao_2), 0) AS media_patrimonio from patrimonio_candidatos where ano_dois = ? AND unidade_eleitoral = ? AND cargo_pleiteado_2 = ?";
+router.get('/eleicao/:ano/:unidadeeleitoral/:cargo/:cpfcandidato', async(req, res) => {  
+  let parameters = [req.params.ano, req.params.unidadeeleitoral, req.params.cargo, req.params.cpfcandidato];  
+  var query = "select COUNT(*) AS quantidade_candidatos, IFNULL(AVG(patrimonio_eleicao_2), 0) AS media_patrimonio from patrimonio_candidatos where ano_dois = ? AND unidade_eleitoral = ? AND cargo_pleiteado_2 = ? AND cpf != ?";
 
   execSQLQuery(query, parameters, res);
 });

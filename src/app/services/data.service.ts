@@ -142,11 +142,11 @@ export class DataService {
     );
   }
 
-  async mudaDadosEleicao(ano: Number, unidadeEleitoral: String, cargo: String) {
+  async mudaDadosEleicao(ano: Number, unidadeEleitoral: String, cargo: String, cpfCandidato: String) {
     let dadosEleicao;
 
     return new Promise((resolve, reject) =>
-      this.requestService.recuperaInfoEleicao(ano, unidadeEleitoral, cargo).subscribe(
+      this.requestService.recuperaInfoEleicao(ano, unidadeEleitoral, cargo, cpfCandidato).subscribe(
         data => {
           dadosEleicao = data;
           this._infoEleicao.next(this.parseDataEleicao(dadosEleicao));

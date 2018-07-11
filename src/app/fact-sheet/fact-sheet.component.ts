@@ -31,7 +31,7 @@ export class FactSheetComponent implements OnInit {
       }
     );     
     await this.dataService.mudaInfoCandidato(this.candidato.ano_um+4, this.candidato.cpf);
-    await this.dataService.mudaDadosEleicao(this.candidato.ano_um+4, this.candidato.unidade_eleitoral, this.candidato.cargo_pleiteado_2);
+    await this.dataService.mudaDadosEleicao(this.candidato.ano_um+4, this.candidato.unidade_eleitoral, this.candidato.cargo_pleiteado_2, this.candidato.cpf);
 
     this.dataService.infoCandidatoSelecionado.subscribe(
       data => {
