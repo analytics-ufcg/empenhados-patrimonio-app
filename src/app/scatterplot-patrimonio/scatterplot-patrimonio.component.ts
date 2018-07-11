@@ -37,6 +37,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   private data: any;
   private maiorPatrimonioEleicao1: any;
   private menorPatrimonioEleicao1: any;
+  private menorPatrimonioEleicao2: any;
   private maiorDiferencaPositiva: any;
   private maiorDiferencaNegativa: any;
   private maiorDiferencaModulo: any;
@@ -98,6 +99,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     } else {
       this.maiorPatrimonioEleicao1 = d3.max(this.data, (d: any) => d.patrimonio_eleicao_1);  
       this.menorPatrimonioEleicao1 = d3.min(this.data, (d: any) => d.patrimonio_eleicao_1);
+      this.menorPatrimonioEleicao2 = d3.min(this.data, (d: any) => d.patrimonio_eleicao_2);
       this.maiorDiferencaPositiva = d3.max(this.data, (d: any) => d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1);
       this.maiorDiferencaNegativa = d3.max(this.data, (d: any) => d.patrimonio_eleicao_1 - d.patrimonio_eleicao_2);
 
@@ -419,7 +421,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
   private patrimonioLog() {
     this.x.domain([Math.log10(this.menorPatrimonioEleicao1), Math.log10(this.maiorPatrimonioEleicao1)]).nice();
-    this.y.domain([Math.log10(this.menorPatrimonioEleicao1), d3.max(this.data, (d: any) => Math.log10(Math.max(d.patrimonio_eleicao_1, d.patrimonio_eleicao_2)))]).nice();
+    this.y.domain([Math.log10(Math.min(this.menorPatrimonioEleicao1, this.menorPatrimonioEleicao2)), d3.max(this.data, (d: any) => Math.log10(Math.max(d.patrimonio_eleicao_1, d.patrimonio_eleicao_2)))]).nice();
 
     this.line
     .transition()
@@ -476,7 +478,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.svg.select("#x-axis")
     .transition()
     .duration(this.transitionTime.short)
-    .call(d3.axisBottom(this.x).ticks(this.width / 80).tickFormat(d3.format('.2s')))    
+    .call(d3.axisBottom(this.x).ticks(this.width / 80).tickFormat(d3.format('.2s')));
   }
 
   private updateYAxis() {

@@ -1,20 +1,15 @@
 <mat-card class="scatterplot-card">
-
-  <h3 class="plot-title" *ngIf="cargo">Variação no patrimônio dos candidatos a {{ formataCargo(cargo) }}</h3>
-  <p class="plot-subtitle" *ngIf="!transitionToogle && ano">
-    Veja a variação de patrimônio entre {{ ano }} e {{ ano + 4 }}. As observações acima da linha pontilhada indicam aumento de patrimônio. 
+  <h4 class="plot-title" *ngIf="cargo && ano">Variação no patrimônio dos candidatos a {{ formataCargo(cargo) }} -  {{ ano }} a {{ ano + 4 }}</h4>
+  <p class="plot-subtitle">
+    As observações acima da linha pontilhada indicam aumento de patrimônio. 
     Clique em um ponto para obter mais detalhes.
   </p>
-  <p class="plot-subtitle" *ngIf="transitionToogle && ano">
-      Veja a comparação entre patrimônio de {{ ano }} e de {{ ano + 4 }}. As observações acima da linha pontilhada indicam aumento de patrimônio.
-      Clique em um ponto para obter mais detalhes.
-    </p>
-  <div>
+  <div class="plot-container">
     <mat-slide-toggle [checked]="transitionToogle" (change)="executaTransicao($event)">
-      <div *ngIf="transitionToogle">
+      <div class="slide-toogle-text" *ngIf="transitionToogle">
         Variação
       </div>
-      <div *ngIf="!transitionToogle">
+      <div class="slide-toogle-text" *ngIf="!transitionToogle">
         Comparativo
       </div>
     </mat-slide-toggle>
