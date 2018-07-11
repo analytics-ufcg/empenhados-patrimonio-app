@@ -95,6 +95,13 @@ router.get('/eleicao/:ano/:unidadeeleitoral/:cargo/:cpfcandidato', async(req, re
   execSQLQuery(query, parameters, res);
 });
 
+router.get('/unidadeEleitoral/:deUnidEleitoral', async(req, res) => {  
+  let parameters = [req.params.deUnidEleitoral];  
+  var query = "select * from utils.idh where de_Unid_Eleitoral = ?";
+
+  execSQLQuery(query, parameters, res);
+});
+
 function execSQLQuery(sqlQuery, parameters, res){
 
   pool.getConnection(function(err, connection) {
