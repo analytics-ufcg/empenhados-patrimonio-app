@@ -58,8 +58,8 @@ export class RequestService {
     });
   }
 
-  public recuperaInfoEleicao(ano, unidadeEleitoral, cargo) {
-    return this.http.get(this.serverHost + '/eleicao/' + ano + '/' + unidadeEleitoral + '/' + cargo, {
+  public recuperaInfoEleicao(ano, unidadeEleitoral, cargo, cpfCandidato) {
+    return this.http.get(this.serverHost + '/eleicao/' + ano + '/' + unidadeEleitoral + '/' + cargo + '/' + cpfCandidato, {
       headers: this.headers
     });
   }

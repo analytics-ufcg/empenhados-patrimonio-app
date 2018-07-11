@@ -27,6 +27,7 @@ interface Candidato {
   desc_Ocupacao: String;
   desc_Unid_Eleitoral: String;
   idade_Cand_Data_Eleicao: Number;
+  data_Nascimento: String;
 };
 
 interface Eleicao {
@@ -141,11 +142,11 @@ export class DataService {
     );
   }
 
-  async mudaDadosEleicao(ano: Number, unidadeEleitoral: String, cargo: String) {
+  async mudaDadosEleicao(ano: Number, unidadeEleitoral: String, cargo: String, cpfCandidato: String) {
     let dadosEleicao;
 
     return new Promise((resolve, reject) =>
-      this.requestService.recuperaInfoEleicao(ano, unidadeEleitoral, cargo).subscribe(
+      this.requestService.recuperaInfoEleicao(ano, unidadeEleitoral, cargo, cpfCandidato).subscribe(
         data => {
           dadosEleicao = data;
           this._infoEleicao.next(this.parseDataEleicao(dadosEleicao));
@@ -188,7 +189,8 @@ export class DataService {
   private parseDataCandidato(data: any[]): Candidato[] {
     return data.map(v => <Candidato>{
       cpf_Candidato: v.cpf_Candidato, nome_Urna_Candidato: v.nome_Urna_Candidato,
-      desc_Ocupacao: v.desc_Ocupacao, desc_Unid_Eleitoral: v.desc_Unid_Eleitoral, idade_Cand_Data_Eleicao: v.idade_Cand_Data_Eleicao
+      desc_Ocupacao: v.desc_Ocupacao, desc_Unid_Eleitoral: v.desc_Unid_Eleitoral, idade_Cand_Data_Eleicao: v.idade_Cand_Data_Eleicao,
+      data_Nascimento: v.data_Nascimento
     });
   }
 

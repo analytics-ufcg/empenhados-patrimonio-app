@@ -30,7 +30,7 @@ export class HomeComponent  implements OnInit {
   onRecebeCliquePlot($event) {
     this.novaVisualizacao = true;
     this.resumoCandidato.texto();
-    // this.factSheet.texto();
+    this.factSheet.texto();
   }
 
 }

@@ -14,6 +14,7 @@ export class FactSheetComponent implements OnInit {
   private candidato : any;
   private infoCandidato : any;
   private dadosEleicao : any;
+  private ano : any;
 
   constructor(private dataService: DataService,
               private utilsService: UtilsService) { }
@@ -30,12 +31,16 @@ export class FactSheetComponent implements OnInit {
       }
     );     
     await this.dataService.mudaInfoCandidato(this.candidato.ano_um+4, this.candidato.cpf);
-    await this.dataService.mudaDadosEleicao(this.candidato.ano_um+4, this.candidato.unidade_eleitoral, this.candidato.cargo_pleiteado_2);
+    await this.dataService.mudaDadosEleicao(this.candidato.ano_um, this.candidato.unidade_eleitoral, this.candidato.cargo_pleiteado_1, this.candidato.cpf);
 
     this.dataService.infoCandidatoSelecionado.subscribe(
       data => {
         this.infoCandidato = data[0];
-        this.isCandidatoSelecionado = true;
+        if (this.infoCandidato === undefined) {
+          this.isCandidatoSelecionado = false;
+        } else {
+          this.isCandidatoSelecionado = true;
+        }        
       }, err => {
         console.log(err);
       }
@@ -43,14 +48,32 @@ export class FactSheetComponent implements OnInit {
 
     this.dataService.infoEleicao.subscribe(
       data => {
-        this.dadosEleicao = data[0];        
+        this.dadosEleicao = data[0];                
       }, err => {
         console.log(err);
       }
     );
+
+    this.ano = this.dataService.getAno();
   }
 
   numberToReal(numero) {
-    return this.utilsService.formataReais(numero);
+    return this.utilsService.formataReais(numero);    
   }
+
+  defineIdade(dataNascimento) {    
+    let idade = this.utilsService.calculaIdade(dataNascimento);    
+
+    if (isNaN(idade)) return "";    
+    return " - " + idade + " anos";
+  }
+
+  formataCargo(cargo) {
+    if (cargo == this.dataService.getTodosCargos()) {
+      return cargo;
+    }
+
+    return this.utilsService.toTitleCase(cargo);
+  }
+
 }

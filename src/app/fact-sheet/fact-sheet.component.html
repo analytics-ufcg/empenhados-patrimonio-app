@@ -1,6 +1,24 @@
-<mat-card *ngIf="isCandidatoSelecionado" class="card-resumo">
+<mat-card *ngIf="isCandidatoSelecionado && candidato" class="card-resumo">
   <p>
-    {{ candidato.nome_urna}}, {{ infoCandidato.desc_Ocupacao | lowercase }} - {{ infoCandidato.idade_Cand_Data_Eleicao }}, foi candidato em {{ infoCandidato.desc_Unid_Eleitoral }}.
-    Também houveram outros {{ dadosEleicao.quantidade_candidatos }} candidatos a {{ candidato.cargo_pleiteado_1 | lowercase }}, com uma média de patrimônio de {{ numberToReal(dadosEleicao.media_patrimonio) }}.
+    <span class="fact-text-value">{{ candidato.nome_urna}}</span>,
+    <span class="fact-text-value">{{ infoCandidato.desc_Ocupacao | lowercase }} {{ defineIdade(infoCandidato.data_Nascimento) }}</span>, foi candidato
+    em
+    <span class="fact-text-value">{{ infoCandidato.desc_Unid_Eleitoral }}</span>. Também houveram outros
+    <span class="fact-text-value">{{ dadosEleicao.quantidade_candidatos }}</span>
+    candidatos a
+    <span class="fact-text-value">{{ formataCargo(candidato.cargo_pleiteado_1) }}</span>, com uma média de patrimônio de
+    <span class="fact-text-value">{{ numberToReal(dadosEleicao.media_patrimonio) }}</span>.
+  </p>
+  <p>
+    Em
+    <span class="fact-text-value">{{ ano }}</span> foi
+    <span class="fact-text-value">{{ candidato.situacao_eleicao_1 | lowercase }}</span> para
+    <span class="fact-text-value">{{ formataCargo(candidato.cargo_pleiteado_1) }}</span>.
+  </p>
+  <p>
+    Concorreu em
+    <span class="fact-text-value">{{ ano + 4 }}</span> a
+    <span class="fact-text-value">{{ formataCargo(candidato.cargo_pleiteado_2) }}</span> e foi
+    <span class="fact-text-value">{{ candidato.situacao_eleicao_2 | lowercase }}</span>.
   </p>
 </mat-card>
