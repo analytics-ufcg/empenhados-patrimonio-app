@@ -11,10 +11,10 @@ import { UtilsService } from '../services/utils.service';
 export class FactSheetComponent implements OnInit {
 
   public isCandidatoSelecionado = false; 
-  private candidato : any;
-  private infoCandidato : any;
-  private dadosEleicao : any;
-  private ano : any;
+  public candidato : any;
+  public infoCandidato : any;
+  public dadosEleicao : any;
+  public ano : any;
 
   constructor(private dataService: DataService,
               private utilsService: UtilsService) { }
