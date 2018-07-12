@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../services/data.service';
 import { UtilsService } from '../services/utils.service';
+import { ThrowStmt } from '@angular/compiler';
 
 
 @Component({
@@ -15,6 +16,7 @@ export class FactSheetComponent implements OnInit {
   public infoCandidato : any;
   public dadosEleicao : any;
   public ano : any;
+  public idh: any;
 
   constructor(private dataService: DataService,
               private utilsService: UtilsService) { }
@@ -32,6 +34,10 @@ export class FactSheetComponent implements OnInit {
     );     
     await this.dataService.mudaInfoCandidato(this.candidato.ano_um+4, this.candidato.cpf);
     await this.dataService.mudaDadosEleicao(this.candidato.ano_um, this.candidato.unidade_eleitoral, this.candidato.cargo_pleiteado_1, this.candidato.cpf);
+    await this.dataService.mudaIdh(this.candidato.cod_unidade_eleitoral_1);
+
+    console.log(this.candidato);
+
 
     this.dataService.infoCandidatoSelecionado.subscribe(
       data => {
@@ -55,6 +61,15 @@ export class FactSheetComponent implements OnInit {
     );
 
     this.ano = this.dataService.getAno();
+
+    this.dataService.idh.subscribe(
+      data => {
+        this.idh = data[0];
+      }, err => {
+        console.log(err);
+      }
+    )
+
   }
 
   numberToReal(numero) {
