@@ -18,7 +18,7 @@ export class UtilsService {
       parteInteira = parteInteira.join('.');
     }
 
-    return parteInteira + ',' + parteDecimal;
+    return moeda + parteInteira + ',' + parteDecimal;
   }
 
   public toTitleCase(str) {
