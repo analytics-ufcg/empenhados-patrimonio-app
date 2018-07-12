@@ -7,8 +7,18 @@ export class UtilsService {
 
   public formataReais(numero) {
     var numero = numero.toFixed(2).split('.');
-    numero[0] = "R$ " + numero[0].split(/(?=(?:...)*$)/).join('.');
-    return numero.join(',');
+    let moeda = "R$ ";
+    let parteInteira = numero[0];
+    let parteDecimal = numero[1];
+
+    parteInteira = numero[0].split(/(?=(?:...)*$)/);
+    if(parteInteira[0] === "-"){
+      parteInteira = parteInteira[0] + parteInteira.slice(1).join('.');
+    } else{
+      parteInteira = parteInteira.join('.');
+    }
+
+    return parteInteira + ',' + parteDecimal;
   }
 
   public toTitleCase(str) {
