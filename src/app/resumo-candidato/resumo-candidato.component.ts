@@ -16,6 +16,8 @@ export class ResumoCandidatoComponent implements OnInit {
   public crescimentoPatrimonio = false;
   public reducaoPatrimonio = false;
   public patrimonioEstavel = false;
+  public urlBens1;
+  public urlBens2;
 
   constructor(private dataService: DataService,
               private utilsService: UtilsService,
@@ -28,6 +30,8 @@ export class ResumoCandidatoComponent implements OnInit {
     this.dataService.candidatoSelecionado.subscribe(data =>  this.candidato = data);
     this.isCandidatoSelecionado = true;
     this.determinaCrescimento(this.candidato.patrimonio_eleicao_1, this.candidato.patrimonio_eleicao_2);    
+    this.urlBens1 = this.candidatoService.getListaBensURL(2012, 19810, 150000011795);
+    this.urlBens2 = this.candidatoService.getListaBensURL(2016, 19810, 150000003052);
   }
 
   numberToReal(numero) {
