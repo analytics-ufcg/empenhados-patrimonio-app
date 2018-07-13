@@ -11,12 +11,14 @@ interface Patrimonio {
   nome_urna: String;
   cpf: String;
   sigla_partido: String;
+  cod_unidade_eleitoral_1: String;
+  cod_unidade_eleitoral_2: String;
   unidade_eleitoral: String;
   cargo_pleiteado_1: String;
   cargo_pleiteado_2: String;
   ano_um: Number;
-  resultado_1: String;
-  resultado_2: String;
+  sequencial_candidato_1: String;
+  sequencial_candidato_2: String;
   situacao_eleicao_1: String;
   situacao_eleicao_2: String;
 };
@@ -180,8 +182,10 @@ export class DataService {
   private parseData(data: any[]): Patrimonio[] {
     return data.map(v => <Patrimonio>{
       patrimonio_eleicao_1: v.patrimonio_eleicao_1, patrimonio_eleicao_2: v.patrimonio_eleicao_2,
-      nome_urna: v.nome_urna, cpf: v.cpf, sigla_partido: v.sigla_partido, unidade_eleitoral: v.unidade_eleitoral, cargo_pleiteado_1: v.cargo_pleiteado_1,
-      cargo_pleiteado_2: v.cargo_pleiteado_2, ano_um: v.ano_um, resultado_1: v.resultado_1, resultado_2: v.resultado_2,
+      nome_urna: v.nome_urna, cpf: v.cpf, sigla_partido: v.sigla_partido, cod_unidade_eleitoral_1: v.cod_unidade_eleitoral_1, 
+      cod_unidade_eleitoral_2: v.cod_unidade_eleitoral_2, unidade_eleitoral: v.unidade_eleitoral, 
+      cargo_pleiteado_1: v.cargo_pleiteado_1,cargo_pleiteado_2: v.cargo_pleiteado_2, 
+      ano_um: v.ano_um, sequencial_candidato_1: v.sequencial_candidato_1, sequencial_candidato_2: v.sequencial_candidato_2,
       situacao_eleicao_1: v.situacao_eleicao_1, situacao_eleicao_2: v.situacao_eleicao_2
     });
   }
