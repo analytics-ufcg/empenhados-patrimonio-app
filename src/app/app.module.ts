@@ -25,7 +25,8 @@ import {
   MatSnackBarModule,
   MatListModule,
   MatSlideToggleModule,
-  MatDialogModule
+  MatDialogModule,
+  MatTooltipModule
 } from '@angular/material';
 
 import {
@@ -64,6 +65,7 @@ import { AppRoutingModule } from './app-routing.module';
     MatTabsModule,
     MatButtonModule,
     MatIconModule,
+    MatTooltipModule,
     MatCardModule,
     MatSidenavModule,
     MatCheckboxModule,

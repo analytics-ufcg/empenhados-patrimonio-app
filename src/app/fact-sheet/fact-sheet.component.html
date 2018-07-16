@@ -3,11 +3,7 @@
     <span class="fact-text-value">{{ candidato.nome_urna}}</span>,
     <span class="fact-text-value">{{ infoCandidato.desc_Ocupacao | lowercase }} {{ defineIdade(infoCandidato.data_Nascimento) }}</span>, foi candidato
     em
-    <span class="fact-text-value">{{ infoCandidato.desc_Unid_Eleitoral }}</span>. Também houveram outros
-    <span class="fact-text-value">{{ dadosEleicao.quantidade_candidatos }}</span>
-    candidatos a
-    <span class="fact-text-value">{{ formataCargo(candidato.cargo_pleiteado_1) }}</span>, com uma média de patrimônio de
-    <span class="fact-text-value">{{ numberToReal(dadosEleicao.media_patrimonio) }}</span>.
+    <span class="fact-text-value">{{ infoCandidato.desc_Unid_Eleitoral }}</span>.
   </p>
   <p>
     Em
@@ -20,5 +16,14 @@
     <span class="fact-text-value">{{ ano + 4 }}</span> a
     <span class="fact-text-value">{{ formataCargo(candidato.cargo_pleiteado_2) }}</span> e foi
     <span class="fact-text-value">{{ candidato.situacao_eleicao_2 | lowercase }}</span>.
+  </p>
+
+  <p>Temos dados de
+    <span class="fact-text-value">{{ ano }}</span> e 
+    <span class="fact-text-value">{{ ano + 4 }}</span>
+    para outros
+    <span class="fact-text-value">{{ dadosEleicao.quantidade_candidatos }}</span>
+    candidatos neste estado, com uma média de patrimônio de 
+    <span class="fact-text-value">{{ numberToReal(dadosEleicao.media_patrimonio) }}</span>.
   </p>
 </mat-card>

@@ -8,12 +8,16 @@
     <mat-list-item>
       <mat-icon mat-list-icon>attach_money</mat-icon>
       <h4 mat-line>{{ candidato.ano_um }}:
-        <a class="resumo-text-value">{{ numberToReal(candidato.patrimonio_eleicao_1) }} </a>
+        <a class="resumo-text-value resumo-text-patrimonio" matTooltip="{{numberToReal(candidato.patrimonio_eleicao_1)}}">
+          {{ utilsService.abreviaPatrimonio(numberToReal(candidato.patrimonio_eleicao_1)) }}
+        </a>
       </h4>
     <br>
       <h4 mat-line>{{ candidato.ano_um + 4 }}:
-          <a class="resumo-text-value">{{ numberToReal(candidato.patrimonio_eleicao_2) }}</a>
-        </h4>
+        <a class="resumo-text-value resumo-text-patrimonio" matTooltip="{{numberToReal(candidato.patrimonio_eleicao_2)}}">
+          {{ utilsService.abreviaPatrimonio(numberToReal(candidato.patrimonio_eleicao_2)) }}
+        </a>
+      </h4>
     </mat-list-item>
     <h3 class="resumo-item-header">Ganho</h3>
     <mat-list-item >

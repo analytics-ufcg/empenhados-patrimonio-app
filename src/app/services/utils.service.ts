@@ -40,4 +40,38 @@ export class UtilsService {
     return Math.abs(ageDate.getUTCFullYear() - 1970); 
   }
 
+  public abreviaPatrimonio(textoPatrimonio){
+    let patrimonio = textoPatrimonio.slice(3);
+
+    let parteInteira = patrimonio.split(',')[0];
+    let ordens = parteInteira.split('.');
+
+    let abreviatura;
+
+    if(ordens.length == 1){
+      return textoPatrimonio;
+    }
+    else if(ordens.length == 2){
+      abreviatura = "mil"
+    }else if(ordens.length == 3){
+      if(ordens[0] == "1"){
+        abreviatura = "milhão";
+      }else{
+        abreviatura = "milhões";
+      }
+    }else if(ordens.length == 4){
+      if(ordens[0] == "1"){
+        abreviatura = "bilhão";
+      }else{
+        abreviatura = "bilhões";
+      }
+    }
+
+    let patrimonioAbreviado = "R$ " + ordens[0] + " " + abreviatura;
+
+    return patrimonioAbreviado;
+
+
+  }
+
 }

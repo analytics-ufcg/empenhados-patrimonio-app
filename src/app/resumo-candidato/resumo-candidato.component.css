@@ -20,6 +20,10 @@ mat-card-title {
     font-weight: bold;
 }
 
+.resumo-text-patrimonio{
+    text-decoration: underline dashed;
+}
+
 .resumo-ganho-text {
     padding-left: 16px;
 }
