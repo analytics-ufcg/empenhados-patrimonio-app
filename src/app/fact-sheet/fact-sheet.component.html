@@ -24,6 +24,6 @@
     para outros
     <span class="fact-text-value">{{ dadosEleicao.quantidade_candidatos }}</span>
     candidatos neste estado, com uma média de patrimônio de 
-    <span class="fact-text-value">{{ numberToReal(dadosEleicao.media_patrimonio) }}</span>.
+    <span class="fact-text-value">{{ utilsService.abreviaPatrimonio(numberToReal(dadosEleicao.media_patrimonio)) }}</span>.
   </p>
 </mat-card>

@@ -41,6 +41,15 @@ export class UtilsService {
   }
 
   public abreviaPatrimonio(textoPatrimonio){
+    let removeZerosIniciais = (num) => num[0] != "0" ? num.slice(0): removeZerosIniciais(num.slice(1));
+
+    let abreviaturaBilhões = (ord) => 
+      (ord[0] == "000") ? "" : (ord[0] == "1") ? removeZerosIniciais(ord[0]) + " bilhão" : removeZerosIniciais(ord[0]) + " bilhões";
+    let abreviaturaMilhoes = (ord) => 
+      (ord[0] == "000") ? "" : (ord[0] == "1") ? removeZerosIniciais(ord[0]) + " milhão" : removeZerosIniciais(ord[0]) + " milhões";
+    let abreviaturaMilhares = (ord) => 
+      (ord[0] == "000") ? "" : removeZerosIniciais(ord[0]) + " mil";
+
     let patrimonio = textoPatrimonio.slice(3);
 
     let parteInteira = patrimonio.split(',')[0];
@@ -48,30 +57,22 @@ export class UtilsService {
 
     let abreviatura;
 
-    if(ordens.length == 1){
-      return textoPatrimonio;
-    }
-    else if(ordens.length == 2){
-      abreviatura = "mil"
+    if(ordens.length <= 2){
+      abreviatura = abreviaturaMilhares(ordens);
     }else if(ordens.length == 3){
-      if(ordens[0] == "1"){
-        abreviatura = "milhão";
-      }else{
-        abreviatura = "milhões";
-      }
+      const mi = abreviaturaMilhoes(ordens);
+      const mil = abreviaturaMilhares(ordens.slice(1));
+
+      abreviatura = (mi + (mi && mil? " e ": "") + mil);
     }else if(ordens.length == 4){
-      if(ordens[0] == "1"){
-        abreviatura = "bilhão";
-      }else{
-        abreviatura = "bilhões";
-      }
+      const bi = abreviaturaBilhões(ordens);
+      const mi = abreviaturaMilhoes(ordens.slice(1));
+      const mil = abreviaturaMilhares(ordens.slice(2));
+
+      abreviatura = (bi + (bi && mi? ", ": "") + mi + (mi || mil? " e ": "") + mil);
     }
 
-    let patrimonioAbreviado = "R$ " + ordens[0] + " " + abreviatura;
-
-    return patrimonioAbreviado;
-
-
+    return "R$ " + abreviatura;
   }
 
 }
