@@ -124,15 +124,14 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.decideVisualizacao();
   }
 
-  initD3Patrimonio() {
-    //this.transitionToogle = false;
-    //this.logToogle = false;
+  initD3Patrimonio() {   
     this.initX();
     this.initY();
     this.initZ();
     this.initTooltip();
     this.initAxes();
     this.initScatterplot();
+    this.decideVisualizacao();
   }
 
   private initX() {
