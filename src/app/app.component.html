@@ -2,7 +2,11 @@
 
 <div>
   <mat-toolbar>
-    <span class ="title" routerLink="/"> {{ title }}</span>
+    <div class="title">
+      <span routerLink="/"> {{ title }} </span>
+      <div id="subtitle">Quem ganhou e quem perdeu patrimônio entre os políticos?</div>
+    </div>
+    
     <span class="fill-remaining-space-navbar"></span>
     <a mat-button (click)='openAbout()'>O que é?</a>
     <a mat-button href="https://github.com/analytics-ufcg/empenhados-patrimonio" target="_blank">GitHub</a>
