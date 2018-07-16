@@ -21,6 +21,12 @@
 .title {
     cursor: pointer !important;
     padding: 0 5%;
+    margin-top: 1vw;
+}
+
+#title-text {
+    font-family: Fjalla One;
+    font-size: 3vw;
 }
 
 #subtitle {
