@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Capital dos Políticos';
+  title = 'Capital dos Candidatos';
 
   constructor(private router: Router) { }
 
