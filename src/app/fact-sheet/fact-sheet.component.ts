@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../services/data.service';
 import { UtilsService } from '../services/utils.service';
-import { ThrowStmt } from '@angular/compiler';
-
 
 @Component({
   selector: 'app-fact-sheet',
@@ -35,8 +33,6 @@ export class FactSheetComponent implements OnInit {
     await this.dataService.mudaInfoCandidato(this.candidato.ano_um+4, this.candidato.cpf);
     await this.dataService.mudaDadosEleicao(this.candidato.ano_um, this.candidato.unidade_eleitoral, this.candidato.cargo_pleiteado_1, this.candidato.cpf);
     await this.dataService.mudaIdh(this.candidato.cod_unidade_eleitoral_1);
-
-    console.log(this.candidato);
 
 
     this.dataService.infoCandidatoSelecionado.subscribe(

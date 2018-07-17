@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
 import { RequestService } from './request.service';
-import { resolve } from 'url';
-import { reject } from 'q';
 
 interface Patrimonio {
   patrimonio_eleicao_1: Number;
@@ -229,7 +226,7 @@ export class DataService {
   }
 
   private parseDataIDH(data: any[]): IDH[] {
-    return data.map(v => <IDH> { unidade_eleitoral: v.unidade_eleitoral, IDHM_2010: v.IDHM_2010 });
+    return data.map(v => <IDH>{ unidade_eleitoral: v.unidade_eleitoral, IDHM_2010: v.IDHM_2010 });
   }
 
   public getTodos() {
