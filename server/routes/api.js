@@ -81,6 +81,9 @@ router.get('/patrimonio/busca/situacao', async(req, res) => {
   execSQLQuery(query, [], res);
 })
 
+/**
+ * GET retorna informações sobre um determinado candidato
+ */
 router.get('/candidato/:ano/:cpfcandidato', async(req, res) => {
   let parameters = [req.params.ano, req.params.cpfcandidato];
   var query = "SELECT DISTINCT(cpf_Candidato), c.nome_Urna_Candidato, o.desc_Ocupacao, u.desc_Unid_Eleitoral, c.idade_Cand_Data_Eleicao, c.data_Nascimento FROM candidatos_eleicao c, cod_ocupacao o, cod_unidade_eleitoral u WHERE c.cod_Ocupacao = o.cod_Ocupacao AND c.sigla_Unid_Eleitoral = u.sigla_Unid_Eleitoral AND ano_Eleicao = ? AND c.cpf_Candidato = ?";
@@ -88,6 +91,9 @@ router.get('/candidato/:ano/:cpfcandidato', async(req, res) => {
   execSQLQuery(query, parameters, res);
 });
 
+/**
+ * GET retorna informações sobre os concorrentes de um determinado candidato em uma eleição
+ */
 router.get('/eleicao/:ano/:unidadeeleitoral/:cargo/:cpfcandidato', async(req, res) => {  
   let parameters = [req.params.ano, req.params.unidadeeleitoral, req.params.cargo, req.params.cpfcandidato];  
   var query = "select COUNT(*) AS quantidade_candidatos, IFNULL(AVG(patrimonio_eleicao_1), 0) AS media_patrimonio from patrimonio_candidatos where ano_um = ? AND unidade_eleitoral = ? AND cargo_pleiteado_1 = ? AND cpf != ?";
@@ -95,6 +101,9 @@ router.get('/eleicao/:ano/:unidadeeleitoral/:cargo/:cpfcandidato', async(req, re
   execSQLQuery(query, parameters, res);
 });
 
+/**
+ * GET retorna informações sobre idh
+ */
 router.get('/unidadeEleitoral/:deUnidEleitoral', async(req, res) => {  
   let parameters = [req.params.deUnidEleitoral];  
   var query = "select * from utils.idh where de_Unid_Eleitoral = ?";

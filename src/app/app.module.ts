@@ -7,6 +7,7 @@ import { RequestService } from './services/request.service';
 import { DataService } from './services/data.service';
 import { UtilsService } from './services/utils.service';
 import { AlertService } from './services/alert.service';
+import { CandidatoService } from './services/candidato.service';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 
@@ -84,7 +85,8 @@ import { AppRoutingModule } from './app-routing.module';
     GlobalService,
     DataService,
     UtilsService,
-    AlertService
+    AlertService,
+    CandidatoService
   ],
   bootstrap: [AppComponent]
 })
