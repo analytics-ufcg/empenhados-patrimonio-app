@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../services/data.service';
-import { UtilsService } from '../services/utils.service'
+import { UtilsService } from '../services/utils.service';
+import { CandidatoService } from '../services/candidato.service';
 
 @Component({
   selector: 'app-resumo-candidato',
@@ -15,17 +16,22 @@ export class ResumoCandidatoComponent implements OnInit {
   public crescimentoPatrimonio = false;
   public reducaoPatrimonio = false;
   public patrimonioEstavel = false;
+  public urlBens1;
+  public urlBens2;
 
   constructor(private dataService: DataService,
-              private utilsService: UtilsService) { }
+              private utilsService: UtilsService,
+              private candidatoService: CandidatoService) { }
 
   ngOnInit() {
   }
 
   texto(){
-   this.dataService.candidatoSelecionado.subscribe(data =>  this.candidato = data);
+    this.dataService.candidatoSelecionado.subscribe(data =>  this.candidato = data);
     this.isCandidatoSelecionado = true;
-    this.determinaCrescimento(this.candidato.patrimonio_eleicao_1, this.candidato.patrimonio_eleicao_2);
+    this.determinaCrescimento(this.candidato.patrimonio_eleicao_1, this.candidato.patrimonio_eleicao_2);    
+    this.urlBens1 = this.candidatoService.getListaBensURL(this.candidato.ano_um, this.candidato.cod_unidade_eleitoral_1, this.candidato.sequencial_candidato_1);
+    this.urlBens2 = this.candidatoService.getListaBensURL(this.candidato.ano_um+4, this.candidato.cod_unidade_eleitoral_2, this.candidato.sequencial_candidato_2);
   }
 
   numberToReal(numero) {

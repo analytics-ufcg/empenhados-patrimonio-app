@@ -57,9 +57,10 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.transitionTime = ({short: 1000, medium: 1500, long: 2000});
     this.circleRadius = 6;
     this.transitionToogle = false;
+    this.logToogle = true;
   }
 
-  ngOnInit() {
+  ngOnInit() {    
     this.svg = d3.select('svg');
 
     this.width = parseInt(this.svg.style("width")) - this.margin.right;
@@ -123,20 +124,19 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.decideVisualizacao();
   }
 
-  initD3Patrimonio() {
-    this.transitionToogle = false;
-    this.logToogle = false;
+  initD3Patrimonio() {   
     this.initX();
     this.initY();
     this.initZ();
     this.initTooltip();
     this.initAxes();
     this.initScatterplot();
+    this.decideVisualizacao();
   }
 
   private initX() {
     this.x = d3.scaleLinear()
-      .domain([0, this.maiorPatrimonioEleicao1]).nice()
+      .domain([Math.log10(this.menorPatrimonioEleicao1), Math.log10(this.maiorPatrimonioEleicao1)]).nice()
       .range([this.margin.left, this.width - this.margin.right]);
   }
 
@@ -172,7 +172,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         .attr("dy", "0.32em")
         .attr("text-anchor", "middle")
         .attr("font-weight", "bold")
-        .text("Patrimônio em " + this.ano));
+        .text("Patrimônio em " + this.ano + " (log10)"));        
 
     this.yAxis = g => g
       .attr("transform", `translate(${this.margin.left},0)`)
@@ -214,9 +214,9 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.line = this.svg.append("line")
       .style("stroke", "grey")
       .style("stroke-dasharray", ("10, 10"))
-      .attr("x1", this.x(0))
-      .attr("y1", this.y(0))
-      .attr("x2", this.x(this.maiorPatrimonioEleicao1 + 1e3))
+      .attr("x1", this.x(Math.log10(this.menorPatrimonioEleicao1)))
+      .attr("y1", this.y(0))      
+      .attr("x2", this.x(Math.log10(this.maiorPatrimonioEleicao1 + 1e3)))
       .attr("y2", this.y(0));
 
     const g = this.svg.append("g")
@@ -226,8 +226,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     g.selectAll("line")
       .data(this.data)
       .enter().append("line")
-      .attr("x1", (d: any) => this.x(d.patrimonio_eleicao_1 - .5))
-      .attr("x2", (d: any) => this.x(d.patrimonio_eleicao_1 - .5))
+      .attr("x1", (d: any) => this.x(Math.log10(d.patrimonio_eleicao_1)))
+      .attr("x2", (d: any) => this.x(Math.log10(d.patrimonio_eleicao_1)))
       .attr("y1", (d: any) => d.patrimonio_eleicao_2 > d.patrimonio_eleicao_1 ? this.y(0) : this.y(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1))
       .attr("y2", (d: any) => d.patrimonio_eleicao_2 > d.patrimonio_eleicao_1 ? this.y(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1) : this.y(0))
       .style("stroke-width", 2)
@@ -236,7 +236,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     g.selectAll("circle")
       .data(this.data)
       .enter().append("circle")
-      .attr("cx", (d: any) => this.x(d.patrimonio_eleicao_1))
+      .attr("cx", (d: any) => this.x(Math.log10(d.patrimonio_eleicao_1)))
       .attr("cy", (d: any) => this.y(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1))
       .attr("fill", (d: any) => this.z(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1))
       .attr("opacity", 0.7)
