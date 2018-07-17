@@ -78,3 +78,7 @@ $patrimonio-theme: mat-light-theme($patrimonio-primary, $patrimonio-accent);
 body {
     margin: 0px;
 }
+
+.mat-tooltip {
+    font-size: 12px;
+}

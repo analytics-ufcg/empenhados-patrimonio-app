@@ -22,6 +22,7 @@ mat-card-title {
 
 .resumo-text-patrimonio{
     text-decoration: underline dashed;
+    cursor: pointer !important;
 }
 
 .resumo-ganho-text {
