@@ -37,10 +37,10 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   private data: any;
   private maiorPatrimonioEleicao1: any;
   private menorPatrimonioEleicao1: any;
+  private maiorPatrimonioEleicao2: any;
   private menorPatrimonioEleicao2: any;
   private maiorDiferencaPositiva: any;
   private maiorDiferencaNegativa: any;
-  private maiorDiferencaModulo: any;
 
   private estadoAtual: String;
   public ano: Number;
@@ -100,6 +100,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     } else {
       this.maiorPatrimonioEleicao1 = d3.max(this.data, (d: any) => d.patrimonio_eleicao_1);  
       this.menorPatrimonioEleicao1 = d3.min(this.data, (d: any) => d.patrimonio_eleicao_1);
+      this.maiorPatrimonioEleicao2 = d3.max(this.data, (d: any) => d.patrimonio_eleicao_2);  
       this.menorPatrimonioEleicao2 = d3.min(this.data, (d: any) => d.patrimonio_eleicao_2);
       this.maiorDiferencaPositiva = d3.max(this.data, (d: any) => d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1);
       this.maiorDiferencaNegativa = d3.max(this.data, (d: any) => d.patrimonio_eleicao_1 - d.patrimonio_eleicao_2);
@@ -480,7 +481,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       this.svg.select("#x-axis")
       .transition()
       .duration(this.transitionTime.short)
-      .call(d3.axisBottom(this.x).ticks(this.width / 80).tickFormat(function(d:any) { return d3.format(".2s")(Math.pow(10,d)); }));
+      .call(d3.axisBottom(this.x).ticks(Math.log10(this.maiorPatrimonioEleicao1) - Math.log10(this.menorPatrimonioEleicao1) + 1).tickFormat(function(d:any) { return d3.format(".2s")(Math.pow(10,d)); }));
 
     } else {
       this.svg.select("#x-axis")
@@ -496,7 +497,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       this.svg.select("#y-axis")
       .transition()
       .duration(this.transitionTime.short)
-      .call(d3.axisLeft(this.y).ticks(this.height / 50).tickFormat(function(d:any) { return d3.format(".2s")(Math.pow(10,d)); }))
+      .call(d3.axisLeft(this.y).ticks(Math.log10(this.maiorPatrimonioEleicao2) - Math.log10(this.menorPatrimonioEleicao2) + 1).tickFormat(function(d:any) { return d3.format(".2s")(Math.pow(10,d)); }))
+      //.call(d3.axisLeft(this.y).ticks(this.height / 50).tickFormat(d3.format('.2s')))
       .call(g => g.select(".domain").remove());
 
     } else {
