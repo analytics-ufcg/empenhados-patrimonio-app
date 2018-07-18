@@ -328,8 +328,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
     this.svg.call(this.tip);
 
-    this.updateXAxis();
-    this.updateYAxis();
+    this.updateXAxis(false);
+    this.updateYAxis(false);
   }
 
   private patrimonio() {
@@ -372,8 +372,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
     this.svg.call(this.tip);
 
-    this.updateXAxis();
-    this.updateYAxis();
+    this.updateXAxis(false);
+    this.updateYAxis(false);
   }
 
   private differenceLog() {
@@ -415,8 +415,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
     this.svg.call(this.tip);
 
-    this.updateXAxis();
-    this.updateYAxis();
+    this.updateXAxis(true);
+    this.updateYAxis(false);
   }
 
   private patrimonioLog() {
@@ -458,8 +458,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
     this.svg.call(this.tip);
 
-    this.updateXAxis();
-    this.updateYAxis();
+    this.updateXAxis(true);
+    this.updateYAxis(true);
 
   }
 
@@ -474,19 +474,39 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       "<span>" + "Diferença: " + this.utilsService.formataReais(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1) + "</span>";
   }
 
-  private updateXAxis() {
-    this.svg.select("#x-axis")
-    .transition()
-    .duration(this.transitionTime.short)
-    .call(d3.axisBottom(this.x).ticks(this.width / 80).tickFormat(d3.format('.2s')));
+  private updateXAxis(isLog) {
+
+    if (isLog) {
+      this.svg.select("#x-axis")
+      .transition()
+      .duration(this.transitionTime.short)
+      .call(d3.axisBottom(this.x).ticks(this.width / 80).tickFormat(function(d:any) { return d3.format(".2s")(Math.pow(10,d)); }));
+
+    } else {
+      this.svg.select("#x-axis")
+      .transition()
+      .duration(this.transitionTime.short)
+      .call(d3.axisBottom(this.x).ticks(this.width / 80).tickFormat(d3.format('.2s')));
+    }    
   }
 
-  private updateYAxis() {
-    this.svg.select("#y-axis")
-    .transition()
-    .duration(this.transitionTime.short)
-    .call(d3.axisLeft(this.y).ticks(this.height / 50).tickFormat(d3.format('.2s')))
-    .call(g => g.select(".domain").remove());
+  private updateYAxis(isLog) {
+
+    if (isLog) {
+      this.svg.select("#y-axis")
+      .transition()
+      .duration(this.transitionTime.short)
+      .call(d3.axisLeft(this.y).ticks(this.height / 50).tickFormat(function(d:any) { return d3.format(".2s")(Math.pow(10,d)); }))
+      .call(g => g.select(".domain").remove());
+
+    } else {
+      this.svg.select("#y-axis")
+      .transition()
+      .duration(this.transitionTime.short)
+      .call(d3.axisLeft(this.y).ticks(this.height / 50).tickFormat(d3.format('.2s')))
+      .call(g => g.select(".domain").remove());
+    }
+    
   }
 
   private decideVisualizacao() {
