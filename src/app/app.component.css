@@ -22,7 +22,7 @@
     cursor: pointer !important;
     padding: 0 5%;
     margin-top: 2vw;
-    margin-bottom: 2vw;
+    margin-bottom: 1.1vw;
 }
 
 #title-text {
@@ -37,15 +37,18 @@
 #subtitle {
     font-family: 'Proza Libre', sans-serif;
     font-size: 1.2vw;
+    margin-top: 2%;
 }
 
 .button {
     background-color: transparent;
+    font-size: 1.1vw;
 }
 
 .button-git {
     padding: 0;
     margin-right: 5%;
+    font-size: 1.1vw;
 }
 
 .button:hover {
