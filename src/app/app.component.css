@@ -6,8 +6,8 @@
 
 .mat-toolbar {
     flex: 0;
-    background-color: #059CE3;
-    color: #ffffff;
+    background-color: #1B3B6F;
+    color: #ECEBE4;
 }
 
 .mat-toolbar-row, .mat-toolbar-single-row {
@@ -21,7 +21,8 @@
 .title {
     cursor: pointer !important;
     padding: 0 5%;
-    margin: 2vw;
+    margin-top: 2vw;
+    margin-bottom: 2vw;
 }
 
 #title-text {
@@ -40,6 +41,11 @@
 
 .button {
     background-color: transparent;
+}
+
+.button-git {
+    padding: 0;
+    margin-right: 5%;
 }
 
 .button:hover {

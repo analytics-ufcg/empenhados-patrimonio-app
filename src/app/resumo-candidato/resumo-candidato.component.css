@@ -4,7 +4,8 @@
 
 mat-card-title {
     color: #B68115;
-    font-size: 18px;
+    font-size: 1.7vw;
+    font-weight: bolder;
 }
 
 
@@ -20,8 +21,7 @@ mat-card-title {
     font-weight: bold;
 }
 
-.resumo-text-patrimonio{
-    text-decoration: underline dashed;
+.resumo-text-patrimonio{    
     cursor: pointer !important;
 }
 

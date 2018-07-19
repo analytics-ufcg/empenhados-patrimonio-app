@@ -58,5 +58,5 @@
 
 .mat-card:not([class*=mat-elevation-z]) {
     border-radius: 0 !important;
-    box-shadow: 0 -2px 0px 0px rgba(5, 156, 227) !important;
+    box-shadow: 0 -2px 0px 0px #1B3B6F !important;
 }
