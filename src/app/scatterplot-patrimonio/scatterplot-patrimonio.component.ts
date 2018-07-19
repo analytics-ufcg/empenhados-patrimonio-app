@@ -163,7 +163,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   private initAxes() {
     this.xAxis = g => g
     .attr("transform", `translate(0,${this.height - this.margin.bottom})`)
-    .call(d3.axisBottom(this.x).ticks(this.width / 80).tickFormat(d3.format('.2s')))
+    .call(d3.axisBottom(this.x).ticks(Math.log10(this.maiorPatrimonioEleicao1) - Math.log10(this.menorPatrimonioEleicao1) + 1).tickFormat((d: any) => { return this.formataTick(d); }))
     .call(g => g.select(".domain").remove())
     .call(g => g.append("text")
         .attr("id", "x-title")
@@ -173,7 +173,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         .attr("dy", "0.32em")
         .attr("text-anchor", "middle")
         .attr("font-weight", "bold")
-        .text("Patrimônio em " + this.ano + " (log10)"));        
+        .text("Patrimônio em " + this.ano));        
 
     this.yAxis = g => g
       .attr("transform", `translate(${this.margin.left},0)`)
@@ -321,8 +321,6 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.svg.select("#y-title")    
     .text("Diferença de patrimônio");
 
-    this.svg.select("#x-title")    
-    .text("Patrimônio em " + this.ano);
     
     this.tip
       .html((d: any) => this.tooltipDiferenca(d));
@@ -363,10 +361,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     .attr("y2", (d: any) => d.patrimonio_eleicao_2 > d.patrimonio_eleicao_1 ? this.y(d.patrimonio_eleicao_2) : this.y(d.patrimonio_eleicao_1))  
 
     this.svg.select("#y-title")
-      .text("Patrimônio em " + (this.ano.valueOf() + 4));
-
-    this.svg.select("#x-title")    
-    .text("Patrimônio em " + this.ano);    
+      .text("Patrimônio em " + (this.ano.valueOf() + 4));  
 
     this.tip
       .html((d: any) => this.tooltipPatrimonio(d));
@@ -408,9 +403,6 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.svg.select("#y-title")    
     .text("Diferença de patrimônio");
 
-    this.svg.select("#x-title")    
-    .text("Patrimônio em " + this.ano + " (log10)");
-
     this.tip
     .html((d: any) => this.tooltipDiferenca(d));
 
@@ -449,10 +441,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     .attr("x2", (d: any) => this.x(Math.log10(d.patrimonio_eleicao_1)));
 
     this.svg.select("#y-title")    
-    .text("Patrimônio em " + (this.ano.valueOf() + 4) + " (log10)");
-
-    this.svg.select("#x-title")    
-    .text("Patrimônio em " + this.ano + " (log10)");
+    .text("Patrimônio em " + (this.ano.valueOf() + 4));
 
     this.tip
     .html((d: any) => this.tooltipPatrimonio(d));
@@ -481,7 +470,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       this.svg.select("#x-axis")
       .transition()
       .duration(this.transitionTime.short)
-      .call(d3.axisBottom(this.x).ticks(Math.log10(this.maiorPatrimonioEleicao1) - Math.log10(this.menorPatrimonioEleicao1) + 1).tickFormat(function(d:any) { return d3.format(".2s")(Math.pow(10,d)); }));
+      .call(d3.axisBottom(this.x).ticks(Math.log10(this.maiorPatrimonioEleicao1) - Math.log10(this.menorPatrimonioEleicao1) + 1).tickFormat((d: any) => { return this.formataTick(d); }));
 
     } else {
       this.svg.select("#x-axis")
@@ -497,8 +486,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       this.svg.select("#y-axis")
       .transition()
       .duration(this.transitionTime.short)
-      .call(d3.axisLeft(this.y).ticks(Math.log10(this.maiorPatrimonioEleicao2) - Math.log10(this.menorPatrimonioEleicao2) + 1).tickFormat(function(d:any) { return d3.format(".2s")(Math.pow(10,d)); }))
-      //.call(d3.axisLeft(this.y).ticks(this.height / 50).tickFormat(d3.format('.2s')))
+      .call(d3.axisLeft(this.y).ticks(Math.log10(this.maiorPatrimonioEleicao2) - Math.log10(this.menorPatrimonioEleicao2) + 1).tickFormat((d: any) => { return this.formataTick(d); }))
       .call(g => g.select(".domain").remove());
 
     } else {
@@ -541,6 +529,16 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       return cargo
     }
     return this.utilsService.toTitleCase(cargo);
+  }
+
+  private formataTick(d) {
+    d = Math.floor(d);     
+    var ticksBase10 = ["1 mil", "10 mil", "100 mil", "1M", "10M", "100M", "1B", "10B"];
+    var tickLabel;
+
+    tickLabel = d <= 2 ? Math.pow(10, d) : ticksBase10[d-3];    
+
+    return tickLabel;
   }
 
 }
