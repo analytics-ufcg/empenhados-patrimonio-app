@@ -21,14 +21,27 @@
 .title {
     cursor: pointer !important;
     padding: 0 5%;
-    margin-top: 1vw;
+    margin: 2vw;
 }
 
 #title-text {
     font-family: Fjalla One;
-    font-size: 2.5vw;
+    font-size: 2.7vw;
+}
+
+#navbar {
+    height: 100%;
 }
 
 #subtitle {
-    font-size: 12px;
+    font-family: 'Proza Libre', sans-serif;
+    font-size: 1.2vw;
+}
+
+.button {
+    background-color: transparent;
+}
+
+.button:hover {
+    background-color: transparent !important;
 }

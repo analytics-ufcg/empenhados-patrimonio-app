@@ -1,14 +1,14 @@
 <!--The content below is only a placeholder and can be replaced.-->
 
 <div>
-  <mat-toolbar>
+  <mat-toolbar id="navbar">
     <div class="title">
       <span id="title-text" routerLink="/"> {{ title }} </span>
       <div id="subtitle">Quem ganhou e quem perdeu patrimônio entre os políticos?</div>
     </div>
     
     <span class="fill-remaining-space-navbar"></span>
-    <a mat-button (click)='openAbout()'>O que é?</a>
+    <a mat-button class="button" (click)='openAbout()'>Sobre</a>
     <a mat-button href="https://github.com/analytics-ufcg/empenhados-patrimonio" target="_blank">GitHub</a>
   </mat-toolbar>
 </div>
