@@ -46,8 +46,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   public ano: Number;
   private situacao: String;
   public cargo: String;
-  public transitionToogle: boolean;
-  public logToogle: boolean;
+  public transitionToogle: boolean;  
+  private logOption: any;
 
   constructor(private dataService: DataService,
     private alertService: AlertService,
@@ -57,7 +57,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.transitionTime = ({short: 1000, medium: 1500, long: 2000});
     this.circleRadius = 6;
     this.transitionToogle = false;
-    this.logToogle = true;
+    this.logOption = "log";
   }
 
   ngOnInit() {    
@@ -119,8 +119,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.decideVisualizacao();    
   }
 
-  executaTransicaoLog(evento) {
-    this.logToogle = evento.checked;
+  onChangeEscala(escala) {
+    this.logOption = escala;    
 
     this.decideVisualizacao();
   }
@@ -501,11 +501,11 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
   private decideVisualizacao() {
     
-    if (this.logToogle && this.transitionToogle) {
+    if (this.logOption === "log" && this.transitionToogle) {
       this.patrimonioLog();
-    } else if (this.logToogle && !this.transitionToogle) {
+    } else if (this.logOption === "log" && !this.transitionToogle) {
       this.differenceLog();
-    } else if (!this.logToogle && this.transitionToogle) {
+    } else if (this.logOption === "natural" && this.transitionToogle) {
       this.patrimonio();
     }else {
       this.difference();
