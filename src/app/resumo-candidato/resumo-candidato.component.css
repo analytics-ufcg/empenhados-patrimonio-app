@@ -1,13 +1,8 @@
-.card-resumo {
-    margin-top: 2%;
-}
-
 mat-card-title {
     color: #B68115;
-    font-size: 1.7vw;
+    font-size: 1.7em;
     font-weight: bolder;
 }
-
 
 .resumo-item-header {
     -webkit-margin-after: 0;
