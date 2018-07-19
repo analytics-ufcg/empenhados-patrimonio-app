@@ -21,13 +21,13 @@
 .title {
     cursor: pointer !important;
     padding: 0 5%;
-    margin-top: 2vw;
-    margin-bottom: 1.1vw;
+    margin-top: 0.9vw;
+    margin-bottom: 0.5vw;
 }
 
 #title-text {
     font-family: Fjalla One;
-    font-size: 2.7vw;
+    font-size: 2.3vw;
 }
 
 #navbar {
@@ -36,19 +36,19 @@
 
 #subtitle {
     font-family: 'Proza Libre', sans-serif;
-    font-size: 1.2vw;
-    margin-top: 2%;
+    font-size: 1vw;
+    margin-top: 1%;       
 }
 
 .button {
     background-color: transparent;
-    font-size: 1.1vw;
+    font-size: 1vw;
 }
 
 .button-git {
     padding: 0;
     margin-right: 5%;
-    font-size: 1.1vw;
+    font-size: 1vw;
 }
 
 .button:hover {
