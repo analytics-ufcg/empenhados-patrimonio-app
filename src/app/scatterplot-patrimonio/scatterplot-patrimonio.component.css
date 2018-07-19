@@ -49,7 +49,7 @@
 }
 
 .plot-container {
-    margin-top: 2em;
+    margin-top: 1.5em;
 }
 
 .mat-slide-toggle-content {
@@ -59,4 +59,27 @@
 .mat-card:not([class*=mat-elevation-z]) {
     border-radius: 0 !important;
     box-shadow: 0 -2px 0px 0px rgba(5, 156, 227) !important;
+}
+
+.plot-container .mat-form-field {
+    width: auto !important;
+}
+
+.plot-container .mat-form-field-infix {
+    width: auto;
+    padding-bottom: 0;
+    padding-top: 2%;
+}
+
+.plot-container .mat-select-value {
+    max-width: 100%;
+    width: auto;
+}
+
+.mat-form-field-underline  {
+    display: none;
+}
+
+.mat-form-field-wrapper {
+    padding: 0 !important;
 }
