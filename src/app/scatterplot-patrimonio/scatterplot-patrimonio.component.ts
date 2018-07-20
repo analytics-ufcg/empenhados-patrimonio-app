@@ -37,17 +37,17 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   private data: any;
   private maiorPatrimonioEleicao1: any;
   private menorPatrimonioEleicao1: any;
+  private maiorPatrimonioEleicao2: any;
   private menorPatrimonioEleicao2: any;
   private maiorDiferencaPositiva: any;
   private maiorDiferencaNegativa: any;
-  private maiorDiferencaModulo: any;
 
   private estadoAtual: String;
   public ano: Number;
   private situacao: String;
   public cargo: String;
-  public transitionToogle: boolean;
-  public logToogle: boolean;
+  public transitionToogle: boolean;  
+  private logOption: any;
 
   constructor(private dataService: DataService,
     private alertService: AlertService,
@@ -57,9 +57,10 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.transitionTime = ({short: 1000, medium: 1500, long: 2000});
     this.circleRadius = 6;
     this.transitionToogle = false;
+    this.logOption = "log";
   }
 
-  ngOnInit() {
+  ngOnInit() {    
     this.svg = d3.select('svg');
 
     this.width = parseInt(this.svg.style("width")) - this.margin.right;
@@ -99,6 +100,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     } else {
       this.maiorPatrimonioEleicao1 = d3.max(this.data, (d: any) => d.patrimonio_eleicao_1);  
       this.menorPatrimonioEleicao1 = d3.min(this.data, (d: any) => d.patrimonio_eleicao_1);
+      this.maiorPatrimonioEleicao2 = d3.max(this.data, (d: any) => d.patrimonio_eleicao_2);  
       this.menorPatrimonioEleicao2 = d3.min(this.data, (d: any) => d.patrimonio_eleicao_2);
       this.maiorDiferencaPositiva = d3.max(this.data, (d: any) => d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1);
       this.maiorDiferencaNegativa = d3.max(this.data, (d: any) => d.patrimonio_eleicao_1 - d.patrimonio_eleicao_2);
@@ -117,26 +119,25 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.decideVisualizacao();    
   }
 
-  executaTransicaoLog(evento) {
-    this.logToogle = evento.checked;
+  onChangeEscala(escala) {
+    this.logOption = escala;    
 
     this.decideVisualizacao();
   }
 
-  initD3Patrimonio() {
-    this.transitionToogle = false;
-    this.logToogle = false;
+  initD3Patrimonio() {   
     this.initX();
     this.initY();
     this.initZ();
     this.initTooltip();
     this.initAxes();
     this.initScatterplot();
+    this.decideVisualizacao();
   }
 
   private initX() {
     this.x = d3.scaleLinear()
-      .domain([0, this.maiorPatrimonioEleicao1]).nice()
+      .domain([Math.log10(this.menorPatrimonioEleicao1), Math.log10(this.maiorPatrimonioEleicao1)]).nice()
       .range([this.margin.left, this.width - this.margin.right]);
   }
 
@@ -162,7 +163,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   private initAxes() {
     this.xAxis = g => g
     .attr("transform", `translate(0,${this.height - this.margin.bottom})`)
-    .call(d3.axisBottom(this.x).ticks(this.width / 80).tickFormat(d3.format('.2s')))
+    .call(d3.axisBottom(this.x).ticks(Math.log10(this.maiorPatrimonioEleicao1) - Math.log10(this.menorPatrimonioEleicao1) + 1).tickFormat((d: any) => { return this.formataTick(d); }))
     .call(g => g.select(".domain").remove())
     .call(g => g.append("text")
         .attr("id", "x-title")
@@ -172,7 +173,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         .attr("dy", "0.32em")
         .attr("text-anchor", "middle")
         .attr("font-weight", "bold")
-        .text("Patrimônio em " + this.ano));
+        .text("Patrimônio em " + this.ano));        
 
     this.yAxis = g => g
       .attr("transform", `translate(${this.margin.left},0)`)
@@ -214,9 +215,9 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.line = this.svg.append("line")
       .style("stroke", "grey")
       .style("stroke-dasharray", ("10, 10"))
-      .attr("x1", this.x(0))
-      .attr("y1", this.y(0))
-      .attr("x2", this.x(this.maiorPatrimonioEleicao1 + 1e3))
+      .attr("x1", this.x(Math.log10(this.menorPatrimonioEleicao1)))
+      .attr("y1", this.y(0))      
+      .attr("x2", this.x(Math.log10(this.maiorPatrimonioEleicao1 + 1e3)))
       .attr("y2", this.y(0));
 
     const g = this.svg.append("g")
@@ -226,8 +227,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     g.selectAll("line")
       .data(this.data)
       .enter().append("line")
-      .attr("x1", (d: any) => this.x(d.patrimonio_eleicao_1 - .5))
-      .attr("x2", (d: any) => this.x(d.patrimonio_eleicao_1 - .5))
+      .attr("x1", (d: any) => this.x(Math.log10(d.patrimonio_eleicao_1)))
+      .attr("x2", (d: any) => this.x(Math.log10(d.patrimonio_eleicao_1)))
       .attr("y1", (d: any) => d.patrimonio_eleicao_2 > d.patrimonio_eleicao_1 ? this.y(0) : this.y(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1))
       .attr("y2", (d: any) => d.patrimonio_eleicao_2 > d.patrimonio_eleicao_1 ? this.y(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1) : this.y(0))
       .style("stroke-width", 2)
@@ -236,7 +237,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     g.selectAll("circle")
       .data(this.data)
       .enter().append("circle")
-      .attr("cx", (d: any) => this.x(d.patrimonio_eleicao_1))
+      .attr("cx", (d: any) => this.x(Math.log10(d.patrimonio_eleicao_1)))
       .attr("cy", (d: any) => this.y(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1))
       .attr("fill", (d: any) => this.z(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1))
       .attr("opacity", 0.7)
@@ -320,16 +321,14 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.svg.select("#y-title")    
     .text("Diferença de patrimônio");
 
-    this.svg.select("#x-title")    
-    .text("Patrimônio em " + this.ano);
     
     this.tip
       .html((d: any) => this.tooltipDiferenca(d));
 
     this.svg.call(this.tip);
 
-    this.updateXAxis();
-    this.updateYAxis();
+    this.updateXAxis(false);
+    this.updateYAxis(false);
   }
 
   private patrimonio() {
@@ -362,18 +361,15 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     .attr("y2", (d: any) => d.patrimonio_eleicao_2 > d.patrimonio_eleicao_1 ? this.y(d.patrimonio_eleicao_2) : this.y(d.patrimonio_eleicao_1))  
 
     this.svg.select("#y-title")
-      .text("Patrimônio em " + (this.ano.valueOf() + 4));
-
-    this.svg.select("#x-title")    
-    .text("Patrimônio em " + this.ano);    
+      .text("Patrimônio em " + (this.ano.valueOf() + 4));  
 
     this.tip
       .html((d: any) => this.tooltipPatrimonio(d));
 
     this.svg.call(this.tip);
 
-    this.updateXAxis();
-    this.updateYAxis();
+    this.updateXAxis(false);
+    this.updateYAxis(false);
   }
 
   private differenceLog() {
@@ -407,16 +403,13 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.svg.select("#y-title")    
     .text("Diferença de patrimônio");
 
-    this.svg.select("#x-title")    
-    .text("Patrimônio em " + this.ano + " (log10)");
-
     this.tip
     .html((d: any) => this.tooltipDiferenca(d));
 
     this.svg.call(this.tip);
 
-    this.updateXAxis();
-    this.updateYAxis();
+    this.updateXAxis(true);
+    this.updateYAxis(false);
   }
 
   private patrimonioLog() {
@@ -448,18 +441,15 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     .attr("x2", (d: any) => this.x(Math.log10(d.patrimonio_eleicao_1)));
 
     this.svg.select("#y-title")    
-    .text("Patrimônio em " + (this.ano.valueOf() + 4) + " (log10)");
-
-    this.svg.select("#x-title")    
-    .text("Patrimônio em " + this.ano + " (log10)");
+    .text("Patrimônio em " + (this.ano.valueOf() + 4));
 
     this.tip
     .html((d: any) => this.tooltipPatrimonio(d));
 
     this.svg.call(this.tip);
 
-    this.updateXAxis();
-    this.updateYAxis();
+    this.updateXAxis(true);
+    this.updateYAxis(true);
 
   }
 
@@ -474,28 +464,48 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       "<span>" + "Diferença: " + this.utilsService.formataReais(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1) + "</span>";
   }
 
-  private updateXAxis() {
-    this.svg.select("#x-axis")
-    .transition()
-    .duration(this.transitionTime.short)
-    .call(d3.axisBottom(this.x).ticks(this.width / 80).tickFormat(d3.format('.2s')));
+  private updateXAxis(isLog) {
+
+    if (isLog) {
+      this.svg.select("#x-axis")
+      .transition()
+      .duration(this.transitionTime.short)
+      .call(d3.axisBottom(this.x).ticks(Math.log10(this.maiorPatrimonioEleicao1) - Math.log10(this.menorPatrimonioEleicao1) + 1).tickFormat((d: any) => { return this.formataTick(d); }));
+
+    } else {
+      this.svg.select("#x-axis")
+      .transition()
+      .duration(this.transitionTime.short)
+      .call(d3.axisBottom(this.x).ticks(this.width / 80).tickFormat(d3.format('.2s')));
+    }    
   }
 
-  private updateYAxis() {
-    this.svg.select("#y-axis")
-    .transition()
-    .duration(this.transitionTime.short)
-    .call(d3.axisLeft(this.y).ticks(this.height / 50).tickFormat(d3.format('.2s')))
-    .call(g => g.select(".domain").remove());
+  private updateYAxis(isLog) {
+
+    if (isLog) {
+      this.svg.select("#y-axis")
+      .transition()
+      .duration(this.transitionTime.short)
+      .call(d3.axisLeft(this.y).ticks(Math.log10(this.maiorPatrimonioEleicao2) - Math.log10(this.menorPatrimonioEleicao2) + 1).tickFormat((d: any) => { return this.formataTick(d); }))
+      .call(g => g.select(".domain").remove());
+
+    } else {
+      this.svg.select("#y-axis")
+      .transition()
+      .duration(this.transitionTime.short)
+      .call(d3.axisLeft(this.y).ticks(this.height / 50).tickFormat(d3.format('.2s')))
+      .call(g => g.select(".domain").remove());
+    }
+    
   }
 
   private decideVisualizacao() {
     
-    if (this.logToogle && this.transitionToogle) {
+    if (this.logOption === "log" && this.transitionToogle) {
       this.patrimonioLog();
-    } else if (this.logToogle && !this.transitionToogle) {
+    } else if (this.logOption === "log" && !this.transitionToogle) {
       this.differenceLog();
-    } else if (!this.logToogle && this.transitionToogle) {
+    } else if (this.logOption === "natural" && this.transitionToogle) {
       this.patrimonio();
     }else {
       this.difference();
@@ -519,6 +529,16 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       return cargo
     }
     return this.utilsService.toTitleCase(cargo);
+  }
+
+  private formataTick(d) {
+    d = Math.floor(d);     
+    var ticksBase10 = ["1 mil", "10 mil", "100 mil", "1M", "10M", "100M", "1B", "10B"];
+    var tickLabel;
+
+    tickLabel = d <= 2 ? Math.pow(10, d) : ticksBase10[d-3];    
+
+    return tickLabel;
   }
 
 }

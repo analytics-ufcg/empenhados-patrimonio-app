@@ -3,13 +3,18 @@
     <span class="fact-text-value">{{ candidato.nome_urna}}</span>,
     <span class="fact-text-value">{{ infoCandidato.desc_Ocupacao | lowercase }} {{ defineIdade(infoCandidato.data_Nascimento) }}</span>, foi candidato
     em
-    <span class="fact-text-value">{{ infoCandidato.desc_Unid_Eleitoral }}</span> cujo o IDH é
-    <span class="fact-text-value"> {{ idh.IDHM_2010 }}</span>. Também houveram outros
-    <span class="fact-text-value">{{ dadosEleicao.quantidade_candidatos }}</span>
-    candidatos a
-    <span class="fact-text-value">{{ formataCargo(candidato.cargo_pleiteado_1) }}</span>, com uma média de patrimônio de
-    <span class="fact-text-value">{{ numberToReal(dadosEleicao.media_patrimonio) }}</span>.
+    <span class="fact-text-value">{{ infoCandidato.desc_Unid_Eleitoral }}</span>
+    cujo o IDH é
+    <span class="fact-text-value"> {{ idh.IDHM_2010 }}</span>.
   </p>
+  <p>Temos dados de
+      <span class="fact-text-value">{{ ano }}</span> e 
+      <span class="fact-text-value">{{ ano + 4 }}</span>
+      para outros
+      <span class="fact-text-value">{{ dadosEleicao.quantidade_candidatos }}</span>
+      candidatos neste estado, com uma média de patrimônio de 
+      <span class="fact-text-value">{{ utilsService.abreviaPatrimonio(numberToReal(dadosEleicao.media_patrimonio)) }}</span>.
+    </p>
   <p>
     Em
     <span class="fact-text-value">{{ ano }}</span> foi
