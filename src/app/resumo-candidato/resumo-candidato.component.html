@@ -12,7 +12,7 @@
           {{ utilsService.abreviaPatrimonio(numberToReal(candidato.patrimonio_eleicao_1)) }}
         </a>
         <a mat-icon-button href="{{urlBens1}}" target="_blank">
-          <mat-icon class="mat16" mat-list-icon style="color: #B68115">info</mat-icon>
+          <mat-icon class="mat16" mat-list-icon style="color: #B68115">open_in_new</mat-icon>
         </a>
       </h4>
       <br>
@@ -21,7 +21,7 @@
           {{ utilsService.abreviaPatrimonio(numberToReal(candidato.patrimonio_eleicao_2)) }}
         </a>
         <a mat-icon-button href="{{urlBens2}}" target="_blank">
-          <mat-icon class="mat16" mat-list-icon style="color: #B68115">info</mat-icon>
+          <mat-icon class="mat16" mat-list-icon style="color: #B68115">open_in_new</mat-icon>
         </a>
       </h4>
     </mat-list-item>
@@ -30,7 +30,7 @@
       <mat-icon class="mat32" mat-list-icon *ngIf="crescimentoPatrimonio" style="color: #27ae60">trending_up</mat-icon>
       <mat-icon class="mat32" mat-list-icon *ngIf="reducaoPatrimonio" style="color: #c0392b">trending_down</mat-icon>
       <mat-icon class="mat32" mat-list-icon *ngIf="patrimonioEstavel">trending_flat</mat-icon>
-      <p class="resumo-ganho-text">O patrimônio do canditado
+      <p class="resumo-ganho-text">Seu patrimônio
         <a class="resumo-text-value">{{ situacaoCrescimento }} </a>
       </p>
     </mat-list-item>
