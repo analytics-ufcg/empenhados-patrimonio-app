@@ -11,6 +11,7 @@ import { CandidatoService } from '../services/candidato.service';
 export class ResumoCandidatoComponent implements OnInit {
   private candidato : any;
   public situacaoCrescimento: String;
+  public fraseCrescimento: String;
   public isCandidatoSelecionado = false;
   public razao : any;
   public crescimentoPatrimonio = false;
@@ -57,11 +58,14 @@ export class ResumoCandidatoComponent implements OnInit {
      this.reducaoPatrimonio = numero1 > numero2;
 
     if (this.crescimentoPatrimonio) {
-      this.situacaoCrescimento = "é "+ this.razao + " vezes maior";
+      this.situacaoCrescimento = "era " + this.razao + "x maior";
+      this.fraseCrescimento = " que o de";
     } else if (this.reducaoPatrimonio) {
-      this.situacaoCrescimento = "é "+ this.razao + " vezes menor";
+      this.situacaoCrescimento = "era " + this.razao + "x menor";
+      this.fraseCrescimento = " que o de";
     } else {
-      this.situacaoCrescimento = "permaneceu o mesmo"
+      this.situacaoCrescimento = "permaneceu o mesmo de"
+      this.fraseCrescimento = "";
     }
   }
 
