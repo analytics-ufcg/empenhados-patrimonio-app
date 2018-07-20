@@ -87,3 +87,15 @@
     -webkit-transform: rotate(-90deg);
 }
 
+.select-mode{
+    -webkit-transform: rotate(-90deg);
+}
+
+.select-mode-option{
+    -webkit-transform: rotate(0deg);
+}
+
+.modo .mat-form-field-underline{
+    display: none;
+}
+
