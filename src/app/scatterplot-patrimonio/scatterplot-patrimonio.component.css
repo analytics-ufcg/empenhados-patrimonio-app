@@ -1,5 +1,3 @@
-
-
 .plot {
     display: inline-block;
     margin: auto;
@@ -76,10 +74,12 @@
     width: auto;
 }
 
-.mat-form-field-underline  {
+.escala .mat-form-field-underline{
     display: none;
 }
 
-.mat-form-field-wrapper {
+.escala .mat-form-field-wrapper {
     padding: 0 !important;
 }
+
+
