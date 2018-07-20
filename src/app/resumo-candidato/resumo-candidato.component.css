@@ -1,12 +1,8 @@
-.card-resumo {
-    margin-top: 2%;
-}
-
 mat-card-title {
     color: #B68115;
-    font-size: 18px;
+    font-size: 1.3em;
+    font-weight: bolder;
 }
-
 
 .resumo-item-header {
     -webkit-margin-after: 0;
@@ -20,8 +16,7 @@ mat-card-title {
     font-weight: bold;
 }
 
-.resumo-text-patrimonio{
-    text-decoration: underline dashed;
+.resumo-text-patrimonio{    
     cursor: pointer !important;
 }
 

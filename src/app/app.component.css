@@ -6,8 +6,8 @@
 
 .mat-toolbar {
     flex: 0;
-    background-color: #059CE3;
-    color: #ffffff;
+    background-color: #1B3B6F;
+    color: #ECEBE4;
 }
 
 .mat-toolbar-row, .mat-toolbar-single-row {
@@ -21,12 +21,13 @@
 .title {
     cursor: pointer !important;
     padding: 0 5%;
-    margin: 2vw;
+    margin-top: 0.9vw;
+    margin-bottom: 0.5vw;
 }
 
 #title-text {
     font-family: Fjalla One;
-    font-size: 2.7vw;
+    font-size: 1.5em;
 }
 
 #navbar {
@@ -35,11 +36,19 @@
 
 #subtitle {
     font-family: 'Proza Libre', sans-serif;
-    font-size: 1.2vw;
+    font-size: .7em;
+    margin-top: 1%;       
 }
 
 .button {
     background-color: transparent;
+    font-size: .7em;
+}
+
+.button-git {
+    padding: 0;
+    margin-right: 5%;
+    font-size: .7em;
 }
 
 .button:hover {

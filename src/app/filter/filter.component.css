@@ -1,5 +1,11 @@
 .section-filter {    
-    text-align: center;
+    text-align: left;
+    font-size: 1.1em; 
+    line-height: 1em !important;   
+}
+
+.filter-card {
+    padding-right: 0 !important;    
 }
 
 .filter {
@@ -29,11 +35,6 @@
     background-color: #EEEEEE;    
 }
 
-.mat-form-field-underline  {
-    background-color: #B68115;
-    width: auto;
-}
-
 .mat-select-value {
     color: #5E400B;
 }
@@ -50,12 +51,19 @@
     color: #5E400B;
 }
 
+.alt .mat-form-field-underline  {
+    display: none;
+}
+
 .alt .mat-form-field {
     width: auto !important;
 }
 
 .alt .mat-form-field-infix {
     width: auto;
+    border-top: 0 !important;
+    padding-left: 2%;
+    background-color: #ECEBE4;
 }
 
 .alt .mat-select-value {
