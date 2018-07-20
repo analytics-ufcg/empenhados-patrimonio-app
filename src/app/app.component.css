@@ -27,7 +27,7 @@
 
 #title-text {
     font-family: Fjalla One;
-    font-size: 2.3vw;
+    font-size: 1.5em;
 }
 
 #navbar {
@@ -36,19 +36,19 @@
 
 #subtitle {
     font-family: 'Proza Libre', sans-serif;
-    font-size: 1vw;
+    font-size: .7em;
     margin-top: 1%;       
 }
 
 .button {
     background-color: transparent;
-    font-size: 1vw;
+    font-size: .7em;
 }
 
 .button-git {
     padding: 0;
     margin-right: 5%;
-    font-size: 1vw;
+    font-size: .7em;
 }
 
 .button:hover {

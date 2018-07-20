@@ -203,7 +203,7 @@ export class FilterComponent implements OnInit {
       if(CARGOS_MUNICIPAIS.indexOf(novoCargo) === -1 && novoCargo !== this.dataService.getTodosCargos()) {
         this.anoSelecionado = 2010;
       } else {
-        this.anoSelecionado = undefined;
+        this.anoSelecionado = 2012;
       }
     }
 

@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
 import { RequestService } from './request.service';
-import { resolve } from 'url';
-import { reject } from 'q';
 
 interface Patrimonio {
   patrimonio_eleicao_1: Number;
@@ -41,6 +38,12 @@ interface Ano {
   ano_um: Number;
 }
 
+interface IDH {
+  unidade_eleitoral: String,
+  IDHM_2010: Number
+}
+
+
 const TODOS_CONSULTA = "todos";
 const TODOS_CARGOS = "qualquer cargo";
 const TODOS_ESTADOS = "qualquer estado";
@@ -69,8 +72,10 @@ export class DataService {
   private _anos = new BehaviorSubject<Ano[]>(undefined);
   public anos = this._anos.asObservable();
 
-  public listaAnos : any;
+  private _idh = new BehaviorSubject<IDH[]>(undefined);
+  public idh = this._idh.asObservable(); 
 
+  public listaAnos : any;
 
   constructor(private requestService: RequestService) { }
 
@@ -179,6 +184,23 @@ export class DataService {
     );
   }
 
+  async mudaIdh(cd_unidade_eleitoral: String) {
+    let dadosIDH;
+
+    return new Promise((resolve, reject) =>
+      this.requestService.recuperaIDH(cd_unidade_eleitoral).subscribe(
+        data => {
+          dadosIDH = data;
+          this._idh.next(this.parseDataIDH(dadosIDH));
+          return resolve("IDH alterado");
+        }, err => {
+          console.log(err);
+          return reject(err);
+        }
+      )
+    );
+  }
+
   private parseData(data: any[]): Patrimonio[] {
     return data.map(v => <Patrimonio>{
       patrimonio_eleicao_1: v.patrimonio_eleicao_1, patrimonio_eleicao_2: v.patrimonio_eleicao_2,
@@ -205,6 +227,10 @@ export class DataService {
 
   private parseDataAno(data: any[]): Ano[] {
     return data.map(v => <Ano>{ ano_um: v.ano_um });
+  }
+
+  private parseDataIDH(data: any[]): IDH[] {
+    return data.map(v => <IDH>{ unidade_eleitoral: v.unidade_eleitoral, IDHM_2010: v.IDHM_2010 });
   }
 
   public getTodos() {
@@ -237,6 +263,10 @@ export class DataService {
 
   public getCargo() {
     return this.cargoSelecionado;
+  }
+
+  public getIDH(){
+    return this.idh;
   }
 
 }
