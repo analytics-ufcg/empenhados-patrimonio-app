@@ -46,8 +46,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   public ano: Number;
   private situacao: String;
   public cargo: String;
-  public transitionToogle: boolean;  
-  private logOption: any;
+  public modeOption: any;  
+  public logOption: any;
 
   constructor(private dataService: DataService,
     private alertService: AlertService,
@@ -56,7 +56,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.margin = ({top: 20, right: 30, bottom: 20, left: 40});
     this.transitionTime = ({short: 1000, medium: 1500, long: 2000});
     this.circleRadius = 6;
-    this.transitionToogle = false;
+    this.modeOption = "variacao";
     this.logOption = "log";
   }
 
@@ -113,8 +113,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     d3.selectAll("svg > *").remove();
   }
 
-  executaTransicao(evento) {
-    this.transitionToogle = evento.checked;
+  executaTransicao(modo) {      
+    this.modeOption = modo;
     
     this.decideVisualizacao();    
   }
@@ -501,11 +501,11 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
   private decideVisualizacao() {
     
-    if (this.logOption === "log" && this.transitionToogle) {
+    if (this.logOption === "log" && this.modeOption === "comparativo") {
       this.patrimonioLog();
-    } else if (this.logOption === "log" && !this.transitionToogle) {
+    } else if (this.logOption === "log" && this.modeOption === "variacao") {
       this.differenceLog();
-    } else if (this.logOption === "natural" && this.transitionToogle) {
+    } else if (this.logOption === "natural" && this.modeOption === "comparativo") {
       this.patrimonio();
     }else {
       this.difference();
