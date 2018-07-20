@@ -82,4 +82,8 @@
     padding: 0 !important;
 }
 
+.yLabel {
+    font-size: .8em;
+    -webkit-transform: rotate(-90deg);
+}
 

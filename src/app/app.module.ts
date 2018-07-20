@@ -25,6 +25,7 @@ import {
   MatInputModule,
   MatSnackBarModule,
   MatListModule,
+  MatRadioModule,
   MatSlideToggleModule,
   MatDialogModule,
   MatTooltipModule
@@ -76,6 +77,7 @@ import { AppRoutingModule } from './app-routing.module';
     MatInputModule,
     MatSnackBarModule,
     MatSlideToggleModule,
+    MatRadioModule,
     MatListModule,
     HttpClientModule,
     MatDialogModule,
