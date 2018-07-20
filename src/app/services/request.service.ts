@@ -70,4 +70,10 @@ export class RequestService {
     });
   }
 
+  public recuperaIDH(cdUnidadeEleitoral) {
+    return this.http.get(this.serverHost + '/unidadeEleitoral/' + cdUnidadeEleitoral, {
+      headers: this.headers
+    });
+  }
+
 }

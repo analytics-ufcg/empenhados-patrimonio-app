@@ -1,8 +1,7 @@
 <mat-card class="scatterplot-card">
-  <h4 class="plot-title" *ngIf="cargo && ano">Patrimônio dos candidatos a {{ formataCargo(cargo) }} -  {{ ano }} a {{ ano + 4 }}</h4>
+  <h4 class="plot-title" *ngIf="cargo && ano">Patrimônio dos candidatos a {{ formataCargo(cargo) }} - {{ ano }} a {{ ano + 4 }}</h4>
   <p class="plot-subtitle">
-    As observações acima da linha pontilhada indicam aumento de patrimônio. 
-    Clique em um ponto para obter mais detalhes.
+    As observações acima da linha pontilhada indicam aumento de patrimônio. Clique em um ponto para obter mais detalhes.
   </p>
   <div class="plot-container">
     <mat-slide-toggle [checked]="transitionToogle" (change)="executaTransicao($event)">
@@ -13,9 +12,14 @@
         Comparativo
       </div>
     </mat-slide-toggle>
-    <mat-slide-toggle class="slide-toogle" [checked]="logToogle" (change)="executaTransicaoLog($event)">Log10</mat-slide-toggle>
-    <div class = "section">
-      <svg class = "plot"></svg>
+    <mat-form-field class="escala">
+      <mat-select placeholder="Escala" [ngModel]="logOption" (ngModelChange)="onChangeEscala($event)">
+        <mat-option value="natural">1 2 3</mat-option>
+        <mat-option value="log">1 10 100</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="section">
+      <svg class="plot"></svg>
     </div>
   </div>
 </mat-card>
