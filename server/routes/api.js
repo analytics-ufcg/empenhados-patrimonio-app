@@ -43,10 +43,11 @@ router.get('/patrimonio/busca/estados', async (req, res) => {
 
 /**
  * GET retorna lista de cargos
+ * Exclui da lista cargos de SUPLENTE
  */
 router.get('/patrimonio/busca/cargos', async (req, res) => {   
      
-  var query = "SELECT DISTINCT(cargo_pleiteado_2) FROM patrimonio_candidatos ORDER BY cargo_pleiteado_2";
+  var query = "SELECT DISTINCT(cargo_pleiteado_2) FROM patrimonio_candidatos WHERE cargo_pleiteado_2 NOT LIKE '%SUPLENTE' ORDER BY cargo_pleiteado_2";
   execSQLQuery(query, [], res); 
   
 });
