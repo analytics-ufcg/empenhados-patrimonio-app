@@ -59,5 +59,16 @@
     "ts-node": "~4.1.0",
     "tslint": "~5.9.1",
     "typescript": "~2.5.3"
-  }
+  },
+  "description": "Este projeto foi gerado com [Angular CLI](https://github.com/angular/angular-cli) versão 1.7.4.",
+  "main": "karma.conf.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/analytics-ufcg/empenhados-patrimonio-app.git"
+  },
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/analytics-ufcg/empenhados-patrimonio-app/issues"
+  },
+  "homepage": "https://github.com/analytics-ufcg/empenhados-patrimonio-app#readme"
 }
