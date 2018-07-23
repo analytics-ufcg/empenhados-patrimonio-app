@@ -7,6 +7,8 @@ import { Component, Inject } from '@angular/core';
 })
 export class AboutComponent {
 
+  title = "Capital dos Candidatos";
+
   constructor(
   ) { }
   
