@@ -4,9 +4,10 @@
   <mat-divider></mat-divider>
 
   <mat-list>
-    <h3 class="resumo-item-header">Patrimônio</h3>
+    <!-- <h3 class="resumo-item-header">Patrimônio</h3> -->
     <mat-list-item>
       <mat-icon class="mat32" mat-list-icon>attach_money</mat-icon>
+      <h4 mat-line>Patrimônio</h4>
       <h4 mat-line>{{ candidato.ano_um }}:
         <a class="resumo-text-value resumo-text-patrimonio" matTooltip="{{numberToReal(candidato.patrimonio_eleicao_1)}}">
           {{ utilsService.abreviaPatrimonio(numberToReal(candidato.patrimonio_eleicao_1)) }}
@@ -25,14 +26,17 @@
         </a>
       </h4>
     </mat-list-item>
-    <h3 class="resumo-item-header">Ganho</h3>
     <mat-list-item>
       <mat-icon class="mat32" mat-list-icon *ngIf="crescimentoPatrimonio" style="color: #27ae60">trending_up</mat-icon>
       <mat-icon class="mat32" mat-list-icon *ngIf="reducaoPatrimonio" style="color: #c0392b">trending_down</mat-icon>
       <mat-icon class="mat32" mat-list-icon *ngIf="patrimonioEstavel">trending_flat</mat-icon>
-      <p class="resumo-ganho-text">O patrimônio em {{ candidato.ano_um + 4 }} 
-        <a class="resumo-text-value">{{ situacaoCrescimento }} </a> {{ fraseCrescimento }} {{candidato.ano_um }}
-      </p>
+      <div class="item-resumo">
+        <span class="resumo-ganho-text">Ganho</span>
+        <br>
+        <span class="resumo-ganho-text">O patrimônio em {{ candidato.ano_um + 4 }}
+          <a class="resumo-text-value">{{ situacaoCrescimento }} </a> {{ fraseCrescimento }} {{candidato.ano_um }}
+        </span>
+      </div>
     </mat-list-item>
   </mat-list>
 </mat-card>

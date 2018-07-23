@@ -12,15 +12,17 @@ mat-card-title {
 .resumo-text-value {
     color: #B68115;
     text-align: right;
-    font-weight: bold;
+    font-weight: bold;    
 }
 
 .resumo-text-patrimonio{    
     cursor: pointer !important;
 }
 
-.resumo-ganho-text {
-    padding-left: 16px;
+.resumo-ganho-text {    
+    flex-wrap: wrap !important;
+    line-height: 1.5;        
+    margin-bottom: 10px;
 }
 
 .mat-list .mat-list-item .mat-line:nth-child(n+2), .mat-nav-list .mat-list-item .mat-line:nth-child(n+2), .mat-selection-list .mat-list-item .mat-line:nth-child(n+2) {
@@ -45,4 +47,13 @@ mat-card-title {
     padding: 0px !important;
     display: inline-flex !important;
     vertical-align: baseline !important;
+}
+
+.item-resumo {
+    margin-top: 36px;
+    padding-left: 16px;
+}
+
+.card-resumo {
+    margin-bottom: 24px;
 }
