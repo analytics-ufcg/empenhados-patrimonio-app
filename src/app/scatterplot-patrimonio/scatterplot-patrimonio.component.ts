@@ -5,6 +5,7 @@ import { DataService } from '../services/data.service';
 import { AlertService } from '../services/alert.service';
 import { UtilsService } from '../services/utils.service';
 import { Observable } from 'rxjs/Observable';
+import { svg } from 'd3';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -152,6 +153,14 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
   }
 
+  private idled() {
+    this.idleTimeout = null;
+  }
+
+  private brush;
+  private idleTimeout;
+  private idleDelay;
+
   private initTooltip() {
     this.tip = d3Tip()
       .attr('class', 'd3-tip')
@@ -251,6 +260,47 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       .on("mouseout.tip", this.tip.hide);
 
     this.g = g;
+
+    // Brush
+    let that = this;
+
+    let zoom = () => {
+      var t = this.svg.transition().duration(750);
+      this.svg.select(".axis--x").transition(t)
+        .call(d3.axisBottom(that.x)
+        .ticks(Math.log10(that.maiorPatrimonioEleicao1) - Math.log10(that.menorPatrimonioEleicao1) + 1).tickFormat((d: any) => { return that.formataTick(d); })
+        .tickFormat((d: any) => { return that.formataTick(d); }));
+      this.svg.select(".axis--y").transition(t)
+        .call(d3.axisLeft(that.y).ticks(that.height / 50)
+        .tickFormat(d3.format('.2s')));
+      this.svg.selectAll("circle").transition(t)
+          .attr("cx", function(d) { return that.x(d.patrimonio_eleicao_1); })
+          .attr("cy", function(d) { return that.y(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1); });
+    }
+
+    let brushed = () => {
+      let selection = d3.event.selection;
+      
+      if(!selection){
+        if(!that.idleTimeout) return that.idleTimeout = setTimeout(that.idled, that.idleDelay);
+        that.x.domain([Math.log10(that.menorPatrimonioEleicao1), Math.log10(that.maiorPatrimonioEleicao1)]);
+        that.y.domain([-Math.abs(that.maiorDiferencaNegativa), that.maiorDiferencaPositiva]);
+      } else {
+        that.x.domain([selection[0][0], selection[1][0]].map(that.x.invert, that.x));
+        that.y.domain([selection[1][1], selection[0][1]].map(that.y.invert, that.y));
+        that.svg.select(".brush").call(that.brush.move, null);
+      }
+      zoom();
+    }
+
+    this.brush = d3.brush()
+      .extent([[this.margin.left, this.margin.left], [this.width - this.margin.right, this.height - this.margin.bottom]])
+      .on("end", brushed); 
+    this.idleTimeout, this.idleDelay = 350;
+
+    this.svg.append("g")
+      .attr("class", "brush")
+      .call(this.brush);
 
     return this.svg.node();
   }
