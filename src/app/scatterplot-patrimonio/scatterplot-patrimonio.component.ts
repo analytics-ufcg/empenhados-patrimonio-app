@@ -114,7 +114,6 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   }
 
   executaTransicao(modo) {
-    //this.transitionToogle = evento.checked;
     this.modeOption = modo;
     
     this.decideVisualizacao();    

@@ -30,8 +30,8 @@
       <mat-icon class="mat32" mat-list-icon *ngIf="crescimentoPatrimonio" style="color: #27ae60">trending_up</mat-icon>
       <mat-icon class="mat32" mat-list-icon *ngIf="reducaoPatrimonio" style="color: #c0392b">trending_down</mat-icon>
       <mat-icon class="mat32" mat-list-icon *ngIf="patrimonioEstavel">trending_flat</mat-icon>
-      <p class="resumo-ganho-text">Seu patrimônio
-        <a class="resumo-text-value">{{ situacaoCrescimento }} </a>
+      <p class="resumo-ganho-text">O patrimônio em {{ candidato.ano_um + 4 }} 
+        <a class="resumo-text-value">{{ situacaoCrescimento }} </a> {{ fraseCrescimento }} {{candidato.ano_um }}
       </p>
     </mat-list-item>
   </mat-list>
