@@ -6,7 +6,11 @@
   <div class="resumo-list">
     <ul>
       <li>
-        <mat-icon class="mat32" mat-list-icon>attach_money</mat-icon>
+        <div class="resumo-container-icon">
+          <a class="resumo-icon-patrimonio">
+            <mat-icon class="mat-big" mat-list-icon>attach_money</mat-icon>
+          </a>
+        </div>
         <div class="item-resumo">
           <span class="resumo-item-title">Patrimônio</span>
           <br> {{ candidato.ano_um }}:
@@ -26,9 +30,17 @@
         </div>
       </li>
       <li>
-        <mat-icon class="mat32" mat-list-icon *ngIf="crescimentoPatrimonio" style="color: #27ae60">trending_up</mat-icon>
-        <mat-icon class="mat32" mat-list-icon *ngIf="reducaoPatrimonio" style="color: #c0392b">trending_down</mat-icon>
-        <mat-icon class="mat32" mat-list-icon *ngIf="patrimonioEstavel">trending_flat</mat-icon>
+        <div class="resumo-container-icon">
+          <a class="resumo-icon-ganho" *ngIf="crescimentoPatrimonio">
+            <mat-icon class="mat-big" mat-list-icon style="color: #27ae60">trending_up</mat-icon>
+          </a>
+          <a class="resumo-icon-ganho" *ngIf="reducaoPatrimonio">
+            <mat-icon class="mat-big" mat-list-icon style="color: #c0392b">trending_down</mat-icon>
+          </a>
+          <a class="resumo-icon-ganho" *ngIf="patrimonioEstavel">
+            <mat-icon class="mat-big" mat-list-icon>trending_flat</mat-icon>
+          </a>
+        </div>
         <div class="item-resumo">
           <span class="resumo-item-title">Ganho</span>
           <br>

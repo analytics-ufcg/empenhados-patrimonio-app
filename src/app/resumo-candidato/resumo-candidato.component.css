@@ -34,11 +34,30 @@ mat-card-title {
     margin-bottom: 10px;
 }
 
-.material-icons.mat32 {
-    font-size: 32px !important;
-    width: 36px !important;
-    height: 36px !important;
+.material-icons.mat-big {
+    font-size: 48px !important;
+    width: 50px !important;
+    height: 50px !important;
+}
+
+.resumo-icon-patrimonio {
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
     position:relative;
+    top: calc(20%);
+}
+
+.resumo-icon-ganho {
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    position:relative;
+    top: calc(10%);
+}
+
+.resumo-container-icon {
+    display: block;    
 }
 
 .mat-icon-button{
