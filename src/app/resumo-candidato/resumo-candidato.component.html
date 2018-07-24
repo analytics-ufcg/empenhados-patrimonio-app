@@ -1,38 +1,54 @@
 <mat-card *ngIf="isCandidatoSelecionado" class="card-resumo">
   <mat-card-title>{{ candidato.nome_urna }} ({{candidato.sigla_partido}})</mat-card-title>
-  <mat-card-subtitle>{{ formataCargo(candidato.cargo_pleiteado_1) }} - {{ candidato.unidade_eleitoral }} </mat-card-subtitle>
-  <mat-divider></mat-divider>
+  <mat-card-subtitle class="resumo-subtitle">{{ formataCargo(candidato.cargo_pleiteado_1) }} - {{ candidato.unidade_eleitoral }} </mat-card-subtitle>
+  <mat-divider class="resumo-divider"></mat-divider>
 
-  <mat-list>
-    <h3 class="resumo-item-header">Patrimônio</h3>
-    <mat-list-item>
-      <mat-icon class="mat32" mat-list-icon>attach_money</mat-icon>
-      <h4 mat-line>{{ candidato.ano_um }}:
-        <a class="resumo-text-value resumo-text-patrimonio" matTooltip="{{numberToReal(candidato.patrimonio_eleicao_1)}}">
-          {{ utilsService.abreviaPatrimonio(numberToReal(candidato.patrimonio_eleicao_1)) }}
-        </a>
-        <a mat-icon-button href="{{urlBens1}}" target="_blank">
-          <mat-icon class="mat16" mat-list-icon style="color: #B68115">open_in_new</mat-icon>
-        </a>
-      </h4>
-      <br>
-      <h4 mat-line>{{ candidato.ano_um + 4 }}:
-        <a class="resumo-text-value resumo-text-patrimonio" matTooltip="{{numberToReal(candidato.patrimonio_eleicao_2)}}">
-          {{ utilsService.abreviaPatrimonio(numberToReal(candidato.patrimonio_eleicao_2)) }}
-        </a>
-        <a mat-icon-button href="{{urlBens2}}" target="_blank">
-          <mat-icon class="mat16" mat-list-icon style="color: #B68115">open_in_new</mat-icon>
-        </a>
-      </h4>
-    </mat-list-item>
-    <h3 class="resumo-item-header">Ganho</h3>
-    <mat-list-item>
-      <mat-icon class="mat32" mat-list-icon *ngIf="crescimentoPatrimonio" style="color: #27ae60">trending_up</mat-icon>
-      <mat-icon class="mat32" mat-list-icon *ngIf="reducaoPatrimonio" style="color: #c0392b">trending_down</mat-icon>
-      <mat-icon class="mat32" mat-list-icon *ngIf="patrimonioEstavel">trending_flat</mat-icon>
-      <p class="resumo-ganho-text">O patrimônio em {{ candidato.ano_um + 4 }} 
-        <a class="resumo-text-value">{{ situacaoCrescimento }} </a> {{ fraseCrescimento }} {{candidato.ano_um }}
-      </p>
-    </mat-list-item>
-  </mat-list>
+  <div class="resumo-list">
+    <ul>
+      <li>
+        <div class="resumo-container-icon">
+          <a class="resumo-icon-patrimonio">
+            <mat-icon class="mat-big" mat-list-icon>attach_money</mat-icon>
+          </a>
+        </div>
+        <div class="item-resumo">
+          <span class="resumo-item-title">Patrimônio</span>
+          <br> {{ candidato.ano_um }}:
+          <a class="resumo-text-value resumo-text-patrimonio" matTooltip="{{numberToReal(candidato.patrimonio_eleicao_1)}}">
+            {{ utilsService.abreviaPatrimonio(numberToReal(candidato.patrimonio_eleicao_1)) }}
+          </a>
+          <a mat-icon-button href="{{urlBens1}}" target="_blank">
+            <mat-icon class="mat16" mat-list-icon style="color: #B68115">open_in_new</mat-icon>
+          </a>
+          <br> {{ candidato.ano_um + 4 }}:
+          <a class="resumo-text-value resumo-text-patrimonio" matTooltip="{{numberToReal(candidato.patrimonio_eleicao_2)}}">
+            {{ utilsService.abreviaPatrimonio(numberToReal(candidato.patrimonio_eleicao_2)) }}
+          </a>
+          <a mat-icon-button href="{{urlBens2}}" target="_blank">
+            <mat-icon class="mat16" mat-list-icon style="color: #B68115">open_in_new</mat-icon>
+          </a>
+        </div>
+      </li>
+      <li>
+        <div class="resumo-container-icon">
+          <a class="resumo-icon-ganho" *ngIf="crescimentoPatrimonio">
+            <mat-icon class="mat-big" mat-list-icon style="color: #27ae60">trending_up</mat-icon>
+          </a>
+          <a class="resumo-icon-ganho" *ngIf="reducaoPatrimonio">
+            <mat-icon class="mat-big" mat-list-icon style="color: #c0392b">trending_down</mat-icon>
+          </a>
+          <a class="resumo-icon-ganho" *ngIf="patrimonioEstavel">
+            <mat-icon class="mat-big" mat-list-icon>trending_flat</mat-icon>
+          </a>
+        </div>
+        <div class="item-resumo">
+          <span class="resumo-item-title">Ganho</span>
+          <br>
+          <span>O patrimônio em {{ candidato.ano_um + 4 }}
+            <a class="resumo-text-value">{{ situacaoCrescimento }} </a> {{ fraseCrescimento }} {{candidato.ano_um }}
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
 </mat-card>

@@ -3,6 +3,15 @@ mat-card-title {
     font-weight: bolder;
 }
 
+.resumo-subtitle {
+    margin-bottom: 0;
+}
+
+.resumo-divider {
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
 .resumo-item-header {
     -webkit-margin-after: 0;
     -webkit-margin-before: 15px;
@@ -12,25 +21,43 @@ mat-card-title {
 .resumo-text-value {
     color: #B68115;
     text-align: right;
-    font-weight: bold;
+    font-weight: bold;    
 }
 
 .resumo-text-patrimonio{    
     cursor: pointer !important;
 }
 
-.resumo-ganho-text {
-    padding-left: 16px;
+.resumo-item-title {    
+    flex-wrap: wrap !important;
+    line-height: 1.5;        
+    margin-bottom: 10px;
 }
 
-.mat-list .mat-list-item .mat-line:nth-child(n+2), .mat-nav-list .mat-list-item .mat-line:nth-child(n+2), .mat-selection-list .mat-list-item .mat-line:nth-child(n+2) {
-    font-size: inherit;
+.material-icons.mat-big {
+    font-size: 48px !important;
+    width: 50px !important;
+    height: 50px !important;
 }
 
-.material-icons.mat32 {
-    font-size: 32px !important;
-    width: 36px !important;
-    height: 36px !important;
+.resumo-icon-patrimonio {
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    position:relative;
+    top: calc(20%);
+}
+
+.resumo-icon-ganho {
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    position:relative;
+    top: calc(10%);
+}
+
+.resumo-container-icon {
+    display: block;    
 }
 
 .mat-icon-button{
@@ -41,8 +68,22 @@ mat-card-title {
 .material-icons.mat16 {
     font-size: 16px !important;
     width: 24px !important;
-    height: 24px !important;
-    padding: 0px !important;
-    display: inline-flex !important;
+    height: 24px !important;        
     vertical-align: baseline !important;
+}
+
+.item-resumo {
+    display: block;        
+    padding-left: 16px;
+}
+
+.resumo-list ul {
+    padding: 0;
+    margin: 0;
+}
+
+.resumo-list ul li {
+    list-style-type: none;
+    display: flex;
+    margin-top: 36px;
 }
