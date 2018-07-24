@@ -6,11 +6,18 @@
 
 .d3-tip {
     line-height: 1;    
-    padding: 12px;
-    background: rgba(0, 0, 0, 0.8);
-    color: #fff;    
+    padding: 10px;
+    background: white;/*rgba(0, 0, 0, 0.8);*/
     text-align: right;
     font-family: 'Roboto';
+    border-radius: 5px;
+    border: 2px solid #1B3B6F;
+
+}
+
+.d3-tip strong {
+    font-size: 18px;
+    color: #5E400B;
 }
 
 .d3-tip:after {
