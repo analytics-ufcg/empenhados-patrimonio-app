@@ -7,14 +7,13 @@
     cujo IDH é
     <span class="fact-text-value"> {{ idh.IDHM_2010 }}</span>.
   </p>
-  <p>Em
-      <span class="fact-text-value">{{ ano }}</span> e 
-      <span class="fact-text-value">{{ ano + 4 }}</span>
-      para outros
-      <span class="fact-text-value">{{ dadosEleicao.quantidade_candidatos }}</span>
-      candidatos neste estado, com uma média de patrimônio de 
-      <span class="fact-text-value">{{ utilsService.abreviaPatrimonio(numberToReal(dadosEleicao.media_patrimonio)) }}</span>.
-    </p>
+  <p>Nesta mesma unidade eleitoral e cargo outros
+    <span class="fact-text-value">{{ dadosEleicao.quantidade_candidatos }}</span>
+    candidatos também declararam bens em
+    <span class="fact-text-value">{{ ano }}</span> e
+    <span class="fact-text-value">{{ ano + 4}}</span>, com uma média de patrimônio em <span class="fact-text-value">{{ ano }}</span> de 
+    <span class="fact-text-value">{{ utilsService.abreviaPatrimonio(numberToReal(dadosEleicao.media_patrimonio)) }}</span>.
+  </p>
   <p>
     Em
     <span class="fact-text-value">{{ ano }}</span> foi
