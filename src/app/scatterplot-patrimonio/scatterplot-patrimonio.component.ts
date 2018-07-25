@@ -63,6 +63,9 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   ngOnInit() {    
     this.svg = d3.select('svg');
 
+    this.margin.right = (parseInt(this.svg.style("width")) * 0.0645);
+    this.margin.left = this.margin.right;
+
     this.width = parseInt(this.svg.style("width")) - this.margin.right;
     this.height = (this.width * 0.5) - this.margin.bottom;
 
@@ -77,6 +80,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         this.plotPatrimonio()
       }
     })
+
+    console.log(this.width, this.height);
   }
 
   async emiteSelecaoCandidato(d: any) {
