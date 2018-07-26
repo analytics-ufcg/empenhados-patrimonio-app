@@ -24,3 +24,10 @@
     height: 100%;
     width: 100%;
 }
+
+@media (max-width: 576px) {
+    .about-card{
+        margin-left: 2%;
+        margin-right: 2%;
+    }
+}
