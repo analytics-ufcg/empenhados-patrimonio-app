@@ -1,17 +1,19 @@
-<!--The content below is only a placeholder and can be replaced.-->
-
-<div>
-  <mat-toolbar id="navbar">
+<mat-toolbar id="navbar">
+  <div class="navbar-grid">
     <div class="title">
       <span id="title-text" routerLink="/"> {{ title }} </span>
       <div id="subtitle">Quem ganhou e quem perdeu patrimônio entre os políticos?</div>
     </div>
-    
-    <span class="fill-remaining-space-navbar"></span>
-    <a mat-button class="button" (click)='openAbout()'>Sobre</a>
-    <a mat-button class="button-git"href="https://github.com/analytics-ufcg/empenhados-patrimonio" target="_blank">GitHub</a>
-  </mat-toolbar>
-</div>
+    <div class="buttons">
+      <div>
+        <a mat-button class="button" (click)='openAbout()'>Sobre</a>
+      </div>
+      <div>
+        <a mat-button class="button-git"href="https://github.com/analytics-ufcg/empenhados-patrimonio" target="_blank">GitHub</a>
+      </div>
+    </div>
+  </div>
+</mat-toolbar>
 <div class="main-container">
   <router-outlet></router-outlet>
 </div>
