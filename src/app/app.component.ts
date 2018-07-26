@@ -2,7 +2,6 @@ import { Component} from '@angular/core';
 
 import { AboutComponent } from './about/about.component';
 
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -12,10 +11,10 @@ import { Router } from '@angular/router';
 export class AppComponent {
   title = 'Capital dos Candidatos';
 
-  constructor(private router: Router) { }
+  constructor() { }
 
   openAbout() {
-    this.router.navigate(['/sobre']);
+    console.log("SOBRE");
   }
 
 }
