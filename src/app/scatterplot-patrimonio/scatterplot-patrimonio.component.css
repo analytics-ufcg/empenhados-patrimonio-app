@@ -93,4 +93,8 @@
     padding: 0 !important;
 }
 
-
+@media (max-width: 576px) {
+    .plot-container{
+        padding: 0%;
+    }
+}

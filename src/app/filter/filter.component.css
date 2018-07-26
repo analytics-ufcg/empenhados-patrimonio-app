@@ -1,6 +1,6 @@
 .section-filter {    
     text-align: left;
-    font-size: 1.1em; 
+    font-size: 1em; 
     line-height: 1em !important;   
 }
 
@@ -69,4 +69,12 @@
 .alt .mat-select-value {
     max-width: 100%;
     width: auto;
+}
+
+@media (max-width: 576px) {
+    .section-filter {    
+        text-align: left;
+        font-size: .8em; 
+        line-height: 1em !important;   
+    }
 }
