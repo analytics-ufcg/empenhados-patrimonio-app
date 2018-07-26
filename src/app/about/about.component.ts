@@ -8,6 +8,8 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 })
 export class AboutComponent {
 
+  title = "Capital dos Candidatos";
+
   constructor(
     public dialogRef: MatDialogRef<AboutComponent>
   ) { }
