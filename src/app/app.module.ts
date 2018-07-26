@@ -88,6 +88,7 @@ import { HomeComponent } from './home/home.component';
     AlertService,
     CandidatoService
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [AboutComponent]
 })
 export class AppModule { }
