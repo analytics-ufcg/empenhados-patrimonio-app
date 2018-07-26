@@ -1,12 +1,12 @@
 <mat-toolbar id="navbar">
   <div class="navbar-grid">
     <div class="title">
-      <span id="title-text" routerLink="/"> {{ title }} </span>
+      <span id="title-text"> {{ title }} </span>
       <div id="subtitle">Quem ganhou e quem perdeu patrimônio entre os políticos?</div>
     </div>
     <div class="buttons">
       <div>
-        <a mat-button class="button" (click)='openAbout()'>Sobre</a>
+        <a mat-button class="button" (click)='openDialog()'>Sobre</a>
       </div>
       <div>
         <a mat-button class="button-git"href="https://github.com/analytics-ufcg/empenhados-patrimonio" target="_blank">GitHub</a>
@@ -15,5 +15,5 @@
   </div>
 </mat-toolbar>
 <div class="main-container">
-  <router-outlet></router-outlet>
+  <app-home></app-home>
 </div>
