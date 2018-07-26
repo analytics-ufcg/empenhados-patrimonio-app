@@ -46,8 +46,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   public ano: Number;
   private situacao: String;
   public cargo: String;
-  public modeOption: any;  
-  public logOption: any;
+  private logOption: any;
+  private modeOption: any;
 
   constructor(private dataService: DataService,
     private alertService: AlertService,
@@ -113,7 +113,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     d3.selectAll("svg > *").remove();
   }
 
-  executaTransicao(modo) {      
+  executaTransicao(modo) {
     this.modeOption = modo;
     
     this.decideVisualizacao();    
