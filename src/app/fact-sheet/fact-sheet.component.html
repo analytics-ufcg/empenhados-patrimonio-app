@@ -3,9 +3,11 @@
     <span class="fact-text-value">{{ candidato.nome_urna}}</span>,
     <span class="fact-text-value">{{ infoCandidato.desc_Ocupacao | lowercase }} {{ defineIdade(infoCandidato.data_Nascimento) }}</span>, foi candidato
     em
-    <span class="fact-text-value">{{ infoCandidato.desc_Unid_Eleitoral }}</span>
+    <span class="fact-text-value">{{ infoCandidato.desc_Unid_Eleitoral }}</span>.
+    <!--
     cujo IDH é
     <span class="fact-text-value"> {{ idh.IDHM_2010 }}</span>.
+    -->
   </p>
   <p>Nesta mesma unidade eleitoral e cargo outros
     <span class="fact-text-value">{{ dadosEleicao.quantidade_candidatos }}</span>
