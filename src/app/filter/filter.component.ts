@@ -312,7 +312,6 @@ export class FilterComponent implements OnInit {
           let todosCargos
           todosCargos = data;
           this.listaCargos = todosCargos;
-          this.listaCargos.push({ 'cargo_pleiteado_2': this.todosCargos });
           resolve();
         }, err => {
           console.log(err);
