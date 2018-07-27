@@ -29,8 +29,6 @@ export class FilterComponent implements OnInit {
   public listaMunicipios: any;
   public listaSituacoes: any;
 
-  private listaCompletaEstados: any;
-
   public listaCargosAgrupados: any;
 
   public listaAnos: any;
@@ -205,17 +203,6 @@ export class FilterComponent implements OnInit {
 
   // Atualiza cargo atual selecionado
   onChangeCargo(novoCargo) {
-    if(novoCargo == "PREFEITO"){
-      this.listaEstados.splice(28, 1);
-      this.estadoSelecionado =  this.listaEstados[Math.floor(Math.random() * this.listaEstados.length)].estado;
-    }else{
-      if(this.listaEstados.length != 29){
-        this.listaEstados.push({ 'estado': this.todosEstados });
-      }
-    }
-
-
-
     if (!this.mesmoTipoEleicao(novoCargo, this.cargoSelecionado)) {
       if (CARGOS_MUNICIPAIS.indexOf(novoCargo) === -1 && novoCargo !== this.dataService.getTodosCargos()) {
         this.anoSelecionado = 2010;
@@ -225,9 +212,20 @@ export class FilterComponent implements OnInit {
     }
 
     this.municipioSelecionado = undefined;
-
+  
     this.cargoSelecionado = novoCargo;
     this.dataService.mudaCargo(novoCargo);
+    if(["PREFEITO", "VEREADOR"].includes(novoCargo)){
+      this.listaEstados.splice(28, 1);
+      const novoEstado =  this.listaEstados[Math.floor(Math.random() * this.listaEstados.length)].estado;
+      this.onChangeEstado(novoEstado);
+      this.atualizaFiltroAno();
+      return;
+    }else{
+      if(this.listaEstados.length != 29){
+        this.listaEstados.push({ 'estado': this.todosEstados });
+      }
+    }
     this.atualizaFiltroAno();
     this.atualizaFiltroMunicipio();
 
