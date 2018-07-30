@@ -21,11 +21,11 @@ export class FactSheetComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  
   async texto(){
     await this.dataService.candidatoSelecionado.subscribe(
       data => {
-        this.candidato = data;        
+        this.candidato = data;
       }, err => {
         console.log(err);
       }

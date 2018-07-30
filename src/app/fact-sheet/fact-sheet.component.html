@@ -3,26 +3,28 @@
     <span class="fact-text-value">{{ candidato.nome_urna}}</span>,
     <span class="fact-text-value">{{ infoCandidato.desc_Ocupacao | lowercase }} {{ defineIdade(infoCandidato.data_Nascimento) }}</span>, foi candidato
     em
-    <span class="fact-text-value">{{ infoCandidato.desc_Unid_Eleitoral }}</span>
+    <span class="fact-text-value">{{ infoCandidato.desc_Unid_Eleitoral }}</span>.
+    <!--
     cujo IDH é
     <span class="fact-text-value"> {{ idh.IDHM_2010 }}</span>.
+    -->
   </p>
   <p>Nesta mesma unidade eleitoral e cargo outros
     <span class="fact-text-value">{{ dadosEleicao.quantidade_candidatos }}</span>
     candidatos também declararam bens em
-    <span class="fact-text-value">{{ ano }}</span> e
-    <span class="fact-text-value">{{ ano + 4}}</span>, com uma média de patrimônio em <span class="fact-text-value">{{ ano }}</span> de 
+    <span class="fact-text-value">{{ candidato.ano_um }}</span> e
+    <span class="fact-text-value">{{ candidato.ano_um + 4}}</span>, com uma média de patrimônio em <span class="fact-text-value">{{ candidato.ano_um }}</span> de 
     <span class="fact-text-value">{{ utilsService.abreviaPatrimonio(numberToReal(dadosEleicao.media_patrimonio)) }}</span>.
   </p>
   <p>
     Em
-    <span class="fact-text-value">{{ ano }}</span> foi
+    <span class="fact-text-value">{{ candidato.ano_um }}</span> foi
     <span class="fact-text-value">{{ candidato.situacao_eleicao_1 | lowercase }}</span> para
     <span class="fact-text-value">{{ formataCargo(candidato.cargo_pleiteado_1) }}</span>.
   </p>
   <p>
     Concorreu em
-    <span class="fact-text-value">{{ ano + 4 }}</span> a
+    <span class="fact-text-value">{{ candidato.ano_um + 4 }}</span> a
     <span class="fact-text-value">{{ formataCargo(candidato.cargo_pleiteado_2) }}</span> e foi
     <span class="fact-text-value">{{ candidato.situacao_eleicao_2 | lowercase }}</span>.
   </p>
