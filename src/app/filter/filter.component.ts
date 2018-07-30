@@ -215,9 +215,14 @@ export class FilterComponent implements OnInit {
   
     this.cargoSelecionado = novoCargo;
     this.dataService.mudaCargo(novoCargo);
-    if(["PREFEITO", "VEREADOR"].includes(novoCargo)){
-      this.listaEstados.splice(28, 1);
-      const novoEstado =  this.listaEstados[Math.floor(Math.random() * this.listaEstados.length)].estado;
+    if(["PREFEITO", "VEREADOR"].includes(novoCargo)){      
+      this.listaEstados.splice(28, 1); // remove opcao todos os estados
+      let novoEstado;
+      if (this.estadoSelecionado === this.todosEstados) {
+        novoEstado =  this.listaEstados[Math.floor(Math.random() * this.listaEstados.length)].estado;        
+      } else {
+        novoEstado = this.estadoSelecionado;
+      }
       this.onChangeEstado(novoEstado);
       this.atualizaFiltroAno();
       return;
