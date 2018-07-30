@@ -1,6 +1,6 @@
 .about-card {
-    margin-left: 15%;
-    margin-right: 15%;
+    margin-left: 5%;
+    margin-right: 5%;
     margin-top: 3%;
 }
 
@@ -18,4 +18,16 @@
 .about-title {
     text-align: center;
     margin-bottom: 5%;
+}
+
+.logo {
+    height: 100%;
+    width: 100%;
+}
+
+@media (max-width: 576px) {
+    .about-card{
+        margin-left: 2%;
+        margin-right: 2%;
+    }
 }

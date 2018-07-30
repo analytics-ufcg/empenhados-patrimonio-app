@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
 import { RequestService } from './request.service';
-import { resolve } from 'url';
-import { reject } from 'q';
 
 interface Patrimonio {
   patrimonio_eleicao_1: Number;
@@ -11,12 +8,14 @@ interface Patrimonio {
   nome_urna: String;
   cpf: String;
   sigla_partido: String;
+  cod_unidade_eleitoral_1: String;
+  cod_unidade_eleitoral_2: String;
   unidade_eleitoral: String;
   cargo_pleiteado_1: String;
   cargo_pleiteado_2: String;
   ano_um: Number;
-  resultado_1: String;
-  resultado_2: String;
+  sequencial_candidato_1: String;
+  sequencial_candidato_2: String;
   situacao_eleicao_1: String;
   situacao_eleicao_2: String;
 };
@@ -27,6 +26,7 @@ interface Candidato {
   desc_Ocupacao: String;
   desc_Unid_Eleitoral: String;
   idade_Cand_Data_Eleicao: Number;
+  data_Nascimento: String;
 };
 
 interface Eleicao {
@@ -37,6 +37,12 @@ interface Eleicao {
 interface Ano {
   ano_um: Number;
 }
+
+interface IDH {
+  unidade_eleitoral: String,
+  IDHM_2010: Number
+}
+
 
 const TODOS_CONSULTA = "todos";
 const TODOS_CARGOS = "qualquer cargo";
@@ -66,8 +72,10 @@ export class DataService {
   private _anos = new BehaviorSubject<Ano[]>(undefined);
   public anos = this._anos.asObservable();
 
-  public listaAnos : any;
+  private _idh = new BehaviorSubject<IDH[]>(undefined);
+  public idh = this._idh.asObservable(); 
 
+  public listaAnos : any;
 
   constructor(private requestService: RequestService) { }
 
@@ -141,11 +149,11 @@ export class DataService {
     );
   }
 
-  async mudaDadosEleicao(ano: Number, unidadeEleitoral: String, cargo: String) {
+  async mudaDadosEleicao(ano: Number, unidadeEleitoral: String, cargo: String, cpfCandidato: String) {
     let dadosEleicao;
 
     return new Promise((resolve, reject) =>
-      this.requestService.recuperaInfoEleicao(ano, unidadeEleitoral, cargo).subscribe(
+      this.requestService.recuperaInfoEleicao(ano, unidadeEleitoral, cargo, cpfCandidato).subscribe(
         data => {
           dadosEleicao = data;
           this._infoEleicao.next(this.parseDataEleicao(dadosEleicao));
@@ -176,11 +184,30 @@ export class DataService {
     );
   }
 
+  async mudaIdh(cd_unidade_eleitoral: String) {
+    let dadosIDH;
+
+    return new Promise((resolve, reject) =>
+      this.requestService.recuperaIDH(cd_unidade_eleitoral).subscribe(
+        data => {
+          dadosIDH = data;
+          this._idh.next(this.parseDataIDH(dadosIDH));
+          return resolve("IDH alterado");
+        }, err => {
+          console.log(err);
+          return reject(err);
+        }
+      )
+    );
+  }
+
   private parseData(data: any[]): Patrimonio[] {
     return data.map(v => <Patrimonio>{
       patrimonio_eleicao_1: v.patrimonio_eleicao_1, patrimonio_eleicao_2: v.patrimonio_eleicao_2,
-      nome_urna: v.nome_urna, cpf: v.cpf, sigla_partido: v.sigla_partido, unidade_eleitoral: v.unidade_eleitoral, cargo_pleiteado_1: v.cargo_pleiteado_1,
-      cargo_pleiteado_2: v.cargo_pleiteado_2, ano_um: v.ano_um, resultado_1: v.resultado_1, resultado_2: v.resultado_2,
+      nome_urna: v.nome_urna, cpf: v.cpf, sigla_partido: v.sigla_partido, cod_unidade_eleitoral_1: v.cod_unidade_eleitoral_1, 
+      cod_unidade_eleitoral_2: v.cod_unidade_eleitoral_2, unidade_eleitoral: v.unidade_eleitoral, 
+      cargo_pleiteado_1: v.cargo_pleiteado_1,cargo_pleiteado_2: v.cargo_pleiteado_2, 
+      ano_um: v.ano_um, sequencial_candidato_1: v.sequencial_candidato_1, sequencial_candidato_2: v.sequencial_candidato_2,
       situacao_eleicao_1: v.situacao_eleicao_1, situacao_eleicao_2: v.situacao_eleicao_2
     });
   }
@@ -188,7 +215,8 @@ export class DataService {
   private parseDataCandidato(data: any[]): Candidato[] {
     return data.map(v => <Candidato>{
       cpf_Candidato: v.cpf_Candidato, nome_Urna_Candidato: v.nome_Urna_Candidato,
-      desc_Ocupacao: v.desc_Ocupacao, desc_Unid_Eleitoral: v.desc_Unid_Eleitoral, idade_Cand_Data_Eleicao: v.idade_Cand_Data_Eleicao
+      desc_Ocupacao: v.desc_Ocupacao, desc_Unid_Eleitoral: v.desc_Unid_Eleitoral, idade_Cand_Data_Eleicao: v.idade_Cand_Data_Eleicao,
+      data_Nascimento: v.data_Nascimento
     });
   }
 
@@ -199,6 +227,10 @@ export class DataService {
 
   private parseDataAno(data: any[]): Ano[] {
     return data.map(v => <Ano>{ ano_um: v.ano_um });
+  }
+
+  private parseDataIDH(data: any[]): IDH[] {
+    return data.map(v => <IDH>{ unidade_eleitoral: v.unidade_eleitoral, IDHM_2010: v.IDHM_2010 });
   }
 
   public getTodos() {
@@ -231,6 +263,10 @@ export class DataService {
 
   public getCargo() {
     return this.cargoSelecionado;
+  }
+
+  public getIDH(){
+    return this.idh;
   }
 
 }

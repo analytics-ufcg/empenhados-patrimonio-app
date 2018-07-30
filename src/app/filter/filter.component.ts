@@ -29,6 +29,8 @@ export class FilterComponent implements OnInit {
   public listaMunicipios: any;
   public listaSituacoes: any;
 
+  public listaCargosAgrupados: any;
+
   public listaAnos: any;
 
   public estadoSelecionado: String;
@@ -57,45 +59,45 @@ export class FilterComponent implements OnInit {
 
 
   private estados = [
-    {sigla: "AC", capital: "Rio Branco"},
-    {sigla:"AL", capital: "Maceió"},
-    {sigla:"AP", capital: "Macapá"},
-    {sigla:"AM", capital: "Manaus"},
-    {sigla:"BA", capital: "Salvador"},
-    {sigla:"CE", capital: "Fortaleza"},
-    {sigla:"DF", capital: "Distrito Federal"},
-    {sigla:"ES", capital: "Vitória"},
-    {sigla:"GO", capital: "Goiânia"},
-    {sigla:"MA", capital: "São Luís"},
-    {sigla:"MT", capital: "Cuiabá"},
-    {sigla:"MS", capital: "Campo Grande"},
-    {sigla:"MG", capital: "Belo Horizonte"},
-    {sigla:"PA", capital: "Belém"},
-    {sigla:"PB", capital: "João Pessoa"},
-    {sigla:"PR", capital: "Curitiba"},
-    {sigla:"PE", capital: "Recife"},
-    {sigla:"PI", capital: "Teresina"},
-    {sigla:"RJ", capital: "Rio de Janeiro"},
-    {sigla:"RN", capital: "Natal"},
-    {sigla:"RS", capital: "Porto Alegre"},
-    {sigla:"RO", capital: "Porto Velho"},
-    {sigla:"RR", capital: "Boa Vista"},
-    {sigla:"SC", capital: "Florianópolis"},
-    {sigla:"SP", capital: "São Paulo"},
-    {sigla:"SE", capital: "Aracaju"},
-    {sigla:"TO", capital: "Palmas"}
+    { sigla: "AC", capital: "Rio Branco" },
+    { sigla: "AL", capital: "Maceió" },
+    { sigla: "AP", capital: "Macapá" },
+    { sigla: "AM", capital: "Manaus" },
+    { sigla: "BA", capital: "Salvador" },
+    { sigla: "CE", capital: "Fortaleza" },
+    { sigla: "DF", capital: "Distrito Federal" },
+    { sigla: "ES", capital: "Vitória" },
+    { sigla: "GO", capital: "Goiânia" },
+    { sigla: "MA", capital: "São Luís" },
+    { sigla: "MT", capital: "Cuiabá" },
+    { sigla: "MS", capital: "Campo Grande" },
+    { sigla: "MG", capital: "Belo Horizonte" },
+    { sigla: "PA", capital: "Belém" },
+    { sigla: "PB", capital: "João Pessoa" },
+    { sigla: "PR", capital: "Curitiba" },
+    { sigla: "PE", capital: "Recife" },
+    { sigla: "PI", capital: "Teresina" },
+    { sigla: "RJ", capital: "Rio de Janeiro" },
+    { sigla: "RN", capital: "Natal" },
+    { sigla: "RS", capital: "Porto Alegre" },
+    { sigla: "RO", capital: "Porto Velho" },
+    { sigla: "RR", capital: "Boa Vista" },
+    { sigla: "SC", capital: "Florianópolis" },
+    { sigla: "SP", capital: "São Paulo" },
+    { sigla: "SE", capital: "Aracaju" },
+    { sigla: "TO", capital: "Palmas" }
   ]
 
   encontraCapital = (sigla) => {
     let estado = this.estados.filter(
       (estado) => {
-        if(estado.sigla === sigla){
+        if (estado.sigla === sigla) {
           return estado.capital;
         }
       }
     )[0];
 
-    if(estado) return estado.capital;
+    if (estado) return estado.capital;
     return "";
   }
 
@@ -112,26 +114,28 @@ export class FilterComponent implements OnInit {
     this.estados_prep_em.push(this.todosEstados);
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.filteredOptions = this.controlMunicipio.valueChanges
       .pipe(
         startWith(''),
         map(val => this.filter(val))
       );
 
-    this.recuperaEstados();
-    this.recuperaCargos();
-    this.recuperaSituacoes();
+    await this.recuperaEstados();
+    await this.recuperaCargos();
+    await this.recuperaSituacoes();
+
+    this.agrupaCargos();
 
     // O site inicia com a visualização dos deputados federais de todos os estados
 
     this.onChangeCargo("DEPUTADO FEDERAL");
-    
+
     this.onChangeSituacao("ELEITO");
 
     this.onChangeAno(2010);
 
-    this.onChangeEstado("qualquer estado");    
+    this.onChangeEstado("qualquer estado");
 
     this.decideSobreVisualizacao();
   }
@@ -167,7 +171,7 @@ export class FilterComponent implements OnInit {
   decideSobreVisualizacao() {
     if (this.filtroPronto()) {
       this.emiteEventoVisualizacao();
-    }else{
+    } else {
       this.apagaVisualizacao.next();
     }
   }
@@ -178,15 +182,15 @@ export class FilterComponent implements OnInit {
     this.dataService.mudaEstado(novoEstado);
     this.definePreposicao();
     this.atualizaFiltroMunicipio();
-    
+
     await this.requestService.recuperaMunicipios(this.estadoSelecionado).subscribe(
       data => {
         let municipios = data;
         this.listaMunicipios = this.jsonToArray(municipios);
 
-        if(this.isVereador){
+        if (this.isVereador) {
           this.municipioSelecionado = this.encontraCapital(this.estadoSelecionado);
-        }else{
+        } else {
           this.decideSobreVisualizacao();
         }
       }, err => {
@@ -194,16 +198,16 @@ export class FilterComponent implements OnInit {
       }
     );
 
-    
+
   }
 
   // Atualiza cargo atual selecionado
   onChangeCargo(novoCargo) {
-    if(!this.mesmoTipoEleicao(novoCargo, this.cargoSelecionado)) {
-      if(CARGOS_MUNICIPAIS.indexOf(novoCargo) === -1 && novoCargo !== this.dataService.getTodosCargos()) {
+    if (!this.mesmoTipoEleicao(novoCargo, this.cargoSelecionado)) {
+      if (CARGOS_MUNICIPAIS.indexOf(novoCargo) === -1 && novoCargo !== this.dataService.getTodosCargos()) {
         this.anoSelecionado = 2010;
       } else {
-        this.anoSelecionado = undefined;
+        this.anoSelecionado = 2012;
       }
     }
 
@@ -223,8 +227,8 @@ export class FilterComponent implements OnInit {
     // Escolhe o maior município entre a lista dos municípios do estado selecionado
     let tamanhoMaximoMunicipio = (input) => {
       let maiorNomeMunicipio = this.listaMunicipios
-                                  .map(municipio => (municipio.length + 1)/ 2)
-                                  .reduce((a, b) => Math.max(a, b));
+        .map(municipio => (municipio.length + 1) / 2)
+        .reduce((a, b) => Math.max(a, b));
       input.style.width = maiorNomeMunicipio.toString() + "em";
     }
 
@@ -232,13 +236,13 @@ export class FilterComponent implements OnInit {
 
     // Na unidade 'em', a largura do texto é representada pelo número de caracteres
     // dividido por 2
-    if(novoMunicipio){      
-      if(this.listaMunicipios.includes(novoMunicipio)){
-        input.style.width = ((novoMunicipio.length  + 1)/ 2).toString() + "em";
-      }else{
+    if (novoMunicipio) {
+      if (this.listaMunicipios.includes(novoMunicipio)) {
+        input.style.width = ((novoMunicipio.length + 1) / 2).toString() + "em";
+      } else {
         tamanhoMaximoMunicipio(input);
       }
-    }else{
+    } else {
       tamanhoMaximoMunicipio(input);
     }
 
@@ -274,7 +278,7 @@ export class FilterComponent implements OnInit {
   }
 
   // Recupera lista de estados
-  private recuperaEstados() {
+  private async recuperaEstados() {
     this.requestService.recuperaEstados().subscribe(
       data => {
         this.listaEstados = data;
@@ -290,7 +294,7 @@ export class FilterComponent implements OnInit {
   }
 
   // Recupera lista de cargos
-  private recuperaCargos() {
+  private async recuperaCargos() {
     return new Promise((resolve, reject) => {
       this.requestService.recuperaCargos().subscribe(
         data => {
@@ -307,7 +311,13 @@ export class FilterComponent implements OnInit {
     });
   }
 
-  private recuperaSituacoes() {
+  private agrupaCargos() {
+    this.listaCargosAgrupados = this.listaCargos.filter(
+      (cargo) => (["VICE-PREFEITO", "VICE-GOVERNADOR", "DEPUTADO DISTRITAL"].indexOf(cargo.cargo_pleiteado_2) === -1)
+    );
+  }
+
+  private async recuperaSituacoes() {
     this.requestService.recuperaSituacoes().subscribe(
       data => {
         this.listaSituacoes = data;
@@ -323,7 +333,7 @@ export class FilterComponent implements OnInit {
   }
 
   private cargosEleicao(cargo) {
-    if(cargo === this.dataService.getTodosCargos()) {
+    if (cargo === this.dataService.getTodosCargos()) {
       return false;
     }
 
@@ -385,11 +395,11 @@ export class FilterComponent implements OnInit {
 
   private definePreposicao() {
 
-    if (this.estados_prep_na.indexOf( this.estadoSelecionado.toString() ) !== -1) {
+    if (this.estados_prep_na.indexOf(this.estadoSelecionado.toString()) !== -1) {
       this.preposicao_estado = "na";
-    } else if (this.estados_prep_no.indexOf( this.estadoSelecionado.toString() ) !== -1) {
+    } else if (this.estados_prep_no.indexOf(this.estadoSelecionado.toString()) !== -1) {
       this.preposicao_estado = "no";
-    } else if (this.estados_prep_em.indexOf( this.estadoSelecionado.toString() ) !== -1) {
+    } else if (this.estados_prep_em.indexOf(this.estadoSelecionado.toString()) !== -1) {
       this.preposicao_estado = "em"
     }
   }

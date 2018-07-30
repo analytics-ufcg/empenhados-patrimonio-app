@@ -1,38 +1,37 @@
-<!--The content below is only a placeholder and can be replaced.-->
-
-<div>
-  <mat-toolbar>
-    <span class ="title" routerLink="/"> {{ title }}</span>
-    <span class="fill-remaining-space-navbar"></span>
-    <a mat-button (click)='openAbout()'>O que é?</a>
-    <a mat-button href="https://github.com/analytics-ufcg/empenhados-patrimonio" target="_blank">GitHub</a>
-  </mat-toolbar>
-</div>
+<mat-toolbar id="navbar">
+  <div class="navbar-grid">
+    <div class="title">
+      <span class="title-text"> {{ title }} </span>
+      <div id="subtitle">Quem ganhou e quem perdeu patrimônio entre os políticos?</div>
+    </div>
+    <div class="buttons">
+      <div>
+        <a mat-button class="button" (click)='openDialog()'>Sobre</a>
+      </div>
+      <div>
+        <a mat-button class="button-git"href="https://github.com/analytics-ufcg/empenhados-patrimonio" target="_blank">GitHub</a>
+      </div>
+    </div>
+  </div>
+</mat-toolbar>
 <div class="main-container">
-  <router-outlet></router-outlet>
+  <app-home></app-home>
 </div>
+
+
 <footer id="site-footer">
   <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%" fxLayoutAlign="center">
-    <div fxFlex="20%" class="footer-content">
-      <span class ="title" style="font-size: 24px" routerLink="/"> {{ title }}</span>
+    <div fxFlex="25%" class="footer-content">
+      <span class="title-text" style="font-size: 24px" routerLink="/"> {{ title }}</span>
     </div>
     <mat-divider [vertical]="true"></mat-divider>
-    <div fxFlex="40%" class="footer-content">
-      Exercitation occaecat quis amet dolore consectetur esse non laborum excepteur mollit duis elit. Proident fugiat aute quis non in id do mollit incididunt occaecat et labore. Eiusmod excepteur mollit commodo excepteur anim reprehenderit quis ex labore minim sint et mollit. Aute anim consequat ipsum duis.
-    </div>
-    <div fxFlex="40%" class="footer-content">
-      <div class="container" fxLayout="row" fxLayoutWrap fxLayoutGap="2%" fxLayoutAlign="center">
-        <div fxFlex="30%">
-          <img class="footer-icon" src="assets/img/logo_analytics.svg" alt="Laboratório Analtyics">
-        </div>
-        <div fxFlex="30%">
-          <img class="footer-icon" src="assets/img/logo_mppb.png" alt="Ministério Público da Paraíba">
-        </div>
-        <div fxFlex="30%">
-          <img class="footer-icon" src="assets/img/logo_ufcg.jpg" alt="Universidade Federal de Campina Grande">
-        </div>
-
-      </div>
+    <div fxFlex="75%" class="footer-content">
+      <span id="info-text">  
+        Contato:<br>
+        Núcleo de Gestão do Conhecimento do GAECO/MPPB:<br>
+        Telefone: (83) 21076094 <br>
+        Email: ngcsi-mppb@googlegroups.com 
+      </span>
     </div>
   </div>
 </footer>

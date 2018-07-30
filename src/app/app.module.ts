@@ -7,6 +7,7 @@ import { RequestService } from './services/request.service';
 import { DataService } from './services/data.service';
 import { UtilsService } from './services/utils.service';
 import { AlertService } from './services/alert.service';
+import { CandidatoService } from './services/candidato.service';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 
@@ -25,7 +26,8 @@ import {
   MatSnackBarModule,
   MatListModule,
   MatSlideToggleModule,
-  MatDialogModule
+  MatDialogModule,
+  MatTooltipModule
 } from '@angular/material';
 
 import {
@@ -41,7 +43,6 @@ import { FactSheetComponent } from './fact-sheet/fact-sheet.component';
 import { AboutComponent } from './about/about.component';
 import { HomeComponent } from './home/home.component';
 
-import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { AppRoutingModule } from './app-routing.module';
     MatTabsModule,
     MatButtonModule,
     MatIconModule,
+    MatTooltipModule,
     MatCardModule,
     MatSidenavModule,
     MatCheckboxModule,
@@ -75,8 +77,7 @@ import { AppRoutingModule } from './app-routing.module';
     MatSlideToggleModule,
     MatListModule,
     HttpClientModule,
-    MatDialogModule,
-    AppRoutingModule 
+    MatDialogModule     
   ],
   providers: [
     HttpClientModule,
@@ -84,8 +85,10 @@ import { AppRoutingModule } from './app-routing.module';
     GlobalService,
     DataService,
     UtilsService,
-    AlertService
+    AlertService,
+    CandidatoService
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [AboutComponent]
 })
 export class AppModule { }

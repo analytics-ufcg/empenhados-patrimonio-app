@@ -8,8 +8,8 @@
 
 .mat-toolbar {
     flex: 0;
-    background-color: #059CE3;
-    color: #ffffff;
+    background-color: #1B3B6F;
+    color: #ECEBE4;
 }
 
 .mat-toolbar-row, .mat-toolbar-single-row {
@@ -22,13 +22,73 @@
 
 .title {
     cursor: pointer !important;
-    padding: 0 5%;
+    padding: 5px 0 5px 5%;
+    margin-top: 0.9vw;
+    margin-bottom: 0.5vw;
+}
+
+.title-text {
+    font-family: Fjalla One;
+    font-size: 1.5em;
+}
+
+#navbar {
+    padding: 4rem 1rem;
+}
+
+footer{
+    flex: 0;
+}
+
+#subtitle {
+    font-family: 'Proza Libre', sans-serif;
+    font-size: .7em;
+    margin-top: 1%;
+    white-space: initial;
+    line-height: 1.5em;
+}
+
+.button {
+    background-color: transparent;
+    font-size: .7em;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    margin-right: 3rem;
+}
+
+.button-git {
+    padding: 0;
+    font-size: .7em;
+}
+
+.button:hover {
+    background-color: transparent !important;
+}
+
+.navbar-grid {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@media (max-width: 576px) {
+    .navbar-grid {
+        display: block;
+    }
+
+    .buttons {
+        margin-right: 0px;
+    }
 }
 
 #site-footer {
     background-color: #2f3640;
     color: #f5f6fa;
-    padding: 2%;
+    padding: 2rem 1rem
 }
 
 #site-footer mat-divider {
@@ -36,10 +96,18 @@
 }
 
 .footer-content {
-    padding: 3%;
+    padding: 5px 0 5px 5%;
+
 }
 
 .footer-icon {
     height: 100%;
     width: 100%;
+}
+
+#info-text {
+    font-family: 'Proza Libre', sans-serif;
+    font-size: .8em;
+    white-space: initial;
+    line-height: 1.5em;
 }

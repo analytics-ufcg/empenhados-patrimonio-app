@@ -1,5 +1,3 @@
-
-
 .plot {
     display: inline-block;
     margin: auto;
@@ -8,11 +6,18 @@
 
 .d3-tip {
     line-height: 1;    
-    padding: 12px;
-    background: rgba(0, 0, 0, 0.8);
-    color: #fff;    
+    padding: 10px;
+    background: white;/*rgba(0, 0, 0, 0.8);*/
     text-align: right;
     font-family: 'Roboto';
+    border-radius: 5px;
+    border: 2px solid #1B3B6F;
+
+}
+
+.d3-tip strong {
+    font-size: 18px;
+    color: #5E400B;
 }
 
 .d3-tip:after {
@@ -49,7 +54,7 @@
 }
 
 .plot-container {
-    margin-top: 2em;
+    margin-top: 1.5em;
 }
 
 .mat-slide-toggle-content {
@@ -58,5 +63,38 @@
 
 .mat-card:not([class*=mat-elevation-z]) {
     border-radius: 0 !important;
-    box-shadow: 0 -2px 0px 0px rgba(5, 156, 227) !important;
+    box-shadow: 0 -2px 0px 0px #1B3B6F !important;
+}
+
+.plot-container .mat-form-field {
+    width: auto !important;
+}
+
+.plot-container .mat-form-field-infix {
+    width: auto;
+    padding-bottom: 0;
+    padding-top: 2%;
+}
+
+.plot-container .mat-select-value {
+    max-width: 100%;
+    width: auto;
+}
+
+.selector {
+    font-size: 12px;
+}
+
+.selector .mat-form-field-underline{
+    display: none;
+}
+
+.selector .mat-form-field-wrapper {
+    padding: 0 !important;
+}
+
+@media (max-width: 576px) {
+    .plot-container{
+        padding: 0%;
+    }
 }
