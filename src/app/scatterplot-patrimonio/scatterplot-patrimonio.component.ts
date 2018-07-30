@@ -81,6 +81,9 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       this.width = parseInt(this.svg.style("width"));
       this.height = this.width * 0.5 - this.margin.bottom;
 
+      this.g.selectAll("circle")      
+      .call(this.tip.hide);
+
       this.svg.attr("height", this.width * 0.5);
       if (this.data) {
         this.plotPatrimonio();
