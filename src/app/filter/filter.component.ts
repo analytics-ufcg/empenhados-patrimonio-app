@@ -212,9 +212,25 @@ export class FilterComponent implements OnInit {
     }
 
     this.municipioSelecionado = undefined;
-
+  
     this.cargoSelecionado = novoCargo;
     this.dataService.mudaCargo(novoCargo);
+    if(["PREFEITO", "VEREADOR"].includes(novoCargo)){      
+      this.listaEstados.splice(28, 1); // remove opcao todos os estados
+      let novoEstado;
+      if (this.estadoSelecionado === this.todosEstados) {
+        novoEstado =  this.listaEstados[Math.floor(Math.random() * this.listaEstados.length)].estado;        
+      } else {
+        novoEstado = this.estadoSelecionado;
+      }
+      this.onChangeEstado(novoEstado);
+      this.atualizaFiltroAno();
+      return;
+    }else{
+      if(this.listaEstados.length != 29){
+        this.listaEstados.push({ 'estado': this.todosEstados });
+      }
+    }
     this.atualizaFiltroAno();
     this.atualizaFiltroMunicipio();
 
@@ -301,7 +317,6 @@ export class FilterComponent implements OnInit {
           let todosCargos
           todosCargos = data;
           this.listaCargos = todosCargos;
-          this.listaCargos.push({ 'cargo_pleiteado_2': this.todosCargos });
           resolve();
         }, err => {
           console.log(err);
