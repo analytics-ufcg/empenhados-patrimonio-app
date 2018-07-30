@@ -1,7 +1,9 @@
 .main-container {
     margin-left: 5%;
     margin-right: 5%;
+    margin-bottom: 5%;
     margin-top: 1%;
+    min-height: 60vh;
 }
 
 .mat-toolbar {
@@ -25,13 +27,17 @@
     margin-bottom: 0.5vw;
 }
 
-#title-text {
+.title-text {
     font-family: Fjalla One;
     font-size: 1.5em;
 }
 
 #navbar {
     padding: 4rem 1rem;
+}
+
+footer{
+    flex: 0;
 }
 
 #subtitle {
@@ -77,4 +83,41 @@
     .buttons {
         margin-right: 0px;
     }
+}
+
+#site-footer {
+    background-color: #2f3640;
+    color: #f5f6fa;
+    padding: 2rem 1rem
+}
+
+#site-footer mat-divider {
+    border-color: #636e72;
+}
+
+.footer-content {
+    padding: 5px 0 5px 5%;    
+
+}
+
+.footer-icon {    
+    height: 120%;
+    width: 120%;
+}
+
+#info-text {
+    font-family: 'Proza Libre', sans-serif;
+    font-size: .8em;
+    white-space: initial;
+    line-height: 1.5em;
+}
+
+.icons{    
+    position: relative;    
+    margin-top: 30px;    
+    transform: translateY(-50%);
+}
+
+.icon-link{
+    margin: 15px;    
 }
