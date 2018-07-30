@@ -3,6 +3,13 @@
   <p class="plot-subtitle">
     As observações acima da linha pontilhada indicam aumento de patrimônio. Clique em um ponto para obter mais detalhes.
   </p>
+  <span>
+    <button mat-icon-button (click)='openReadme()'>
+      <i class="material-icons">info</i>
+    </button>
+  </span>
+
+
   <div class="plot-container">
     <mat-form-field class="selector">
       <mat-select class="select-mode" [ngModel]="modeOption" (ngModelChange)="executaTransicao($event)">

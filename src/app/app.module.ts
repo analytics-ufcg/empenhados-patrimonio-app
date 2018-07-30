@@ -1,15 +1,14 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {HttpClientModule, HttpClient} from '@angular/common/http';
-import { GlobalService} from './services/global.service';
-import { RequestService } from './services/request.service';
-import { DataService } from './services/data.service';
-import { UtilsService } from './services/utils.service';
-import { AlertService } from './services/alert.service';
-import { CandidatoService } from './services/candidato.service';
-import { FlexLayoutModule } from '@angular/flex-layout';
-
+import { BrowserModule } from "@angular/platform-browser";
+import { NgModule } from "@angular/core";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { HttpClientModule, HttpClient } from "@angular/common/http";
+import { GlobalService } from "./services/global.service";
+import { RequestService } from "./services/request.service";
+import { DataService } from "./services/data.service";
+import { UtilsService } from "./services/utils.service";
+import { AlertService } from "./services/alert.service";
+import { CandidatoService } from "./services/candidato.service";
+import { FlexLayoutModule } from "@angular/flex-layout";
 
 import {
   MatToolbarModule,
@@ -28,21 +27,19 @@ import {
   MatSlideToggleModule,
   MatDialogModule,
   MatTooltipModule
-} from '@angular/material';
+} from "@angular/material";
 
-import {
-  BrowserAnimationsModule
-} from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
-import { AppComponent } from './app.component';
-import { FilterComponent } from './filter/filter.component';
-import { ScatterplotPatrimonioComponent } from './scatterplot-patrimonio/scatterplot-patrimonio.component';
-import { ResumoCandidatoComponent } from './resumo-candidato/resumo-candidato.component';
-import { JoyplotEstadosComponent } from './joyplot-estados/joyplot-estados.component';
-import { FactSheetComponent } from './fact-sheet/fact-sheet.component';
-import { AboutComponent } from './about/about.component';
-import { HomeComponent } from './home/home.component';
-
+import { AppComponent } from "./app.component";
+import { FilterComponent } from "./filter/filter.component";
+import { ScatterplotPatrimonioComponent } from "./scatterplot-patrimonio/scatterplot-patrimonio.component";
+import { ResumoCandidatoComponent } from "./resumo-candidato/resumo-candidato.component";
+import { JoyplotEstadosComponent } from "./joyplot-estados/joyplot-estados.component";
+import { FactSheetComponent } from "./fact-sheet/fact-sheet.component";
+import { AboutComponent } from "./about/about.component";
+import { HomeComponent } from "./home/home.component";
+import { ReadmeComponent } from "./readme/readme.component";
 
 @NgModule({
   declarations: [
@@ -53,7 +50,8 @@ import { HomeComponent } from './home/home.component';
     JoyplotEstadosComponent,
     FactSheetComponent,
     AboutComponent,
-    HomeComponent
+    HomeComponent,
+    ReadmeComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -77,7 +75,7 @@ import { HomeComponent } from './home/home.component';
     MatSlideToggleModule,
     MatListModule,
     HttpClientModule,
-    MatDialogModule     
+    MatDialogModule
   ],
   providers: [
     HttpClientModule,
@@ -89,6 +87,6 @@ import { HomeComponent } from './home/home.component';
     CandidatoService
   ],
   bootstrap: [AppComponent],
-  entryComponents: [AboutComponent]
+  entryComponents: [AboutComponent, ReadmeComponent]
 })
-export class AppModule { }
+export class AppModule {}

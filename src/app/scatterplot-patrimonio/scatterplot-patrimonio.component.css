@@ -1,100 +1,100 @@
 .plot {
-    display: inline-block;
-    margin: auto;
-    width: 100%;
+  display: inline-block;
+  margin: auto;
+  width: 100%;
 }
 
 .d3-tip {
-    line-height: 1;    
-    padding: 10px;
-    background: white;/*rgba(0, 0, 0, 0.8);*/
-    text-align: right;
-    font-family: 'Roboto';
-    border-radius: 5px;
-    border: 2px solid #1B3B6F;
-
+  line-height: 1;
+  padding: 10px;
+  background: white; /*rgba(0, 0, 0, 0.8);*/
+  text-align: right;
+  font-family: "Roboto";
+  border-radius: 5px;
+  border: 2px solid #1b3b6f;
 }
 
 .d3-tip strong {
-    font-size: 18px;
-    color: #5E400B;
+  font-size: 18px;
+  color: #5e400b;
 }
 
 .d3-tip:after {
-    box-sizing: border-box;
-    display: inline-block;
-    font-size: 10px;
-    width: 100%;
-    line-height: 1;
-    color: rgba(0, 0, 0, 0.8);
-    content: "\25BC";
-    position: absolute;
-    text-align: center;
+  box-sizing: border-box;
+  display: inline-block;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
 }
-  
+
 .d3-tip.n:after {
-    margin: -1px 0 0 0;
-    top: 100%;
-    left: 0;
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
 }
 
 .plot-subtitle {
-    color: #888888;
-    font-size: .8em;
-    margin-bottom: 2%;
-    -webkit-margin-before: -1em;
+  color: #888888;
+  font-size: 0.8em;
+  margin-bottom: 2%;
+  -webkit-margin-before: -1em;
+  display: inline-block;
 }
 
 .slide-toogle {
-    padding-left: 10px;
+  padding-left: 10px;
 }
 
 .slide-toogle-text {
-    font-size: 12px;
+  font-size: 12px;
 }
 
 .plot-container {
-    margin-top: 1.5em;
+  margin-top: 1.5em;
 }
 
 .mat-slide-toggle-content {
-    font-size: 12px;
+  font-size: 12px;
 }
 
-.mat-card:not([class*=mat-elevation-z]) {
-    border-radius: 0 !important;
-    box-shadow: 0 -2px 0px 0px #1B3B6F !important;
+.mat-card:not([class*="mat-elevation-z"]) {
+  border-radius: 0 !important;
+  box-shadow: 0 -2px 0px 0px #1b3b6f !important;
 }
 
 .plot-container .mat-form-field {
-    width: auto !important;
+  width: auto !important;
 }
 
 .plot-container .mat-form-field-infix {
-    width: auto;
-    padding-bottom: 0;
-    padding-top: 2%;
+  width: auto;
+  padding-bottom: 0;
+  padding-top: 2%;
 }
 
 .plot-container .mat-select-value {
-    max-width: 100%;
-    width: auto;
+  max-width: 100%;
+  width: auto;
 }
 
 .selector {
-    font-size: 12px;
+  font-size: 12px;
 }
 
-.selector .mat-form-field-underline{
-    display: none;
+.selector .mat-form-field-underline {
+  display: none;
 }
 
 .selector .mat-form-field-wrapper {
-    padding: 0 !important;
+  padding: 0 !important;
 }
 
 @media (max-width: 576px) {
-    .plot-container{
-        padding: 0%;
-    }
+  .plot-container {
+    padding: 0%;
+  }
 }
