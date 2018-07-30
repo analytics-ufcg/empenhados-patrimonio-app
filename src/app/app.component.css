@@ -111,3 +111,9 @@ footer{
     white-space: initial;
     line-height: 1.5em;
 }
+
+.icons{
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
