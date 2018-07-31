@@ -12,8 +12,7 @@ export class FactSheetComponent implements OnInit {
   public isCandidatoSelecionado = false; 
   public candidato : any;
   public infoCandidato : any;
-  public dadosEleicao : any;
-  public ano : any;
+  public dadosEleicao : any;  
   public idh: any;
 
   constructor(private dataService: DataService,
@@ -22,7 +21,7 @@ export class FactSheetComponent implements OnInit {
   ngOnInit() {
   }
   
-  async texto(){
+  async texto(){    
     await this.dataService.candidatoSelecionado.subscribe(
       data => {
         this.candidato = data;
@@ -34,10 +33,9 @@ export class FactSheetComponent implements OnInit {
     await this.dataService.mudaDadosEleicao(this.candidato.ano_um, this.candidato.unidade_eleitoral, this.candidato.cargo_pleiteado_1, this.candidato.cpf);
     await this.dataService.mudaIdh(this.candidato.cod_unidade_eleitoral_1);
 
-
     this.dataService.infoCandidatoSelecionado.subscribe(
       data => {
-        this.infoCandidato = data[0];
+        this.infoCandidato = data[0];        
         if (this.infoCandidato === undefined) {
           this.isCandidatoSelecionado = false;
         } else {
@@ -50,21 +48,20 @@ export class FactSheetComponent implements OnInit {
 
     this.dataService.infoEleicao.subscribe(
       data => {
-        this.dadosEleicao = data[0];                
+        this.dadosEleicao = data[0];
       }, err => {
         console.log(err);
       }
     );
-
-    this.ano = this.dataService.getAno();
-
-    this.dataService.idh.subscribe(
-      data => {
-        this.idh = data[0];
-      }, err => {
-        console.log(err);
-      }
-    )
+    
+    // TODO: incluir idh no futuro
+    // this.dataService.idh.subscribe(
+    //   data => {
+    //     this.idh = data[0];        
+    //   }, err => {
+    //     console.log(err);
+    //   }
+    // )
 
   }
 

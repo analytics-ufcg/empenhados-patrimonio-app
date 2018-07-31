@@ -1,4 +1,4 @@
-<mat-card *ngIf="isCandidatoSelecionado && candidato && idh" class="card-resumo">
+<mat-card *ngIf="isCandidatoSelecionado && candidato" class="card-resumo">
   <p>
     <span class="fact-text-value">{{ candidato.nome_urna}}</span>,
     <span class="fact-text-value">{{ infoCandidato.desc_Ocupacao | lowercase }} {{ defineIdade(infoCandidato.data_Nascimento) }}</span>, foi candidato
