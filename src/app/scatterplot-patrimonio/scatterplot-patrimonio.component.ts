@@ -85,9 +85,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       if (this.data) {
         this.plotPatrimonio();
       }
-    });
-
-    console.log(this.width, this.height);
+    });    
   }
 
   async emiteSelecaoCandidato(d: any) {
