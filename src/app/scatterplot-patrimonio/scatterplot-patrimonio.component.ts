@@ -9,8 +9,11 @@ import * as d3 from "d3";
 import d3Tip from "d3-tip";
 import { DataService } from "../services/data.service";
 import { AlertService } from "../services/alert.service";
+import { FormControl } from '@angular/forms';
 import { UtilsService } from "../services/utils.service";
 import { Observable } from "rxjs/Observable";
+import { startWith } from 'rxjs/operators/startWith';
+import { map } from 'rxjs/operators/map';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -47,12 +50,18 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   private maiorDiferencaPositiva: any;
   private maiorDiferencaNegativa: any;
 
+  public nomeCandidato: any;
+  private candidatosAtuais: any;
+  
   private estadoAtual: String;
   public ano: Number;
   private situacao: String;
   public cargo: String;
   public modeOption: any;
   public logOption: any;
+
+  private controlNomeCandidato: FormControl = new FormControl();
+  private filteredOptions: Observable<string[]>;
 
   constructor(
     private dataService: DataService,
@@ -89,8 +98,6 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         this.plotPatrimonio();
       }
     });
-
-    console.log(this.width, this.height);
   }
 
   async emiteSelecaoCandidato(d: any) {
@@ -98,12 +105,19 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.selecaoCandidato.next();
   }
 
-  plotPatrimonio() {
+  async plotPatrimonio() {
     this.estadoAtual = this.dataService.getEstado();
     this.ano = this.dataService.getAno();
     this.cargo = this.dataService.getCargo();
+    
+    await this.dataService.dadosPatrimonio.subscribe(data => (this.data = data));
+    this.candidatosAtuais = this.data.map(candidato => candidato.nome_urna);
 
-    this.dataService.dadosPatrimonio.subscribe(data => (this.data = data));
+    this.filteredOptions = this.controlNomeCandidato.valueChanges
+    .pipe(
+      startWith(''),
+      map(val => this.filter(val))
+    );
 
     if (typeof this.data !== "undefined" && this.data.length === 0) {
       console.log("Não temos dados para este filtro!");
@@ -804,5 +818,31 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     tickLabel = d <= 2 ? Math.pow(10, d) : ticksBase10[d - 3];
 
     return tickLabel;
+  }
+
+  // filtro para a pesquisa por candidato
+  filter(val: string): string[] {
+    return this.candidatosAtuais.filter(cand =>
+      cand.toLowerCase().indexOf(val.toLowerCase()) === 0);
+  }
+
+  onChangeNomeCandidato(nomeCandidato){
+    if(this.candidatosAtuais && this.candidatosAtuais.includes(nomeCandidato)){
+      let pontos = this.svg.selectAll("circle")._groups[0] 
+      
+      let pontosFiltrados = [];
+
+      for (const ponto of pontos) {
+        const candidato = d3.select(ponto);
+        const dadosCandidato = candidato.datum();
+        const circuloCandidato = candidato._groups[0][0];
+
+        if(dadosCandidato.nome_urna === nomeCandidato){
+          this.highlightCircle(circuloCandidato);
+        }else{
+          this.standardizeCircle(dadosCandidato, circuloCandidato);
+        }
+      }
+    }
   }
 }
