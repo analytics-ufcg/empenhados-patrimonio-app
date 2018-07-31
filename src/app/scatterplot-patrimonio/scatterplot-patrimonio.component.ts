@@ -81,14 +81,13 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       this.width = parseInt(this.svg.style("width"));
       this.height = this.width * 0.5 - this.margin.bottom;
 
-      this.g.selectAll("circle")      
-      .call(this.tip.hide);
+      this.g.selectAll("circle").call(this.tip.hide);
 
       this.svg.attr("height", this.width * 0.5);
       if (this.data) {
         this.plotPatrimonio();
       }
-    });    
+    });
   }
 
   async emiteSelecaoCandidato(d: any) {
@@ -100,6 +99,18 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.estadoAtual = this.dataService.getEstado();
     this.ano = this.dataService.getAno();
     this.cargo = this.dataService.getCargo();
+    this.situacao = this.dataService.getSituacao();
+
+    if (
+      this.cargo === "VEREADOR" ||
+      (this.cargo === "DEPUTADO ESTADUAL" &&
+        this.situacao === this.dataService.getTodasSituacoes() &&
+        this.estadoAtual === this.dataService.getTodosEstados())
+    ) {
+      this.transitionTime = { short: 0, medium: 0, long: 0 };
+    } else {
+      this.transitionTime = { short: 1000, medium: 1500, long: 2000 };
+    }
 
     this.dataService.dadosPatrimonio.subscribe(data => (this.data = data));
 
