@@ -9,11 +9,11 @@ import * as d3 from "d3";
 import d3Tip from "d3-tip";
 import { DataService } from "../services/data.service";
 import { AlertService } from "../services/alert.service";
-import { FormControl } from '@angular/forms';
+import { FormControl } from "@angular/forms";
 import { UtilsService } from "../services/utils.service";
 import { Observable } from "rxjs/Observable";
-import { startWith } from 'rxjs/operators/startWith';
-import { map } from 'rxjs/operators/map';
+import { startWith } from "rxjs/operators/startWith";
+import { map } from "rxjs/operators/map";
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -49,10 +49,10 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   private menorPatrimonioEleicao2: any;
   private maiorDiferencaPositiva: any;
   private maiorDiferencaNegativa: any;
-  
+
   public nomeCandidato: any;
   private candidatosAtuais: any;
-  
+
   private estadoAtual: String;
   public ano: Number;
   private situacao: String;
@@ -90,8 +90,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       this.width = parseInt(this.svg.style("width"));
       this.height = this.width * 0.5 - this.margin.bottom;
 
-      this.g.selectAll("circle")      
-      .call(this.tip.hide);
+      this.g.selectAll("circle").call(this.tip.hide);
 
       this.svg.attr("height", this.width * 0.5);
       if (this.data) {
@@ -109,13 +108,14 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.estadoAtual = this.dataService.getEstado();
     this.ano = this.dataService.getAno();
     this.cargo = this.dataService.getCargo();
-    
-    await this.dataService.dadosPatrimonio.subscribe(data => (this.data = data));
+
+    await this.dataService.dadosPatrimonio.subscribe(
+      data => (this.data = data)
+    );
     this.candidatosAtuais = this.data.map(candidato => candidato.nome_urna);
 
-    this.filteredOptions = this.controlNomeCandidato.valueChanges
-    .pipe(
-      startWith(''),
+    this.filteredOptions = this.controlNomeCandidato.valueChanges.pipe(
+      startWith(""),
       map(val => this.filter(val))
     );
 
@@ -822,34 +822,36 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
   // filtro para a pesquisa por candidato
   filter(val: string): string[] {
-    return this.candidatosAtuais.filter(cand =>
-      cand.toLowerCase().indexOf(val.toLowerCase()) === 0);
+    return this.candidatosAtuais.filter(
+      cand => cand.toLowerCase().indexOf(val.toLowerCase()) === 0
+    );
   }
-  
-  onChangeNomeCandidato(nomeCandidato){
-    if(this.candidatosAtuais && this.candidatosAtuais.includes(nomeCandidato)){
-      let pontos = this.svg.selectAll("circle")._groups[0] 
-          
-      for (const ponto of pontos) {
-      
-        let candidato: any;        
-        candidato = d3.select(ponto);        
-        
-        const dadosCandidato = candidato.datum();        
-        const circuloCandidato = candidato._groups[0][0];
-        
-        if(dadosCandidato.nome_urna === nomeCandidato){
-          this.highlightCircle(circuloCandidato);          
 
+  onChangeNomeCandidato(nomeCandidato) {
+    if (
+      this.candidatosAtuais &&
+      this.candidatosAtuais.includes(nomeCandidato)
+    ) {
+      let pontos = this.svg.selectAll("circle")._groups[0];
+
+      for (const ponto of pontos) {
+        let candidato: any;
+        candidato = d3.select(ponto);
+
+        const dadosCandidato = candidato.datum();
+        const circuloCandidato = candidato._groups[0][0];
+
+        if (dadosCandidato.nome_urna === nomeCandidato) {
+          this.highlightCircle(circuloCandidato);
+          this.emiteSelecaoCandidato(dadosCandidato);
         } else {
           if (this.clickedCircle && this.clickedCircle.d !== dadosCandidato) {
             this.clickedCircle.d.isclicked = false;
             let previousCircle = this.clickedCircle.n[this.clickedCircle.i];
             this.standardizeCircle(this.clickedCircle.d, previousCircle);
           }
-          this.standardizeCircle(dadosCandidato, circuloCandidato);
         }
-      }      
+      }
     }
   }
 }
