@@ -380,18 +380,17 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
   private onClick(): (d, i, n) => void {
     return (d, i, n) => {
-      console.log(this.clickedCircle);
       if (this.clickedCircle && this.clickedCircle.d !== d) {
         this.clickedCircle.d.isclicked = false;
         let previousCircle = this.clickedCircle.n[this.clickedCircle.i];
-        this.standardizeCircle(this.clickedCircle.d, previousCircle);        
+        this.standardizeCircle(this.clickedCircle.d, previousCircle);
       }
       if (!d.isclicked) {
         d.isclicked = true;
         this.clickedCircle = { d: d, i: i, n: n };
         this.highlightCircle(n[i]);
-
-        this.emiteSelecaoCandidato(d);        
+        this.nomeCandidato = "";
+        this.emiteSelecaoCandidato(d);
       }
     };
   }
@@ -829,36 +828,21 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   }
 
   onChangeNomeCandidato(nomeCandidato) {
-    if (this.candidatosAtuais && this.candidatosAtuais.includes(nomeCandidato)) {
-      let pontos = this.svg.selectAll("circle")._groups[0];      
+    if (
+      this.candidatosAtuais &&
+      this.candidatosAtuais.includes(nomeCandidato)
+    ) {
+      let pontos = this.svg.selectAll("circle")._groups[0];
 
-      for (const ponto of pontos) {
+      for (let ponto of pontos) {
         let candidato: any;
         candidato = d3.select(ponto);
-        console.log(pontos);
-        const dadosCandidato = candidato.datum();
-        const circuloCandidato = candidato._groups[0][0];
-        let index = pontos.indexOf(circuloCandidato);
-                
+        let dadosCandidato = candidato.datum();
+        let circuloCandidato = candidato._groups[0][0];
 
-        if (dadosCandidato.nome_urna === nomeCandidato) {         
-          this.highlightCircle(circuloCandidato);
-          this.emiteSelecaoCandidato(dadosCandidato);
-          
-          if (!dadosCandidato.isclicked) {
-            dadosCandidato.isclicked = true;
-            this.clickedCircle = { d: dadosCandidato, i: index, n: pontos};    
-          }
-
-        } else {
-          if (this.clickedCircle && this.clickedCircle.d !== dadosCandidato) {
-            this.clickedCircle.d.isclicked = false;
-            let previousCircle = this.clickedCircle.n[this.clickedCircle.i];
-            this.standardizeCircle(this.clickedCircle.d, previousCircle);
-          }
-
-          this.standardizeCircle(dadosCandidato, circuloCandidato);    
-        }
+        if (dadosCandidato.nome_urna === nomeCandidato) {
+          let click = new MouseEvent("click");
+          circuloCandidato.dispatchEvent(click);
       }
     }
   }
