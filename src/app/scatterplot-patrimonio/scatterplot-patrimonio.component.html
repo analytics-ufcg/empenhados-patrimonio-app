@@ -6,8 +6,8 @@
   <div class="plot-container">
     <mat-form-field class="selector">
       <mat-select class="select-mode" [ngModel]="modeOption" (ngModelChange)="executaTransicao($event)">
-        <mat-option class="select-mode-option" value="comparativo">Comparativo</mat-option>
-        <mat-option class="select-mode-option" value="variacao">Variação</mat-option>
+        <mat-option class="select-mode-option" value="comparativo">Foco no total</mat-option>
+        <mat-option class="select-mode-option" value="variacao">Foco na diferença</mat-option>
       </mat-select>
     </mat-form-field>
     <mat-form-field class="selector" floatLabel="never">
