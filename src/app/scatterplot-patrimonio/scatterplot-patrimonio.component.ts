@@ -825,24 +825,25 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     return this.candidatosAtuais.filter(cand =>
       cand.toLowerCase().indexOf(val.toLowerCase()) === 0);
   }
-
+  
   onChangeNomeCandidato(nomeCandidato){
     if(this.candidatosAtuais && this.candidatosAtuais.includes(nomeCandidato)){
       let pontos = this.svg.selectAll("circle")._groups[0] 
-      
-      let pontosFiltrados = [];
-
+          
       for (const ponto of pontos) {
-        const candidato = d3.select(ponto);
-        const dadosCandidato = candidato.datum();
+      
+        let candidato: any;        
+        candidato = d3.select(ponto);        
+        
+        const dadosCandidato = candidato.datum();        
         const circuloCandidato = candidato._groups[0][0];
 
         if(dadosCandidato.nome_urna === nomeCandidato){
-          this.highlightCircle(circuloCandidato);
+          this.highlightCircle(circuloCandidato);          
         }else{
           this.standardizeCircle(dadosCandidato, circuloCandidato);
         }
-      }
+      }      
     }
   }
 }
