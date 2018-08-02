@@ -17,7 +17,7 @@
       </mat-select>
     </mat-form-field>
     <mat-form-field class="filter-name" floatLabel="never" color="accent">
-      <input type="text" placeholder="Nome do Candidato" aria-label="Number" [ngModel]="nomeCandidato" (ngModelChange)="onChangeNomeCandidato($event)"
+      <input type="text" id="input-candidato" placeholder="Nome do Candidato" aria-label="Number" [(ngModel)]="nomeCandidato" (ngModelChange)="onChangeNomeCandidato($event)"
         matInput [formControl]="controlNomeCandidato" [matAutocomplete]="auto">
       <mat-autocomplete class="auto-complete" #auto="matAutocomplete">
         <mat-option *ngFor="let nome of filteredOptions | async" [value]="nome">

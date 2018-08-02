@@ -50,7 +50,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   private maiorDiferencaPositiva: any;
   private maiorDiferencaNegativa: any;
 
-  public nomeCandidato: any;
+  private nomeCandidato: any;
   private candidatosAtuais: any;
 
   private estadoAtual: String;
@@ -380,6 +380,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
   private onClick(): (d, i, n) => void {
     return (d, i, n) => {
+      this.nomeCandidato = d.nome_urna;
       if (this.clickedCircle && this.clickedCircle.d !== d) {
         this.clickedCircle.d.isclicked = false;
         let previousCircle = this.clickedCircle.n[this.clickedCircle.i];
@@ -389,7 +390,6 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         d.isclicked = true;
         this.clickedCircle = { d: d, i: i, n: n };
         this.highlightCircle(n[i]);
-        this.nomeCandidato = "";
         this.emiteSelecaoCandidato(d);
       }
     };
@@ -822,9 +822,9 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
   // filtro para a pesquisa por candidato
   filter(val: string): string[] {
-    return this.candidatosAtuais.filter(
-      cand => cand.toLowerCase().indexOf(val.toLowerCase()) === 0
-    );
+    return this.candidatosAtuais
+      .filter(cand => cand.toLowerCase().indexOf(val.toLowerCase()) === 0)
+      .sort();
   }
 
   onChangeNomeCandidato(nomeCandidato) {
@@ -838,11 +838,12 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         let candidato: any;
         candidato = d3.select(ponto);
         let dadosCandidato = candidato.datum();
-        let circuloCandidato = candidato._groups[0][0];
 
         if (dadosCandidato.nome_urna === nomeCandidato) {
+          let circuloCandidato = candidato._groups[0][0];
           let click = new MouseEvent("click");
           circuloCandidato.dispatchEvent(click);
+        }
       }
     }
   }
