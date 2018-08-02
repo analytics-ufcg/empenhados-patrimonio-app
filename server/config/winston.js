@@ -1,10 +1,13 @@
-var appRoot = require("app-root-path");
-var winston = require("winston");
+import winston from "winston";
+import path from "path";
+
+console.log(__dirname);
+const pathFile = path.join(__dirname, 'api.log');
 
 var options = {
   file: {
     level: "info",
-    filename: `${appRoot}/server/logs/app.log`,
+    filename: pathFile,
     handleExceptions: true,
     json: true,
     maxsize: 5242880, // 5MB
