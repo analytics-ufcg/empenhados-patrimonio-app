@@ -1,7 +1,6 @@
 import winston from "winston";
 import path from "path";
 
-console.log(__dirname);
 const pathFile = path.join(__dirname, "..", "logs/api.log");
 
 var options = {
