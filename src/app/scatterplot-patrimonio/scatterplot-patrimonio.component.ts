@@ -108,6 +108,11 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.estadoAtual = this.dataService.getEstado();
     this.ano = this.dataService.getAno();
     this.cargo = this.dataService.getCargo();
+    this.situacao = this.dataService.getSituacao();
+
+    await this.dataService.dadosPatrimonio.subscribe(
+      data => (this.data = data)
+    );
 
     await this.dataService.dadosPatrimonio.subscribe(
       data => (this.data = data)
@@ -118,6 +123,12 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       startWith(""),
       map(val => this.filter(val))
     );
+
+    if (this.data.length >= 1000) {
+      this.transitionTime = { short: 0, medium: 0, long: 0 };
+    } else {
+      this.transitionTime = { short: 1000, medium: 1500, long: 2000 };
+    }
 
     if (typeof this.data !== "undefined" && this.data.length === 0) {
       console.log("Não temos dados para este filtro!");

@@ -226,8 +226,8 @@ export class FilterComponent implements OnInit {
       this.onChangeEstado(novoEstado);
       this.atualizaFiltroAno();
       return;
-    }else{
-      if(this.listaEstados.length != 29){
+    }else{      
+      if(this.listaEstados !== undefined && this.listaEstados.length != 29){
         this.listaEstados.push({ 'estado': this.todosEstados });
       }
     }
