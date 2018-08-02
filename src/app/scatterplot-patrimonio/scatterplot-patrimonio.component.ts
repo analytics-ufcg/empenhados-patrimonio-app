@@ -49,7 +49,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   private menorPatrimonioEleicao2: any;
   private maiorDiferencaPositiva: any;
   private maiorDiferencaNegativa: any;
-
+  
   public nomeCandidato: any;
   private candidatosAtuais: any;
   
@@ -837,10 +837,16 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         
         const dadosCandidato = candidato.datum();        
         const circuloCandidato = candidato._groups[0][0];
-
+        
         if(dadosCandidato.nome_urna === nomeCandidato){
           this.highlightCircle(circuloCandidato);          
-        }else{
+
+        } else {
+          if (this.clickedCircle && this.clickedCircle.d !== dadosCandidato) {
+            this.clickedCircle.d.isclicked = false;
+            let previousCircle = this.clickedCircle.n[this.clickedCircle.i];
+            this.standardizeCircle(this.clickedCircle.d, previousCircle);
+          }
           this.standardizeCircle(dadosCandidato, circuloCandidato);
         }
       }      
