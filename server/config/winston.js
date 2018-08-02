@@ -2,7 +2,7 @@ import winston from "winston";
 import path from "path";
 
 console.log(__dirname);
-const pathFile = path.join(__dirname, 'api.log');
+const pathFile = path.join(__dirname, "..", "logs/api.log");
 
 var options = {
   file: {
@@ -11,7 +11,7 @@ var options = {
     handleExceptions: true,
     json: true,
     maxsize: 5242880, // 5MB
-    maxFiles: 5,
+    maxFiles: 10,
     colorize: false
   }
 };
