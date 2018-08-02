@@ -10,7 +10,6 @@ import d3Tip from "d3-tip";
 import { DataService } from "../services/data.service";
 import { AlertService } from "../services/alert.service";
 import { UtilsService } from "../services/utils.service";
-import { Observable } from "rxjs/Observable";
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -81,14 +80,13 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       this.width = parseInt(this.svg.style("width"));
       this.height = this.width * 0.5 - this.margin.bottom;
 
-      this.g.selectAll("circle")      
-      .call(this.tip.hide);
+      this.g.selectAll("circle").call(this.tip.hide);
 
       this.svg.attr("height", this.width * 0.5);
       if (this.data) {
         this.plotPatrimonio();
       }
-    });    
+    });
   }
 
   async emiteSelecaoCandidato(d: any) {
@@ -96,12 +94,21 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.selecaoCandidato.next();
   }
 
-  plotPatrimonio() {
+  async plotPatrimonio() {
     this.estadoAtual = this.dataService.getEstado();
     this.ano = this.dataService.getAno();
     this.cargo = this.dataService.getCargo();
+    this.situacao = this.dataService.getSituacao();
 
-    this.dataService.dadosPatrimonio.subscribe(data => (this.data = data));
+    await this.dataService.dadosPatrimonio.subscribe(
+      data => (this.data = data)
+    );
+
+    if (this.data.length >= 1000) {
+      this.transitionTime = { short: 0, medium: 0, long: 0 };
+    } else {
+      this.transitionTime = { short: 1000, medium: 1500, long: 2000 };
+    }
 
     if (typeof this.data !== "undefined" && this.data.length === 0) {
       console.log("Não temos dados para este filtro!");
