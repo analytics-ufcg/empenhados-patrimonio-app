@@ -16,17 +16,16 @@
         <mat-option value="log">escala log</mat-option>
       </mat-select>
     </mat-form-field>
+    <mat-form-field class="filter-name" floatLabel="never" color="accent">
+      <input type="text" placeholder="Nome do Candidato" aria-label="Number" [ngModel]="nomeCandidato" (ngModelChange)="onChangeNomeCandidato($event)"
+        matInput [formControl]="controlNomeCandidato" [matAutocomplete]="auto">
+      <mat-autocomplete class="auto-complete" #auto="matAutocomplete">
+        <mat-option *ngFor="let nome of filteredOptions | async" [value]="nome">
+          {{ nome }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
     <div class="section">
-      <mat-form-field class="filter" floatLabel="never" color="accent">
-          <input type="text" placeholder="Nome do Candidato" aria-label="Number"
-           [ngModel]="nomeCandidato" (ngModelChange)="onChangeNomeCandidato($event)"
-            matInput [formControl]="controlNomeCandidato" [matAutocomplete]="auto">
-          <mat-autocomplete class="auto-complete" #auto="matAutocomplete">
-            <mat-option *ngFor="let nome of filteredOptions | async" [value]="nome">
-              {{ nome }}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
       <svg class="plot"></svg>
     </div>
   </div>
