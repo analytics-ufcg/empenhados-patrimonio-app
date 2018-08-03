@@ -95,3 +95,13 @@ mat-card-title {
   display: flex;
   margin-top: 36px;
 }
+
+.foto-candidato {
+  float: right;
+  border-radius: 50%;
+  width: 20%;
+  height: auto;
+  position: relative;
+  margin-top: -3%;
+  z-index: 10;
+}

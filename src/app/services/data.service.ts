@@ -3,6 +3,7 @@ import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { RequestService } from "./request.service";
 
 interface Patrimonio {
+  estado: String;
   patrimonio_eleicao_1: Number;
   patrimonio_eleicao_2: Number;
   nome_urna: String;
@@ -225,6 +226,7 @@ export class DataService {
     return data.map(
       v =>
         <Patrimonio>{
+          estado: v.estado,
           patrimonio_eleicao_1: v.patrimonio_eleicao_1,
           patrimonio_eleicao_2: v.patrimonio_eleicao_2,
           nome_urna: v.nome_urna,
