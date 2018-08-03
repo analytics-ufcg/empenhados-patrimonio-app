@@ -98,10 +98,10 @@ mat-card-title {
 
 .foto-candidato {
   float: right;
-  border-radius: 50%;
   width: 20%;
   height: auto;
   position: relative;
   margin-top: -3%;
   z-index: 10;
+  border: #b68115 1px solid;
 }

@@ -50,11 +50,9 @@ export class ResumoCandidatoComponent implements OnInit {
     );
 
     this.urlFoto = this.candidatoService.getFotoCandidatoURL(
-      this.candidato.ano_um,
-      this.candidato.cargo_pleiteado_1,
-      this.candidato.estado,
-      this.candidato.cod_unidade_eleitoral_1,
-      this.candidato.sequencial_candidato_1
+      this.candidato.ano_um + 4,
+      this.candidato.cod_unidade_eleitoral_2,
+      this.candidato.sequencial_candidato_2
     );
   }
 
