@@ -9,13 +9,31 @@
     <span class="fact-text-value"> {{ idh.IDHM_2010 }}</span>.
     -->
   </p>
-  <p>Nesta mesma unidade eleitoral e cargo outros
-    <span class="fact-text-value">{{ dadosEleicao.quantidade_candidatos }}</span>
-    candidatos também declararam bens em
-    <span class="fact-text-value">{{ candidato.ano_um }}</span> e
-    <span class="fact-text-value">{{ candidato.ano_um + 4}}</span>, com uma média de patrimônio em <span class="fact-text-value">{{ candidato.ano_um }}</span> de 
-    <span class="fact-text-value">{{ utilsService.abreviaPatrimonio(numberToReal(dadosEleicao.media_patrimonio)) }}</span>.
-  </p>
+  <div [ngSwitch]="true">
+    <p *ngSwitchCase="dadosEleicao.quantidade_candidatos > 1">
+      Nesta mesma unidade eleitoral e cargo outros
+      <span class="fact-text-value">{{ dadosEleicao.quantidade_candidatos }}</span>
+      candidatos também declararam bens em
+      <span class="fact-text-value">{{ candidato.ano_um }}</span> e
+      <span class="fact-text-value">{{ candidato.ano_um + 4}}</span>, com uma média de patrimônio em
+      <span class="fact-text-value">{{ candidato.ano_um }}</span> de
+      <span class="fact-text-value">{{ utilsService.abreviaPatrimonio(numberToReal(dadosEleicao.media_patrimonio)) }}</span>.
+    </p>
+    <p *ngSwitchCase="dadosEleicao.quantidade_candidatos === 1">
+      Nesta mesma unidade eleitoral e cargo outro
+      <span class="fact-text-value">{{ dadosEleicao.quantidade_candidatos }}</span>
+      candidato também declararou bens em
+      <span class="fact-text-value">{{ candidato.ano_um }}</span> e
+      <span class="fact-text-value">{{ candidato.ano_um + 4}}</span>, com uma média de patrimônio em
+      <span class="fact-text-value">{{ candidato.ano_um }}</span> de
+      <span class="fact-text-value">{{ utilsService.abreviaPatrimonio(numberToReal(dadosEleicao.media_patrimonio)) }}</span>.
+    </p>
+    <p *ngSwitchCase="dadosEleicao.quantidade_candidatos === 0">
+      Nesta mesma unidade eleitoral e cargo nenhum outro candidato declararou bens em
+      <span class="fact-text-value">{{ candidato.ano_um }}</span> e
+      <span class="fact-text-value">{{ candidato.ano_um + 4}}</span>.
+    </p>
+  </div>
   <p>
     Em
     <span class="fact-text-value">{{ candidato.ano_um }}</span> foi
