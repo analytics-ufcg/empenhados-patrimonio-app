@@ -13,8 +13,6 @@ export class FactSheetComponent implements OnInit {
   public infoCandidato: any;
   public dadosEleicao: any;
   public idh: any;
-  public umConcorrente = false;
-  public nenhumConcorrente = false;
 
   constructor(
     private dataService: DataService,
@@ -66,10 +64,6 @@ export class FactSheetComponent implements OnInit {
         console.log(err);
       }
     );
-
-    this.umConcorrente = this.dadosEleicao.quantidade_candidatos === 1;
-    this.nenhumConcorrente = this.dadosEleicao.quantidade_candidatos === 0;
-
     // TODO: incluir idh no futuro
     // this.dataService.idh.subscribe(
     //   data => {
