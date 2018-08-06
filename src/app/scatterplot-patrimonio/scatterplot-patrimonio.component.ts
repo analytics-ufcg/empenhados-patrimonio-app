@@ -839,6 +839,31 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   }
 
   onChangeNomeCandidato(nomeCandidato) {
+    // Escolhe o maior nome de candidato entre a lista dos candidatos atuais e
+    let tamanhoMaximoCandidato = input => {
+      if (this.candidatosAtuais) {
+        let maiorNomeCandidato = this.candidatosAtuais
+          .map(candidato => (candidato.length + 1) / 2)
+          .reduce((a, b) => Math.max(a, b));
+
+        input.style.width = maiorNomeCandidato.toString() + "em";
+      }
+    };
+
+    let input = document.getElementById("input-candidato");
+
+    // Na unidade 'em', a largura do texto é representada pelo número de caracteres
+    // dividido por 2
+    if (nomeCandidato) {
+      if (this.candidatosAtuais.includes(nomeCandidato)) {
+        input.style.width = ((nomeCandidato.length + 1) / 2).toString() + "em";
+      } else {
+        tamanhoMaximoCandidato(input);
+      }
+    } else {
+      tamanhoMaximoCandidato(input);
+    }
+
     if (
       this.candidatosAtuais &&
       this.candidatosAtuais.includes(nomeCandidato)
