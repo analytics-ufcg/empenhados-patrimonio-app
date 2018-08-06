@@ -9,13 +9,24 @@
     <span class="fact-text-value"> {{ idh.IDHM_2010 }}</span>.
     -->
   </p>
-  <p>Nesta mesma unidade eleitoral e cargo outros
+  <p *ngIf="!umConcorrente; else elseBlock">
+    Nesta mesma unidade eleitoral e cargo outros
     <span class="fact-text-value">{{ dadosEleicao.quantidade_candidatos }}</span>
     candidatos também declararam bens em
     <span class="fact-text-value">{{ candidato.ano_um }}</span> e
-    <span class="fact-text-value">{{ candidato.ano_um + 4}}</span>, com uma média de patrimônio em <span class="fact-text-value">{{ candidato.ano_um }}</span> de 
+    <span class="fact-text-value">{{ candidato.ano_um + 4}}</span>, com uma média de patrimônio em
+    <span class="fact-text-value">{{ candidato.ano_um }}</span> de
     <span class="fact-text-value">{{ utilsService.abreviaPatrimonio(numberToReal(dadosEleicao.media_patrimonio)) }}</span>.
   </p>
+  <ng-template #elseBlock>
+    Nesta mesma unidade eleitoral e cargo outro
+    <span class="fact-text-value">{{ dadosEleicao.quantidade_candidatos }}</span>
+    candidato também declararou bens em
+    <span class="fact-text-value">{{ candidato.ano_um }}</span> e
+    <span class="fact-text-value">{{ candidato.ano_um + 4}}</span>, com uma média de patrimônio em
+    <span class="fact-text-value">{{ candidato.ano_um }}</span> de
+    <span class="fact-text-value">{{ utilsService.abreviaPatrimonio(numberToReal(dadosEleicao.media_patrimonio)) }}</span>.
+  </ng-template>
   <p>
     Em
     <span class="fact-text-value">{{ candidato.ano_um }}</span> foi
