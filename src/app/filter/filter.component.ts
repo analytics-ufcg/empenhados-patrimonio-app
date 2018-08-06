@@ -40,7 +40,7 @@ export class FilterComponent implements OnInit {
   public situacaoSelecionada: String;
 
   public isVereador;
-  public isPresidente;
+  public isExecutivo;
   private tipoEleicao;
   private todosConsulta;
   private todosCargos;
@@ -399,11 +399,11 @@ export class FilterComponent implements OnInit {
       this.municipioSelecionado = '';
     }
 
-    if (this.cargoSelecionado === 'PRESIDENTE') {
-      this.isPresidente = true;
+    if (this.cargoSelecionado === 'PRESIDENTE' || this.cargoSelecionado === 'GOVERNADOR') {
+      this.isExecutivo = true;
       this.estadoSelecionado = this.todosEstados;
     } else {
-      this.isPresidente = false;
+      this.isExecutivo = false;
     }
   }
 

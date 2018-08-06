@@ -28,8 +28,8 @@
       </mat-form-field>
 
 
-      <strong class="text-filter" *ngIf="!isPresidente"> {{ preposicao_estado }}</strong>
-      <mat-form-field class="filter" *ngIf="!isPresidente" floatLabel="never" color="accent">
+      <strong class="text-filter" *ngIf="!isExecutivo"> {{ preposicao_estado }}</strong>
+      <mat-form-field class="filter" *ngIf="!isExecutivo" floatLabel="never" color="accent">
         <mat-select placeholder="estado" [ngModel]="estadoSelecionado" (ngModelChange)="onChangeEstado($event)">
           <mat-option *ngFor="let estado of listaEstados" [value]="estado.estado">
             {{ estado.estado }}
