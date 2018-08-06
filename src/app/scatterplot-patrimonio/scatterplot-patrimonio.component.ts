@@ -779,6 +779,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   }
 
   private decideVisualizacao() {
+    this.nomeCandidato = "";
+    
     if (this.logOption === "log" && this.modeOption === "comparativo") {
       this.patrimonioLog();
     } else if (this.logOption === "log" && this.modeOption === "variacao") {
@@ -834,7 +836,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   // filtro para a pesquisa por candidato
   filter(val: string): string[] {
     return this.candidatosAtuais
-      .filter(cand => cand.toLowerCase().indexOf(val.toLowerCase()) === 0)
+      .filter(cand => cand.toLowerCase().indexOf(val.toLowerCase()) >= 0)
       .sort();
   }
 
