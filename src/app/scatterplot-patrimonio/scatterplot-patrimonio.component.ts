@@ -9,7 +9,11 @@ import * as d3 from "d3";
 import d3Tip from "d3-tip";
 import { DataService } from "../services/data.service";
 import { AlertService } from "../services/alert.service";
+import { FormControl } from "@angular/forms";
 import { UtilsService } from "../services/utils.service";
+import { Observable } from "rxjs/Observable";
+import { startWith } from "rxjs/operators/startWith";
+import { map } from "rxjs/operators/map";
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -46,12 +50,18 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   private maiorDiferencaPositiva: any;
   private maiorDiferencaNegativa: any;
 
+  private nomeCandidato: any;
+  private candidatosAtuais: any;
+
   private estadoAtual: String;
   public ano: Number;
   private situacao: String;
   public cargo: String;
   public modeOption: any;
   public logOption: any;
+
+  private controlNomeCandidato: FormControl = new FormControl();
+  private filteredOptions: Observable<string[]>;
 
   constructor(
     private dataService: DataService,
@@ -102,6 +112,16 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
     await this.dataService.dadosPatrimonio.subscribe(
       data => (this.data = data)
+    );
+
+    await this.dataService.dadosPatrimonio.subscribe(
+      data => (this.data = data)
+    );
+    this.candidatosAtuais = this.data.map(candidato => candidato.nome_urna);
+
+    this.filteredOptions = this.controlNomeCandidato.valueChanges.pipe(
+      startWith(""),
+      map(val => this.filter(val))
     );
 
     if (this.data.length >= 1000) {
@@ -371,6 +391,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
   private onClick(): (d, i, n) => void {
     return (d, i, n) => {
+      this.nomeCandidato = d.nome_urna;
       if (this.clickedCircle && this.clickedCircle.d !== d) {
         this.clickedCircle.d.isclicked = false;
         let previousCircle = this.clickedCircle.n[this.clickedCircle.i];
@@ -380,7 +401,6 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         d.isclicked = true;
         this.clickedCircle = { d: d, i: i, n: n };
         this.highlightCircle(n[i]);
-
         this.emiteSelecaoCandidato(d);
       }
     };
@@ -759,6 +779,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   }
 
   private decideVisualizacao() {
+    this.nomeCandidato = "";
+    
     if (this.logOption === "log" && this.modeOption === "comparativo") {
       this.patrimonioLog();
     } else if (this.logOption === "log" && this.modeOption === "variacao") {
@@ -809,5 +831,58 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     tickLabel = d <= 2 ? Math.pow(10, d) : ticksBase10[d - 3];
 
     return tickLabel;
+  }
+
+  // filtro para a pesquisa por candidato
+  filter(val: string): string[] {
+    return this.candidatosAtuais
+      .filter(cand => cand.toLowerCase().indexOf(val.toLowerCase()) >= 0)
+      .sort();
+  }
+
+  onChangeNomeCandidato(nomeCandidato) {
+    // Escolhe o maior nome de candidato entre a lista dos candidatos atuais e
+    let tamanhoMaximoCandidato = input => {
+      if (this.candidatosAtuais) {
+        let maiorNomeCandidato = this.candidatosAtuais
+          .map(candidato => (candidato.length + 1) / 2)
+          .reduce((a, b) => Math.max(a, b));
+
+        input.style.width = maiorNomeCandidato.toString() + "em";
+      }
+    };
+
+    let input = document.getElementById("input-candidato");
+
+    // Na unidade 'em', a largura do texto é representada pelo número de caracteres
+    // dividido por 2
+    if (nomeCandidato) {
+      if (this.candidatosAtuais.includes(nomeCandidato)) {
+        input.style.width = ((nomeCandidato.length + 1) / 2).toString() + "em";
+      } else {
+        tamanhoMaximoCandidato(input);
+      }
+    } else {
+      tamanhoMaximoCandidato(input);
+    }
+
+    if (
+      this.candidatosAtuais &&
+      this.candidatosAtuais.includes(nomeCandidato)
+    ) {
+      let pontos = this.svg.selectAll("circle")._groups[0];
+
+      for (let ponto of pontos) {
+        let candidato: any;
+        candidato = d3.select(ponto);
+        let dadosCandidato = candidato.datum();
+
+        if (dadosCandidato.nome_urna === nomeCandidato) {
+          let circuloCandidato = candidato._groups[0][0];
+          let click = new MouseEvent("click");
+          circuloCandidato.dispatchEvent(click);
+        }
+      }
+    }
   }
 }

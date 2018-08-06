@@ -15,6 +15,15 @@
         <mat-option value="natural">escala linear</mat-option>
         <mat-option value="log">escala log</mat-option>
       </mat-select>
+    </mat-form-field>    
+    <mat-form-field class="filter-name" floatLabel="never" color="accent">
+      <input type="text" id="input-candidato" placeholder="Pesquise um candidato" aria-label="Number" [(ngModel)]="nomeCandidato" (ngModelChange)="onChangeNomeCandidato($event)"
+        matInput [formControl]="controlNomeCandidato" [matAutocomplete]="auto">
+      <mat-autocomplete class="auto-complete" #auto="matAutocomplete">
+        <mat-option *ngFor="let nome of filteredOptions | async" [value]="nome">
+          {{ nome }}
+        </mat-option>
+      </mat-autocomplete>    
     </mat-form-field>
     <div class="section">
       <svg class="plot"></svg>
