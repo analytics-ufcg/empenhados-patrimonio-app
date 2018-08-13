@@ -384,19 +384,25 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       .attr("r", this.circleRadius * 1.8)
       .style("stroke", "#230a4f")
       .style("stroke-width", 15)
-      .style("cursor", "pointer");
+      .style("cursor", "pointer");    
   }
 
   private standardizeCircle(d, circle) {
+    // padroniza candidato
     if (!d.isclicked) {
       d3.select(circle)
         .attr("r", this.circleRadius)
         .style("stroke", "none");
     }
+
+    // padroniza candidato sorteado na animação inicial
+    d3.select("#candidato-sorteado")
+      .attr("r", this.circleRadius)
+      .style("stroke", "none");
   }
 
   private onClick(): (d, i, n) => void {
-    return (d, i, n) => {      
+    return (d, i, n) => {
       this.animacaoTimer.unsubscribe();
 
       this.nomeCandidato = d.nome_urna;
@@ -899,7 +905,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     let pontos = this.svg.selectAll("circle")._groups[0];
     let pontoAnterior: any;
 
-    this.animacaoTimer = Observable.interval(4000)
+    this.animacaoTimer = Observable.interval(2500)
       .subscribe((val) => {
         let novoCandidatoIndex = Math.floor(Math.random() * pontos.length);
         let candidatoPonto = pontos[novoCandidatoIndex];
@@ -907,13 +913,13 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         let candidato: any;
         candidato = d3.select(candidatoPonto);
         let dadosCandidato = candidato.datum();
-        let circuloCandidato = candidato._groups[0][0];
 
         if (pontoAnterior) {
           // padroniza tamanho do ponto anterior selecionado
           this.g.selectAll("circle")
             .filter(function (d: any) { return d.cpf === pontoAnterior.cpf; })
             .attr("r", this.circleRadius)
+            .attr("id", "candidato")
             .style("stroke", "none");
         }
         pontoAnterior = dadosCandidato;
@@ -921,15 +927,17 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         // destaca ponto da animação
         this.g.selectAll("circle")
           .filter(function (d: any) { return d.cpf === dadosCandidato.cpf; })
-          .attr("r", this.circleRadius * 2.8)
+          .attr("r", this.circleRadius * 1.8)
+          .attr("id", "candidato-sorteado")
           .style("stroke", "#230a4f")
           .style("stroke-width", 13)
-          .style("cursor", "pointer")                
+          .style("cursor", "pointer")
+
+        // Mostra o tooltip
+        var candidatoSorteado = document.getElementById('candidato-sorteado');
+        var event = new MouseEvent('mouseover');
+
+        candidatoSorteado.dispatchEvent(event);
       });
-  }
-  private onAnimacao(): (d, i, n) => void {
-    return (d, i, n) => {
-      this.tip.show(d, n[i]);    
-    };
   }
 }
