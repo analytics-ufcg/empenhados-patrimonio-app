@@ -15,8 +15,8 @@
       <span class="fact-text-value">{{ dadosEleicao.quantidade_candidatos }}</span>
       candidatos também declararam bens em
       <span class="fact-text-value">{{ candidato.ano_um }}</span> e
-      <span class="fact-text-value">{{ candidato.ano_um + 4}}</span>, com uma média de patrimônio em
-      <span class="fact-text-value">{{ candidato.ano_um }}</span> de
+      <span class="fact-text-value">{{ candidato.ano_dois}}</span>, com uma média de patrimônio em
+      <span class="fact-text-value">{{ candidato.ano_dois }}</span> de
       <span class="fact-text-value">{{ utilsService.abreviaPatrimonio(numberToReal(dadosEleicao.media_patrimonio)) }}</span>.
     </p>
     <p *ngSwitchCase="dadosEleicao.quantidade_candidatos === 1">
@@ -24,14 +24,14 @@
       <span class="fact-text-value">{{ dadosEleicao.quantidade_candidatos }}</span>
       candidato também declararou bens em
       <span class="fact-text-value">{{ candidato.ano_um }}</span> e
-      <span class="fact-text-value">{{ candidato.ano_um + 4}}</span>, com uma média de patrimônio em
-      <span class="fact-text-value">{{ candidato.ano_um }}</span> de
+      <span class="fact-text-value">{{ candidato.ano_dois}}</span>, com uma média de patrimônio em
+      <span class="fact-text-value">{{ candidato.ano_dois }}</span> de
       <span class="fact-text-value">{{ utilsService.abreviaPatrimonio(numberToReal(dadosEleicao.media_patrimonio)) }}</span>.
     </p>
     <p *ngSwitchCase="dadosEleicao.quantidade_candidatos === 0">
       Nesta mesma unidade eleitoral e cargo nenhum outro candidato declararou bens em
       <span class="fact-text-value">{{ candidato.ano_um }}</span> e
-      <span class="fact-text-value">{{ candidato.ano_um + 4}}</span>.
+      <span class="fact-text-value">{{ candidato.ano_dois}}</span>.
     </p>
   </div>
   <p>
@@ -42,7 +42,7 @@
   </p>
   <p>
     Concorreu em
-    <span class="fact-text-value">{{ candidato.ano_um + 4 }}</span> a
+    <span class="fact-text-value">{{ candidato.ano_dois }}</span> a
     <span class="fact-text-value">{{ formataCargo(candidato.cargo_pleiteado_2) }}</span> e foi
     <span class="fact-text-value">{{ candidato.situacao_eleicao_2 | lowercase }}</span>.
   </p>

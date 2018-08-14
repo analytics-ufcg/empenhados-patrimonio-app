@@ -51,9 +51,7 @@ export class CandidatoService {
   }
   public getFotoCandidatoURL(ano, codUnidadeEleitoral, sequencialCandidato) {
     let fotoURL;
-    let codEleicao = this.findCodigoTSE(ano);
-
-    console.log(sequencialCandidato);
+    let codEleicao = this.findCodigoTSE(ano);    
 
     fotoURL =
       this.TseFotoURL +

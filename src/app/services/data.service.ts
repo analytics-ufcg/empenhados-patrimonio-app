@@ -15,6 +15,7 @@ interface Patrimonio {
   cargo_pleiteado_1: String;
   cargo_pleiteado_2: String;
   ano_um: Number;
+  ano_dois: Number;
   sequencial_candidato_1: String;
   sequencial_candidato_2: String;
   situacao_eleicao_1: String;
@@ -36,7 +37,7 @@ interface Eleicao {
 }
 
 interface Ano {
-  ano_um: Number;
+  ano_dois: Number;
 }
 
 interface IDH {
@@ -52,8 +53,7 @@ const TODAS_SITUACOES = "que declararam patrimônio";
 @Injectable()
 export class DataService {
   private estadoSelecionado: String;
-  private cargoSelecionado: String;
-  private anoUm: Number;
+  private cargoSelecionado: String;  
   private situacao: String;
 
   private _dadosPatrimonio = new BehaviorSubject<Patrimonio[]>(undefined);
@@ -86,10 +86,6 @@ export class DataService {
 
   mudaCargo(novoCargo: String) {
     this.cargoSelecionado = novoCargo;
-  }
-
-  mudaAno(novoAno: Number) {
-    this.anoUm = Number(novoAno);
   }
 
   mudaSituacao(novaSituacao: String) {
@@ -130,7 +126,7 @@ export class DataService {
         .subscribe(
           data => {
             dadosBD = data;
-            this._dadosPatrimonio.next(this.parseData(dadosBD));
+            this._dadosPatrimonio.next(this.parseData(dadosBD));                        
             return resolve("Dados alterados");
           },
           err => {
@@ -238,6 +234,7 @@ export class DataService {
           cargo_pleiteado_1: v.cargo_pleiteado_1,
           cargo_pleiteado_2: v.cargo_pleiteado_2,
           ano_um: v.ano_um,
+          ano_dois: v.ano_dois,
           sequencial_candidato_1: v.sequencial_candidato_1,
           sequencial_candidato_2: v.sequencial_candidato_2,
           situacao_eleicao_1: v.situacao_eleicao_1,
@@ -271,7 +268,7 @@ export class DataService {
   }
 
   private parseDataAno(data: any[]): Ano[] {
-    return data.map(v => <Ano>{ ano_um: v.ano_um });
+    return data.map(v => <Ano>{ ano_dois: v.ano_dois });
   }
 
   private parseDataIDH(data: any[]): IDH[] {
@@ -299,10 +296,6 @@ export class DataService {
 
   public getEstado() {
     return this.estadoSelecionado;
-  }
-
-  public getAno() {
-    return this.anoUm;
   }
 
   public getSituacao() {

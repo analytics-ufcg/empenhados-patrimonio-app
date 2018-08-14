@@ -31,16 +31,16 @@ export class FactSheetComponent implements OnInit {
       }
     );
     await this.dataService.mudaInfoCandidato(
-      this.candidato.ano_um + 4,
+      this.candidato.ano_dois,
       this.candidato.cpf
     );
     await this.dataService.mudaDadosEleicao(
-      this.candidato.ano_um,
+      this.candidato.ano_dois,
       this.candidato.unidade_eleitoral,
-      this.candidato.cargo_pleiteado_1,
+      this.candidato.cargo_pleiteado_2,
       this.candidato.cpf
     );
-    await this.dataService.mudaIdh(this.candidato.cod_unidade_eleitoral_1);
+    await this.dataService.mudaIdh(this.candidato.cod_unidade_eleitoral_2);
 
     this.dataService.infoCandidatoSelecionado.subscribe(
       data => {

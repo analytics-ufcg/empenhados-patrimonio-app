@@ -105,18 +105,14 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   }
 
   async plotPatrimonio() {
-    this.estadoAtual = this.dataService.getEstado();
-    this.ano = this.dataService.getAno();
+    this.estadoAtual = this.dataService.getEstado();        
     this.cargo = this.dataService.getCargo();
     this.situacao = this.dataService.getSituacao();
 
     await this.dataService.dadosPatrimonio.subscribe(
       data => (this.data = data)
     );
-
-    await this.dataService.dadosPatrimonio.subscribe(
-      data => (this.data = data)
-    );
+    
     this.candidatosAtuais = this.data.map(candidato => candidato.nome_urna);
 
     this.filteredOptions = this.controlNomeCandidato.valueChanges.pipe(
@@ -135,6 +131,9 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       this.apagaPlot();
       this.alertService.openSnackBar("Não temos dados para este filtro!", "OK");
     } else {
+      // atualiza ano com o valor do ano dois encontrado no primeiro candidato recuperado através do filtro
+      this.ano = this.data[0].ano_dois;
+      
       this.maiorPatrimonioEleicao1 = d3.max(
         this.data,
         (d: any) => d.patrimonio_eleicao_1
@@ -251,7 +250,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
             .attr("dy", "0.32em")
             .attr("text-anchor", "middle")
             .attr("font-weight", "bold")
-            .text("Patrimônio em " + this.ano)
+            .text("Patrimônio em " + (this.ano.valueOf() - 4))
         );
 
     this.yAxis = g =>
@@ -515,7 +514,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
     this.svg
       .select("#y-title")
-      .text("Patrimônio em " + (this.ano.valueOf() + 4));
+      .text("Patrimônio em " + this.ano);
 
     this.tip.html((d: any) => this.tooltipPatrimonio(d));
 
@@ -643,7 +642,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
     this.svg
       .select("#y-title")
-      .text("Patrimônio em " + (this.ano.valueOf() + 4));
+      .text("Patrimônio em " + (this.ano));
 
     this.tip.html((d: any) => this.tooltipPatrimonio(d));
 
@@ -847,8 +846,10 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         let maiorNomeCandidato = this.candidatosAtuais
           .map(candidato => (candidato.length + 1) / 2)
           .reduce((a, b) => Math.max(a, b));
-
-        input.style.width = maiorNomeCandidato.toString() + "em";
+        
+        const maximaLargura = 12;
+        let larguraPesquisa = Math.max(maiorNomeCandidato, maximaLargura);
+        input.style.width = larguraPesquisa.toString() + "em";
       }
     };
 
@@ -858,7 +859,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     // dividido por 2
     if (nomeCandidato) {
       if (this.candidatosAtuais.includes(nomeCandidato)) {
-        input.style.width = ((nomeCandidato.length + 1) / 2).toString() + "em";
+        input.style.width = ((nomeCandidato.length + 2) / 2).toString() + "em";
       } else {
         tamanhoMaximoCandidato(input);
       }
