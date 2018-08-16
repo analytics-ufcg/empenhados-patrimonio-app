@@ -50,7 +50,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   private maiorDiferencaPositiva: any;
   private maiorDiferencaNegativa: any;
 
-  private nomeCandidato: any;
+  public nomeCandidato: any;
   private candidatosAtuais: any;
 
   private estadoAtual: String;
@@ -60,8 +60,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   public modeOption: any;
   public logOption: any;
 
-  private controlNomeCandidato: FormControl = new FormControl();
-  private filteredOptions: Observable<string[]>;
+  public controlNomeCandidato: FormControl = new FormControl();
+  public filteredOptions: Observable<string[]>;
 
   constructor(
     private dataService: DataService,
