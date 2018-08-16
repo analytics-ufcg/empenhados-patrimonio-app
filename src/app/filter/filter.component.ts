@@ -133,7 +133,7 @@ export class FilterComponent implements OnInit {
 
     this.onChangeSituacao("ELEITO");
 
-    this.onChangeAno(2010);
+    this.onChangeAno(2014);
 
     this.onChangeEstado("qualquer estado");
 
@@ -141,7 +141,7 @@ export class FilterComponent implements OnInit {
   }
 
   async emiteEventoVisualizacao() {
-    await this.mudaDados();
+    await this.mudaDados();     
     this.visualizaClique.next();
   }
 
@@ -197,17 +197,15 @@ export class FilterComponent implements OnInit {
         console.log(err);
       }
     );
-
-
   }
 
   // Atualiza cargo atual selecionado
   onChangeCargo(novoCargo) {
     if (!this.mesmoTipoEleicao(novoCargo, this.cargoSelecionado)) {
       if (CARGOS_MUNICIPAIS.indexOf(novoCargo) === -1 && novoCargo !== this.dataService.getTodosCargos()) {
-        this.anoSelecionado = 2010;
+        this.anoSelecionado = 2014;
       } else {
-        this.anoSelecionado = 2012;
+        this.anoSelecionado = 2016;        
       }
     }
 
@@ -266,9 +264,8 @@ export class FilterComponent implements OnInit {
   }
 
 
-  onChangeAno(novoAno) {
-    this.anoSelecionado = novoAno;
-    this.dataService.mudaAno(novoAno);
+  onChangeAno(novoAno) {    
+    this.anoSelecionado = novoAno;    
 
     if (this.anoSelecionado % 4) {
       this.tipoEleicao = ELEICOES_FEDERAIS;
@@ -336,7 +333,7 @@ export class FilterComponent implements OnInit {
     this.requestService.recuperaSituacoes().subscribe(
       data => {
         this.listaSituacoes = data;
-        this.listaSituacoes.push({ 'situacao_eleicao_1': this.todasSituacoes });
+        this.listaSituacoes.push({ 'situacao_eleicao_2': this.todasSituacoes });        
       }, err => {
         console.log(err);
       }
@@ -372,9 +369,9 @@ export class FilterComponent implements OnInit {
   private atualizaFiltroAno() {
     if (this.cargoSelecionado == this.todosCargos) {
       this.listaAnos = [
-        { ano_um: 2008 },
-        { ano_um: 2010 },
-        { ano_um: 2012 }
+        { ano_dois: 2012 },
+        { ano_dois: 2014 },
+        { ano_dois: 2016 }
       ];
     } else {
       this.requestService.recuperaAnos(this.cargoSelecionado).subscribe(

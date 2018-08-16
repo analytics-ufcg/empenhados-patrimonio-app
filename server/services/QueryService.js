@@ -33,9 +33,9 @@ export class QueryService {
     let request = Object.values(req.params);
     let columns = [
       "estado",
-      "ano_um",
-      "cargo_pleiteado_1",
-      "situacao_eleicao_1",
+      "ano_dois",
+      "cargo_pleiteado_2",
+      "situacao_eleicao_2",
       "unidade_eleitoral"
     ];
 
@@ -65,7 +65,7 @@ export class QueryService {
     });
 
     query =
-      "SELECT estado, patrimonio_eleicao_1, patrimonio_eleicao_2, nome_urna, cpf, sigla_partido, cod_unidade_eleitoral_1, cod_unidade_eleitoral_2, unidade_eleitoral, cargo_pleiteado_1, cargo_pleiteado_2, ano_um, sequencial_candidato_1, sequencial_candidato_2, situacao_eleicao_1, situacao_eleicao_2  FROM patrimonio_candidatos WHERE " +
+      "SELECT estado, patrimonio_eleicao_1, patrimonio_eleicao_2, nome_urna, cpf, sigla_partido, cod_unidade_eleitoral_1, cod_unidade_eleitoral_2, unidade_eleitoral, cargo_pleiteado_1, cargo_pleiteado_2, ano_um, ano_dois, sequencial_candidato_1, sequencial_candidato_2, situacao_eleicao_1, situacao_eleicao_2  FROM patrimonio_candidatos WHERE " +
       filtros;
 
     return query;

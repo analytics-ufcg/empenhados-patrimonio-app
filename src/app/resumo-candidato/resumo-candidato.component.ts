@@ -44,13 +44,13 @@ export class ResumoCandidatoComponent implements OnInit {
       this.candidato.sequencial_candidato_1
     );
     this.urlBens2 = this.candidatoService.getListaBensURL(
-      this.candidato.ano_um + 4,
+      this.candidato.ano_dois,
       this.candidato.cod_unidade_eleitoral_2,
       this.candidato.sequencial_candidato_2
     );
 
     this.urlFoto = this.candidatoService.getFotoCandidatoURL(
-      this.candidato.ano_um + 4,
+      this.candidato.ano_dois,
       this.candidato.cod_unidade_eleitoral_2,
       this.candidato.sequencial_candidato_2
     );
