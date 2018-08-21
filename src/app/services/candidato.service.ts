@@ -9,7 +9,8 @@ export class CandidatoService {
     { ano: 2010, codigo: "14417" },
     { ano: 2012, codigo: "1699" },
     { ano: 2014, codigo: "680" },
-    { ano: 2016, codigo: "2" }
+    { ano: 2016, codigo: "2" },
+    { ano: 2018, codigo: "2022802018"}
   ];
 
   private TseUrl: String;
@@ -59,7 +60,7 @@ export class CandidatoService {
       "/" +
       sequencialCandidato +
       "/" +
-      codUnidadeEleitoral;
+      codUnidadeEleitoral;    
 
     return fotoURL;
   }
