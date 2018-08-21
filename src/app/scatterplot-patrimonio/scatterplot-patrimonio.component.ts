@@ -62,6 +62,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   public logOption: any;
   public animacaoTimer: any;
 
+  private isFirstPlot = true;
+
   public controlNomeCandidato: FormControl = new FormControl();
   public filteredOptions: Observable<string[]>;
 
@@ -136,13 +138,18 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       // atualiza ano com o valor do ano dois encontrado no primeiro candidato recuperado através do filtro
       this.ano = this.data[0].ano_dois;
       
+      // remove tooltip ao alterar os dados
       if(this.g) {
-        console.log("apagou")
         this.g.selectAll("circle").call(this.tip.hide);
-        this.initAnimacaoCandidatos = undefined;
       }
+
+      // Como a visualização está sendo desenhada mais de uma vez isso apaga a animação
       
-      
+      // if (!this.isFirstPlot) {
+      //   this.animacaoTimer.unsubscribe()
+      // }
+      // this.isFirstPlot = false;
+
       this.maiorPatrimonioEleicao1 = d3.max(
         this.data,
         (d: any) => d.patrimonio_eleicao_1
@@ -951,9 +958,5 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         }
         
       });
-  }
-
-  apagaTooltip() {
-    d3.selectAll("svg > #tooltip").remove();
   }
 }
