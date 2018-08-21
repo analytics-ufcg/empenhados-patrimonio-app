@@ -136,6 +136,13 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       // atualiza ano com o valor do ano dois encontrado no primeiro candidato recuperado através do filtro
       this.ano = this.data[0].ano_dois;
       
+      if(this.g) {
+        console.log("apagou")
+        this.g.selectAll("circle").call(this.tip.hide);
+        this.initAnimacaoCandidatos = undefined;
+      }
+      
+      
       this.maiorPatrimonioEleicao1 = d3.max(
         this.data,
         (d: any) => d.patrimonio_eleicao_1
@@ -806,6 +813,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     } else {
       this.difference();
     }
+
+    this.g.selectAll("circle").call(this.tip.hide);
   }
 
   public toTitleCase(str) {
@@ -937,8 +946,14 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         // Mostra o tooltip
         var candidatoSorteado = document.getElementById('candidato-sorteado');
         var event = new MouseEvent('mouseover');
-
-        candidatoSorteado.dispatchEvent(event);
+        if(candidatoSorteado) {
+          candidatoSorteado.dispatchEvent(event);
+        }
+        
       });
+  }
+
+  apagaTooltip() {
+    d3.selectAll("svg > #tooltip").remove();
   }
 }
