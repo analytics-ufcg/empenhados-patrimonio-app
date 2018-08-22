@@ -104,8 +104,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       this.svg.attr("height", width * 0.5);
       this.height = width * 0.5 - this.margin.bottom;
     } else {
-      this.svg.attr("height", 500);
-      this.height = 500 - this.margin.bottom;
+      this.svg.attr("height", width * 2);
+      this.height = width * 2 - this.margin.bottom;
     }
   }
 
