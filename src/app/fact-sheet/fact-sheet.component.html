@@ -40,10 +40,17 @@
     <span class="fact-text-value">{{ candidato.situacao_eleicao_1 | lowercase }}</span> para
     <span class="fact-text-value">{{ formataCargo(candidato.cargo_pleiteado_1) }}</span>.
   </p>
-  <p>
-    Concorreu em
-    <span class="fact-text-value">{{ candidato.ano_dois }}</span> a
-    <span class="fact-text-value">{{ formataCargo(candidato.cargo_pleiteado_2) }}</span> e foi
-    <span class="fact-text-value">{{ candidato.situacao_eleicao_2 | lowercase }}</span>.
-  </p>
+  <div [ngSwitch]="true">
+    <p *ngSwitchCase="candidato.situacao_eleicao_2 !== 'INDEFINIDO'">
+      Concorreu em
+      <span class="fact-text-value">{{ candidato.ano_dois }}</span> a
+      <span class="fact-text-value">{{ formataCargo(candidato.cargo_pleiteado_2) }}</span> e foi
+      <span class="fact-text-value">{{ candidato.situacao_eleicao_2 | lowercase }}</span>.
+    </p>
+    <p *ngSwitchCase="candidato.situacao_eleicao_2 === 'INDEFINIDO'">
+      Concorre em
+      <span class="fact-text-value">{{ candidato.ano_dois }}</span> a
+      <span class="fact-text-value">{{ formataCargo(candidato.cargo_pleiteado_2) }}</span>.
+    </p>
+  </div>
 </mat-card>

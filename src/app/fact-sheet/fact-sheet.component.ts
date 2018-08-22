@@ -72,9 +72,6 @@ export class FactSheetComponent implements OnInit {
     //     console.log(err);
     //   }
     // )
-    if (this.candidato.situacao_eleicao_2 === "INDEFINIDO") {
-      this.candidato.situacao_eleicao_2 = "candidato"
-    }
   }
 
   numberToReal(numero) {
