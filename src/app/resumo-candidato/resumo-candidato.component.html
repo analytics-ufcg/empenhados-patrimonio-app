@@ -1,8 +1,9 @@
 <mat-card *ngIf="isCandidatoSelecionado" class="card-resumo">
+  <img class="foto-candidato" width="100%" src={{urlFoto}}>
   <mat-card-title>{{ candidato.nome_urna }} ({{candidato.sigla_partido}})
-    <img class="foto-candidato" width="100%" src={{urlFoto}}>
   </mat-card-title>
-  <mat-card-subtitle class="resumo-subtitle">{{ formataCargo(candidato.cargo_pleiteado_2) }} - {{ candidato.unidade_eleitoral }} </mat-card-subtitle>
+  <mat-card-subtitle class="resumo-subtitle">{{ formataCargo(candidato.cargo_pleiteado_2) }} - {{ candidato.unidade_eleitoral
+    }} </mat-card-subtitle>
   <mat-divider class="resumo-divider"></mat-divider>
 
   <div class="resumo-list">
