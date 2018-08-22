@@ -294,11 +294,10 @@ export class FilterComponent implements OnInit {
     this.decideSobreVisualizacao();
   }
 
+  onChangeAno(novoAno) {
+    this.anoSelecionado = novoAno;
 
-  onChangeAno(novoAno) {    
-    this.anoSelecionado = novoAno;  
-    
-    if ( novoAno === 2018 ) {
+    if (novoAno === 2018) {
       this.situacaoSelecionada = this.todasSituacoes;
     }
 
@@ -379,17 +378,11 @@ export class FilterComponent implements OnInit {
   private async recuperaSituacoes() {
     this.requestService.recuperaSituacoes().subscribe(
       data => {
-<<<<<<< HEAD
         this.listaSituacoes = data;
         this.listaSituacoes.push({ situacao_eleicao_2: this.todasSituacoes });
+        this.listaSituacoes.splice(2, 1); // remove situação "indefinidos"
       },
       err => {
-=======
-        this.listaSituacoes = data;        
-        this.listaSituacoes.push({ 'situacao_eleicao_2': this.todasSituacoes });             
-        this.listaSituacoes.splice(2, 1); // remove situação "indefinidos"
-      }, err => {
->>>>>>> master
         console.log(err);
       }
     );
