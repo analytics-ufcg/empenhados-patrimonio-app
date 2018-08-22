@@ -53,8 +53,9 @@ const TODAS_SITUACOES = "que declararam patrimônio";
 @Injectable()
 export class DataService {
   private estadoSelecionado: String;
-  private cargoSelecionado: String;  
+  private cargoSelecionado: String;
   private situacao: String;
+  private municipioSelecionado: String;
 
   private _dadosPatrimonio = new BehaviorSubject<Patrimonio[]>(undefined);
   public dadosPatrimonio = this._dadosPatrimonio.asObservable();
@@ -126,7 +127,7 @@ export class DataService {
         .subscribe(
           data => {
             dadosBD = data;
-            this._dadosPatrimonio.next(this.parseData(dadosBD));                        
+            this._dadosPatrimonio.next(this.parseData(dadosBD));
             return resolve("Dados alterados");
           },
           err => {
@@ -218,6 +219,10 @@ export class DataService {
     );
   }
 
+  mudamunicipio(municipio: String) {
+    this.municipioSelecionado = municipio;
+  }
+
   private parseData(data: any[]): Patrimonio[] {
     return data.map(
       v =>
@@ -296,6 +301,10 @@ export class DataService {
 
   public getEstado() {
     return this.estadoSelecionado;
+  }
+
+  public getMunicipio() {
+    return this.municipioSelecionado;
   }
 
   public getSituacao() {
