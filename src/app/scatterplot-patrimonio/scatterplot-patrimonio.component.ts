@@ -136,8 +136,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       // atualiza ano com o valor do ano dois encontrado no primeiro candidato recuperado através do filtro
       this.ano = this.data[0].ano_dois;
       
-      if(this.g) {
-        console.log("apagou")
+      if(this.g) {        
         this.g.selectAll("circle").call(this.tip.hide);
         this.initAnimacaoCandidatos = undefined;
       }
