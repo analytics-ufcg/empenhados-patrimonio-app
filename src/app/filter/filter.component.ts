@@ -294,8 +294,13 @@ export class FilterComponent implements OnInit {
     this.decideSobreVisualizacao();
   }
 
-  onChangeAno(novoAno) {
-    this.anoSelecionado = novoAno;
+
+  onChangeAno(novoAno) {    
+    this.anoSelecionado = novoAno;  
+    
+    if ( novoAno === 2018 ) {
+      this.situacaoSelecionada = this.todasSituacoes;
+    }
 
     if (this.anoSelecionado % 4) {
       this.tipoEleicao = ELEICOES_FEDERAIS;
@@ -374,10 +379,17 @@ export class FilterComponent implements OnInit {
   private async recuperaSituacoes() {
     this.requestService.recuperaSituacoes().subscribe(
       data => {
+<<<<<<< HEAD
         this.listaSituacoes = data;
         this.listaSituacoes.push({ situacao_eleicao_2: this.todasSituacoes });
       },
       err => {
+=======
+        this.listaSituacoes = data;        
+        this.listaSituacoes.push({ 'situacao_eleicao_2': this.todasSituacoes });             
+        this.listaSituacoes.splice(2, 1); // remove situação "indefinidos"
+      }, err => {
+>>>>>>> master
         console.log(err);
       }
     );
@@ -414,7 +426,8 @@ export class FilterComponent implements OnInit {
       this.listaAnos = [
         { ano_dois: 2012 },
         { ano_dois: 2014 },
-        { ano_dois: 2016 }
+        { ano_dois: 2016 },
+        { ano_dois: 2018 }
       ];
     } else {
       this.requestService.recuperaAnos(this.cargoSelecionado).subscribe(
