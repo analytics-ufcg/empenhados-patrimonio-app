@@ -19,7 +19,6 @@ export interface PeriodicElement {
 export class Top10Component {
   public displayedColumns: string[] = ["nome", "unid-eleitoral", "dif-abs"];
   public dataSource: any;
-
   public data;
 
   @ViewChild(MatSort)

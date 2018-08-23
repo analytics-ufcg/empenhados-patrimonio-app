@@ -1,4 +1,4 @@
-<div class="example-container">
+<mat-card>
   <mat-table #table [dataSource]="dataSource" matSort>
 
     <ng-container matColumnDef="nome">
@@ -11,27 +11,10 @@
       <mat-cell *matCellDef="let element"> {{element.unidade_eleitoral}} </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="patrimonio_eleicao_1">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Patrimônio em ano1 </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{utilsService.formataReais(element.patrimonio_eleicao_1) }} </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="patrimonio_eleicao_2">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Patrimônio em ano2 </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{utilsService.formataReais(element.patrimonio_eleicao_2)}}
-      </mat-cell>
-    </ng-container>
-
     <ng-container matColumnDef="dif-abs">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Dif. Abs </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{ utilsService.formataReais((element.patrimonio_eleicao_2 - element.patrimonio_eleicao_1))
-        }}
-      </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="dif-rel">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Dif. Rel </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{ calculaRazao(element.patrimonio_eleicao_1 , element.patrimonio_eleicao_2) }}
+      <mat-cell *matCellDef="let element">
+        {{ utilsService.formataReais((element.patrimonio_eleicao_2 - element.patrimonio_eleicao_1)) }}
       </mat-cell>
     </ng-container>
 
@@ -40,4 +23,4 @@
   </mat-table>
   <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true">
   </mat-paginator>
-</div>
+</mat-card>

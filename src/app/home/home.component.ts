@@ -21,9 +21,8 @@ export class HomeComponent implements OnInit {
   @ViewChild(Top10Component)
   private top10: Top10Component;
 
-  panelOpenState: boolean = false;
-
   novaVisualizacao: boolean;
+  panelOpenState: boolean = true;
 
   constructor() {}
 
@@ -34,11 +33,15 @@ export class HomeComponent implements OnInit {
     this.novaVisualizacao = false;
 
     this.top10.ranking();
+
+    this.panelOpenState = true;
   }
 
   onRecebeCliquePlot($event) {
     this.novaVisualizacao = true;
     this.resumoCandidato.texto();
     this.factSheet.texto();
+
+    this.panelOpenState = false;
   }
 }
