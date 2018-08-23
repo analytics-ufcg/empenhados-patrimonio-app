@@ -56,12 +56,23 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   private candidatosAtuais: any;
 
   private estadoAtual: String;
+  private municipioAtual: String;
   public ano: Number;
   private situacao: String;
   public cargo: String;
   public modeOption: any;
   public logOption: any;
   public animacaoTimer: any;
+
+  private filtroAnterior = {
+    estado: undefined,
+    ano: undefined,
+    situacao: undefined,
+    cargo: undefined,
+    municipio: undefined
+  };
+
+  private isFirstPlot = true;
 
   public controlNomeCandidato: FormControl = new FormControl();
   public filteredOptions: Observable<string[]>;
@@ -116,6 +127,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
   async plotPatrimonio() {
     this.estadoAtual = this.dataService.getEstado();
+    this.municipioAtual = this.dataService.getMunicipio();
     this.cargo = this.dataService.getCargo();
     this.situacao = this.dataService.getSituacao();
 
@@ -144,10 +156,35 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       // atualiza ano com o valor do ano dois encontrado no primeiro candidato recuperado através do filtro
       this.ano = this.data[0].ano_dois;
 
-      if (this.g) {
-        this.g.selectAll("circle").call(this.tip.hide);
-        this.initAnimacaoCandidatos = undefined;
+      // verifica se o filtro foi modificado desde a última vez que a função foi chamada
+      if (
+        this.estadoAtual === this.filtroAnterior.estado &&
+        this.cargo === this.filtroAnterior.cargo &&
+        this.situacao === this.filtroAnterior.situacao &&
+        this.ano === this.filtroAnterior.ano &&
+        this.municipioAtual == this.filtroAnterior.municipio
+      ) {
+        return;
       }
+      this.filtroAnterior = {
+        estado: this.estadoAtual,
+        cargo: this.cargo,
+        situacao: this.situacao,
+        ano: this.ano,
+        municipio: this.municipioAtual
+      };
+
+      if (this.g) {
+        // remove tooltip ao alterar os dados
+        this.g.selectAll("circle").call(this.tip.hide);
+      }
+
+      // Como a visualização está sendo desenhada mais de uma vez isso apaga a animação
+
+      if (!this.isFirstPlot) {
+        this.animacaoTimer.unsubscribe();
+      }
+      this.isFirstPlot = false;
 
       this.maiorPatrimonioEleicao1 = d3.max(
         this.data,
