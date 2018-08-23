@@ -42,7 +42,6 @@
   font-size: 0.8em;
   margin-bottom: 2%;
   -webkit-margin-before: -1em;
-  display: inline-block;
 }
 
 .slide-toogle {
@@ -73,7 +72,7 @@
 .plot-container .mat-form-field-infix {
   width: auto;
   padding-bottom: 0;
-  padding-top: 2%;
+  padding-top: 7px;
 }
 
 .plot-container .mat-select-value {
@@ -97,4 +96,8 @@
   .plot-container {
     padding: 0%;
   }
+}
+
+.filter-name {
+  margin-left: 2%;    
 }

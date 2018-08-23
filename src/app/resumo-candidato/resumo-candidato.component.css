@@ -1,89 +1,107 @@
-mat-card-title {    
-    font-size: 1.3em;
-    font-weight: bolder;
+mat-card-title {
+  font-size: 1.3em;
+  font-weight: bolder;
 }
 
 .resumo-subtitle {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .resumo-divider {
-    margin-top: 16px;
-    margin-bottom: 16px;
+  margin-top: 16px;
+  margin-bottom: 16px;
 }
 
 .resumo-item-header {
-    -webkit-margin-after: 0;
-    -webkit-margin-before: 15px;
-    font-weight: bold;
+  -webkit-margin-after: 0;
+  -webkit-margin-before: 15px;
+  font-weight: bold;
 }
 
 .resumo-text-value {
-    color: #B68115;
-    text-align: right;
-    font-weight: bold;    
+  color: #b68115;
+  text-align: right;
+  font-weight: bold;
 }
 
-.resumo-text-patrimonio{    
-    cursor: pointer !important;
+.resumo-text-patrimonio {
+  cursor: pointer !important;
 }
 
-.resumo-item-title {    
-    flex-wrap: wrap !important;
-    line-height: 1.5;        
-    margin-bottom: 10px;
+.resumo-item-title {
+  flex-wrap: wrap !important;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.link-tse {
+  text-decoration: underline;
 }
 
 .material-icons.mat-big {
-    font-size: 48px !important;
-    width: 50px !important;
-    height: 50px !important;
+  font-size: 48px !important;
+  width: 50px !important;
+  height: 50px !important;
+}
+
+.mat-big-money {
+  color: #b68115 !important;
 }
 
 .resumo-icon-patrimonio {
-    display: inline-block;
-    vertical-align: middle;
-    text-align: center;
-    position:relative;
-    top: calc(20%);
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+  position: relative;
+  top: calc(20%);
 }
 
 .resumo-icon-ganho {
-    display: inline-block;
-    vertical-align: middle;
-    text-align: center;
-    position:relative;
-    top: calc(10%);
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+  position: relative;
+  top: calc(10%);
 }
 
 .resumo-container-icon {
-    display: block;    
+  display: block;
 }
 
-.mat-icon-button{
-    width: 24px;
-    height: 24px;              
+.mat-icon-button {
+  width: 24px;
+  height: 24px;
 }
 
 .material-icons.mat16 {
-    font-size: 16px !important;
-    width: 24px !important;
-    height: 24px !important;        
-    vertical-align: baseline !important;
+  font-size: 16px !important;
+  width: 24px !important;
+  height: 24px !important;
+  vertical-align: baseline !important;
 }
 
 .item-resumo {
-    display: block;        
-    padding-left: 16px;
+  display: block;
+  padding-left: 16px;
 }
 
 .resumo-list ul {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
 }
 
 .resumo-list ul li {
-    list-style-type: none;
-    display: flex;
-    margin-top: 36px;
+  list-style-type: none;
+  display: flex;
+  margin-top: 36px;
+}
+
+.foto-candidato {
+  float: right;
+  width: 20%;
+  height: auto;
+  position: relative;
+  margin-left: 5%;
+  z-index: 100;
+  border: #b68115 1px solid;
 }

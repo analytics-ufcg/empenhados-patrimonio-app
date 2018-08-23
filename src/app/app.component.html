@@ -1,15 +1,12 @@
 <mat-toolbar id="navbar">
   <div class="navbar-grid">
     <div class="title">
-      <span id="title-text"> {{ title }} </span>
+      <span class="title-text"> {{ title }} </span>
       <div id="subtitle">Quem ganhou e quem perdeu patrimônio entre os políticos?</div>
     </div>
     <div class="buttons">
       <div>
         <a mat-button class="button" (click)='openDialog()'>Sobre</a>
-      </div>
-      <div>
-        <a mat-button class="button-git"href="https://github.com/analytics-ufcg/empenhados-patrimonio" target="_blank">GitHub</a>
       </div>
     </div>
   </div>
@@ -17,3 +14,28 @@
 <div class="main-container">
   <app-home></app-home>
 </div>
+
+
+<footer id="site-footer">
+  <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%" fxLayoutAlign="center">
+    <div fxFlex="75%" class="footer-content">
+      <span class="title-text" style="font-size: 24px" routerLink="/"> {{ title }}</span>
+      <br>
+      <span id="info-text">
+        <br/> Núcleo de Gestão do Conhecimento do GAECO/MPPB
+        <br> Telefone: (83) 2107-6094
+        <br> Email: ngcsi-mppb@googlegroups.com
+      </span>
+    </div>
+    <div fxFlex="25%" class="footer-content">
+      <div class="icons">
+        <a class="icon-link" mat-icon-button href="https://pt-br.facebook.com/analytics.ufcg/" target="_blank">
+          <mat-icon class="footer-icon" svgIcon="facebook"></mat-icon>
+        </a>
+        <a class="icon-link" mat-icon-button href="https://github.com/analytics-ufcg/empenhados-patrimonio-app" target="_blank">
+          <mat-icon class="footer-icon" svgIcon="github"></mat-icon>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>

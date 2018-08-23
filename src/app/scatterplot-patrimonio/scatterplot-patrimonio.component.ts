@@ -5,13 +5,17 @@ import {
   EventEmitter,
   ViewEncapsulation
 } from "@angular/core";
+import { MatDialog } from "@angular/material";
 import * as d3 from "d3";
 import d3Tip from "d3-tip";
 import { DataService } from "../services/data.service";
 import { AlertService } from "../services/alert.service";
+import { FormControl } from "@angular/forms";
 import { UtilsService } from "../services/utils.service";
 import { Observable } from "rxjs/Observable";
-import { MatDialog } from "@angular/material";
+import { startWith } from "rxjs/operators/startWith";
+import { map } from "rxjs/operators/map";
+import "rxjs/add/observable/interval";
 
 import { ReadmeComponent } from "../readme/readme.component";
 
@@ -22,7 +26,8 @@ import { ReadmeComponent } from "../readme/readme.component";
   styleUrls: ["./scatterplot-patrimonio.component.css"]
 })
 export class ScatterplotPatrimonioComponent implements OnInit {
-  @Output() selecaoCandidato = new EventEmitter<any>();
+  @Output()
+  selecaoCandidato = new EventEmitter<any>();
 
   private height: any;
   private width: any;
@@ -50,12 +55,30 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   private maiorDiferencaPositiva: any;
   private maiorDiferencaNegativa: any;
 
+  public nomeCandidato: any;
+  private candidatosAtuais: any;
+
   private estadoAtual: String;
+  private municipioAtual: String;
   public ano: Number;
   private situacao: String;
   public cargo: String;
   public modeOption: any;
   public logOption: any;
+  public animacaoTimer: any;
+
+  private filtroAnterior = {
+    estado: undefined,
+    ano: undefined,
+    situacao: undefined,
+    cargo: undefined,
+    municipio: undefined
+  };
+
+  private isFirstPlot = true;
+
+  public controlNomeCandidato: FormControl = new FormControl();
+  public filteredOptions: Observable<string[]>;
 
   constructor(
     private dataService: DataService,
@@ -77,21 +100,28 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.margin.left = this.margin.right;
 
     this.width = parseInt(this.svg.style("width")) - this.margin.right;
-    this.height = this.width * 0.5 - this.margin.bottom;
 
-    this.svg.attr("height", this.width * 0.5);
+    this.defineHeight(this.width);
 
     window.addEventListener("resize", () => {
       this.width = parseInt(this.svg.style("width"));
-      this.height = this.width * 0.5 - this.margin.bottom;
+      this.defineHeight(this.width);
+      this.g.selectAll("circle").call(this.tip.hide);
 
-      this.svg.attr("height", this.width * 0.5);
       if (this.data) {
         this.plotPatrimonio();
       }
     });
+  }
 
-    console.log(this.width, this.height);
+  defineHeight(width: number) {
+    if (width > 500) {
+      this.svg.attr("height", width * 0.5);
+      this.height = width * 0.5 - this.margin.bottom;
+    } else {
+      this.svg.attr("height", width * 2);
+      this.height = width * 2 - this.margin.bottom;
+    }
   }
 
   async emiteSelecaoCandidato(d: any) {
@@ -99,18 +129,67 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.selecaoCandidato.next();
   }
 
-  plotPatrimonio() {
+  async plotPatrimonio() {
     this.estadoAtual = this.dataService.getEstado();
-    this.ano = this.dataService.getAno();
+    this.municipioAtual = this.dataService.getMunicipio();
     this.cargo = this.dataService.getCargo();
+    this.situacao = this.dataService.getSituacao();
 
-    this.dataService.dadosPatrimonio.subscribe(data => (this.data = data));
+    await this.dataService.dadosPatrimonio.subscribe(
+      data => (this.data = data)
+    );
+
+    this.candidatosAtuais = this.data.map(candidato => candidato.nome_urna);
+
+    this.filteredOptions = this.controlNomeCandidato.valueChanges.pipe(
+      startWith(""),
+      map(val => this.filter(val))
+    );
+
+    if (this.data.length >= 1000) {
+      this.transitionTime = { short: 0, medium: 0, long: 0 };
+    } else {
+      this.transitionTime = { short: 1000, medium: 1500, long: 2000 };
+    }
 
     if (typeof this.data !== "undefined" && this.data.length === 0) {
       console.log("Não temos dados para este filtro!");
       this.apagaPlot();
       this.alertService.openSnackBar("Não temos dados para este filtro!", "OK");
     } else {
+      // atualiza ano com o valor do ano dois encontrado no primeiro candidato recuperado através do filtro
+      this.ano = this.data[0].ano_dois;
+
+      // verifica se o filtro foi modificado desde a última vez que a função foi chamada
+      if (
+        this.estadoAtual === this.filtroAnterior.estado &&
+        this.cargo === this.filtroAnterior.cargo &&
+        this.situacao === this.filtroAnterior.situacao &&
+        this.ano === this.filtroAnterior.ano &&
+        this.municipioAtual == this.filtroAnterior.municipio
+      ) {
+        return;
+      }
+      this.filtroAnterior = {
+        estado: this.estadoAtual,
+        cargo: this.cargo,
+        situacao: this.situacao,
+        ano: this.ano,
+        municipio: this.municipioAtual
+      };
+
+      if (this.g) {
+        // remove tooltip ao alterar os dados
+        this.g.selectAll("circle").call(this.tip.hide);
+      }
+
+      // Como a visualização está sendo desenhada mais de uma vez isso apaga a animação
+
+      if (!this.isFirstPlot) {
+        this.animacaoTimer.unsubscribe();
+      }
+      this.isFirstPlot = false;
+
       this.maiorPatrimonioEleicao1 = d3.max(
         this.data,
         (d: any) => d.patrimonio_eleicao_1
@@ -164,6 +243,10 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.initAxes();
     this.initScatterplot();
     this.decideVisualizacao();
+
+    if (this.initAnimacaoCandidatos) {
+      this.initAnimacaoCandidatos();
+    }
   }
 
   private initX() {
@@ -227,7 +310,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
             .attr("dy", "0.32em")
             .attr("text-anchor", "middle")
             .attr("font-weight", "bold")
-            .text("Patrimônio em " + this.ano)
+            .text("Patrimônio em " + (this.ano.valueOf() - 4))
         );
 
     this.yAxis = g =>
@@ -358,15 +441,24 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   }
 
   private standardizeCircle(d, circle) {
+    // padroniza candidato
     if (!d.isclicked) {
       d3.select(circle)
         .attr("r", this.circleRadius)
         .style("stroke", "none");
     }
+
+    // padroniza candidato sorteado na animação inicial
+    d3.select("#candidato-sorteado")
+      .attr("r", this.circleRadius)
+      .style("stroke", "none");
   }
 
   private onClick(): (d, i, n) => void {
     return (d, i, n) => {
+      this.animacaoTimer.unsubscribe();
+
+      this.nomeCandidato = d.nome_urna;
       if (this.clickedCircle && this.clickedCircle.d !== d) {
         this.clickedCircle.d.isclicked = false;
         let previousCircle = this.clickedCircle.n[this.clickedCircle.i];
@@ -376,7 +468,6 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         d.isclicked = true;
         this.clickedCircle = { d: d, i: i, n: n };
         this.highlightCircle(n[i]);
-
         this.emiteSelecaoCandidato(d);
       }
     };
@@ -489,9 +580,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
             : this.y(d.patrimonio_eleicao_1)
       );
 
-    this.svg
-      .select("#y-title")
-      .text("Patrimônio em " + (this.ano.valueOf() + 4));
+    this.svg.select("#y-title").text("Patrimônio em " + this.ano);
 
     this.tip.html((d: any) => this.tooltipPatrimonio(d));
 
@@ -617,9 +706,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       .attr("x1", (d: any) => this.x(Math.log10(d.patrimonio_eleicao_1)))
       .attr("x2", (d: any) => this.x(Math.log10(d.patrimonio_eleicao_1)));
 
-    this.svg
-      .select("#y-title")
-      .text("Patrimônio em " + (this.ano.valueOf() + 4));
+    this.svg.select("#y-title").text("Patrimônio em " + this.ano);
 
     this.tip.html((d: any) => this.tooltipPatrimonio(d));
 
@@ -652,6 +739,26 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   }
 
   private tooltipDiferenca(d: any) {
+    let diferenca = d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1;
+    let text;
+    if (diferenca > 0) {
+      text = "Cresceu ";
+    } else if (diferenca < 0) {
+      text = "Diminuiu ";
+    } else {
+      return (
+        "<strong>" +
+        d.nome_urna +
+        "</strong><br><span>" +
+        d.unidade_eleitoral +
+        "</span>" +
+        "<br>" +
+        "<span>" +
+        "Permaneceu o mesmo" +
+        "</span>"
+      );
+    }
+
     return (
       "<strong>" +
       d.nome_urna +
@@ -660,9 +767,9 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       "</span>" +
       "<br>" +
       "<span>" +
-      "Diferença: " +
-      this.utilsService.formataReais(
-        d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1
+      text +
+      this.utilsService.abreviaPatrimonio(
+        this.utilsService.formataReais(Math.abs(diferenca))
       ) +
       "</span>"
     );
@@ -735,6 +842,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   }
 
   private decideVisualizacao() {
+    this.nomeCandidato = "";
+
     if (this.logOption === "log" && this.modeOption === "comparativo") {
       this.patrimonioLog();
     } else if (this.logOption === "log" && this.modeOption === "variacao") {
@@ -747,6 +856,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     } else {
       this.difference();
     }
+
+    this.g.selectAll("circle").call(this.tip.hide);
   }
 
   public toTitleCase(str) {
@@ -796,5 +907,110 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log("The dialog was closed");
     });
+  }
+  // filtro para a pesquisa por candidato
+  filter(val: string): string[] {
+    return this.candidatosAtuais
+      .filter(cand => cand.toLowerCase().indexOf(val.toLowerCase()) >= 0)
+      .sort();
+  }
+
+  onChangeNomeCandidato(nomeCandidato) {
+    // Escolhe o maior nome de candidato entre a lista dos candidatos atuais e
+    let tamanhoMaximoCandidato = input => {
+      if (this.candidatosAtuais) {
+        let maiorNomeCandidato = this.candidatosAtuais
+          .map(candidato => (candidato.length + 1) / 2)
+          .reduce((a, b) => Math.max(a, b));
+
+        const maximaLargura = 12;
+        let larguraPesquisa = Math.max(maiorNomeCandidato, maximaLargura);
+        input.style.width = larguraPesquisa.toString() + "em";
+      }
+    };
+
+    let input = document.getElementById("input-candidato");
+
+    // Na unidade 'em', a largura do texto é representada pelo número de caracteres
+    // dividido por 2
+    if (nomeCandidato) {
+      if (this.candidatosAtuais.includes(nomeCandidato)) {
+        input.style.width = ((nomeCandidato.length + 2) / 2).toString() + "em";
+      } else {
+        tamanhoMaximoCandidato(input);
+      }
+    } else {
+      tamanhoMaximoCandidato(input);
+    }
+
+    if (
+      this.candidatosAtuais &&
+      this.candidatosAtuais.includes(nomeCandidato)
+    ) {
+      let pontos = this.svg.selectAll("circle")._groups[0];
+
+      for (let ponto of pontos) {
+        let candidato: any;
+        candidato = d3.select(ponto);
+        let dadosCandidato = candidato.datum();
+
+        if (dadosCandidato.nome_urna === nomeCandidato) {
+          let circuloCandidato = candidato._groups[0][0];
+          let click = new MouseEvent("click");
+          circuloCandidato.dispatchEvent(click);
+        }
+      }
+    }
+  }
+
+  initAnimacaoCandidatos() {
+    this.initAnimacaoCandidatos = undefined;
+    let pontos = this.svg.selectAll("circle")._groups[0];
+    let pontoAnterior: any;
+
+    this.animacaoTimer = Observable.interval(2500).subscribe(val => {
+      let novoCandidatoIndex = Math.floor(Math.random() * pontos.length);
+      let candidatoPonto = pontos[novoCandidatoIndex];
+
+      let candidato: any;
+      candidato = d3.select(candidatoPonto);
+      let dadosCandidato = candidato.datum();
+
+      if (pontoAnterior) {
+        // padroniza tamanho do ponto anterior selecionado
+        this.g
+          .selectAll("circle")
+          .filter(function(d: any) {
+            return d.cpf === pontoAnterior.cpf;
+          })
+          .attr("r", this.circleRadius)
+          .attr("id", "candidato")
+          .style("stroke", "none");
+      }
+      pontoAnterior = dadosCandidato;
+
+      // destaca ponto da animação
+      this.g
+        .selectAll("circle")
+        .filter(function(d: any) {
+          return d.cpf === dadosCandidato.cpf;
+        })
+        .attr("r", this.circleRadius * 1.8)
+        .attr("id", "candidato-sorteado")
+        .style("stroke", "#230a4f")
+        .style("stroke-width", 13)
+        .style("cursor", "pointer");
+
+      // Mostra o tooltip
+      var candidatoSorteado = document.getElementById("candidato-sorteado");
+      var event = new MouseEvent("mouseover");
+      if (candidatoSorteado) {
+        candidatoSorteado.dispatchEvent(event);
+      }
+    });
+  }
+
+  apagaTooltip() {
+    d3.selectAll("svg > #tooltip").remove();
   }
 }

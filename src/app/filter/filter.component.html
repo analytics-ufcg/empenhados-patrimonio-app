@@ -12,8 +12,8 @@
       <strong class="text-filter-comma">, </strong>
       <mat-form-field class="filter" floatLabel="never" color="accent">
         <mat-select placeholder="situação" [ngModel]="situacaoSelecionada" (ngModelChange)="onChangeSituacao($event)">
-          <mat-option *ngFor="let situacao of listaSituacoes" [value]="situacao.situacao_eleicao_1">
-            {{ situacao.situacao_eleicao_1.toLowerCase() }}s
+          <mat-option *ngFor="let situacao of listaSituacoes" [value]="situacao.situacao_eleicao_2">
+            {{ situacao.situacao_eleicao_2.toLowerCase() }}s
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -21,15 +21,15 @@
       <strong class="text-filter">em</strong>
       <mat-form-field class="filter" floatLabel="never" color="accent">
         <mat-select placeholder="ano" [ngModel]="anoSelecionado" (ngModelChange)="onChangeAno($event)">
-          <mat-option *ngFor="let ano of listaAnos" [value]="ano.ano_um">
-            {{ ano.ano_um }}
+          <mat-option *ngFor="let ano of listaAnos" [value]="ano.ano_dois">
+            {{ ano.ano_dois }}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
 
-      <strong class="text-filter" *ngIf="!isPresidente"> {{ preposicao_estado }}</strong>
-      <mat-form-field class="filter" *ngIf="!isPresidente" floatLabel="never" color="accent">
+      <strong class="text-filter" *ngIf="!isExecutivo"> {{ preposicao_estado }}</strong>
+      <mat-form-field class="filter" *ngIf="!isExecutivo" floatLabel="never" color="accent">
         <mat-select placeholder="estado" [ngModel]="estadoSelecionado" (ngModelChange)="onChangeEstado($event)">
           <mat-option *ngFor="let estado of listaEstados" [value]="estado.estado">
             {{ estado.estado }}
@@ -47,7 +47,7 @@
         </mat-autocomplete>
       </mat-form-field>
 
-      <strong *ngIf="anoSelecionado" class="text-filter">que em {{ anoSelecionado + 4 }} também declararam patrimônio.</strong>
+      <strong *ngIf="anoSelecionado" class="text-filter">que em {{ anoSelecionado - 4 }} também declararam patrimônio.</strong>
     </div>
   </mat-card>
 </div>

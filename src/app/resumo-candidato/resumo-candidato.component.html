@@ -1,6 +1,9 @@
 <mat-card *ngIf="isCandidatoSelecionado" class="card-resumo">
-  <mat-card-title>{{ candidato.nome_urna }} ({{candidato.sigla_partido}})</mat-card-title>
-  <mat-card-subtitle class="resumo-subtitle">{{ formataCargo(candidato.cargo_pleiteado_1) }} - {{ candidato.unidade_eleitoral }} </mat-card-subtitle>
+  <img class="foto-candidato" width="100%" src={{urlFoto}}>
+  <mat-card-title>{{ candidato.nome_urna }} ({{candidato.sigla_partido}})
+  </mat-card-title>
+  <mat-card-subtitle class="resumo-subtitle">{{ formataCargo(candidato.cargo_pleiteado_2) }} - {{ candidato.unidade_eleitoral
+    }} </mat-card-subtitle>
   <mat-divider class="resumo-divider"></mat-divider>
 
   <div class="resumo-list">
@@ -8,7 +11,7 @@
       <li>
         <div class="resumo-container-icon">
           <a class="resumo-icon-patrimonio">
-            <mat-icon class="mat-big" mat-list-icon>attach_money</mat-icon>
+            <mat-icon class="mat-big mat-big-money" mat-list-icon>attach_money</mat-icon>
           </a>
         </div>
         <div class="item-resumo">
@@ -17,15 +20,15 @@
           <a class="resumo-text-value resumo-text-patrimonio" matTooltip="{{numberToReal(candidato.patrimonio_eleicao_1)}}">
             {{ utilsService.abreviaPatrimonio(numberToReal(candidato.patrimonio_eleicao_1)) }}
           </a>
-          <a mat-icon-button href="{{urlBens1}}" target="_blank">
-            <mat-icon class="mat16" mat-list-icon style="color: #B68115">open_in_new</mat-icon>
+          <a class="link-tse" mat-button href="{{urlBens1}}" target="_blank">
+            (Ver detalhes)
           </a>
-          <br> {{ candidato.ano_um + 4 }}:
+          <br> {{ candidato.ano_dois }}:
           <a class="resumo-text-value resumo-text-patrimonio" matTooltip="{{numberToReal(candidato.patrimonio_eleicao_2)}}">
             {{ utilsService.abreviaPatrimonio(numberToReal(candidato.patrimonio_eleicao_2)) }}
           </a>
-          <a mat-icon-button href="{{urlBens2}}" target="_blank">
-            <mat-icon class="mat16" mat-list-icon style="color: #B68115">open_in_new</mat-icon>
+          <a class="link-tse" mat-button href="{{urlBens2}}" target="_blank">
+            (Ver detalhes)
           </a>
         </div>
       </li>
@@ -44,7 +47,7 @@
         <div class="item-resumo">
           <span class="resumo-item-title">Ganho</span>
           <br>
-          <span>O patrimônio em {{ candidato.ano_um + 4 }}
+          <span>O patrimônio em {{ candidato.ano_dois }}
             <a class="resumo-text-value">{{ situacaoCrescimento }} </a> {{ fraseCrescimento }} {{candidato.ano_um }}
           </span>
         </div>
