@@ -96,21 +96,28 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.margin.left = this.margin.right;
 
     this.width = parseInt(this.svg.style("width")) - this.margin.right;
-    this.height = this.width * 0.5 - this.margin.bottom;
 
-    this.svg.attr("height", this.width * 0.5);
+    this.defineHeight(this.width);
 
     window.addEventListener("resize", () => {
       this.width = parseInt(this.svg.style("width"));
-      this.height = this.width * 0.5 - this.margin.bottom;
-
+      this.defineHeight(this.width);
       this.g.selectAll("circle").call(this.tip.hide);
 
-      this.svg.attr("height", this.width * 0.5);
       if (this.data) {
         this.plotPatrimonio();
       }
     });
+  }
+
+  defineHeight(width: number) {
+    if (width > 500) {
+      this.svg.attr("height", width * 0.5);
+      this.height = width * 0.5 - this.margin.bottom;
+    } else {
+      this.svg.attr("height", width * 2);
+      this.height = width * 2 - this.margin.bottom;
+    }
   }
 
   async emiteSelecaoCandidato(d: any) {
@@ -987,5 +994,9 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         candidatoSorteado.dispatchEvent(event);
       }
     });
+  }
+
+  apagaTooltip() {
+    d3.selectAll("svg > #tooltip").remove();
   }
 }
