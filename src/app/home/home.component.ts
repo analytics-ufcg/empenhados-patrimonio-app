@@ -21,6 +21,8 @@ export class HomeComponent implements OnInit {
   @ViewChild(Top10Component)
   private top10: Top10Component;
 
+  panelOpenState: boolean = false;
+
   novaVisualizacao: boolean;
 
   constructor() {}

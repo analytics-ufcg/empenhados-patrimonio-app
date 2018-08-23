@@ -7,12 +7,28 @@
       </div>
     </div>
     <div fxFlex="30%">
-      <app-resumo-candidato [hidden]="!novaVisualizacao"></app-resumo-candidato>
-      <app-fact-sheet [hidden]="!novaVisualizacao"></app-fact-sheet>
+      <mat-accordion>
+
+        <mat-expansion-panel (opened)="panelOpenState = true">
+          <mat-expansion-panel-header>
+            Top 10
+          </mat-expansion-panel-header>
+          <app-top-10></app-top-10>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            Informações do candidato
+          </mat-expansion-panel-header>
+          <app-resumo-candidato [hidden]="!novaVisualizacao"></app-resumo-candidato>
+          <app-fact-sheet [hidden]="!novaVisualizacao"></app-fact-sheet>
+        </mat-expansion-panel>
+
+      </mat-accordion>
     </div>
   </div>
 
-  <app-top-10></app-top-10>
+
 
   <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%" fxLayoutAlign="center">
     <div fxFlex="100%">

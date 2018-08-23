@@ -28,7 +28,9 @@ import {
   MatDialogModule,
   MatTooltipModule,
   MatTableModule,
-  MatSortModule
+  MatSortModule,
+  MatPaginatorModule,
+  MatExpansionModule
 } from "@angular/material";
 
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -79,7 +81,9 @@ import { Top10Component } from "./top-10/top-10.component";
     HttpClientModule,
     MatDialogModule,
     MatTableModule,
-    MatSortModule
+    MatSortModule,
+    MatPaginatorModule,
+    MatExpansionModule
   ],
   providers: [
     HttpClientModule,
