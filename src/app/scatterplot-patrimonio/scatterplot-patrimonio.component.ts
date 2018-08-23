@@ -14,7 +14,7 @@ import { UtilsService } from "../services/utils.service";
 import { Observable } from "rxjs/Observable";
 import { startWith } from "rxjs/operators/startWith";
 import { map } from "rxjs/operators/map";
-import 'rxjs/add/observable/interval';
+import "rxjs/add/observable/interval";
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -23,7 +23,8 @@ import 'rxjs/add/observable/interval';
   styleUrls: ["./scatterplot-patrimonio.component.css"]
 })
 export class ScatterplotPatrimonioComponent implements OnInit {
-  @Output() selecaoCandidato = new EventEmitter<any>();
+  @Output()
+  selecaoCandidato = new EventEmitter<any>();
 
   private height: any;
   private width: any;
@@ -107,14 +108,14 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   }
 
   async plotPatrimonio() {
-    this.estadoAtual = this.dataService.getEstado();        
+    this.estadoAtual = this.dataService.getEstado();
     this.cargo = this.dataService.getCargo();
     this.situacao = this.dataService.getSituacao();
 
     await this.dataService.dadosPatrimonio.subscribe(
       data => (this.data = data)
     );
-    
+
     this.candidatosAtuais = this.data.map(candidato => candidato.nome_urna);
 
     this.filteredOptions = this.controlNomeCandidato.valueChanges.pipe(
@@ -135,13 +136,12 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     } else {
       // atualiza ano com o valor do ano dois encontrado no primeiro candidato recuperado através do filtro
       this.ano = this.data[0].ano_dois;
-      
-      if(this.g) {        
+
+      if (this.g) {
         this.g.selectAll("circle").call(this.tip.hide);
         this.initAnimacaoCandidatos = undefined;
       }
-      
-      
+
       this.maiorPatrimonioEleicao1 = d3.max(
         this.data,
         (d: any) => d.patrimonio_eleicao_1
@@ -244,8 +244,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
             .axisBottom(this.x)
             .ticks(
               Math.log10(this.maiorPatrimonioEleicao1) -
-              Math.log10(this.menorPatrimonioEleicao1) +
-              1
+                Math.log10(this.menorPatrimonioEleicao1) +
+                1
             )
             .tickFormat((d: any) => {
               return this.formataTick(d);
@@ -389,7 +389,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       .attr("r", this.circleRadius * 1.8)
       .style("stroke", "#230a4f")
       .style("stroke-width", 15)
-      .style("cursor", "pointer");    
+      .style("cursor", "pointer");
   }
 
   private standardizeCircle(d, circle) {
@@ -532,9 +532,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
             : this.y(d.patrimonio_eleicao_1)
       );
 
-    this.svg
-      .select("#y-title")
-      .text("Patrimônio em " + this.ano);
+    this.svg.select("#y-title").text("Patrimônio em " + this.ano);
 
     this.tip.html((d: any) => this.tooltipPatrimonio(d));
 
@@ -660,9 +658,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       .attr("x1", (d: any) => this.x(Math.log10(d.patrimonio_eleicao_1)))
       .attr("x2", (d: any) => this.x(Math.log10(d.patrimonio_eleicao_1)));
 
-    this.svg
-      .select("#y-title")
-      .text("Patrimônio em " + (this.ano));
+    this.svg.select("#y-title").text("Patrimônio em " + this.ano);
 
     this.tip.html((d: any) => this.tooltipPatrimonio(d));
 
@@ -742,8 +738,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
             .axisBottom(this.x)
             .ticks(
               Math.log10(this.maiorPatrimonioEleicao1) -
-              Math.log10(this.menorPatrimonioEleicao1) +
-              1
+                Math.log10(this.menorPatrimonioEleicao1) +
+                1
             )
             .tickFormat((d: any) => {
               return this.formataTick(d);
@@ -774,8 +770,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
             .axisLeft(this.y)
             .ticks(
               Math.log10(this.maiorPatrimonioEleicao2) -
-              Math.log10(this.menorPatrimonioEleicao2) +
-              1
+                Math.log10(this.menorPatrimonioEleicao2) +
+                1
             )
             .tickFormat((d: any) => {
               return this.formataTick(d);
@@ -820,7 +816,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     if (str === this.dataService.getTodosCargos()) {
       return str;
     }
-    return str.replace(/\w\S*/g, function (txt) {
+    return str.replace(/\w\S*/g, function(txt) {
       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
   }
@@ -868,7 +864,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         let maiorNomeCandidato = this.candidatosAtuais
           .map(candidato => (candidato.length + 1) / 2)
           .reduce((a, b) => Math.max(a, b));
-        
+
         const maximaLargura = 12;
         let larguraPesquisa = Math.max(maiorNomeCandidato, maximaLargura);
         input.style.width = larguraPesquisa.toString() + "em";
@@ -914,42 +910,46 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     let pontos = this.svg.selectAll("circle")._groups[0];
     let pontoAnterior: any;
 
-    this.animacaoTimer = Observable.interval(2500)
-      .subscribe((val) => {
-        let novoCandidatoIndex = Math.floor(Math.random() * pontos.length);
-        let candidatoPonto = pontos[novoCandidatoIndex];
+    this.animacaoTimer = Observable.interval(2500).subscribe(val => {
+      let novoCandidatoIndex = Math.floor(Math.random() * pontos.length);
+      let candidatoPonto = pontos[novoCandidatoIndex];
 
-        let candidato: any;
-        candidato = d3.select(candidatoPonto);
-        let dadosCandidato = candidato.datum();
+      let candidato: any;
+      candidato = d3.select(candidatoPonto);
+      let dadosCandidato = candidato.datum();
 
-        if (pontoAnterior) {
-          // padroniza tamanho do ponto anterior selecionado
-          this.g.selectAll("circle")
-            .filter(function (d: any) { return d.cpf === pontoAnterior.cpf; })
-            .attr("r", this.circleRadius)
-            .attr("id", "candidato")
-            .style("stroke", "none");
-        }
-        pontoAnterior = dadosCandidato;
+      if (pontoAnterior) {
+        // padroniza tamanho do ponto anterior selecionado
+        this.g
+          .selectAll("circle")
+          .filter(function(d: any) {
+            return d.cpf === pontoAnterior.cpf;
+          })
+          .attr("r", this.circleRadius)
+          .attr("id", "candidato")
+          .style("stroke", "none");
+      }
+      pontoAnterior = dadosCandidato;
 
-        // destaca ponto da animação
-        this.g.selectAll("circle")
-          .filter(function (d: any) { return d.cpf === dadosCandidato.cpf; })
-          .attr("r", this.circleRadius * 1.8)
-          .attr("id", "candidato-sorteado")
-          .style("stroke", "#230a4f")
-          .style("stroke-width", 13)
-          .style("cursor", "pointer")
+      // destaca ponto da animação
+      this.g
+        .selectAll("circle")
+        .filter(function(d: any) {
+          return d.cpf === dadosCandidato.cpf;
+        })
+        .attr("r", this.circleRadius * 1.8)
+        .attr("id", "candidato-sorteado")
+        .style("stroke", "#230a4f")
+        .style("stroke-width", 13)
+        .style("cursor", "pointer");
 
-        // Mostra o tooltip
-        var candidatoSorteado = document.getElementById('candidato-sorteado');
-        var event = new MouseEvent('mouseover');
-        if(candidatoSorteado) {
-          candidatoSorteado.dispatchEvent(event);
-        }
-        
-      });
+      // Mostra o tooltip
+      var candidatoSorteado = document.getElementById("candidato-sorteado");
+      var event = new MouseEvent("mouseover");
+      if (candidatoSorteado) {
+        candidatoSorteado.dispatchEvent(event);
+      }
+    });
   }
 
   apagaTooltip() {
