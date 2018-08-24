@@ -4,13 +4,6 @@ import { MatTableDataSource, MatSort, MatPaginator } from "@angular/material";
 import { DataService } from "../services/data.service";
 import { UtilsService } from "../services/utils.service";
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
 @Component({
   selector: "app-top-10",
   templateUrl: "./top-10.component.html",
@@ -19,10 +12,10 @@ export interface PeriodicElement {
 export class Top10Component {
   public displayedColumns: string[] = ["nome", "unid-eleitoral", "dif-abs"];
   public dataSource: any;
-  public data;
 
   @ViewChild(MatSort)
   sort: MatSort;
+
   @ViewChild(MatPaginator)
   paginator: MatPaginator;
 
@@ -31,16 +24,12 @@ export class Top10Component {
     private utilsService: UtilsService
   ) {}
 
-  ngAfterViewInit() {
-    this.ranking();
-  }
-
-  ranking() {
-    this.dataService.dadosPatrimonio.subscribe(data => (this.data = data));
-    this.dataSource = new MatTableDataSource(this.data);
-
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
+  async ranking() {
+    await this.dataService.dadosPatrimonio.subscribe(data => {
+      this.dataSource = new MatTableDataSource(data);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
   }
 
   calculaRazao(numero1, numero2) {

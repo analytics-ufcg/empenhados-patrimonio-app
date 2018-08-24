@@ -33,7 +33,6 @@ export class HomeComponent implements OnInit {
     this.novaVisualizacao = false;
 
     this.top10.ranking();
-
     this.panelOpenState = true;
   }
 
