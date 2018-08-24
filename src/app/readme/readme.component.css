@@ -1,9 +1,14 @@
 .readme-foto {
     display: block;
     margin-left: auto;
-    margin-right: auto;
-    width: 80%;
+    margin-right: auto;   
+    width: 100%;    
 }
+
+.item-image {
+    height: 90%;            
+}
+
 .mat-toolbar {
     flex: 0;
     background-color: #1B3B6F;

@@ -9,6 +9,13 @@ import { MatDialogRef } from "@angular/material";
 export class ReadmeComponent {
   constructor(public dialogRef: MatDialogRef<ReadmeComponent>) {}
 
+  public moveToStructure(nextStructure):void {
+          let element = document.getElementById(nextStructure);            
+
+          element.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'start' });
+          
+  }
+
   onNoClick(): void {
     this.dialogRef.close();
   }
