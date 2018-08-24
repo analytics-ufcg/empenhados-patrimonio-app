@@ -9,12 +9,7 @@ import { MatDialogRef } from "@angular/material";
 export class ReadmeComponent {
   constructor(public dialogRef: MatDialogRef<ReadmeComponent>) {}
 
-  public moveToStructure(nextStructure):void {
-          let element = document.getElementById(nextStructure);            
-
-          element.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'start' });
-          
-  }
+  public imageUrlArray = ["assets/img/readme-1.jpg", "assets/img/readme-2.jpg", "assets/img/readme-3.jpg", "assets/img/readme-4.jpg"];
 
   onNoClick(): void {
     this.dialogRef.close();

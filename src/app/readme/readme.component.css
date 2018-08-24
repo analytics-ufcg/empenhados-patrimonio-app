@@ -15,6 +15,10 @@
     color: #ECEBE4;
 }
 
+#slideshow {
+    padding-top: 20px;
+}
+
 #navbar-readme {
     padding: 4rem 1rem;
 }

@@ -5,28 +5,8 @@
   </div>
 </mat-toolbar>
 
-<div id="image1" class="item-image">
-  <img class="readme-foto" width="100%" src="assets/img/readme-1.jpg">
-  <button mat-button (click)="moveToStructure('image2')">Click me!</button>
-</div>
-
-<div id="image2" class="item-image">
-  <img class="readme-foto" width="100%" src="assets/img/readme-2.jpg">
-  <button mat-button (click)="moveToStructure('image3')">Click me!</button>
-</div>
-
-<div id="image3" class="item-image">
-  <img iclass="readme-foto" width="100%" src="assets/img/readme-3.jpg">
-  <button mat-button (click)="moveToStructure('image4')">Click me!</button>
-</div>
-<div id="image4" class="item-image">
-  <img class="readme-foto" width="100%" src="assets/img/readme-4.jpg">
-  <button mat-button (click)="moveToStructure('image1')">Click me!</button>
-</div>
-
-
-<!-- 
-<div #structure  id="structure">
-  <h3>Structure</h3>
-  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-</div> -->
+<slideshow id="slideshow" [height]="'90%'"           
+           [imageUrls]="imageUrlArray"
+           [showDots]="true"
+           [dotColor]="'#1B3B6F'">
+</slideshow>
