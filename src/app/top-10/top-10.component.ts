@@ -15,8 +15,7 @@ export class Top10Component {
 
   @ViewChild(MatSort) sort: MatSort;
 
-  @ViewChild(MatPaginator)
-  paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
     private dataService: DataService,
@@ -28,17 +27,54 @@ export class Top10Component {
       this.dataSource = new MatTableDataSource(data);      
       this.dataSource.paginator = this.paginator;
 
-      this.dataSource.sortingDataAccessor = (item, property) => {
-        switch (property) {
-          case 'dif-abs': return (item.patrimonio_eleicao_2 - item.patrimonio_eleicao_1); // retorna a diferença de patrimônios
-          case 'nome_urna': return (item[property].normalize('NFD').replace(/[\u0300-\u036f]/g, "")); // remove acentos
-          case 'unidade_eleitoral': return (item[property].normalize('NFD').replace(/[\u0300-\u036f]/g, "")); // remove acentos
-          default: return item[property];
-        }
-      };
-
+      this.dataSource.sortingDataAccessor = this.sortingDataAccessor;
+      this.dataSource.sortData = this.sortData;
+      
       this.dataSource.sort = this.sort;
     });
+  }
+
+  // Sobrescrevendo método de acesso aos dados do angular-material
+  sortingDataAccessor = (item, property) => {
+    switch (property) {
+      case 'dif-abs': return (item.patrimonio_eleicao_2 - item.patrimonio_eleicao_1); // retorna a diferença de patrimônios
+      case 'nome_urna': return (item[property].normalize('NFD').replace(/[\u0300-\u036f]/g, "")); // remove acentos
+      case 'unidade_eleitoral': return (item[property].normalize('NFD').replace(/[\u0300-\u036f]/g, "")); // remove acentos
+      default: return item[property];
+    }
+  };
+
+  // Sobrescrevendo função de ordenação do angular material.
+  // TODO: ao atualizar a versão do angular-material esta sobrescrita de função não será mais necessária.
+  sortData = (data: any[], sort: MatSort): any[] => {
+    const active = sort.active;
+    const direction = sort.direction;
+    if (!active || direction == '') { return data; }
+
+    return data.sort((a, b) => {
+      let valueA = this.sortingDataAccessor(a, active);
+      let valueB = this.sortingDataAccessor(b, active);
+
+      // If both valueA and valueB exist (truthy), then compare the two. Otherwise, check if
+      // one value exists while the other doesn't. In this case, existing value should come first.
+      // This avoids inconsistent results when comparing values to undefined/null.
+      // If neither value exists, return 0 (equal).
+      let comparatorResult = 0;
+      if (valueA != null && valueB != null) {
+        // Check if one value is greater than the other; if equal, comparatorResult should remain 0.
+        if (valueA > valueB) {
+          comparatorResult = 1;
+        } else if (valueA < valueB) {
+          comparatorResult = -1;
+        }
+      } else if (valueA != null) {
+        comparatorResult = 1;
+      } else if (valueB != null) {
+        comparatorResult = -1;
+      }
+
+      return comparatorResult * (direction == 'asc' ? 1 : -1);
+    });        
   }
 
   calculaRazao(numero1, numero2) {
