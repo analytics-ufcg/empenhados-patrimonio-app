@@ -1,5 +1,5 @@
 <mat-card>
-  <mat-table matSort #table [dataSource]="dataSource">
+  <mat-table matSort #table [dataSource]="dataSource" matSortActive="dif-abs" matSortDirection="desc">
 
     <ng-container matColumnDef="nome_urna">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Nome</mat-header-cell>

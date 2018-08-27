@@ -25,18 +25,20 @@ export class Top10Component {
 
   ranking() {
     this.dataService.dadosPatrimonio.subscribe(data => {
-      this.dataSource = new MatTableDataSource(data);
+      this.dataSource = new MatTableDataSource(data);      
       this.dataSource.paginator = this.paginator;
-      
+
       this.dataSource.sortingDataAccessor = (item, property) => {
-        switch(property) {
-          case 'dif-abs': return (item.patrimonio_eleicao_2 - item.patrimonio_eleicao_1);      
+        switch (property) {
+          case 'dif-abs': return (item.patrimonio_eleicao_2 - item.patrimonio_eleicao_1); // retorna a diferença de patrimônios
+          case 'nome_urna': return (item[property].normalize('NFD').replace(/[\u0300-\u036f]/g, "")); // remove acentos
+          case 'unidade_eleitoral': return (item[property].normalize('NFD').replace(/[\u0300-\u036f]/g, "")); // remove acentos
           default: return item[property];
         }
       };
 
-      this.dataSource.sort = this.sort;      
-    });        
+      this.dataSource.sort = this.sort;
+    });
   }
 
   calculaRazao(numero1, numero2) {
