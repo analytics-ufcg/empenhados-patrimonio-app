@@ -1,12 +1,12 @@
 <mat-card>
   <mat-table matSort #table [dataSource]="dataSource">
 
-    <ng-container matColumnDef="nome">
+    <ng-container matColumnDef="nome_urna">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Nome</mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.nome_urna}} </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="unid-eleitoral">
+    <ng-container matColumnDef="unidade_eleitoral">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Unid. Eleitoral</mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.unidade_eleitoral}} </mat-cell>
     </ng-container>
@@ -21,6 +21,6 @@
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
-  <mat-paginator #paginator [pageSize]="10" [showFirstLastButtons]="true">
+  <mat-paginator #paginator [pageSize]="10" [showFirstLastButtons]="true" [hidePageSize]="true">
   </mat-paginator>
 </mat-card>

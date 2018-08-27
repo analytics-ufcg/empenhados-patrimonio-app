@@ -10,11 +10,10 @@ import { UtilsService } from "../services/utils.service";
   styleUrls: ["./top-10.component.css"]
 })
 export class Top10Component {
-  public displayedColumns: string[] = ["nome", "unid-eleitoral", "dif-abs"];
+  public displayedColumns: string[] = ["nome_urna", "unidade_eleitoral", "dif-abs"];
   public dataSource: any;
 
-  @ViewChild(MatSort)
-  sort: MatSort;
+  @ViewChild(MatSort) sort: MatSort;
 
   @ViewChild(MatPaginator)
   paginator: MatPaginator;
@@ -22,14 +21,22 @@ export class Top10Component {
   constructor(
     private dataService: DataService,
     private utilsService: UtilsService
-  ) {}
+  ) { }
 
-  async ranking() {
-    await this.dataService.dadosPatrimonio.subscribe(data => {
+  ranking() {
+    this.dataService.dadosPatrimonio.subscribe(data => {
       this.dataSource = new MatTableDataSource(data);
       this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    });
+      
+      this.dataSource.sortingDataAccessor = (item, property) => {
+        switch(property) {
+          case 'dif-abs': return (item.patrimonio_eleicao_2 - item.patrimonio_eleicao_1);      
+          default: return item[property];
+        }
+      };
+
+      this.dataSource.sort = this.sort;      
+    });        
   }
 
   calculaRazao(numero1, numero2) {
