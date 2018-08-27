@@ -1,5 +1,6 @@
 import { Component, ViewChild } from "@angular/core";
 import { MatTableDataSource, MatSort, MatPaginator } from "@angular/material";
+import { ViewEncapsulation } from '@angular/core';
 
 import { DataService } from "../services/data.service";
 import { UtilsService } from "../services/utils.service";
@@ -7,7 +8,9 @@ import { UtilsService } from "../services/utils.service";
 @Component({
   selector: "app-top-10",
   templateUrl: "./top-10.component.html",
-  styleUrls: ["./top-10.component.css"]
+  styleUrls: ["./top-10.component.css"],
+  encapsulation: ViewEncapsulation.None
+
 })
 export class Top10Component {
   public displayedColumns: string[] = ["nome_urna", "unidade_eleitoral", "dif-abs"];
