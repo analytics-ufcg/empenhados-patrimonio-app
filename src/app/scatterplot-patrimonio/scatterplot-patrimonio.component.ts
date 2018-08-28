@@ -156,6 +156,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       // atualiza ano com o valor do ano dois encontrado no primeiro candidato recuperado através do filtro
       this.ano = this.data[0].ano_dois;
 
+      // if (this.g) {
 
       // TODO: verificar o motivo da visualização ser desenhada mais de uma vez
 
@@ -181,7 +182,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         // remove tooltip ao alterar os dados
         this.g.selectAll("circle").call(this.tip.hide);
       }
-    
+
       // if (!this.isFirstPlot) {
       //  this.animacaoTimer.unsubscribe();
       // }

@@ -4,6 +4,7 @@ import { ResumoCandidatoComponent } from "../resumo-candidato/resumo-candidato.c
 import { FactSheetComponent } from "../fact-sheet/fact-sheet.component";
 import { JoyplotEstadosComponent } from "../joyplot-estados/joyplot-estados.component";
 import { AboutComponent } from "../about/about.component";
+import { Top10Component } from "../top-10/top-10.component";
 
 @Component({
   selector: "app-home",
@@ -17,8 +18,11 @@ export class HomeComponent implements OnInit {
   private resumoCandidato: ResumoCandidatoComponent;
   @ViewChild(FactSheetComponent)
   private factSheet: FactSheetComponent;
+  @ViewChild(Top10Component)
+  private top10: Top10Component;
 
   novaVisualizacao: boolean;
+  panelOpenState: boolean = true;
 
   constructor() {}
 
@@ -27,11 +31,16 @@ export class HomeComponent implements OnInit {
   onRecebeEventoFiltro($event) {
     this.scatterplotPatrimonio.plotPatrimonio();
     this.novaVisualizacao = false;
+
+    this.top10.ranking();
+    this.panelOpenState = true;
   }
 
   onRecebeCliquePlot($event) {
     this.novaVisualizacao = true;
     this.resumoCandidato.texto();
     this.factSheet.texto();
+
+    this.panelOpenState = false;
   }
 }

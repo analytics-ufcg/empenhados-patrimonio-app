@@ -7,8 +7,24 @@
       </div>
     </div>
     <div fxFlex="30%">
-      <app-resumo-candidato [hidden]="!novaVisualizacao"></app-resumo-candidato>
-      <app-fact-sheet [hidden]="!novaVisualizacao"></app-fact-sheet>
+      <mat-accordion>
+
+        <mat-expansion-panel [expanded]="panelOpenState" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+          <mat-expansion-panel-header class="expansion-panel-header">
+            Top Patrimônios
+          </mat-expansion-panel-header>
+          <app-top-10></app-top-10>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel [expanded]="!panelOpenState" (opened)="panelOpenState = false" (closed)="panelOpenState = true">
+          <mat-expansion-panel-header class="expansion-panel-header">
+            Informações do Candidato
+          </mat-expansion-panel-header>
+          <app-resumo-candidato [hidden]="!novaVisualizacao"></app-resumo-candidato>
+          <app-fact-sheet [hidden]="!novaVisualizacao"></app-fact-sheet>
+        </mat-expansion-panel>
+
+      </mat-accordion>
     </div>
   </div>
 

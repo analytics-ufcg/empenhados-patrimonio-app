@@ -1,0 +1,17 @@
+.mat-table {
+  overflow: auto;
+}
+
+.mat-cell, .mat-header-cell {
+  font-size: 12px;
+  padding-right: 1%;
+}
+
+.mat-header-row, .mat-row {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.mat-expansion-panel-body {
+  padding: 0;
+}
