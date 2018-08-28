@@ -1,80 +1,93 @@
-.section-filter {    
-    text-align: left;
-    font-size: 1em; 
-    line-height: 1em !important;   
+.section-filter {
+  text-align: left;
+  font-size: 1em;
+  line-height: 1em !important;
 }
 
 .filter-card {
-    padding-right: 0 !important;    
+  padding-right: 0 !important;
+  padding-bottom: 0 !important;
 }
 
 .filter {
-    margin: auto;
-    width: 15% !important;
-    color: #5E400B;
+  margin: auto;
+  width: 15% !important;
+  color: #5e400b;
 }
 
 .text-filter {
-    margin: 0.5%;
-    font-weight:normal;
-    color: #5E400B;
+  margin: 0.5%;
+  font-weight: normal;
+  /* font-size: 15pt; */
+  color: #5e400b;
 }
 
 .text-filter-comma {
-    margin-right: 0.5%;
-    font-weight:normal;
-    color: #5E400B;
+  margin-right: 0.5%;
+  font-weight: normal;
+  color: #5e400b;
 }
 
 .text-filter-second-comma {
-    font-weight:normal;
-    color: #5E400B;
+  font-weight: normal;
+  color: #5e400b;
+}
+.title-filter {
+  /* font-size: 21pt; */
+  color: #5e400b;
+  margin: 0.5%;
 }
 
 .button {
-    background-color: #EEEEEE;    
+  background-color: #eeeeee;
 }
 
 .mat-select-value {
-    color: #5E400B;
+  color: #5e400b;
 }
 
 .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
-    color: #5E400B;
+  color: #5e400b;
 }
 
 .mat-option {
-    color: #5E400B;    
+  color: #5e400b;
 }
 
 .input {
-    color: #5E400B;
+  color: #5e400b;
 }
 
-.alt .mat-form-field-underline  {
-    display: none;
+.alt .mat-form-field-underline {
+  display: none;
 }
 
 .alt .mat-form-field {
-    width: auto !important;
+  width: auto !important;
 }
 
 .alt .mat-form-field-infix {
-    width: auto;
-    border-top: 0 !important;
-    padding-left: 2%;
-    background-color: #ECEBE4;
+  width: auto;
+  border-top: 0 !important;
+  padding-left: 2%;
+  background-color: #caac55;
+  color: white;
 }
 
 .alt .mat-select-value {
-    max-width: 100%;
-    width: auto;
+  max-width: 100%;
+  width: auto;
+  color: white;
+}
+
+.filter-select .mat-select-arrow {
+  color: white;
 }
 
 @media (max-width: 576px) {
-    .section-filter {    
-        text-align: left;
-        font-size: .8em; 
-        line-height: 1em !important;   
-    }
+  .section-filter {
+    text-align: left;
+    font-size: 0.8em;
+    line-height: 1em !important;
+  }
 }

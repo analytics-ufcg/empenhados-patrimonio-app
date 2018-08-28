@@ -52,10 +52,6 @@
   font-size: 12px;
 }
 
-.plot-container {
-  margin-top: 1.5em;
-}
-
 .mat-slide-toggle-content {
   font-size: 12px;
 }
@@ -99,5 +95,5 @@
 }
 
 .filter-name {
-  margin-left: 2%;    
+  margin-left: 2%;
 }
