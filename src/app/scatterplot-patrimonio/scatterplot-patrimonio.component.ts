@@ -717,20 +717,24 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
   private tooltipPatrimonio(d: any) {
     return (
-      "<strong>" +
+      '<strong class="nome-urna">' +
       d.nome_urna +
-      "</strong><br><span>" +
+      "</strong><br><span class='small-text'>" +
       d.unidade_eleitoral +
       "</span>" +
       "<br>" +
       "<span>" +
+      "<span class='small-text'>" +
       d.ano_um +
+      "</span>" +
       ": " +
       this.utilsService.formataReais(d.patrimonio_eleicao_1) +
       "</span>" +
       "<br>" +
       "<span>" +
+      "<span class='small-text'>" +
       (d.ano_um + 4) +
+      "</span>" +
       ": " +
       this.utilsService.formataReais(d.patrimonio_eleicao_2) +
       "</span>"
@@ -746,9 +750,9 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       text = "Diminuiu ";
     } else {
       return (
-        "<strong>" +
+        '<strong class="nome-urna">' +
         d.nome_urna +
-        "</strong><br><span>" +
+        "</strong><br><span class='small-text'>" +
         d.unidade_eleitoral +
         "</span>" +
         "<br>" +
@@ -761,7 +765,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     return (
       "<strong>" +
       d.nome_urna +
-      "</strong><br><span>" +
+      "</strong><br><span class='small-text'>" +
       d.unidade_eleitoral +
       "</span>" +
       "<br>" +

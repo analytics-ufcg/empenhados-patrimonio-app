@@ -33,9 +33,10 @@
   color: #5e400b;
 }
 .title-filter {
-  /* font-size: 21pt; */
+  font-size: 19px;
   color: #5e400b;
   margin: 0.5%;
+  font-weight: normal;
 }
 
 .button {

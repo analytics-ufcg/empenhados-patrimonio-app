@@ -11,7 +11,7 @@
   text-align: right;
   font-family: "Roboto";
   border-radius: 5px;
-  border: 2px solid #1b3b6f;
+  border: 2px solid #2c2a7a;
 }
 
 .d3-tip strong {
@@ -35,6 +35,10 @@
   margin: -1px 0 0 0;
   top: 100%;
   left: 0;
+}
+
+.small-text {
+  font-size: 10pt;
 }
 
 .plot-subtitle {

@@ -44,20 +44,16 @@ footer {
 
 #subtitle {
   font-family: "Proza Libre", sans-serif;
-  font-size: 0.9em;
+  font-size: 0.8em;
   border-style: solid;
   border-width: 0px 0px 0px 3px;
-  color: gray;
+  color: #a2a2a2;
   margin-top: 1%;
   white-space: initial;
   line-height: 1.5em;
   padding-left: 1%;
   margin-left: 5%;
   height: 80%;
-
-  margin-top: 100px;
-  transform: translateY(-50%);
-  position: relative;
 }
 
 .button {
@@ -98,7 +94,7 @@ footer {
 }
 
 #site-footer {
-  background-color: #2f3640;
+  background-color: #2c2a7a;
   color: #f5f6fa;
   padding: 2rem 1rem;
 }
@@ -108,12 +104,14 @@ footer {
 }
 
 .footer-content {
-  padding: 5px 0 5px 5%;
+  padding: 5px 0 5px 10px;
+  border-style: solid;
+  border-width: 0px 0px 0px 3px;
 }
 
 .footer-icon {
-  height: 120%;
-  width: 120%;
+  height: 80%;
+  width: 80%;
 }
 
 #info-text {
@@ -123,18 +121,16 @@ footer {
   line-height: 1.5em;
 }
 
-.icons {
-  position: relative;
-  margin-top: 30px;
-  transform: translateY(-50%);
-}
-
 .icon-link {
   margin: 15px;
 }
 
 .logo {
-  height: 100px;
-  margin-top: 110px;
-  transform: translateY(-50%);
+  height: 4.25em;
+}
+
+.footer-img {
+  padding: 5px 0 5px 5%;
+  width: 100%;
+  padding-left: 5%;
 }
