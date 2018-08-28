@@ -60,11 +60,6 @@
   font-size: 12px;
 }
 
-.mat-card:not([class*="mat-elevation-z"]) {
-  border-radius: 0 !important;
-  box-shadow: 0 -2px 0px 0px #1b3b6f !important;
-}
-
 .plot-container .mat-form-field {
   width: auto !important;
 }

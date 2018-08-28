@@ -3,6 +3,12 @@ mat-card-title {
   font-weight: bolder;
 }
 
+.card-resumo{
+  border-radius: 0 !important;
+  box-shadow: 0 -2px 0px 0px #1b3b6f !important;
+}
+
+
 .resumo-subtitle {
   margin-bottom: 0;
 }

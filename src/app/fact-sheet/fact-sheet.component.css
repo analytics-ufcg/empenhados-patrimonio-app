@@ -1,7 +1,9 @@
 .card-resumo {
   margin-top: 1%;
-}
 
+  border-radius: 0 !important;
+  box-shadow: 0 -2px 0px 0px #1b3b6f !important;
+}
 .fact-text-value {
   color: #2c2a7a;
   font-weight: bold;

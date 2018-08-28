@@ -7,6 +7,9 @@
 .filter-card {
   padding-right: 0 !important;
   padding-bottom: 0 !important;
+
+  border-radius: 0 !important;
+  box-shadow: 0 0px 0px 0px !important;
 }
 
 .filter {
