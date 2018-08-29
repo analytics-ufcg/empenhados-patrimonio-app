@@ -423,8 +423,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       .on("mouseover.tip", this.tip.show)
       .on("mouseout.circle", (d, i, n) => {
         this.standardizeCircle(d, n[i]);
-      })
-      .on("mouseout.tip", this.tip.hide);
+      });
+    //.on("mouseout.tip", this.tip.hide);
 
     this.g = g;
 
@@ -719,24 +719,28 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     return (
       '<strong class="nome-urna">' +
       d.nome_urna +
-      "</strong><br><span class='small-text'>" +
+      "</strong><br><span class='tip-subtitle small-text'>" +
       d.unidade_eleitoral +
       "</span>" +
       "<br>" +
       "<span>" +
       "<span class='small-text'>" +
       d.ano_um +
-      "</span>" +
       ": " +
+      "</span>" +
+      "<span class='patrimonio-value'>" +
       this.utilsService.formataReais(d.patrimonio_eleicao_1) +
+      "</span>" +
       "</span>" +
       "<br>" +
       "<span>" +
       "<span class='small-text'>" +
       (d.ano_um + 4) +
-      "</span>" +
       ": " +
+      "</span>" +
+      "<span class='patrimonio-value'>" +
       this.utilsService.formataReais(d.patrimonio_eleicao_2) +
+      "</span>" +
       "</span>"
     );
   }
@@ -750,9 +754,9 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       text = "Diminuiu ";
     } else {
       return (
-        '<strong class="nome-urna">' +
+        "<strong class='nome-urna'>" +
         d.nome_urna +
-        "</strong><br><span class='small-text'>" +
+        "</strong><br><span class='tip-subtitle small-text'>" +
         d.unidade_eleitoral +
         "</span>" +
         "<br>" +
@@ -765,7 +769,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     return (
       "<strong>" +
       d.nome_urna +
-      "</strong><br><span class='small-text'>" +
+      "</strong><br><span class='tip-subtitle small-text'>" +
       d.unidade_eleitoral +
       "</span>" +
       "<br>" +
