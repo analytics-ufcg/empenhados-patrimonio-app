@@ -40,7 +40,6 @@ export class Top10Component {
 
       this.dataSource.sort = this.sort;
     });
-    console.log(this.dataSource.paginator);
   }
 
   translatePaginator(p: MatPaginator) {
