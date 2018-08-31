@@ -5,6 +5,7 @@ import {
   EventEmitter,
   ViewEncapsulation
 } from "@angular/core";
+import { MatDialog } from "@angular/material";
 import * as d3 from "d3";
 import d3Tip from "d3-tip";
 import { DataService } from "../services/data.service";
@@ -15,6 +16,8 @@ import { Observable } from "rxjs/Observable";
 import { startWith } from "rxjs/operators/startWith";
 import { map } from "rxjs/operators/map";
 import "rxjs/add/observable/interval";
+
+import { ReadmeComponent } from "../readme/readme.component";
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -80,7 +83,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private alertService: AlertService,
-    private utilsService: UtilsService
+    private utilsService: UtilsService,
+    public dialog: MatDialog
   ) {
     this.margin = { top: 20, right: 30, bottom: 20, left: 40 };
     this.transitionTime = { short: 1000, medium: 1500, long: 2000 };
@@ -904,7 +908,18 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
     return tickLabel;
   }
+  
+  openReadme(): void {
+    const dialogRef = this.dialog.open(ReadmeComponent, {
+      width: "80%",
+      height: "90%",
+      panelClass: 'readme-dialog-container'
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      console.log("The dialog was closed");
+    });
+  }
   // filtro para a pesquisa por candidato
   filter(val: string): string[] {
     return this.candidatosAtuais

@@ -104,5 +104,19 @@
 }
 
 .filter-name {
-  margin-left: 2%;
+  margin-left: 2%;    
+}
+
+.text-info {
+  color: #2C2A7A;
+}
+
+#info-icon {
+  color: #2C2A7A;
+}
+
+.button-info {
+  float: right;
+  margin-right: 50px;
+  background-color: #CAAC55;
 }
