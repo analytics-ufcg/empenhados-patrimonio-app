@@ -11,14 +11,15 @@
       <mat-option value="log">escala log</mat-option>
     </mat-select>
   </mat-form-field>
-  <!-- <mat-icon mat-list-icon aria-hidden="true" class="detalhes-icon">search</mat-icon> -->
   <mat-form-field class="filter-name" floatLabel="never" color="accent">
     <input type="text" id="input-candidato" aria-label="Number" [(ngModel)]="nomeCandidato" (ngModelChange)="onChangeNomeCandidato($event)"
-      matInput [formControl]="controlNomeCandidato" [matAutocomplete]="auto">
-    <mat-placeholder>
-      <!-- <mat-icon>search</mat-icon> -->
-      Pesquise um candidato
-    </mat-placeholder>
+      matInput [formControl]="controlNomeCandidato" [matAutocomplete]="auto" placeholder="Pesquise um candidato">
+    <button mat-button *ngIf="nomeCandidato" matSuffix mat-icon-button aria-label="Clear" (click)="nomeCandidato=''">
+      <mat-icon>close</mat-icon>
+    </button>
+    <button mat-button *ngIf="!nomeCandidato" matSuffix mat-icon-button aria-label="Clear">
+      <mat-icon>search</mat-icon>
+    </button>
     <mat-autocomplete class="auto-complete" #auto="matAutocomplete">
       <mat-option *ngFor="let nome of filteredOptions | async" [value]="nome">
         {{ nome }}
