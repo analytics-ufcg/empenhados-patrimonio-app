@@ -24,7 +24,7 @@
       <div fxFlex="10%" class="footer-img-container">
         <img class="footer-img" src="assets/img/MPPB.png">
       </div>
-      <div fxFlex="25%" class="footer-content">
+      <div fxFlex="20%" class="footer-content">
         <span class="title-text" routerLink="/"> {{ title }}</span>
         <br>
         <span id="info-text">
@@ -33,10 +33,8 @@
           <br> Email: ngcsi-mppb@googlegroups.com
         </span>
       </div>
-      <div fxFlex="10%" class="footer-content">
-        <div>
-          <a mat-button class="footer-button" (click)='openDialog()'>Sobre</a>
-        </div>
+      <div class="footer-content" fxLayout="column" fxLayout.xs="row" fxLayoutWrap fxLayoutGap="2%">
+        <a mat-button class="footer-button" (click)='openDialog()'>Sobre</a>  
         <div class="icons">
           <a class="icon-link" mat-icon-button href="https://pt-br.facebook.com/analytics.ufcg/" target="_blank">
             <mat-icon class="footer-icon" svgIcon="facebook"></mat-icon>
