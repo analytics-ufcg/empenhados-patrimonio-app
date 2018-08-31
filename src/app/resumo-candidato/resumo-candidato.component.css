@@ -3,6 +3,12 @@ mat-card-title {
   font-weight: bolder;
 }
 
+.card-resumo{
+  border-radius: 0 !important;
+  box-shadow: 0 -2px 0px 0px #1b3b6f !important;
+}
+
+
 .resumo-subtitle {
   margin-bottom: 0;
 }
@@ -19,7 +25,7 @@ mat-card-title {
 }
 
 .resumo-text-value {
-  color: #b68115;
+  color: #2c2a7a;
   text-align: right;
   font-weight: bold;
 }
@@ -35,7 +41,7 @@ mat-card-title {
 }
 
 .link-tse {
-  text-decoration: underline;
+  color: #2c2a7a;
 }
 
 .material-icons.mat-big {
@@ -45,7 +51,14 @@ mat-card-title {
 }
 
 .mat-big-money {
-  color: #b68115 !important;
+  color: #2c2a7a !important;
+}
+
+.detalhes-icon {
+  font-size: 12px !important;
+  width: 12px;
+  height: 12px;
+  margin-left: -5px;
 }
 
 .resumo-icon-patrimonio {
@@ -104,4 +117,8 @@ mat-card-title {
   margin-left: 5%;
   z-index: 100;
   border: #b68115 1px solid;
+}
+
+.ganho-icon {
+  color: #2c2a7a;
 }

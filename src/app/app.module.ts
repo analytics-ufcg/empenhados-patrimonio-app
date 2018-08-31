@@ -10,7 +10,6 @@ import { AlertService } from "./services/alert.service";
 import { CandidatoService } from "./services/candidato.service";
 import { FlexLayoutModule } from "@angular/flex-layout";
 
-
 import {
   MatToolbarModule,
   MatTabsModule,
@@ -27,7 +26,11 @@ import {
   MatListModule,
   MatSlideToggleModule,
   MatDialogModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatTableModule,
+  MatSortModule,
+  MatPaginatorModule,
+  MatExpansionModule
 } from "@angular/material";
 
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -41,6 +44,7 @@ import { FactSheetComponent } from "./fact-sheet/fact-sheet.component";
 import { AboutComponent } from "./about/about.component";
 import { HomeComponent } from "./home/home.component";
 import { ReadmeComponent } from "./readme/readme.component";
+import { Top10Component } from "./top-10/top-10.component";
 
 @NgModule({
   declarations: [
@@ -52,7 +56,8 @@ import { ReadmeComponent } from "./readme/readme.component";
     FactSheetComponent,
     AboutComponent,
     HomeComponent,
-    ReadmeComponent
+    ReadmeComponent,
+    Top10Component
   ],
   imports: [
     BrowserAnimationsModule,
@@ -76,7 +81,11 @@ import { ReadmeComponent } from "./readme/readme.component";
     MatSlideToggleModule,
     MatListModule,
     HttpClientModule,
-    MatDialogModule
+    MatDialogModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatExpansionModule
   ],
   providers: [
     HttpClientModule,

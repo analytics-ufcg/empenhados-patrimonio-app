@@ -160,6 +160,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       // atualiza ano com o valor do ano dois encontrado no primeiro candidato recuperado através do filtro
       this.ano = this.data[0].ano_dois;
 
+      // if (this.g) {
 
       // TODO: verificar o motivo da visualização ser desenhada mais de uma vez
 
@@ -185,7 +186,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         // remove tooltip ao alterar os dados
         this.g.selectAll("circle").call(this.tip.hide);
       }
-    
+
       // if (!this.isFirstPlot) {
       //  this.animacaoTimer.unsubscribe();
       // }
@@ -426,8 +427,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       .on("mouseover.tip", this.tip.show)
       .on("mouseout.circle", (d, i, n) => {
         this.standardizeCircle(d, n[i]);
-      })
-      .on("mouseout.tip", this.tip.hide);
+      });
+    //.on("mouseout.tip", this.tip.hide);
 
     this.g = g;
 
@@ -720,22 +721,30 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
   private tooltipPatrimonio(d: any) {
     return (
-      "<strong>" +
+      '<strong class="nome-urna">' +
       d.nome_urna +
-      "</strong><br><span>" +
+      "</strong><br><span class='tip-subtitle small-text'>" +
       d.unidade_eleitoral +
       "</span>" +
       "<br>" +
       "<span>" +
+      "<span class='small-text'>" +
       d.ano_um +
       ": " +
+      "</span>" +
+      "<span class='patrimonio-value'>" +
       this.utilsService.formataReais(d.patrimonio_eleicao_1) +
+      "</span>" +
       "</span>" +
       "<br>" +
       "<span>" +
+      "<span class='small-text'>" +
       (d.ano_um + 4) +
       ": " +
+      "</span>" +
+      "<span class='patrimonio-value'>" +
       this.utilsService.formataReais(d.patrimonio_eleicao_2) +
+      "</span>" +
       "</span>"
     );
   }
@@ -749,9 +758,9 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       text = "Diminuiu ";
     } else {
       return (
-        "<strong>" +
+        "<strong class='nome-urna'>" +
         d.nome_urna +
-        "</strong><br><span>" +
+        "</strong><br><span class='tip-subtitle small-text'>" +
         d.unidade_eleitoral +
         "</span>" +
         "<br>" +
@@ -764,7 +773,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     return (
       "<strong>" +
       d.nome_urna +
-      "</strong><br><span>" +
+      "</strong><br><span class='tip-subtitle small-text'>" +
       d.unidade_eleitoral +
       "</span>" +
       "<br>" +

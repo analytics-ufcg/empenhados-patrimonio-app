@@ -8,14 +8,14 @@
   line-height: 1;
   padding: 10px;
   background: white; /*rgba(0, 0, 0, 0.8);*/
-  text-align: right;
   font-family: "Roboto";
   border-radius: 5px;
-  border: 2px solid #1b3b6f;
+  border: 2px solid #2c2a7a;
 }
 
 .d3-tip strong {
-  font-size: 18px;
+  font-size: 13pt;
+  font-weight: bold;
   color: #5e400b;
 }
 
@@ -37,6 +37,20 @@
   left: 0;
 }
 
+.patrimonio-value {
+  float: right;
+}
+
+.small-text {
+  font-size: 9pt;
+  margin-bottom: 5px;
+}
+.tip-subtitle {
+  display: block;
+  margin-top: 2%;
+  margin-bottom: -4%;
+}
+
 .plot-subtitle {
   color: #888888;
   font-size: 0.8em;
@@ -52,17 +66,8 @@
   font-size: 12px;
 }
 
-.plot-container {
-  margin-top: 1.5em;
-}
-
 .mat-slide-toggle-content {
   font-size: 12px;
-}
-
-.mat-card:not([class*="mat-elevation-z"]) {
-  border-radius: 0 !important;
-  box-shadow: 0 -2px 0px 0px #1b3b6f !important;
 }
 
 .plot-container .mat-form-field {
@@ -112,5 +117,6 @@
 
 .button-info {
   float: right;
-  background-color: #ECEBE4;
+  margin-right: 50px;
+  background-color: #CAAC55;
 }

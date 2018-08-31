@@ -1,40 +1,37 @@
-<mat-card class="scatterplot-card">
-  <h4 class="plot-title" *ngIf="cargo && ano">Patrimônio dos candidatos a {{ formataCargo(cargo) }} - {{ ano - 4 }} a {{
-    ano }}</h4>
-  <p class="plot-subtitle">
-    As observações acima da linha pontilhada indicam aumento de patrimônio. Clique em um ponto para obter mais detalhes.
-  </p>
-
-  <div class="plot-container">
-    <mat-form-field class="selector">
-      <mat-select class="select-mode" [ngModel]="modeOption" (ngModelChange)="executaTransicao($event)">
-        <mat-option class="select-mode-option" value="comparativo">Foco no total</mat-option>
-        <mat-option class="select-mode-option" value="variacao">Foco na diferença</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field class="selector" floatLabel="never">
-      <mat-select placeholder="Escala" [ngModel]="logOption" (ngModelChange)="onChangeEscala($event)">
-        <mat-option value="natural">escala linear</mat-option>
-        <mat-option value="log">escala log</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field class="filter-name" floatLabel="never" color="accent">
-      <input type="text" id="input-candidato" placeholder="Pesquise um candidato" aria-label="Number" [(ngModel)]="nomeCandidato"
-        (ngModelChange)="onChangeNomeCandidato($event)" matInput [formControl]="controlNomeCandidato" [matAutocomplete]="auto">
-      <mat-autocomplete class="auto-complete" #auto="matAutocomplete">
-        <mat-option *ngFor="let nome of filteredOptions | async" [value]="nome">
-          {{ nome }}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
-    <span>
-      <button mat-button class="button-info" (click)='openReadme()'>        
-        <i class="material-icons" id="info-icon">help</i>
-        <span class="text-info">COMO LER</span>
-      </button>      
-    </span>
-    <div class="section">
-      <svg class="plot"></svg>
-    </div>
+<div class="plot-container">
+  <mat-form-field class="selector">
+    <mat-select class="select-mode" [ngModel]="modeOption" (ngModelChange)="executaTransicao($event)">
+      <mat-option class="select-mode-option" value="comparativo">Foco no total</mat-option>
+      <mat-option class="select-mode-option" value="variacao">Foco na diferença</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class="selector" floatLabel="never">
+    <mat-select placeholder="Escala" [ngModel]="logOption" (ngModelChange)="onChangeEscala($event)">
+      <mat-option value="natural">escala linear</mat-option>
+      <mat-option value="log">escala log</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <!-- <mat-icon mat-list-icon aria-hidden="true" class="detalhes-icon">search</mat-icon> -->
+  <mat-form-field class="filter-name" floatLabel="never" color="accent">
+    <input type="text" id="input-candidato" aria-label="Number" [(ngModel)]="nomeCandidato" (ngModelChange)="onChangeNomeCandidato($event)"
+      matInput [formControl]="controlNomeCandidato" [matAutocomplete]="auto">
+    <mat-placeholder>
+      <!-- <mat-icon>search</mat-icon> -->
+      Pesquise um candidato
+    </mat-placeholder>
+    <mat-autocomplete class="auto-complete" #auto="matAutocomplete">
+      <mat-option *ngFor="let nome of filteredOptions | async" [value]="nome">
+        {{ nome }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <span>
+    <button mat-button class="button-info" (click)='openReadme()'>
+      <i class="material-icons" id="info-icon">help</i>
+      <span class="text-info">COMO LER</span>
+    </button>
+  </span>
+  <div class="section">
+    <svg class="plot"></svg>
   </div>
-</mat-card>
+</div>
