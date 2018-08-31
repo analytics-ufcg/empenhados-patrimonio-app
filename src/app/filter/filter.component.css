@@ -74,19 +74,18 @@
   width: auto;
   border-top: 0 !important;
   padding-left: 2%;
-  background-color: #caac55;
+  background-color: #D3BB73;
   color: white;
 }
 
 .alt .mat-select-value {
   max-width: 100%;
   width: auto;
-  color: white;
-  font-weight: bold;
+  color: #2c2a7a;  
 }
 
 .filter-select .mat-select-arrow {
-  color: white;
+  color: #2c2a7a;
 }
 
 @media (max-width: 576px) {
