@@ -101,3 +101,16 @@
 .filter-name {
   margin-left: 2%;    
 }
+
+.text-info {
+  color: #2C2A7A;
+}
+
+#info-icon {
+  color: #2C2A7A;
+}
+
+.button-info {
+  float: right;
+  background-color: #ECEBE4;
+}

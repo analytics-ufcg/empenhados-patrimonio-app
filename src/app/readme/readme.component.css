@@ -1,4 +1,4 @@
-@media (min-width: 800px) {
+@media (min-width: 850px) {
     .readme-foto {
         display: block;
         margin-left: auto;
@@ -7,7 +7,7 @@
     }
 }
 
-@media (max-width: 799px) {
+@media (max-width: 849px) {
     .readme-foto {
         display: block;
         margin-left: auto;

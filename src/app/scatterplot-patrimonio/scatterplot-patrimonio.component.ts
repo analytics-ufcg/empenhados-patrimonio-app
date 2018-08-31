@@ -899,11 +899,12 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
     return tickLabel;
   }
-
+  
   openReadme(): void {
     const dialogRef = this.dialog.open(ReadmeComponent, {
       width: "80%",
-      height: "90%"
+      height: "90%",
+      panelClass: 'readme-dialog-container'
     });
 
     dialogRef.afterClosed().subscribe(result => {
