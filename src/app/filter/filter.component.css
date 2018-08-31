@@ -7,6 +7,7 @@
 .filter-card {
   padding-right: 0 !important;
   padding-bottom: 0 !important;
+  padding-left: 0 !important;
 
   border-radius: 0 !important;
   box-shadow: 0 0px 0px 0px !important;
@@ -19,10 +20,9 @@
 }
 
 .text-filter {
-  margin: 0.5%;
   font-weight: normal;
-  /* font-size: 15pt; */
-  color: #5e400b;
+  font-size: 19px;
+  color: black;
 }
 
 .text-filter-comma {
@@ -34,12 +34,6 @@
 .text-filter-second-comma {
   font-weight: normal;
   color: #5e400b;
-}
-.title-filter {
-  font-size: 19px;
-  color: #5e400b;
-  margin: 0.5%;
-  font-weight: normal;
 }
 
 .button {
@@ -74,18 +68,19 @@
   width: auto;
   border-top: 0 !important;
   padding-left: 2%;
-  background-color: #D3BB73;
+  background-color: #2a2c7a;
   color: white;
 }
 
 .alt .mat-select-value {
   max-width: 100%;
   width: auto;
-  color: #2c2a7a;  
+  color: white;
+  font-size: 21px;
 }
 
 .filter-select .mat-select-arrow {
-  color: #2c2a7a;
+  color: white;
 }
 
 @media (max-width: 576px) {
