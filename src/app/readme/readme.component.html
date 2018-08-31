@@ -5,8 +5,8 @@
   </div>
 </mat-toolbar>
 
-<slideshow id="slideshow" [height]="'90%'"           
-           [imageUrls]="imageUrlArray"
-           [showDots]="true"
-           [dotColor]="'#1B3B6F'">
-</slideshow>
+<picture>
+  <source class="readme-foto" media="(max-width: 799px)" srcset="assets/img/m_como-ler.gif">
+  <source class="readme-foto" media="(min-width: 800px)" srcset="assets/img/como-ler.gif">
+  <img class="readme-foto" src="assets/img/como-ler.gif" >
+</picture>

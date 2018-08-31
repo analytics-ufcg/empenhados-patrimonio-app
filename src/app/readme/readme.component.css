@@ -1,22 +1,25 @@
-.readme-foto {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;   
-    width: 100%;    
+@media (min-width: 800px) {
+    .readme-foto {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;   
+        width: 84%;    
+    }
 }
 
-.item-image {
-    height: 90%;            
+@media (max-width: 799px) {
+    .readme-foto {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;   
+        width: 100%;    
+    }
 }
 
 .mat-toolbar {
     flex: 0;
     background-color: #1B3B6F;
     color: #ECEBE4;
-}
-
-#slideshow {
-    padding-top: 20px;
 }
 
 #navbar-readme {

@@ -9,7 +9,6 @@ import { UtilsService } from "./services/utils.service";
 import { AlertService } from "./services/alert.service";
 import { CandidatoService } from "./services/candidato.service";
 import { FlexLayoutModule } from "@angular/flex-layout";
-import {SlideshowModule} from 'ng-simple-slideshow';
 
 
 import {
@@ -77,8 +76,7 @@ import { ReadmeComponent } from "./readme/readme.component";
     MatSlideToggleModule,
     MatListModule,
     HttpClientModule,
-    MatDialogModule,
-    SlideshowModule
+    MatDialogModule
   ],
   providers: [
     HttpClientModule,
