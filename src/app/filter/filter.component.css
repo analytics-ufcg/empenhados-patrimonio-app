@@ -82,6 +82,7 @@
   max-width: 100%;
   width: auto;
   color: white;
+  font-weight: bold;
 }
 
 .filter-select .mat-select-arrow {

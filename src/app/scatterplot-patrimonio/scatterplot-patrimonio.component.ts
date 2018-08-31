@@ -423,8 +423,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       .on("mouseover.tip", this.tip.show)
       .on("mouseout.circle", (d, i, n) => {
         this.standardizeCircle(d, n[i]);
-      });
-    //.on("mouseout.tip", this.tip.hide);
+      })
+    .on("mouseout.tip", this.tip.hide);
 
     this.g = g;
 
