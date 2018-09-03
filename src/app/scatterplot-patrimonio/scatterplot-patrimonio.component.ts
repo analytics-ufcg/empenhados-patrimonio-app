@@ -428,7 +428,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       .on("mouseout.circle", (d, i, n) => {
         this.standardizeCircle(d, n[i]);
       })
-    .on("mouseout.tip", this.tip.hide);
+      .on("mouseout.tip", this.tip.hide);
 
     this.g = g;
 
@@ -908,12 +908,12 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
     return tickLabel;
   }
-  
+
   openReadme(): void {
     const dialogRef = this.dialog.open(ReadmeComponent, {
       width: "80%",
       height: "90%",
-      panelClass: 'readme-dialog-container'
+      panelClass: "readme-dialog-container"
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -977,11 +977,25 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
   initAnimacaoCandidatos() {
     this.initAnimacaoCandidatos = undefined;
-    let pontos = this.svg.selectAll("circle")._groups[0];
+        
+    // Determina qual o 98 percentil
+    let limiteExtremo = d3.quantile(
+      this.data.sort(function(a, b) { 
+          return ((a.patrimonio_eleicao_2 - a.patrimonio_eleicao_1) > (b.patrimonio_eleicao_2 - b.patrimonio_eleicao_1)) ? 1 :
+                 ((b.patrimonio_eleicao_2 - b.patrimonio_eleicao_1) > (a.patrimonio_eleicao_2 - a.patrimonio_eleicao_1) ? -1 : 0);}),
+      0.98,
+      (d: any) => d.patrimonio_eleicao_1
+    );        
+
+    // Seleciona apenas os pontos com ganho maior que o percentil
+    let pontos = this.svg.selectAll("circle").filter(function(d: any) {
+      return d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1 >= limiteExtremo;
+    })._groups[0];
+
     let pontoAnterior: any;
 
     this.animacaoTimer = Observable.interval(2500).subscribe(val => {
-      let novoCandidatoIndex = Math.floor(Math.random() * pontos.length);
+      let novoCandidatoIndex = Math.floor(Math.random() * pontos.length);      
       let candidatoPonto = pontos[novoCandidatoIndex];
 
       let candidato: any;
