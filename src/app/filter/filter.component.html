@@ -40,7 +40,7 @@
           </mat-select>
         </mat-form-field>
         <strong class="text-filter" *ngIf="isVereador">-</strong>
-        <mat-form-field class="filter" *ngIf="isVereador" floatLabel="never" color="accent">
+        <mat-form-field class="filter" *ngIf="isVereador" floatLabel="never" color="warn">
           <input id="input-municipio" type="text" placeholder="município" aria-label="Number" [ngModel]="municipioSelecionado" (ngModelChange)="onChangeMunicipio($event)"
             matInput [formControl]="controlMunicipio" [matAutocomplete]="auto">
           <mat-autocomplete class="auto-complete" #auto="matAutocomplete">

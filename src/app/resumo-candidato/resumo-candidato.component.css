@@ -3,11 +3,10 @@ mat-card-title {
   font-weight: bolder;
 }
 
-.card-resumo{
+.card-resumo {
   border-radius: 0 !important;
   box-shadow: 0 -2px 0px 0px #1b3b6f !important;
 }
-
 
 .resumo-subtitle {
   margin-bottom: 0;
@@ -42,6 +41,8 @@ mat-card-title {
 
 .link-tse {
   color: #2c2a7a;
+  padding-left: 16px;
+  padding-right: 0px;
 }
 
 .material-icons.mat-big {
