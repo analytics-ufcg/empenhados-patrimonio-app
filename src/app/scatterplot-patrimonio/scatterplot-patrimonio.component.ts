@@ -751,6 +751,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
   private tooltipDiferenca(d: any) {
     let diferenca = d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1;
+
     let text;
     if (diferenca > 0) {
       text = "Cresceu ";
@@ -770,20 +771,39 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       );
     }
 
-    return (
-      "<strong>" +
-      d.nome_urna +
-      "</strong><br><span class='tip-subtitle small-text'>" +
-      d.unidade_eleitoral +
-      "</span>" +
-      "<br>" +
-      "<span>" +
-      text +
-      this.utilsService.abreviaPatrimonio(
-        this.utilsService.formataReais(Math.abs(diferenca))
-      ) +
-      "</span>"
-    );
+    if (d.cargo_pleiteado_2.includes("VICE")) {
+      return (
+        "<strong>" +
+        d.nome_urna +
+        "</strong><br><span class='tip-subtitle small-text'>" +
+        this.utilsService.toTitleCase(d.cargo_pleiteado_2) +
+        ", " +
+        d.unidade_eleitoral +
+        "</span>" +
+        "<br>" +
+        "<span>" +
+        text +
+        this.utilsService.abreviaPatrimonio(
+          this.utilsService.formataReais(Math.abs(diferenca))
+        ) +
+        "</span>"
+      );
+    } else {
+      return (
+        "<strong>" +
+        d.nome_urna +
+        "</strong><br><span class='tip-subtitle small-text'>" +           
+        d.unidade_eleitoral +
+        "</span>" +
+        "<br>" +
+        "<span>" +
+        text +
+        this.utilsService.abreviaPatrimonio(
+          this.utilsService.formataReais(Math.abs(diferenca))
+        ) +
+        "</span>"
+      );
+    }
   }
 
   private updateXAxis(isLog) {
@@ -977,15 +997,21 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
   initAnimacaoCandidatos() {
     this.initAnimacaoCandidatos = undefined;
-        
+
     // Determina qual o 98 percentil
     let limiteExtremo = d3.quantile(
-      this.data.sort(function(a, b) { 
-          return ((a.patrimonio_eleicao_2 - a.patrimonio_eleicao_1) > (b.patrimonio_eleicao_2 - b.patrimonio_eleicao_1)) ? 1 :
-                 ((b.patrimonio_eleicao_2 - b.patrimonio_eleicao_1) > (a.patrimonio_eleicao_2 - a.patrimonio_eleicao_1) ? -1 : 0);}),
+      this.data.sort(function(a, b) {
+        return a.patrimonio_eleicao_2 - a.patrimonio_eleicao_1 >
+          b.patrimonio_eleicao_2 - b.patrimonio_eleicao_1
+          ? 1
+          : b.patrimonio_eleicao_2 - b.patrimonio_eleicao_1 >
+            a.patrimonio_eleicao_2 - a.patrimonio_eleicao_1
+            ? -1
+            : 0;
+      }),
       0.98,
       (d: any) => d.patrimonio_eleicao_1
-    );        
+    );
 
     // Seleciona apenas os pontos com ganho maior que o percentil
     let pontos = this.svg.selectAll("circle").filter(function(d: any) {
@@ -995,7 +1021,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     let pontoAnterior: any;
 
     this.animacaoTimer = Observable.interval(2500).subscribe(val => {
-      let novoCandidatoIndex = Math.floor(Math.random() * pontos.length);      
+      let novoCandidatoIndex = Math.floor(Math.random() * pontos.length);
       let candidatoPonto = pontos[novoCandidatoIndex];
 
       let candidato: any;
