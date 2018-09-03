@@ -752,6 +752,24 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   private tooltipDiferenca(d: any) {
     let diferenca = d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1;
 
+    let titulo = "<strong class='nome-urna'>" +
+                 d.nome_urna +
+                 "</strong>";
+
+    let subtitulo;
+    
+    if (d.cargo_pleiteado_2.includes("VICE")) {
+      subtitulo = "<span class='tip-subtitle small-text'>" +
+        this.utilsService.toTitleCase(d.cargo_pleiteado_2) +
+        ", " +
+        d.unidade_eleitoral +
+        "</span>"; 
+    } else {
+      subtitulo = "<span class='tip-subtitle small-text'>" +           
+        d.unidade_eleitoral +
+        "</span>";
+    }
+
     let text;
     if (diferenca > 0) {
       text = "Cresceu ";
@@ -759,51 +777,28 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       text = "Diminuiu ";
     } else {
       return (
-        "<strong class='nome-urna'>" +
-        d.nome_urna +
-        "</strong><br><span class='tip-subtitle small-text'>" +
-        d.unidade_eleitoral +
-        "</span>" +
+        titulo + 
+        "<br>" +
+        subtitulo +
         "<br>" +
         "<span>" +
         "Permaneceu o mesmo" +
         "</span>"
       );
     }
-
-    if (d.cargo_pleiteado_2.includes("VICE")) {
-      return (
-        "<strong>" +
-        d.nome_urna +
-        "</strong><br><span class='tip-subtitle small-text'>" +
-        this.utilsService.toTitleCase(d.cargo_pleiteado_2) +
-        ", " +
-        d.unidade_eleitoral +
-        "</span>" +
-        "<br>" +
-        "<span>" +
-        text +
-        this.utilsService.abreviaPatrimonio(
-          this.utilsService.formataReais(Math.abs(diferenca))
-        ) +
-        "</span>"
-      );
-    } else {
-      return (
-        "<strong>" +
-        d.nome_urna +
-        "</strong><br><span class='tip-subtitle small-text'>" +           
-        d.unidade_eleitoral +
-        "</span>" +
-        "<br>" +
-        "<span>" +
-        text +
-        this.utilsService.abreviaPatrimonio(
-          this.utilsService.formataReais(Math.abs(diferenca))
-        ) +
-        "</span>"
-      );
-    }
+    
+    return (
+      titulo +
+      "<br>" +
+      subtitulo + 
+      "<br>" +
+      "<span>" +
+      text +
+      this.utilsService.abreviaPatrimonio(
+        this.utilsService.formataReais(Math.abs(diferenca))
+      ) +
+      "</span>"
+    );    
   }
 
   private updateXAxis(isLog) {
