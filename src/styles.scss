@@ -69,9 +69,47 @@ $accent-color: (
   )
 );
 
+$warn-color: (
+  50: white,
+  100: white,
+  200: white,
+  300: white,
+  400: white,
+  500: white,
+  600: white,
+  700: white,
+  800: white,
+  900: white,
+  A100: white,
+  A200: white,
+  A400: white,
+  A700: white,
+  contrast: (
+    50: white,
+    100: white,
+    200: white,
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: white,
+    A200: white,
+    A400: white,
+    A700: white
+  )
+);
+
 $patrimonio-primary: mat-palette($primary-color);
 $patrimonio-accent: mat-palette($accent-color);
-$patrimonio-theme: mat-light-theme($patrimonio-primary, $patrimonio-accent);
+$patrimonio-warn: mat-palette($warn-color);
+$patrimonio-theme: mat-light-theme(
+  $patrimonio-primary,
+  $patrimonio-accent,
+  $patrimonio-warn
+);
 
 @include angular-material-theme($patrimonio-theme);
 
