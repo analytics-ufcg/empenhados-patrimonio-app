@@ -97,7 +97,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.svg = d3.select("svg");
 
     this.margin.right = parseInt(this.svg.style("width")) * 0.0645;
-    this.margin.left = this.margin.right;
+    this.margin.left = 40;
 
     this.width = parseInt(this.svg.style("width")) - this.margin.right;
 
@@ -428,7 +428,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       .on("mouseout.circle", (d, i, n) => {
         this.standardizeCircle(d, n[i]);
       })
-    .on("mouseout.tip", this.tip.hide);
+      .on("mouseout.tip", this.tip.hide);
 
     this.g = g;
 
@@ -908,12 +908,12 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
     return tickLabel;
   }
-  
+
   openReadme(): void {
     const dialogRef = this.dialog.open(ReadmeComponent, {
       width: "80%",
       height: "90%",
-      panelClass: 'readme-dialog-container'
+      panelClass: "readme-dialog-container"
     });
 
     dialogRef.afterClosed().subscribe(result => {

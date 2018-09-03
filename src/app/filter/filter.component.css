@@ -22,7 +22,7 @@
 .text-filter {
   font-weight: normal;
   font-size: 19px;
-  color: black;
+  color: #5e400b;
 }
 
 .text-filter-comma {
@@ -53,7 +53,7 @@
 }
 
 .input {
-  color: #5e400b;
+  color: white;
 }
 
 .alt .mat-form-field-underline {
@@ -70,6 +70,7 @@
   padding-left: 2%;
   background-color: #2a2c7a;
   color: white;
+  font-size: 21px;
 }
 
 .alt .mat-select-value {
@@ -89,4 +90,8 @@
     font-size: 0.8em;
     line-height: 1em !important;
   }
+}
+
+#input-municipio ::placeholder {
+  color: white;
 }

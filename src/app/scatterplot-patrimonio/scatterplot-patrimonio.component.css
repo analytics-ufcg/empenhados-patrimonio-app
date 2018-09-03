@@ -104,18 +104,17 @@
 }
 
 .filter-name {
-  margin-left: 2%;    
+  margin-left: 2%;
 }
 
 .text-info {
-  color: #2C2A7A;
+  color: #2c2a7a;
 }
 
 #info-icon {
-  color: #2C2A7A;
+  color: #2c2a7a;
 }
 
 .button-info {
   float: right;
-  margin-right: 50px;
 }

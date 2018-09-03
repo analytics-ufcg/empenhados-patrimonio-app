@@ -1,54 +1,58 @@
 <div class="section-filter">
   <mat-card class="filter-card">
     <div class="alt">
-      <strong class="text-filter">Patrimônio dos candidatos a</strong>
+      <div>
+        <strong class="text-filter">Patrimônio dos candidatos a</strong>
 
-      <mat-form-field class="filter" floatLabel="never" color="accent">
-        <mat-select class="filter-select" placeholder="cargo" [ngModel]="cargoSelecionado" (ngModelChange)="onChangeCargo($event)">
-          <mat-option *ngFor="let cargo of listaCargosAgrupados" [value]="cargo.cargo_pleiteado_2">
-            {{ cargo.cargo_pleiteado_2.toLowerCase() }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <strong class="text-filter-comma">, </strong>
-      <mat-form-field class="filter" floatLabel="never" color="accent">
-        <mat-select class="filter-select" placeholder="situação" [ngModel]="situacaoSelecionada" (ngModelChange)="onChangeSituacao($event)">
-          <mat-option *ngFor="let situacao of listaSituacoes" [value]="situacao.situacao_eleicao_2">
-            {{ situacao.situacao_eleicao_2.toLowerCase() }}s
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <strong class="text-filter-second-comma">, </strong>
-      <strong class="text-filter">em</strong>
-      <mat-form-field class="filter" floatLabel="never" color="accent">
-        <mat-select class="filter-select" placeholder="ano" [ngModel]="anoSelecionado" (ngModelChange)="onChangeAno($event)">
-          <mat-option *ngFor="let ano of listaAnos" [value]="ano.ano_dois">
-            {{ ano.ano_dois }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+        <mat-form-field class="filter" floatLabel="never" color="accent">
+          <mat-select class="filter-select" placeholder="cargo" [ngModel]="cargoSelecionado" (ngModelChange)="onChangeCargo($event)">
+            <mat-option *ngFor="let cargo of listaCargosAgrupados" [value]="cargo.cargo_pleiteado_2">
+              {{ cargo.cargo_pleiteado_2.toLowerCase() }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <strong class="text-filter-comma">, </strong>
+      </div>
+      <div>
+        <mat-form-field class="filter" floatLabel="never" color="accent">
+          <mat-select class="filter-select" placeholder="situação" [ngModel]="situacaoSelecionada" (ngModelChange)="onChangeSituacao($event)">
+            <mat-option *ngFor="let situacao of listaSituacoes" [value]="situacao.situacao_eleicao_2">
+              {{ situacao.situacao_eleicao_2.toLowerCase() }}s
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <strong class="text-filter-second-comma">, </strong>
+        <strong class="text-filter">em</strong>
+        <mat-form-field class="filter" floatLabel="never" color="accent">
+          <mat-select class="filter-select" placeholder="ano" [ngModel]="anoSelecionado" (ngModelChange)="onChangeAno($event)">
+            <mat-option *ngFor="let ano of listaAnos" [value]="ano.ano_dois">
+              {{ ano.ano_dois }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
 
-
-      <strong class="text-filter" *ngIf="!isExecutivo"> {{ preposicao_estado }}</strong>
-      <mat-form-field class="filter" *ngIf="!isExecutivo" floatLabel="never" color="accent">
-        <mat-select class="filter-select" placeholder="estado" [ngModel]="estadoSelecionado" (ngModelChange)="onChangeEstado($event)">
-          <mat-option *ngFor="let estado of listaEstados" [value]="estado.estado">
-            {{ estado.estado }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <strong class="text-filter" *ngIf="isVereador">-</strong>
-      <mat-form-field class="filter" *ngIf="isVereador" floatLabel="never" color="accent">
-        <input id="input-municipio" type="text" placeholder="município" aria-label="Number" [ngModel]="municipioSelecionado" (ngModelChange)="onChangeMunicipio($event)"
-          matInput [formControl]="controlMunicipio" [matAutocomplete]="auto">
-        <mat-autocomplete class="auto-complete" #auto="matAutocomplete">
-          <mat-option *ngFor="let municipio of filteredOptions | async" [value]="municipio">
-            {{ municipio }}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-
-      <strong *ngIf="anoSelecionado" class="text-filter">que em {{ anoSelecionado - 4 }} também declararam patrimônio.</strong>
+        <strong class="text-filter" *ngIf="!isExecutivo"> {{ preposicao_estado }}</strong>
+        <mat-form-field class="filter" *ngIf="!isExecutivo" floatLabel="never" color="accent">
+          <mat-select class="filter-select" placeholder="estado" [ngModel]="estadoSelecionado" (ngModelChange)="onChangeEstado($event)">
+            <mat-option *ngFor="let estado of listaEstados" [value]="estado.estado">
+              {{ estado.estado }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <strong class="text-filter" *ngIf="isVereador">-</strong>
+        <mat-form-field class="filter" *ngIf="isVereador" floatLabel="never" color="accent">
+          <input id="input-municipio" type="text" placeholder="município" aria-label="Number" [ngModel]="municipioSelecionado" (ngModelChange)="onChangeMunicipio($event)"
+            matInput [formControl]="controlMunicipio" [matAutocomplete]="auto">
+          <mat-autocomplete class="auto-complete" #auto="matAutocomplete">
+            <mat-option *ngFor="let municipio of filteredOptions | async" [value]="municipio">
+              {{ municipio }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div>
+        <strong *ngIf="anoSelecionado" class="text-filter">que em {{ anoSelecionado - 4 }} também declararam patrimônio.</strong>
+      </div>
     </div>
   </mat-card>
 </div>
