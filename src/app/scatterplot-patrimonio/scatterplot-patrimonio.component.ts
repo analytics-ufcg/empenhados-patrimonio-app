@@ -977,11 +977,25 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
   initAnimacaoCandidatos() {
     this.initAnimacaoCandidatos = undefined;
-    let pontos = this.svg.selectAll("circle")._groups[0];
+        
+    // Determina qual o 98 percentil
+    let limiteExtremo = d3.quantile(
+      this.data.sort(function(a, b) { 
+          return ((a.patrimonio_eleicao_2 - a.patrimonio_eleicao_1) > (b.patrimonio_eleicao_2 - b.patrimonio_eleicao_1)) ? 1 :
+                 ((b.patrimonio_eleicao_2 - b.patrimonio_eleicao_1) > (a.patrimonio_eleicao_2 - a.patrimonio_eleicao_1) ? -1 : 0);}),
+      0.98,
+      (d: any) => d.patrimonio_eleicao_1
+    );        
+
+    // Seleciona apenas os pontos com ganho maior que o percentil
+    let pontos = this.svg.selectAll("circle").filter(function(d: any) {
+      return d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1 >= limiteExtremo;
+    })._groups[0];
+
     let pontoAnterior: any;
 
     this.animacaoTimer = Observable.interval(2500).subscribe(val => {
-      let novoCandidatoIndex = Math.floor(Math.random() * pontos.length);
+      let novoCandidatoIndex = Math.floor(Math.random() * pontos.length);      
       let candidatoPonto = pontos[novoCandidatoIndex];
 
       let candidato: any;
