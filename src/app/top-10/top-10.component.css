@@ -1,13 +1,20 @@
+.card-top10 {
+  border-radius: 0 !important;
+  box-shadow: 0 -2px 0px 0px #1b3b6f !important;
+}
+
 .mat-table {
   overflow: auto;
 }
 
-.mat-cell, .mat-header-cell {
+.mat-cell,
+.mat-header-cell {
   font-size: 12px;
   padding-right: 1%;
 }
 
-.mat-header-row, .mat-row {
+.mat-header-row,
+.mat-row {
   padding-left: 10px;
   padding-right: 10px;
 }

@@ -43,6 +43,7 @@ import { JoyplotEstadosComponent } from "./joyplot-estados/joyplot-estados.compo
 import { FactSheetComponent } from "./fact-sheet/fact-sheet.component";
 import { AboutComponent } from "./about/about.component";
 import { HomeComponent } from "./home/home.component";
+import { ReadmeComponent } from "./readme/readme.component";
 import { Top10Component } from "./top-10/top-10.component";
 
 @NgModule({
@@ -55,6 +56,7 @@ import { Top10Component } from "./top-10/top-10.component";
     FactSheetComponent,
     AboutComponent,
     HomeComponent,
+    ReadmeComponent,
     Top10Component
   ],
   imports: [
@@ -95,6 +97,6 @@ import { Top10Component } from "./top-10/top-10.component";
     CandidatoService
   ],
   bootstrap: [AppComponent],
-  entryComponents: [AboutComponent]
+  entryComponents: [AboutComponent, ReadmeComponent]
 })
 export class AppModule {}

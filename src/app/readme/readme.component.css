@@ -1,0 +1,58 @@
+@media (min-width: 850px) {
+    .readme-foto {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;   
+        width: 84%;    
+    }
+}
+
+@media (max-width: 849px) {
+    .readme-foto {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;   
+        width: 100%;    
+    }
+}
+
+.mat-toolbar {
+    flex: 0;
+    background-color: #2C2A7A;
+    color: #ECEBE4;
+}
+
+#navbar-readme {
+    padding: 4rem 1rem;
+}
+
+.title {
+    width: 100%;
+    text-align: center;
+    padding-top: 10px;
+}
+
+@media (min-width: 901px) {
+    .title-text {
+        font-family: Fjalla One;
+        font-size: 1.8em;
+        display: inline-block;
+    }
+}
+
+@media (max-width: 900px) {
+    .title-text {
+        font-family: Fjalla One;
+        font-size: 1.0em;
+        display: inline-block;
+    }
+}
+
+#subtitle {
+    font-family: 'Proza Libre', sans-serif;
+    color: darkgrey;
+    font-size: 1em;
+    margin-top: 1%;
+    white-space: initial;
+    line-height: 1.5em;
+}

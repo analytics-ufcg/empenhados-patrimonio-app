@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card class="card-top10">
   <mat-table matSort #table [dataSource]="dataSource" matSortActive="dif-abs" matSortDirection="desc">
 
     <ng-container matColumnDef="nome_urna">
@@ -13,8 +13,8 @@
 
     <ng-container matColumnDef="dif-abs">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Diferença</mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        {{ utilsService.formataReais(element.patrimonio_eleicao_2 - element.patrimonio_eleicao_1) }}
+      <mat-cell *matCellDef="let element" matTooltip="{{ utilsService.formataReais(element.patrimonio_eleicao_2 - element.patrimonio_eleicao_1) }}">
+        {{ this.utilsService.abreviaPatrimonio(utilsService.formataReais(element.patrimonio_eleicao_2 - element.patrimonio_eleicao_1)) }}
       </mat-cell>
     </ng-container>
 

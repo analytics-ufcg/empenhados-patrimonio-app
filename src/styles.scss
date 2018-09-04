@@ -1,23 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
-@import '~@angular/material/theming';
+@import "~@angular/material/theming";
 @include mat-core();
 
 $primary-color: (
-  50: #5E400B,
-  100: #5E400B,
-  200: #5E400B,
-  300: #5E400B,
-  400: #5E400B,
-  500: #5E400B,
-  600: #5E400B,
-  700: #5E400B,
-  800: #5E400B,
-  900: #5E400B,
-  A100: #5E400B,
-  A200: #5E400B,
-  A400: #5E400B,
-  A700: #5E400B,
+  50: #5e400b,
+  100: #5e400b,
+  200: #5e400b,
+  300: #5e400b,
+  400: #5e400b,
+  500: #5e400b,
+  600: #5e400b,
+  700: #5e400b,
+  800: #5e400b,
+  900: #5e400b,
+  A100: #5e400b,
+  A200: #5e400b,
+  A400: #5e400b,
+  A700: #5e400b,
   contrast: (
     50: white,
     100: white,
@@ -32,25 +32,25 @@ $primary-color: (
     A100: white,
     A200: white,
     A400: white,
-    A700: white,
+    A700: white
   )
 );
 
 $accent-color: (
-  50: #B68115,
-  100: #B68115,
-  200: #B68115,
-  300: #B68115,
-  400: #B68115,
-  500: #B68115,
-  600: #B68115,
-  700: #B68115,
-  800: #B68115,
-  900: #B68115,
-  A100: #B68115,
-  A200: #B68115,
-  A400: #B68115,
-  A700: #B68115,
+  50: #b68115,
+  100: #b68115,
+  200: #b68115,
+  300: #b68115,
+  400: #b68115,
+  500: #b68115,
+  600: #b68115,
+  700: #b68115,
+  800: #b68115,
+  900: #b68115,
+  A100: #b68115,
+  A200: #b68115,
+  A400: #b68115,
+  A700: #b68115,
   contrast: (
     50: white,
     100: white,
@@ -65,13 +65,51 @@ $accent-color: (
     A100: white,
     A200: white,
     A400: white,
-    A700: white,
+    A700: white
+  )
+);
+
+$warn-color: (
+  50: white,
+  100: white,
+  200: white,
+  300: white,
+  400: white,
+  500: white,
+  600: white,
+  700: white,
+  800: white,
+  900: white,
+  A100: white,
+  A200: white,
+  A400: white,
+  A700: white,
+  contrast: (
+    50: white,
+    100: white,
+    200: white,
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: white,
+    A200: white,
+    A400: white,
+    A700: white
   )
 );
 
 $patrimonio-primary: mat-palette($primary-color);
 $patrimonio-accent: mat-palette($accent-color);
-$patrimonio-theme: mat-light-theme($patrimonio-primary, $patrimonio-accent);
+$patrimonio-warn: mat-palette($warn-color);
+$patrimonio-theme: mat-light-theme(
+  $patrimonio-primary,
+  $patrimonio-accent,
+  $patrimonio-warn
+);
 
 @include angular-material-theme($patrimonio-theme);
 
@@ -82,4 +120,8 @@ body {
 
 .mat-tooltip {
   font-size: 12px;
+}
+
+.readme-dialog-container .mat-dialog-container {
+  padding: 0;
 }

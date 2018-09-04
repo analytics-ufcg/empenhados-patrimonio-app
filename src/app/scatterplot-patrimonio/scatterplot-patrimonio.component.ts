@@ -5,6 +5,7 @@ import {
   EventEmitter,
   ViewEncapsulation
 } from "@angular/core";
+import { MatDialog } from "@angular/material";
 import * as d3 from "d3";
 import d3Tip from "d3-tip";
 import { DataService } from "../services/data.service";
@@ -15,6 +16,8 @@ import { Observable } from "rxjs/Observable";
 import { startWith } from "rxjs/operators/startWith";
 import { map } from "rxjs/operators/map";
 import "rxjs/add/observable/interval";
+
+import { ReadmeComponent } from "../readme/readme.component";
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -80,7 +83,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private alertService: AlertService,
-    private utilsService: UtilsService
+    private utilsService: UtilsService,
+    public dialog: MatDialog
   ) {
     this.margin = { top: 20, right: 30, bottom: 20, left: 40 };
     this.transitionTime = { short: 1000, medium: 1500, long: 2000 };
@@ -93,7 +97,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.svg = d3.select("svg");
 
     this.margin.right = parseInt(this.svg.style("width")) * 0.0645;
-    this.margin.left = this.margin.right;
+    this.margin.left = 40;
 
     this.width = parseInt(this.svg.style("width")) - this.margin.right;
 
@@ -717,28 +721,55 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
   private tooltipPatrimonio(d: any) {
     return (
-      "<strong>" +
+      '<strong class="nome-urna">' +
       d.nome_urna +
-      "</strong><br><span>" +
+      "</strong><br><span class='tip-subtitle small-text'>" +
       d.unidade_eleitoral +
       "</span>" +
       "<br>" +
       "<span>" +
+      "<span class='small-text'>" +
       d.ano_um +
       ": " +
+      "</span>" +
+      "<span class='patrimonio-value'>" +
       this.utilsService.formataReais(d.patrimonio_eleicao_1) +
+      "</span>" +
       "</span>" +
       "<br>" +
       "<span>" +
+      "<span class='small-text'>" +
       (d.ano_um + 4) +
       ": " +
+      "</span>" +
+      "<span class='patrimonio-value'>" +
       this.utilsService.formataReais(d.patrimonio_eleicao_2) +
+      "</span>" +
       "</span>"
     );
   }
 
   private tooltipDiferenca(d: any) {
     let diferenca = d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1;
+
+    let titulo = "<strong class='nome-urna'>" +
+                 d.nome_urna +
+                 "</strong>";
+
+    let subtitulo;
+    
+    if (d.cargo_pleiteado_2.includes("VICE")) {
+      subtitulo = "<span class='tip-subtitle small-text'>" +
+        this.utilsService.toTitleCase(d.cargo_pleiteado_2) +
+        ", " +
+        d.unidade_eleitoral +
+        "</span>"; 
+    } else {
+      subtitulo = "<span class='tip-subtitle small-text'>" +           
+        d.unidade_eleitoral +
+        "</span>";
+    }
+
     let text;
     if (diferenca > 0) {
       text = "Cresceu ";
@@ -746,24 +777,20 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       text = "Diminuiu ";
     } else {
       return (
-        "<strong>" +
-        d.nome_urna +
-        "</strong><br><span>" +
-        d.unidade_eleitoral +
-        "</span>" +
+        titulo + 
+        "<br>" +
+        subtitulo +
         "<br>" +
         "<span>" +
         "Permaneceu o mesmo" +
         "</span>"
       );
     }
-
+    
     return (
-      "<strong>" +
-      d.nome_urna +
-      "</strong><br><span>" +
-      d.unidade_eleitoral +
-      "</span>" +
+      titulo +
+      "<br>" +
+      subtitulo + 
       "<br>" +
       "<span>" +
       text +
@@ -771,7 +798,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         this.utilsService.formataReais(Math.abs(diferenca))
       ) +
       "</span>"
-    );
+    );    
   }
 
   private updateXAxis(isLog) {
@@ -897,6 +924,17 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     return tickLabel;
   }
 
+  openReadme(): void {
+    const dialogRef = this.dialog.open(ReadmeComponent, {
+      width: "80%",
+      height: "90%",
+      panelClass: "readme-dialog-container"
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log("The dialog was closed");
+    });
+  }
   // filtro para a pesquisa por candidato
   filter(val: string): string[] {
     return this.candidatosAtuais
@@ -954,7 +992,27 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
   initAnimacaoCandidatos() {
     this.initAnimacaoCandidatos = undefined;
-    let pontos = this.svg.selectAll("circle")._groups[0];
+
+    // Determina qual o 98 percentil
+    let limiteExtremo = d3.quantile(
+      this.data.sort(function(a, b) {
+        return a.patrimonio_eleicao_2 - a.patrimonio_eleicao_1 >
+          b.patrimonio_eleicao_2 - b.patrimonio_eleicao_1
+          ? 1
+          : b.patrimonio_eleicao_2 - b.patrimonio_eleicao_1 >
+            a.patrimonio_eleicao_2 - a.patrimonio_eleicao_1
+            ? -1
+            : 0;
+      }),
+      0.98,
+      (d: any) => d.patrimonio_eleicao_1
+    );
+
+    // Seleciona apenas os pontos com ganho maior que o percentil
+    let pontos = this.svg.selectAll("circle").filter(function(d: any) {
+      return d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1 >= limiteExtremo;
+    })._groups[0];
+
     let pontoAnterior: any;
 
     this.animacaoTimer = Observable.interval(2500).subscribe(val => {
