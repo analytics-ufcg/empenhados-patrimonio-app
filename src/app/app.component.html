@@ -2,7 +2,7 @@
   <mat-toolbar id="navbar">
     <div class="navbar-grid">
       <div class="title" fxLayout="row" fxLayout.xs="column" fxLayoutWrap>
-        <div fxFlex="30%" class="logo-container">
+        <div fxFlex="30%" class="logo-container" routerLink=''>
           <img class="logo" id="title" src="assets/img/logo_2.png" alt="Capital dos Candidatos">
         </div>
         <div fxFlex="20%" id="subtitle">Quem ganhou e quem perdeu patrimônio entre os políticos?</div>
@@ -11,11 +11,16 @@
         <div>
           <a mat-button class="button" (click)='openDialog()'>Sobre</a>
         </div>
+
+        <div>
+          <a mat-button class="button" routerLink='roteamento'>Roteamento</a>
+        </div>
       </div>
     </div>
   </mat-toolbar>
   <div class="main-container">
-    <app-home></app-home>
+    <router-outlet></router-outlet>
+    <!-- <app-home></app-home> -->
   </div>
 
 
@@ -25,7 +30,7 @@
         <img class="footer-img" src="assets/img/MPPB.png">
       </div>
       <div fxFlex="20%" class="footer-content">
-        <span class="title-text" routerLink="/"> {{ title }}</span>
+        <span class="title-text">{{ title }}</span>
         <br>
         <span id="info-text">
           <br/> Núcleo de Gestão do Conhecimento do GAECO/MPPB

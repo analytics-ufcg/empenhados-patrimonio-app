@@ -1,7 +1,7 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { HttpClientModule, HttpClient } from "@angular/common/http";
+import { HttpClientModule } from "@angular/common/http";
 import { GlobalService } from "./services/global.service";
 import { RequestService } from "./services/request.service";
 import { DataService } from "./services/data.service";
@@ -46,6 +46,9 @@ import { HomeComponent } from "./home/home.component";
 import { ReadmeComponent } from "./readme/readme.component";
 import { Top10Component } from "./top-10/top-10.component";
 
+import { AppRoutingModule } from "./app-routing.module";
+import { RouteTestComponent } from './route-test/route-test.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,7 +60,8 @@ import { Top10Component } from "./top-10/top-10.component";
     AboutComponent,
     HomeComponent,
     ReadmeComponent,
-    Top10Component
+    Top10Component,
+    RouteTestComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -85,7 +89,8 @@ import { Top10Component } from "./top-10/top-10.component";
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-    MatExpansionModule
+    MatExpansionModule,
+    AppRoutingModule
   ],
   providers: [
     HttpClientModule,
