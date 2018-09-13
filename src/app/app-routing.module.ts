@@ -1,13 +1,13 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 
-import { RouteTestComponent } from "./route-test/route-test.component";
+import { AboutComponent } from "./about/about.component";
 import { HomeComponent } from "./home/home.component";
 
 const routes: Routes = [
-  { path: "", component: HomeComponent },
-  { path: "roteamento", component: RouteTestComponent },
-  { path: "**", redirectTo: "" }
+  { path: "", component: HomeComponent },  
+  { path: "sobre", component: AboutComponent },
+  { path: "**", redirectTo: "" },  
 ];
 
 @NgModule({

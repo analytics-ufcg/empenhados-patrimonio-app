@@ -47,7 +47,6 @@ import { ReadmeComponent } from "./readme/readme.component";
 import { Top10Component } from "./top-10/top-10.component";
 
 import { AppRoutingModule } from "./app-routing.module";
-import { RouteTestComponent } from './route-test/route-test.component';
 
 @NgModule({
   declarations: [
@@ -60,8 +59,7 @@ import { RouteTestComponent } from './route-test/route-test.component';
     AboutComponent,
     HomeComponent,
     ReadmeComponent,
-    Top10Component,
-    RouteTestComponent
+    Top10Component
   ],
   imports: [
     BrowserAnimationsModule,
