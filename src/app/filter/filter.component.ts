@@ -6,7 +6,7 @@ import { startWith } from "rxjs/operators/startWith";
 import { map } from "rxjs/operators/map";
 import { DataService } from "../services/data.service";
 import { ViewEncapsulation } from "@angular/core";
-import { ThrowStmt } from "@angular/compiler";
+import { ActivatedRoute, Router, Params } from '@angular/router';
 
 const ELEICOES_FEDERAIS = 1;
 const ELEICOES_MUNICIPAIS = 2;
@@ -49,9 +49,7 @@ export class FilterComponent implements OnInit {
 
   private controlMunicipio: FormControl = new FormControl();
   private filteredOptions: Observable<string[]>;
-
-  private municipiosPronto: any;
-
+  
   private estados_prep_no = [
     "AC",
     "AL",
@@ -119,7 +117,9 @@ export class FilterComponent implements OnInit {
 
   constructor(
     private requestService: RequestService,
-    private dataService: DataService
+    private dataService: DataService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) {
     this.listaMunicipios = [];
 
@@ -132,6 +132,8 @@ export class FilterComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.getUrlParams();
+
     this.filteredOptions = this.controlMunicipio.valueChanges.pipe(
       startWith(""),
       map(val => this.filter(val))
@@ -144,14 +146,10 @@ export class FilterComponent implements OnInit {
     this.agrupaCargos();
 
     // O site inicia com a visualização dos deputados federais de todos os estados
-
-    this.onChangeCargo("DEPUTADO FEDERAL");
-
-    this.onChangeSituacao("ELEITO");
-
-    this.onChangeAno(2014);
-
-    this.onChangeEstado("qualquer estado");
+    await this.onChangeCargo("DEPUTADO FEDERAL");
+    await this.onChangeSituacao("ELEITO");
+    await this.onChangeAno(2014);
+    await this.onChangeEstado("qualquer estado");
 
     this.decideSobreVisualizacao();
   }
@@ -189,7 +187,7 @@ export class FilterComponent implements OnInit {
 
   // Se o filtro estiver pronto, exibe visualização de patrimônio
   decideSobreVisualizacao() {
-    if (this.filtroPronto()) {
+    if (this.filtroPronto()) {            
       this.emiteEventoVisualizacao();
     } else {
       this.apagaVisualizacao.next();
@@ -199,10 +197,13 @@ export class FilterComponent implements OnInit {
   /* Altera a lista de municipios a partir de um estado selecionado */
   async onChangeEstado(novoEstado) {
     this.estadoSelecionado = novoEstado;
-    this.dataService.mudaEstado(novoEstado);
+    this.dataService.mudaEstado(novoEstado);    
+    await this.updateUrlParams('estado', novoEstado);
+
     this.definePreposicao();
     this.atualizaFiltroMunicipio();
 
+    // Recupera os municípios do estado selecionado
     await this.requestService
       .recuperaMunicipios(this.estadoSelecionado)
       .subscribe(
@@ -225,15 +226,17 @@ export class FilterComponent implements OnInit {
   }
 
   // Atualiza cargo atual selecionado
-  onChangeCargo(novoCargo) {
+  async onChangeCargo(novoCargo) {
     if (!this.mesmoTipoEleicao(novoCargo, this.cargoSelecionado)) {
       if (
         CARGOS_MUNICIPAIS.indexOf(novoCargo) === -1 &&
         novoCargo !== this.dataService.getTodosCargos()
-      ) {
+      ) {        
         this.anoSelecionado = 2014;
+        await this.updateUrlParams('ano', this.anoSelecionado);
       } else {
         this.anoSelecionado = 2016;
+        await this.updateUrlParams('ano', this.anoSelecionado);
       }
     }
 
@@ -241,6 +244,9 @@ export class FilterComponent implements OnInit {
 
     this.cargoSelecionado = novoCargo;
     this.dataService.mudaCargo(novoCargo);
+    await this.updateUrlParams('cargo', novoCargo);
+
+    // Controle da opção de todos os estados ou não, a depender do cargo selecionado.
     if (["PREFEITO", "VEREADOR"].includes(novoCargo)) {
       this.listaEstados.splice(28, 1); // remove opcao todos os estados
       let novoEstado;
@@ -259,6 +265,8 @@ export class FilterComponent implements OnInit {
         this.listaEstados.push({ estado: this.todosEstados });
       }
     }
+
+    // Atualiza filtros de acordo com o estado selecionado
     this.atualizaFiltroAno();
     this.atualizaFiltroMunicipio();
 
@@ -294,11 +302,13 @@ export class FilterComponent implements OnInit {
     this.decideSobreVisualizacao();
   }
 
-  onChangeAno(novoAno) {
+  async onChangeAno(novoAno) {
     this.anoSelecionado = novoAno;
+    await this.updateUrlParams('ano', novoAno);
 
-    if (novoAno === 2018) {
-      this.situacaoSelecionada = this.todasSituacoes;
+    if (novoAno === 2018) {      
+      this.situacaoSelecionada = this.todasSituacoes;   
+      await this.updateUrlParams('situacao', this.situacaoSelecionada);      
     }
 
     if (this.anoSelecionado % 4) {
@@ -308,12 +318,14 @@ export class FilterComponent implements OnInit {
     }
 
     this.atualizaFiltroMunicipio();
+    await this.updateUrlParams('ano', this.anoSelecionado);
     this.decideSobreVisualizacao();
   }
 
-  onChangeSituacao(novaSituacao) {
+  async onChangeSituacao(novaSituacao) {
     this.situacaoSelecionada = novaSituacao;
     this.dataService.mudaSituacao(novaSituacao);
+    await this.updateUrlParams('situacao', novaSituacao);
 
     this.decideSobreVisualizacao();
   }
@@ -425,16 +437,22 @@ export class FilterComponent implements OnInit {
     } else {
       this.requestService.recuperaAnos(this.cargoSelecionado).subscribe(
         data => {
-          this.listaAnos = data;
+          //this.listaAnos = data;        
+          this.listaAnos = [
+            { ano_dois: 2012 },
+            { ano_dois: 2014 },
+            { ano_dois: 2016 },
+            { ano_dois: 2018 }
+          ];                 
         },
         err => {
           console.log(err);
         }
       );
-    }
+    }    
   }
 
-  private atualizaFiltroMunicipio() {
+  private async atualizaFiltroMunicipio() {
     if (this.estadoSelecionado === this.todosEstados) {
       this.isVereador = false;
       this.municipioSelecionado = "";
@@ -451,6 +469,7 @@ export class FilterComponent implements OnInit {
     ) {
       this.isExecutivo = true;
       this.estadoSelecionado = this.todosEstados;
+      await this.updateUrlParams('estado', this.estadoSelecionado);
     } else {
       this.isExecutivo = false;
     }
@@ -470,5 +489,32 @@ export class FilterComponent implements OnInit {
     ) {
       this.preposicao_estado = "em";
     }
+  }
+
+  private updateUrlParams(parameter: string, value: any) {
+    var queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+    queryParams[parameter] = value;
+    this.router.navigate([], { queryParams: queryParams });
+ }
+
+  private getUrlParams() {
+    
+    var queryParams: Params = this.activatedRoute.snapshot.queryParams;
+    if (queryParams['cargo']) {
+      this.onChangeCargo(queryParams['cargo']);
+    }
+    if (queryParams['ano']) {
+      this.onChangeAno(queryParams['ano']);
+      this.anoSelecionado = queryParams['ano'];
+    }
+    if (queryParams['situacao']) {
+      this.onChangeSituacao(queryParams['situacao']);
+    }
+    if (queryParams['estado']) {
+      this.onChangeEstado(queryParams['estado']);
+    }
+    if (queryParams['municipio']) {
+      this.onChangeMunicipio(queryParams['municipio']);
+    }    
   }
 }
