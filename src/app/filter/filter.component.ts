@@ -19,6 +19,7 @@ const CARGOS_MUNICIPAIS = ["PREFEITO", "VEREADOR", "VICE-PREFEITO"];
   encapsulation: ViewEncapsulation.None
 })
 export class FilterComponent implements OnInit {
+
   @Output()
   visualizaClique = new EventEmitter<any>();
   @Output()
@@ -33,11 +34,11 @@ export class FilterComponent implements OnInit {
 
   public listaAnos: any;
 
-  public estadoSelecionado: String;
-  public cargoSelecionado: String;
-  public municipioSelecionado: String;
+  public estadoSelecionado: string;
+  public cargoSelecionado: string;
+  public municipioSelecionado: string;
   public anoSelecionado: number;
-  public situacaoSelecionada: String;
+  public situacaoSelecionada: string;
 
   public isVereador;
   public isExecutivo;
@@ -131,8 +132,7 @@ export class FilterComponent implements OnInit {
     this.estados_prep_em.push(this.todosEstados);
   }
 
-  async ngOnInit() {
-    this.getUrlParams();
+  async ngOnInit() {    
 
     this.filteredOptions = this.controlMunicipio.valueChanges.pipe(
       startWith(""),
@@ -145,11 +145,14 @@ export class FilterComponent implements OnInit {
 
     this.agrupaCargos();
 
-    // O site inicia com a visualização dos deputados federais de todos os estados
-    // await this.onChangeCargo("DEPUTADO FEDERAL");
-    // await this.onChangeSituacao("ELEITO");
-    // await this.onChangeAno(2014);
-    // await this.onChangeEstado("qualquer estado");    
+    // recupera parâmetros da requisição na URL
+    var queryParams: Params = this.activatedRoute.snapshot.queryParams;
+    
+    if (Object.keys(queryParams).length === 0 && queryParams.constructor === Object) {                
+      this.initFilter();
+    } else {
+      this.getUrlParams();
+    }    
 
     this.decideSobreVisualizacao();
   }
@@ -246,7 +249,7 @@ export class FilterComponent implements OnInit {
     this.dataService.mudaCargo(novoCargo);
     await this.updateUrlParams('cargo', novoCargo);
 
-    // Controle da opção de todos os estados ou não, a depender do cargo selecionado.
+    // Controla o aparecimento ou não da opção todos os estados, a depender do cargo selecionado.
     if (["PREFEITO", "VEREADOR"].includes(novoCargo)) {
       this.listaEstados.splice(28, 1); // remove opcao todos os estados
       let novoEstado;
@@ -303,7 +306,7 @@ export class FilterComponent implements OnInit {
   }
 
   async onChangeAno(novoAno) {
-    this.anoSelecionado = novoAno;
+    this.anoSelecionado = novoAno;    
     await this.updateUrlParams('ano', novoAno);
 
     if (novoAno === 2018) {      
@@ -317,15 +320,14 @@ export class FilterComponent implements OnInit {
       this.tipoEleicao = ELEICOES_MUNICIPAIS;
     }
 
-    this.atualizaFiltroMunicipio();
-    await this.updateUrlParams('ano', this.anoSelecionado);
+    this.atualizaFiltroMunicipio();    
     this.decideSobreVisualizacao();
   }
 
   async onChangeSituacao(novaSituacao) {
     this.situacaoSelecionada = novaSituacao;
-    this.dataService.mudaSituacao(novaSituacao);
-    await this.updateUrlParams('situacao', novaSituacao);
+    this.dataService.mudaSituacao(novaSituacao);    
+    await this.updateUrlParams('situacao', novaSituacao);    
 
     this.decideSobreVisualizacao();
   }
@@ -392,7 +394,7 @@ export class FilterComponent implements OnInit {
       data => {
         this.listaSituacoes = data;
         this.listaSituacoes.push({ situacao_eleicao_2: this.todasSituacoes });
-        this.listaSituacoes.splice(2, 1); // remove situação "indefinidos"
+        this.listaSituacoes.splice(2, 1); // remove situação "indefinidos"        
       },
       err => {
         console.log(err);
@@ -427,29 +429,16 @@ export class FilterComponent implements OnInit {
   }
 
   private atualizaFiltroAno() {
-    if (this.cargoSelecionado == this.todosCargos) {
-      this.listaAnos = [
-        { ano_dois: 2012 },
-        { ano_dois: 2014 },
-        { ano_dois: 2016 },
-        { ano_dois: 2018 }
-      ];
-    } else {
-      this.requestService.recuperaAnos(this.cargoSelecionado).subscribe(
-        data => {
-          //this.listaAnos = data;        
-          this.listaAnos = [
-            { ano_dois: 2012 },
-            { ano_dois: 2014 },
-            { ano_dois: 2016 },
-            { ano_dois: 2018 }
-          ];                 
-        },
-        err => {
-          console.log(err);
-        }
-      );
-    }    
+
+    this.requestService.recuperaAnos(this.cargoSelecionado).subscribe(
+      data => {
+        this.listaAnos = data;                
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  
   }
 
   private async atualizaFiltroMunicipio() {
@@ -504,8 +493,8 @@ export class FilterComponent implements OnInit {
       this.onChangeCargo(queryParams['cargo']);
     }
     if (queryParams['ano']) {
-      this.onChangeAno(queryParams['ano']);
-      this.anoSelecionado = queryParams['ano'];
+      this.onChangeAno(parseInt(queryParams['ano']));
+      this.anoSelecionado = parseInt(queryParams['ano']);
     }
     if (queryParams['situacao']) {
       this.onChangeSituacao(queryParams['situacao']);
@@ -516,5 +505,14 @@ export class FilterComponent implements OnInit {
     if (queryParams['municipio']) {
       this.onChangeMunicipio(queryParams['municipio']);
     }    
+  }
+
+  private async initFilter() {
+    await this.onChangeCargo("DEPUTADO FEDERAL");        
+    await this.onChangeSituacao("ELEITO");        
+    await this.onChangeAno(2014);        
+    await this.onChangeEstado("qualquer estado");    
+    var initURL = { cargo: "DEPUTADO FEDERAL", situacao: "que declararam patrimônio", ano: "2014", estado: "qualquer estado" };
+    this.router.navigate([], { queryParams: initURL });
   }
 }
