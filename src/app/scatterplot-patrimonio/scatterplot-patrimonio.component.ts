@@ -12,6 +12,7 @@ import { DataService } from "../services/data.service";
 import { AlertService } from "../services/alert.service";
 import { FormControl } from "@angular/forms";
 import { UtilsService } from "../services/utils.service";
+import { VisPatrimonioService } from '../services/vis-patrimonio.service';
 import { Observable } from "rxjs/Observable";
 import { startWith } from "rxjs/operators/startWith";
 import { map } from "rxjs/operators/map";
@@ -84,8 +85,17 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     private dataService: DataService,
     private alertService: AlertService,
     private utilsService: UtilsService,
+    private visPatrimonioService: VisPatrimonioService,
     public dialog: MatDialog
   ) {
+
+    // Atualiza service para incluir a função de remover tooltip. Este serviço pode ser reusado por outros componentes.
+    this.visPatrimonioService.apagaTooltipSource_.subscribe(
+      () => {
+        this.apagaTooltip()
+      }
+    );
+
     this.margin = { top: 20, right: 30, bottom: 20, left: 40 };
     this.transitionTime = { short: 1000, medium: 1500, long: 2000 };
     this.circleRadius = 6;
@@ -159,40 +169,12 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     } else {
       // atualiza ano com o valor do ano dois encontrado no primeiro candidato recuperado através do filtro
       this.ano = this.data[0].ano_dois;
-
-      // if (this.g) {
-
-      // TODO: verificar o motivo da visualização ser desenhada mais de uma vez
-
-      // verifica se o filtro foi modificado desde a última vez que a função foi chamada
-      // if (
-      //   this.estadoAtual === this.filtroAnterior.estado &&
-      //   this.cargo === this.filtroAnterior.cargo &&
-      //   this.situacao === this.filtroAnterior.situacao &&
-      //   this.ano === this.filtroAnterior.ano &&
-      //   this.municipioAtual == this.filtroAnterior.municipio
-      // ) {
-      //   return;
-      // }
-      // this.filtroAnterior = {
-      //   estado: this.estadoAtual,
-      //   cargo: this.cargo,
-      //   situacao: this.situacao,
-      //   ano: this.ano,
-      //   municipio: this.municipioAtual
-      // };
-
+      
       if (this.g) {
         // remove tooltip ao alterar os dados
         this.g.selectAll("circle").call(this.tip.hide);
       }
-
-      // if (!this.isFirstPlot) {
-      //  this.animacaoTimer.unsubscribe();
-      // }
-
-      // this.isFirstPlot = false;
-
+      
       this.maiorPatrimonioEleicao1 = d3.max(
         this.data,
         (d: any) => d.patrimonio_eleicao_1
@@ -1057,7 +1039,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     });
   }
 
-  apagaTooltip() {
-    d3.selectAll("svg > #tooltip").remove();
+  apagaTooltip() {        
+    this.g.selectAll("circle").call(this.tip.hide);
+    this.animacaoTimer.unsubscribe();
   }
 }

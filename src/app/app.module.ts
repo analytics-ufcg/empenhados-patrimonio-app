@@ -7,6 +7,7 @@ import { RequestService } from "./services/request.service";
 import { DataService } from "./services/data.service";
 import { UtilsService } from "./services/utils.service";
 import { AlertService } from "./services/alert.service";
+import { VisPatrimonioService } from "./services/vis-patrimonio.service";
 import { CandidatoService } from "./services/candidato.service";
 import { FlexLayoutModule } from "@angular/flex-layout";
 
@@ -97,7 +98,8 @@ import { AppRoutingModule } from "./app-routing.module";
     DataService,
     UtilsService,
     AlertService,
-    CandidatoService
+    CandidatoService,
+    VisPatrimonioService
   ],
   bootstrap: [AppComponent],
   entryComponents: [AboutComponent, ReadmeComponent]
