@@ -146,10 +146,10 @@ export class FilterComponent implements OnInit {
     this.agrupaCargos();
 
     // O site inicia com a visualização dos deputados federais de todos os estados
-    await this.onChangeCargo("DEPUTADO FEDERAL");
-    await this.onChangeSituacao("ELEITO");
-    await this.onChangeAno(2014);
-    await this.onChangeEstado("qualquer estado");
+    // await this.onChangeCargo("DEPUTADO FEDERAL");
+    // await this.onChangeSituacao("ELEITO");
+    // await this.onChangeAno(2014);
+    // await this.onChangeEstado("qualquer estado");    
 
     this.decideSobreVisualizacao();
   }
