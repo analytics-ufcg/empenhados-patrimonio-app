@@ -5,6 +5,7 @@ import { Observable } from "rxjs/Observable";
 import { startWith } from "rxjs/operators/startWith";
 import { map } from "rxjs/operators/map";
 import { DataService } from "../services/data.service";
+import { PermalinkService } from "../services/permalink.service";
 import { ViewEncapsulation } from "@angular/core";
 import { ActivatedRoute, Router, Params } from '@angular/router';
 
@@ -119,6 +120,7 @@ export class FilterComponent implements OnInit {
   constructor(
     private requestService: RequestService,
     private dataService: DataService,
+    private permalinkService: PermalinkService,
     private activatedRoute: ActivatedRoute,
     private router: Router
   ) {
@@ -201,7 +203,7 @@ export class FilterComponent implements OnInit {
   async onChangeEstado(novoEstado) {
     this.estadoSelecionado = novoEstado;
     this.dataService.mudaEstado(novoEstado);    
-    await this.updateUrlParams('estado', novoEstado);
+    await this.permalinkService.updateUrlParams('estado', novoEstado);
 
     this.definePreposicao();
     this.atualizaFiltroMunicipio();
@@ -236,10 +238,10 @@ export class FilterComponent implements OnInit {
         novoCargo !== this.dataService.getTodosCargos()
       ) {        
         this.anoSelecionado = 2014;
-        await this.updateUrlParams('ano', this.anoSelecionado);
+        await this.permalinkService.updateUrlParams('ano', this.anoSelecionado);
       } else {
         this.anoSelecionado = 2016;
-        await this.updateUrlParams('ano', this.anoSelecionado);
+        await this.permalinkService.updateUrlParams('ano', this.anoSelecionado);
       }
     }
 
@@ -247,7 +249,7 @@ export class FilterComponent implements OnInit {
 
     this.cargoSelecionado = novoCargo;
     this.dataService.mudaCargo(novoCargo);
-    await this.updateUrlParams('cargo', novoCargo);
+    await this.permalinkService.updateUrlParams('cargo', novoCargo);
 
     // Controla o aparecimento ou não da opção todos os estados, a depender do cargo selecionado.
     if (["PREFEITO", "VEREADOR"].includes(novoCargo)) {
@@ -307,11 +309,11 @@ export class FilterComponent implements OnInit {
 
   async onChangeAno(novoAno) {
     this.anoSelecionado = novoAno;    
-    await this.updateUrlParams('ano', novoAno);
+    await this.permalinkService.updateUrlParams('ano', novoAno);
 
     if (novoAno === 2018) {      
       this.situacaoSelecionada = this.todasSituacoes;   
-      await this.updateUrlParams('situacao', this.situacaoSelecionada);      
+      await this.permalinkService.updateUrlParams('situacao', this.situacaoSelecionada);      
     }
 
     if (this.anoSelecionado % 4) {
@@ -327,7 +329,7 @@ export class FilterComponent implements OnInit {
   async onChangeSituacao(novaSituacao) {
     this.situacaoSelecionada = novaSituacao;
     this.dataService.mudaSituacao(novaSituacao);    
-    await this.updateUrlParams('situacao', novaSituacao);    
+    await this.permalinkService.updateUrlParams('situacao', novaSituacao);    
 
     this.decideSobreVisualizacao();
   }
@@ -458,7 +460,7 @@ export class FilterComponent implements OnInit {
     ) {
       this.isExecutivo = true;
       this.estadoSelecionado = this.todosEstados;
-      await this.updateUrlParams('estado', this.estadoSelecionado);
+      await this.permalinkService.updateUrlParams('estado', this.estadoSelecionado);
     } else {
       this.isExecutivo = false;
     }
@@ -479,12 +481,6 @@ export class FilterComponent implements OnInit {
       this.preposicao_estado = "em";
     }
   }
-
-  private updateUrlParams(parameter: string, value: any) {
-    var queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-    queryParams[parameter] = value;
-    this.router.navigate([], { queryParams: queryParams });
- }
 
   private getUrlParams() {
     
