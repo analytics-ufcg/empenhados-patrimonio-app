@@ -10,10 +10,10 @@ export class PermalinkService {
   ) { }
 
 
-  updateUrlParams(parameter: string, value: any) {
+  async updateUrlParams(parameter: string, value: any) {
     var queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
     queryParams[parameter] = value;
-    this.router.navigate([], { queryParams: queryParams });
+    await this.router.navigate([], { queryParams: queryParams });
  }
 
  getQueryParams() {

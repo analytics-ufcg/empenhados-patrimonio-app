@@ -120,7 +120,7 @@ export class FilterComponent implements OnInit {
   constructor(
     private requestService: RequestService,
     private dataService: DataService,
-    private permalinkService: PermalinkService,
+    private permalinkService: PermalinkService,    
     private router: Router
   ) {
     this.listaMunicipios = [];
@@ -236,14 +236,13 @@ export class FilterComponent implements OnInit {
         CARGOS_MUNICIPAIS.indexOf(novoCargo) === -1 &&
         novoCargo !== this.dataService.getTodosCargos()
       ) {        
-        this.anoSelecionado = 2014;
-        await this.permalinkService.updateUrlParams('ano', this.anoSelecionado);
+        this.anoSelecionado = 2014;        
       } else {
-        this.anoSelecionado = 2016;
-        await this.permalinkService.updateUrlParams('ano', this.anoSelecionado);
-      }
+        this.anoSelecionado = 2016;                
+      } 
+      await this.permalinkService.updateUrlParams('ano', this.anoSelecionado);             
     }
-
+        
     this.municipioSelecionado = undefined;
 
     this.cargoSelecionado = novoCargo;
@@ -268,7 +267,7 @@ export class FilterComponent implements OnInit {
       if (this.listaEstados !== undefined && this.listaEstados.length != 29) {
         this.listaEstados.push({ estado: this.todosEstados });
       }
-    }
+    }    
 
     // Atualiza filtros de acordo com o estado selecionado
     this.atualizaFiltroAno();
@@ -506,8 +505,9 @@ export class FilterComponent implements OnInit {
     await this.onChangeCargo("DEPUTADO FEDERAL");        
     await this.onChangeSituacao("ELEITO");        
     await this.onChangeAno(2014);        
-    await this.onChangeEstado("qualquer estado");    
-    var initURL = { cargo: "DEPUTADO FEDERAL", situacao: "que declararam patrimônio", ano: "2014", estado: "qualquer estado" };
+    await this.onChangeEstado("qualquer estado"); 
+
+    var initURL = { cargo: "DEPUTADO FEDERAL", situacao: "ELEITO", ano: "2014", estado: "qualquer estado" };
     this.router.navigate([], { queryParams: initURL });
   }
 }
