@@ -16,6 +16,10 @@ export class PermalinkService {
     this.router.navigate([], { queryParams: queryParams });
  }
 
+ getQueryParams() {
+   return this.activatedRoute.snapshot.queryParams;
+ }
+
   // private getUrlParams() {
     
   //   var queryParams: Params = this.activatedRoute.snapshot.queryParams;

@@ -121,7 +121,6 @@ export class FilterComponent implements OnInit {
     private requestService: RequestService,
     private dataService: DataService,
     private permalinkService: PermalinkService,
-    private activatedRoute: ActivatedRoute,
     private router: Router
   ) {
     this.listaMunicipios = [];
@@ -148,7 +147,7 @@ export class FilterComponent implements OnInit {
     this.agrupaCargos();
 
     // recupera parâmetros da requisição na URL
-    var queryParams: Params = this.activatedRoute.snapshot.queryParams;
+    var queryParams: Params = this.permalinkService.getQueryParams();
     
     if (Object.keys(queryParams).length === 0 && queryParams.constructor === Object) {                
       this.initFilter();
@@ -484,7 +483,7 @@ export class FilterComponent implements OnInit {
 
   private getUrlParams() {
     
-    var queryParams: Params = this.activatedRoute.snapshot.queryParams;
+    var queryParams: Params = this.permalinkService.getQueryParams();
     if (queryParams['cargo']) {
       this.onChangeCargo(queryParams['cargo']);
     }

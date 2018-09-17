@@ -18,7 +18,7 @@ import { startWith } from "rxjs/operators/startWith";
 import { map } from "rxjs/operators/map";
 import "rxjs/add/observable/interval";
 
-import { ActivatedRoute, Router, Params } from '@angular/router';
+import { Params } from '@angular/router';
 import { PermalinkService } from "../services/permalink.service";
 
 
@@ -91,7 +91,6 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     private utilsService: UtilsService,
     private visPatrimonioService: VisPatrimonioService,
     private permalinkService: PermalinkService,
-    private activatedRoute: ActivatedRoute,
     public dialog: MatDialog
   ) {
 
@@ -1055,7 +1054,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   }
 
   private getCPFfromURL() {
-    var queryParams: Params = this.activatedRoute.snapshot.queryParams;
+    var queryParams: Params = this.permalinkService.getQueryParams();
     if (queryParams['cpf']) {
       let cpf = queryParams['cpf'];
 
