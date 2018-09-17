@@ -1,9 +1,10 @@
-import { Component, ViewChild } from "@angular/core";
+import { Component, ViewChild, Output, EventEmitter } from "@angular/core";
 import { MatTableDataSource, MatSort, MatPaginator } from "@angular/material";
 import { ViewEncapsulation } from "@angular/core";
 
 import { DataService } from "../services/data.service";
 import { UtilsService } from "../services/utils.service";
+import { PermalinkService } from "../services/permalink.service";
 
 @Component({
   selector: "app-top-10",
@@ -12,6 +13,8 @@ import { UtilsService } from "../services/utils.service";
   encapsulation: ViewEncapsulation.None
 })
 export class Top10Component {
+  @Output()
+  selecaoCandidato = new EventEmitter<any>();
   public displayedColumns: string[] = [
     "nome_urna",
     "unidade_eleitoral",
@@ -27,7 +30,8 @@ export class Top10Component {
 
   constructor(
     private dataService: DataService,
-    private utilsService: UtilsService
+    private utilsService: UtilsService,
+    private permalinkService: PermalinkService
   ) {}
 
   ranking() {
@@ -121,7 +125,8 @@ export class Top10Component {
       .split(".");
   }
 
-  link(cpf) {
-    console.log(cpf);
+  async selecionaCandidato(cpf) {
+    await this.permalinkService.updateUrlParams("cpf", cpf);
+    this.selecaoCandidato.next();
   }
 }

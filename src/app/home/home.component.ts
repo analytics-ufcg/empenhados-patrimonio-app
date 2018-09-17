@@ -43,4 +43,8 @@ export class HomeComponent implements OnInit {
 
     this.panelOpenState = false;
   }
+
+  onRecebeCliqueTop10($event){
+    this.scatterplotPatrimonio.getCPFfromURL();
+  }
 }

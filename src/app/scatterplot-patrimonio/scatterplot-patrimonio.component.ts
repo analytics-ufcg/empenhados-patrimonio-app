@@ -1053,7 +1053,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.animacaoTimer.unsubscribe();
   }
 
-  private getCPFfromURL() {
+  getCPFfromURL() {
     var queryParams: Params = this.permalinkService.getQueryParams();
     if (queryParams['cpf']) {
       let cpf = queryParams['cpf'];
@@ -1074,6 +1074,9 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       var event = new MouseEvent("click");
       if (candidatoSorteado) {
         candidatoSorteado.dispatchEvent(event);
+        let candidato = d3.select(candidatoSorteado);
+        console.log(candidato.datum());
+        this.emiteSelecaoCandidato(candidato.datum());
       }
     }
   }

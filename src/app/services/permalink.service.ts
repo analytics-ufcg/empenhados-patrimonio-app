@@ -19,25 +19,4 @@ export class PermalinkService {
  getQueryParams() {
    return this.activatedRoute.snapshot.queryParams;
  }
-
-  // private getUrlParams() {
-    
-  //   var queryParams: Params = this.activatedRoute.snapshot.queryParams;
-  //   if (queryParams['cargo']) {
-  //     this.onChangeCargo(queryParams['cargo']);
-  //   }
-  //   if (queryParams['ano']) {
-  //     this.onChangeAno(queryParams['ano']);
-  //     this.anoSelecionado = queryParams['ano'];
-  //   }
-  //   if (queryParams['situacao']) {
-  //     this.onChangeSituacao(queryParams['situacao']);
-  //   }
-  //   if (queryParams['estado']) {
-  //     this.onChangeEstado(queryParams['estado']);
-  //   }
-  //   if (queryParams['municipio']) {
-  //     this.onChangeMunicipio(queryParams['municipio']);
-  //   }    
-  // }
 }
