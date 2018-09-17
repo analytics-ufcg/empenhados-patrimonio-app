@@ -238,7 +238,6 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     if (this.initAnimacaoCandidatos) {
       this.initAnimacaoCandidatos();
     }
-
     this.getCPFfromURL();
   }
 
@@ -1058,6 +1057,13 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     if (queryParams['cpf']) {
       let cpf = queryParams['cpf'];
 
+      this.apagaTooltip();
+      
+      d3.select("#candidato-sorteado")
+        .attr("id", "candidato")
+        .attr("r", this.circleRadius)
+        .style("stroke", "none");
+
       this.g
         .selectAll("circle")
         .filter(function(d: any) {
@@ -1069,14 +1075,11 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         .style("stroke-width", 13)
         .style("cursor", "pointer");
 
-      // Mostra o tooltip
       var candidatoSorteado = document.getElementById("candidato-sorteado");
       var event = new MouseEvent("click");
       if (candidatoSorteado) {
         candidatoSorteado.dispatchEvent(event);
         let candidato = d3.select(candidatoSorteado);
-        console.log(candidato.datum());
-        this.emiteSelecaoCandidato(candidato.datum());
       }
     }
   }
