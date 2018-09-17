@@ -120,4 +120,8 @@ export class Top10Component {
       .toFixed(2)
       .split(".");
   }
+
+  link(cpf) {
+    console.log(cpf);
+  }
 }

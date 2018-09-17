@@ -3,7 +3,7 @@
 
     <ng-container matColumnDef="nome_urna">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Nome</mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.nome_urna}} </mat-cell>
+      <mat-cell *matCellDef="let element" (click)="link(element.cpf)" >{{element.nome_urna}}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="unidade_eleitoral">

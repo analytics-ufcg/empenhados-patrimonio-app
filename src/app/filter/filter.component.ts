@@ -6,7 +6,6 @@ import { startWith } from "rxjs/operators/startWith";
 import { map } from "rxjs/operators/map";
 import { DataService } from "../services/data.service";
 import { ViewEncapsulation } from "@angular/core";
-import { ThrowStmt } from "@angular/compiler";
 
 const ELEICOES_FEDERAIS = 1;
 const ELEICOES_MUNICIPAIS = 2;
