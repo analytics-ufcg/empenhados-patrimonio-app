@@ -42,7 +42,7 @@
     "mysql": "^2.15.0",
     "pac-proxy-agent": "^3.0.0",
     "proxy-agent": "^3.0.1",
-    "rxjs": "^5.5.6",
+    "rxjs": "^5.6.0-forward-compat.5",
     "winston": "^3.0.0",
     "zone.js": "^0.8.19"
   },

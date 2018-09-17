@@ -18,6 +18,10 @@ import { startWith } from "rxjs/operators/startWith";
 import { map } from "rxjs/operators/map";
 import "rxjs/add/observable/interval";
 
+import { ActivatedRoute, Router, Params } from '@angular/router';
+import { PermalinkService } from "../services/permalink.service";
+
+
 import { ReadmeComponent } from "../readme/readme.component";
 
 @Component({
@@ -86,6 +90,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     private alertService: AlertService,
     private utilsService: UtilsService,
     private visPatrimonioService: VisPatrimonioService,
+    private permalinkService: PermalinkService,
+    private activatedRoute: ActivatedRoute,
     public dialog: MatDialog
   ) {
 
@@ -122,6 +128,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         this.plotPatrimonio();
       }
     });
+
   }
 
   defineHeight(width: number) {
@@ -232,6 +239,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     if (this.initAnimacaoCandidatos) {
       this.initAnimacaoCandidatos();
     }
+
+    this.getCPFfromURL();
   }
 
   private initX() {
@@ -454,6 +463,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         this.clickedCircle = { d: d, i: i, n: n };
         this.highlightCircle(n[i]);
         this.emiteSelecaoCandidato(d);
+        this.permalinkService.updateUrlParams("cpf", d.cpf)
       }
     };
   }
@@ -1042,5 +1052,30 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   apagaTooltip() {        
     this.g.selectAll("circle").call(this.tip.hide);
     this.animacaoTimer.unsubscribe();
+  }
+
+  private getCPFfromURL() {
+    var queryParams: Params = this.activatedRoute.snapshot.queryParams;
+    if (queryParams['cpf']) {
+      let cpf = queryParams['cpf'];
+
+      this.g
+        .selectAll("circle")
+        .filter(function(d: any) {
+          return d.cpf === cpf;
+        })
+        .attr("r", this.circleRadius * 1.8)
+        .attr("id", "candidato-sorteado")
+        .style("stroke", "#230a4f")
+        .style("stroke-width", 13)
+        .style("cursor", "pointer");
+
+      // Mostra o tooltip
+      var candidatoSorteado = document.getElementById("candidato-sorteado");
+      var event = new MouseEvent("click");
+      if (candidatoSorteado) {
+        candidatoSorteado.dispatchEvent(event);
+      }
+    }
   }
 }
