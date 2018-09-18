@@ -256,7 +256,9 @@ export class FilterComponent implements OnInit {
 
     // Controla o aparecimento ou não da opção todos os estados, a depender do cargo selecionado.
     if (["PREFEITO", "VEREADOR"].includes(novoCargo)) {
-      this.listaEstados.splice(28, 1); // remove opcao todos os estados
+      if(this.listaEstados){
+        this.listaEstados.splice(28, 1); // remove opcao todos os estados
+      }
       let novoEstado;
       if (this.estadoSelecionado === this.todosEstados) {
         novoEstado = this.listaEstados[
@@ -289,10 +291,12 @@ export class FilterComponent implements OnInit {
 
     // Escolhe o maior município entre a lista dos municípios do estado selecionado
     let tamanhoMaximoMunicipio = input => {
-      let maiorNomeMunicipio = this.listaMunicipios
-        .map(municipio => (municipio.length + 1) / 2)
-        .reduce((a, b) => Math.max(a, b));
-      input.style.width = maiorNomeMunicipio.toString() + "em";
+      if(this.listaMunicipios.length > 0) {
+        let maiorNomeMunicipio = this.listaMunicipios
+          .map(municipio => (municipio.length + 1) / 2)
+          .reduce((a, b) => Math.max(a, b));
+        input.style.width = maiorNomeMunicipio.toString() + "em";
+      }
     };
 
     let input = document.getElementById("input-municipio");
