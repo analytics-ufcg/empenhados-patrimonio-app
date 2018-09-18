@@ -34,6 +34,8 @@ export class HomeComponent implements OnInit {
 
     this.top10.ranking();
     this.panelOpenState = true;
+
+    this.scatterplotPatrimonio.deleteCPFfromURL();
   }
 
   onRecebeCliquePlot($event) {

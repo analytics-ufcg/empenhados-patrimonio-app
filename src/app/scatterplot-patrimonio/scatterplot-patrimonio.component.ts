@@ -1083,4 +1083,9 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       }
     }
   }
+
+  deleteCPFfromURL(){
+    this.permalinkService.updateUrlParams("cpf", null);
+  }
+
 }
