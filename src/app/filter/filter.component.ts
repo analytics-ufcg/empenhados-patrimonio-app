@@ -42,7 +42,7 @@ export class FilterComponent implements OnInit {
   public situacaoSelecionada: string;
 
   public isVereador;
-  public isExecutivo;
+  public isExecutivo;  
   private tipoEleicao;
   private todosConsulta;
   private todosCargos;
@@ -150,9 +150,9 @@ export class FilterComponent implements OnInit {
     var queryParams: Params = this.permalinkService.getQueryParams();
     
     if (Object.keys(queryParams).length === 0 && queryParams.constructor === Object) {                
-      this.initFilter();
-    } else {
-      this.getUrlParams();
+      this.initFilter();      
+    } else {      
+      this.getUrlParams();            
     }    
 
     this.decideSobreVisualizacao();
@@ -175,7 +175,7 @@ export class FilterComponent implements OnInit {
       } else if (this.cargoSelecionado == "VEREADOR") {
         if (this.estadoSelecionado) {
           if (
-            !this.municipioSelecionado ||
+            this.municipioSelecionado ||
             this.listaMunicipios.includes(this.municipioSelecionado) ||
             this.municipioSelecionado == ""
           ) {
@@ -185,13 +185,13 @@ export class FilterComponent implements OnInit {
       } else if (this.cargoSelecionado && this.estadoSelecionado) {
         return true;
       }
-    }
+    }    
     return false;
   }
 
   // Se o filtro estiver pronto, exibe visualização de patrimônio
-  decideSobreVisualizacao() {
-    if (this.filtroPronto()) {            
+  decideSobreVisualizacao() {    
+    if (this.filtroPronto()) {                  
       this.emiteEventoVisualizacao();
     } else {
       this.apagaVisualizacao.next();
@@ -206,7 +206,7 @@ export class FilterComponent implements OnInit {
 
     this.definePreposicao();
     this.atualizaFiltroMunicipio();
-
+    
     // Recupera os municípios do estado selecionado
     await this.requestService
       .recuperaMunicipios(this.estadoSelecionado)
@@ -215,11 +215,12 @@ export class FilterComponent implements OnInit {
           let municipios = data;
           this.listaMunicipios = this.jsonToArray(municipios);
 
-          if (this.isVereador) {
+          if (this.isVereador && !this.listaMunicipios.includes(this.municipioSelecionado)) {          
             this.municipioSelecionado = this.encontraCapital(
               this.estadoSelecionado
-            );
-          } else {
+            );                        
+            this.permalinkService.updateUrlParams('municipio', this.municipioSelecionado);            
+          } else {            
             this.decideSobreVisualizacao();
           }
         },
@@ -243,7 +244,11 @@ export class FilterComponent implements OnInit {
       await this.permalinkService.updateUrlParams('ano', this.anoSelecionado);             
     }
         
-    this.municipioSelecionado = undefined;
+    // Limpa municipio ao mudar para um cargo diferente de vereador
+    if (!["VEREADOR"].includes(novoCargo)) {      
+      this.municipioSelecionado = undefined;
+      await this.permalinkService.updateUrlParams('municipio', null);        
+    }
 
     this.cargoSelecionado = novoCargo;
     this.dataService.mudaCargo(novoCargo);
@@ -276,9 +281,11 @@ export class FilterComponent implements OnInit {
     this.decideSobreVisualizacao();
   }
 
-  onChangeMunicipio(novoMunicipio) {
+  async onChangeMunicipio(novoMunicipio) {
     this.municipioSelecionado = novoMunicipio;
     this.dataService.mudamunicipio(novoMunicipio);
+        
+    await this.permalinkService.updateUrlParams('municipio', this.municipioSelecionado);
 
     // Escolhe o maior município entre a lista dos municípios do estado selecionado
     let tamanhoMaximoMunicipio = input => {
@@ -445,11 +452,13 @@ export class FilterComponent implements OnInit {
     if (this.estadoSelecionado === this.todosEstados) {
       this.isVereador = false;
       this.municipioSelecionado = "";
+      await this.permalinkService.updateUrlParams('municipio', null);
     } else if (this.cargoSelecionado === "VEREADOR") {
       this.isVereador = true;
     } else {
       this.isVereador = false;
       this.municipioSelecionado = "";
+      await this.permalinkService.updateUrlParams('municipio', null);
     }
 
     if (
@@ -493,12 +502,12 @@ export class FilterComponent implements OnInit {
     if (queryParams['situacao']) {
       this.onChangeSituacao(queryParams['situacao']);
     }
-    if (queryParams['estado']) {
-      this.onChangeEstado(queryParams['estado']);
+    if (queryParams['estado']) {      
+      this.onChangeEstado(queryParams['estado']);      
     }
     if (queryParams['municipio']) {
       this.onChangeMunicipio(queryParams['municipio']);
-    }    
+    }        
   }
 
   private async initFilter() {
