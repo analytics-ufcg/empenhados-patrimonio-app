@@ -516,7 +516,7 @@ export class FilterComponent implements OnInit {
     await this.onChangeAno(2014);        
     await this.onChangeEstado("qualquer estado"); 
 
-    var initURL = { cargo: "DEPUTADO FEDERAL", situacao: "ELEITO", ano: "2014", estado: "qualquer estado" };
+    var initURL = { cargo: "deputado-federal", situacao: "eleito", ano: "2014", estado: "qualquer-estado" };
     this.router.navigate([], { queryParams: initURL });
   }
 }
