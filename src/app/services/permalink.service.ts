@@ -32,13 +32,16 @@ export class PermalinkService {
       if (typeof parameter === "string" && !["municipio"].includes(key)) {          
         queryParams[key] = parameter.split(' ').join('-').toLowerCase();       
       }  
-    });  
+    });
+        
+    if (queryParams["municipio"]) {
+      queryParams["municipio"] = queryParams["municipio"].split(' ').join('-')
+    }
     
     return queryParams;
   }
 
-  private parseURLToFilters(queryParams) {
-    console.log(queryParams);        
+  private parseURLToFilters(queryParams) {  
     Object.keys(queryParams).map(function(key, index) {   
       var parameter = queryParams[key];
       if (typeof parameter === "string" && !["municipio"].includes(key)) {          
@@ -54,6 +57,10 @@ export class PermalinkService {
     // Caso especial para o estado. Deve ser lowercase
     if (queryParams["estado"] ===  this.dataService.getTodosEstados().toUpperCase()) {
       queryParams["estado"] = this.dataService.getTodosEstados();
+    }
+
+    if (queryParams["municipio"]) {
+      queryParams["municipio"] = queryParams["municipio"].split('-').join(' ')
     }
   
     return queryParams;
