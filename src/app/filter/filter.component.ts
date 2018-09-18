@@ -175,7 +175,7 @@ export class FilterComponent implements OnInit {
       } else if (this.cargoSelecionado == "VEREADOR") {
         if (this.estadoSelecionado) {
           if (
-            this.municipioSelecionado ||
+            !this.municipioSelecionado ||
             this.listaMunicipios.includes(this.municipioSelecionado) ||
             this.municipioSelecionado == ""
           ) {
