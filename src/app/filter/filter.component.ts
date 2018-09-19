@@ -7,7 +7,7 @@ import { map } from "rxjs/operators/map";
 import { DataService } from "../services/data.service";
 import { PermalinkService } from "../services/permalink.service";
 import { ViewEncapsulation } from "@angular/core";
-import { ActivatedRoute, Router, Params } from '@angular/router';
+import { Router, Params } from '@angular/router';
 
 const ELEICOES_FEDERAIS = 1;
 const ELEICOES_MUNICIPAIS = 2;

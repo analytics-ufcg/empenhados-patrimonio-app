@@ -22,3 +22,9 @@
 .mat-expansion-panel-body {
   padding: 0;
 }
+
+.top10-nomeUrna{
+  text-decoration: underline;
+  color: #1b3b6f;
+  cursor: pointer;
+}

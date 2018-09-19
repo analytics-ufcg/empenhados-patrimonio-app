@@ -205,7 +205,6 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         this.data,
         (d: any) => d.patrimonio_eleicao_1 - d.patrimonio_eleicao_2
       );
-
       this.initD3Patrimonio();
     }
   }
@@ -238,7 +237,6 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     if (this.initAnimacaoCandidatos) {
       this.initAnimacaoCandidatos();
     }
-
     this.getCPFfromURL();
   }
 
@@ -1053,10 +1051,17 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     this.animacaoTimer.unsubscribe();
   }
 
-  private getCPFfromURL() {
+  getCPFfromURL() {
     var queryParams: Params = this.permalinkService.getQueryParams();
     if (queryParams['cpf']) {
       let cpf = queryParams['cpf'];
+
+      this.apagaTooltip();
+      
+      d3.select("#candidato-sorteado")
+        .attr("id", "candidato")
+        .attr("r", this.circleRadius)
+        .style("stroke", "none");
 
       this.g
         .selectAll("circle")
@@ -1069,12 +1074,17 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         .style("stroke-width", 13)
         .style("cursor", "pointer");
 
-      // Mostra o tooltip
       var candidatoSorteado = document.getElementById("candidato-sorteado");
       var event = new MouseEvent("click");
       if (candidatoSorteado) {
         candidatoSorteado.dispatchEvent(event);
+        let candidato = d3.select(candidatoSorteado);
       }
     }
   }
+
+  deleteCPFfromURL(){
+    this.permalinkService.updateUrlParams("cpf", null);
+  }
+
 }
