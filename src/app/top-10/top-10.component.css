@@ -26,3 +26,7 @@
 .text-top10 {
   font-size: 1em;
 }
+
+.mat-sort-header-arrow {
+  display: none !important;
+}
