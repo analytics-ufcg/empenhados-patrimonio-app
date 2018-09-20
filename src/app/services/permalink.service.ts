@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
-import { query } from '@angular/animations';
 import { DataService } from "./data.service";
 
 @Injectable()
