@@ -38,10 +38,8 @@ export class Top10Component {
     this.dataService.dadosPatrimonio.subscribe(data => {
       this.dataSource = new MatTableDataSource(data);
       this.dataSource.paginator = this.translatePaginator(this.paginator);
-
       this.dataSource.sortingDataAccessor = this.sortingDataAccessor;
       this.dataSource.sortData = this.sortData;
-
       this.dataSource.sort = this.sort;
     });
   }
@@ -51,7 +49,6 @@ export class Top10Component {
     p._intl.lastPageLabel = "Última página";
     p._intl.nextPageLabel = "Próxima";
     p._intl.previousPageLabel = "Anterior";
-
     p._intl.getRangeLabel = this.getRangeLabel;
 
     return p;
@@ -76,9 +73,9 @@ export class Top10Component {
       case "dif-abs":
         return item.patrimonio_eleicao_2 - item.patrimonio_eleicao_1; // retorna a diferença de patrimônios
       case "nome_urna":
-        return item[property].normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // remove acentos
+        return item[property].normalize("NFD").replace(/[\u0300-\u036f]/g, null); // remove acentos
       case "unidade_eleitoral":
-        return item[property].normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // remove acentos
+        return item[property].normalize("NFD").replace(/[\u0300-\u036f]/g, null); // remove acentos
       default:
         return item[property];
     }
@@ -89,7 +86,7 @@ export class Top10Component {
   sortData = (data: any[], sort: MatSort): any[] => {
     const active = sort.active;
     const direction = sort.direction;
-    if (!active || direction == "") {
+    if (!active || direction == null) {
       return data;
     }
 

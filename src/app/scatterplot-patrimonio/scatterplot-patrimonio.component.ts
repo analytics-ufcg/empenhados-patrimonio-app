@@ -301,6 +301,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
             .attr("dy", "0.32em")
             .attr("text-anchor", "middle")
             .attr("font-weight", "bold")
+            .attr("font-size", "1.2em")
             .text("Patrimônio em " + (this.ano.valueOf() - 4))
         );
 
@@ -332,6 +333,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
             .attr("dy", "0.32em")
             .attr("text-anchor", "start")
             .attr("font-weight", "bold")
+            .attr("font-size", "1.2em")
             .text("Diferença de patrimônio")
         );
   }
