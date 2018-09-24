@@ -269,6 +269,7 @@ export class FilterComponent implements OnInit {
   }
 
   onChangeMunicipio(novoMunicipio) {
+    if(novoMunicipio === "") { return; }
     this.municipioSelecionado = novoMunicipio;
     this.dataService.mudamunicipio(novoMunicipio);
 
