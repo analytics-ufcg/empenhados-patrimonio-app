@@ -3,17 +3,17 @@
 
     <ng-container matColumnDef="nome_urna">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Nome</mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.nome_urna}} </mat-cell>
+      <mat-cell *matCellDef="let element" class="text-top10"> {{element.nome_urna}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="unidade_eleitoral">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Unid. Eleitoral</mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.unidade_eleitoral}} </mat-cell>
+      <mat-cell *matCellDef="let element" class="text-top10"> {{element.unidade_eleitoral}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="dif-abs">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Diferença</mat-header-cell>
-      <mat-cell *matCellDef="let element" matTooltip="{{ utilsService.formataReais(element.patrimonio_eleicao_2 - element.patrimonio_eleicao_1) }}">
+      <mat-cell *matCellDef="let element" matTooltip="{{ utilsService.formataReais(element.patrimonio_eleicao_2 - element.patrimonio_eleicao_1) }}" class="text-top10">
         {{ this.utilsService.abreviaPatrimonio(utilsService.formataReais(element.patrimonio_eleicao_2 - element.patrimonio_eleicao_1)) }}
       </mat-cell>
     </ng-container>
