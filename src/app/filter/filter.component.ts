@@ -369,7 +369,7 @@ export class FilterComponent implements OnInit {
   private agrupaCargos() {
     this.listaCargosAgrupados = this.listaCargos.filter(
       cargo =>
-        ["VICE-PREFEITO", "VICE-GOVERNADOR", "DEPUTADO DISTRITAL"].indexOf(
+        ["VICE-PREFEITO", "VICE-GOVERNADOR", "VICE-PRESIDENTE", "DEPUTADO DISTRITAL"].indexOf(
           cargo.cargo_pleiteado_2
         ) === -1
     );
