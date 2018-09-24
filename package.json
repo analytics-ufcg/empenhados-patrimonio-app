@@ -38,7 +38,7 @@
     "log4js": "^3.0.4",
     "mailgun-js": "^0.20.0",
     "morgan": "^1.9.0",
-    "mysql": "^2.15.0",    
+    "mysql": "^2.15.0",
     "pac-proxy-agent": "^3.0.0",
     "proxy-agent": "^3.0.1",
     "rxjs": "^5.5.6",
