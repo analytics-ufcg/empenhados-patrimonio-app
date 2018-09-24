@@ -46,6 +46,7 @@ export class FilterComponent implements OnInit {
   private todosCargos;
   private todosEstados;
   private todasSituacoes;
+  private todosMunicipios;
 
   private controlMunicipio: FormControl = new FormControl();
   private filteredOptions: Observable<string[]>;
@@ -127,6 +128,7 @@ export class FilterComponent implements OnInit {
     this.todosCargos = dataService.getTodosCargos();
     this.todosEstados = dataService.getTodosEstados();
     this.todasSituacoes = dataService.getTodasSituacoes();
+    this.todosMunicipios = dataService.getTodosMunicipios();
 
     this.estados_prep_em.push(this.todosEstados);
   }
@@ -209,6 +211,7 @@ export class FilterComponent implements OnInit {
         data => {
           let municipios = data;
           this.listaMunicipios = this.jsonToArray(municipios);
+          this.listaMunicipios.push(this.todosMunicipios);
 
           if (this.isVereador) {
             this.municipioSelecionado = this.encontraCapital(
