@@ -37,7 +37,7 @@ router.get('/patrimonio/:estado/:ano/:cargo/:situacao/:municipio', async (req, r
  */
 router.get('/patrimonio/busca/estados', async (req, res) => {
 
-  var query = "SELECT DISTINCT(estado) FROM patrimonio_candidatos ORDER BY estado";
+  var query = "SELECT DISTINCT(sigla_UF_2) AS estado FROM patrimonio_candidatos ORDER BY sigla_UF_2";
   execSQLQuery(query, [], res);
 
 });
@@ -69,7 +69,7 @@ router.get('/patrimonio/busca/ano/:cargo', async (req, res) => {
  */
 router.get('/patrimonio/municipios/:estado', async (req, res) => {
   let parameters = [req.params.estado];
-  var query = "SELECT DISTINCT(unidade_eleitoral) FROM patrimonio_candidatos WHERE estado = ? AND unidade_eleitoral NOT IN (SELECT desc_Unid_Eleitoral FROM cod_unidade_eleitoral WHERE estado = sigla_Unid_Eleitoral) ORDER BY unidade_eleitoral";
+  var query = "SELECT DISTINCT(unidade_eleitoral) FROM patrimonio_candidatos WHERE sigla_UF_2 = ? AND unidade_eleitoral NOT IN (SELECT desc_Unid_Eleitoral FROM cod_unidade_eleitoral WHERE sigla_UF_2 = sigla_Unid_Eleitoral) ORDER BY unidade_eleitoral";
   execSQLQuery(query, parameters, res);
 
 });
