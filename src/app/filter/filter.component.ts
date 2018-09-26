@@ -245,7 +245,12 @@ export class FilterComponent implements OnInit {
     this.cargoSelecionado = novoCargo;
     this.dataService.mudaCargo(novoCargo);
     if (["PREFEITO", "VEREADOR"].includes(novoCargo)) {
+
+      // Melhorar esta solução
       this.listaEstados.splice(28, 1); // remove opcao todos os estados
+      this.listaEstados.splice(7, 1); // remove a opção DF
+      this.listaEstados.splice(5, 1); // remove a opção BR
+
       let novoEstado;
       if (this.estadoSelecionado === this.todosEstados) {
         novoEstado = this.listaEstados[
