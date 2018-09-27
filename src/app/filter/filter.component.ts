@@ -9,6 +9,7 @@ import { DataService } from "../services/data.service";
 import { PermalinkService } from "../services/permalink.service";
 import { ViewEncapsulation } from "@angular/core";
 import { Router, Params, ActivatedRoute } from '@angular/router';
+import { PlatformLocation } from '@angular/common'
 
 const ELEICOES_FEDERAIS = 1;
 const ELEICOES_MUNICIPAIS = 2;
@@ -51,6 +52,7 @@ export class FilterComponent implements OnInit {
   private todasSituacoes;
 
   public subscriptions: Subscription[] = [];
+  public eventoVoltar;
 
   private controlMunicipio: FormControl = new FormControl();
   private filteredOptions: Observable<string[]>;
@@ -125,7 +127,8 @@ export class FilterComponent implements OnInit {
     private dataService: DataService,
     private permalinkService: PermalinkService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    location: PlatformLocation
   ) {
     this.listaMunicipios = [];
 
@@ -135,6 +138,11 @@ export class FilterComponent implements OnInit {
     this.todasSituacoes = dataService.getTodasSituacoes();
 
     this.estados_prep_em.push(this.todosEstados);
+
+    location.onPopState(() => {
+      this.eventoVoltar = true;
+    });
+
   }
 
   async ngOnInit() {
@@ -149,14 +157,23 @@ export class FilterComponent implements OnInit {
     await this.recuperaSituacoes();
 
     this.agrupaCargos();
-    
-    this.subscriptions.push(this.route.queryParamMap.subscribe(queryParamMap => {            
+
+    this.subscriptions.push(this.route.queryParamMap.subscribe(queryParamMap => {
       if (Object.keys(queryParamMap['params']).length === 0 && queryParamMap['params'].constructor === Object) {
         this.initFilter();
-      } else {
+      } else if (this.eventoVoltar) {
         this.getUrlParams();
+        this.eventoVoltar = false;
       }
     }));
+
+    // recupera parâmetros da requisição na URL
+    var queryParams: Params = this.permalinkService.getQueryParams();
+    if (Object.keys(queryParams).length === 0 && queryParams.constructor === Object) {
+      this.initFilter();
+    } else {
+      this.getUrlParams();
+    }
 
     this.decideSobreVisualizacao();
   }
@@ -500,24 +517,24 @@ export class FilterComponent implements OnInit {
     }
   }
 
-  private getUrlParams() {
-
+  private async getUrlParams() {
     var queryParams: Params = this.permalinkService.getQueryParams();
+
     if (queryParams['cargo']) {
-      this.onChangeCargo(queryParams['cargo']);
+      await this.onChangeCargo(queryParams['cargo']);
     }
     if (queryParams['ano']) {
-      this.onChangeAno(parseInt(queryParams['ano']));
+      await this.onChangeAno(parseInt(queryParams['ano']));
       this.anoSelecionado = parseInt(queryParams['ano']);
     }
     if (queryParams['situacao']) {
-      this.onChangeSituacao(queryParams['situacao']);
+      await this.onChangeSituacao(queryParams['situacao']);
     }
-    if (queryParams['estado']) {
-      this.onChangeEstado(queryParams['estado']);
+    if (queryParams['estado']) {      
+      await this.onChangeEstado(queryParams['estado']);
     }
     if (queryParams['municipio']) {
-      this.onChangeMunicipio(queryParams['municipio']);
+      await this.onChangeMunicipio(queryParams['municipio']);
     }
   }
 
