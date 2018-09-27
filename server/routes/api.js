@@ -69,7 +69,8 @@ router.get('/patrimonio/busca/ano/:cargo', async (req, res) => {
  */
 router.get('/patrimonio/municipios/:estado', async (req, res) => {
   let parameters = [req.params.estado];
-  var query = "SELECT DISTINCT(unidade_eleitoral) FROM patrimonio_candidatos WHERE sigla_UF_2 = ? ORDER BY unidade_eleitoral";
+  var query = "SELECT DISTINCT(unidade_eleitoral) FROM patrimonio_candidatos WHERE sigla_UF_2 = ? AND cargo_pleiteado_1 = 'VEREADOR' ORDER BY unidade_eleitoral";
+
   execSQLQuery(query, parameters, res);
 
 });
@@ -111,7 +112,7 @@ router.get('/unidadeEleitoral/:cdUnidEleitoral', async (req, res) => {
 });
 
 function execSQLQuery(sqlQuery, parameters, res) {
-
+  
   pool.getConnection(function (err, connection) {
 
     connection.query(sqlQuery, parameters, function (error, results, fields) {
