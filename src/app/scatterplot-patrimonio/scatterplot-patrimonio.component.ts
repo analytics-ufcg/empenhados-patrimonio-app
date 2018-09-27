@@ -811,9 +811,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
           d3
             .axisBottom(this.x)
             .ticks(
-              Math.log10(this.maiorPatrimonioEleicao1) -
-                Math.log10(this.menorPatrimonioEleicao1) +
-                1
+              Math.log10(this.maiorPatrimonioEleicao1) - 
+                Math.log10(this.menorPatrimonioEleicao1)
             )
             .tickFormat((d: any) => {
               return this.formataTick(d);
@@ -844,8 +843,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
             .axisLeft(this.y)
             .ticks(
               Math.log10(this.maiorPatrimonioEleicao2) -
-                Math.log10(this.menorPatrimonioEleicao2) +
-                1
+                Math.log10(this.menorPatrimonioEleicao2)
             )
             .tickFormat((d: any) => {
               return this.formataTick(d);
@@ -919,7 +917,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     ];
     var tickLabel;
 
-    tickLabel = d <= 2 ? Math.pow(10, d) : ticksBase10[d - 3];
+    tickLabel = d <= 2 ? Math.pow(10, d) : ticksBase10[d - 3];        
 
     return tickLabel;
   }
