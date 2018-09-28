@@ -263,13 +263,8 @@ export class FilterComponent implements OnInit {
       ) {
         this.anoSelecionado = 2014;
       } else {
-<<<<<<< HEAD
         this.anoSelecionado = 2016;                
       } 
-=======
-        this.anoSelecionado = 2016;
-      }
->>>>>>> aa12ccda1b38bb35d7e7f73b5a7b1bea73a9f666
       await this.permalinkService.updateUrlParams('ano', this.anoSelecionado);
     }
 
@@ -304,18 +299,14 @@ export class FilterComponent implements OnInit {
         this.listaEstados.push({ estado: this.todosEstados });
       }
     }
-<<<<<<< HEAD
-
-    if( novoCargo === "GOVERNADOR" ) {
-      await this.permalinkService.updateUrlParams('estado', null);
-    }
-
-=======
->>>>>>> aa12ccda1b38bb35d7e7f73b5a7b1bea73a9f666
 
     // Atualiza filtros de acordo com o estado selecionado
     this.atualizaFiltroAno();
     this.atualizaFiltroMunicipio();
+
+    if( novoCargo === "GOVERNADOR" ) {
+      await this.permalinkService.updateUrlParams('estado', null);
+    }
 
     this.decideSobreVisualizacao();
   }
