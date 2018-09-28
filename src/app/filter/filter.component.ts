@@ -241,7 +241,7 @@ export class FilterComponent implements OnInit {
       } else {
         this.anoSelecionado = 2016;                
       } 
-      await this.permalinkService.updateUrlParams('ano', this.anoSelecionado);             
+      await this.permalinkService.updateUrlParams('ano', this.anoSelecionado);
     }
         
     // Limpa municipio ao mudar para um cargo diferente de vereador
@@ -274,7 +274,12 @@ export class FilterComponent implements OnInit {
       if (this.listaEstados !== undefined && this.listaEstados.length != 29) {
         this.listaEstados.push({ estado: this.todosEstados });
       }
-    }    
+    }
+
+    if( novoCargo === "GOVERNADOR" ) {
+      await this.permalinkService.updateUrlParams('estado', null);
+    }
+
 
     // Atualiza filtros de acordo com o estado selecionado
     this.atualizaFiltroAno();
