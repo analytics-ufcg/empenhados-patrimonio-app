@@ -46,6 +46,7 @@ export class FilterComponent implements OnInit {
   private todosCargos;
   private todosEstados;
   private todasSituacoes;
+  private todosMunicipios;
 
   private controlMunicipio: FormControl = new FormControl();
   private filteredOptions: Observable<string[]>;
@@ -127,6 +128,7 @@ export class FilterComponent implements OnInit {
     this.todosCargos = dataService.getTodosCargos();
     this.todosEstados = dataService.getTodosEstados();
     this.todasSituacoes = dataService.getTodasSituacoes();
+    this.todosMunicipios = dataService.getTodosMunicipios();
 
     this.estados_prep_em.push(this.todosEstados);
   }
@@ -209,6 +211,7 @@ export class FilterComponent implements OnInit {
         data => {
           let municipios = data;
           this.listaMunicipios = this.jsonToArray(municipios);
+          this.listaMunicipios.push(this.todosMunicipios);
 
           if (this.isVereador) {
             this.municipioSelecionado = this.encontraCapital(
@@ -242,7 +245,12 @@ export class FilterComponent implements OnInit {
     this.cargoSelecionado = novoCargo;
     this.dataService.mudaCargo(novoCargo);
     if (["PREFEITO", "VEREADOR"].includes(novoCargo)) {
+
+      // Melhorar esta solução
       this.listaEstados.splice(28, 1); // remove opcao todos os estados
+      this.listaEstados.splice(7, 1); // remove a opção DF
+      this.listaEstados.splice(5, 1); // remove a opção BR
+
       let novoEstado;
       if (this.estadoSelecionado === this.todosEstados) {
         novoEstado = this.listaEstados[
@@ -266,6 +274,7 @@ export class FilterComponent implements OnInit {
   }
 
   onChangeMunicipio(novoMunicipio) {
+    if(novoMunicipio === "") { return; }
     this.municipioSelecionado = novoMunicipio;
     this.dataService.mudamunicipio(novoMunicipio);
 
@@ -369,7 +378,7 @@ export class FilterComponent implements OnInit {
   private agrupaCargos() {
     this.listaCargosAgrupados = this.listaCargos.filter(
       cargo =>
-        ["VICE-PREFEITO", "VICE-GOVERNADOR", "DEPUTADO DISTRITAL"].indexOf(
+        ["VICE-PREFEITO", "VICE-GOVERNADOR", "VICE-PRESIDENTE", "DEPUTADO DISTRITAL"].indexOf(
           cargo.cargo_pleiteado_2
         ) === -1
     );

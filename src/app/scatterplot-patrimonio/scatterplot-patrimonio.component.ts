@@ -86,7 +86,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     private utilsService: UtilsService,
     public dialog: MatDialog
   ) {
-    this.margin = { top: 20, right: 30, bottom: 20, left: 40 };
+    this.margin = { top: 30, right: 30, bottom: 20, left: 40 };
     this.transitionTime = { short: 1000, medium: 1500, long: 2000 };
     this.circleRadius = 6;
     this.modeOption = "variacao";
@@ -309,7 +309,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
             .attr("id", "x-title")
             .attr("fill", "#000")
             .attr("x", this.width / 2)
-            .attr("y", this.margin.bottom * 1.5)
+            .attr("y", 10)
             .attr("dy", "0.32em")
             .attr("text-anchor", "middle")
             .attr("font-weight", "bold")
@@ -340,7 +340,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
             .attr("id", "y-title")
             .attr("fill", "#000")
             .attr("x", 5)
-            .attr("y", this.margin.top)
+            .attr("y", 10)
             .attr("dy", "0.32em")
             .attr("text-anchor", "start")
             .attr("font-weight", "bold")
@@ -811,9 +811,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
           d3
             .axisBottom(this.x)
             .ticks(
-              Math.log10(this.maiorPatrimonioEleicao1) -
-                Math.log10(this.menorPatrimonioEleicao1) +
-                1
+              Math.log10(this.maiorPatrimonioEleicao1) - 
+                Math.log10(this.menorPatrimonioEleicao1)
             )
             .tickFormat((d: any) => {
               return this.formataTick(d);
@@ -844,8 +843,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
             .axisLeft(this.y)
             .ticks(
               Math.log10(this.maiorPatrimonioEleicao2) -
-                Math.log10(this.menorPatrimonioEleicao2) +
-                1
+                Math.log10(this.menorPatrimonioEleicao2)
             )
             .tickFormat((d: any) => {
               return this.formataTick(d);
@@ -919,7 +917,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     ];
     var tickLabel;
 
-    tickLabel = d <= 2 ? Math.pow(10, d) : ticksBase10[d - 3];
+    tickLabel = d <= 2 ? Math.pow(10, d) : ticksBase10[d - 3];        
 
     return tickLabel;
   }
