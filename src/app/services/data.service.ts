@@ -49,6 +49,7 @@ const TODOS_CONSULTA = "todos";
 const TODOS_CARGOS = "qualquer cargo";
 const TODOS_ESTADOS = "qualquer estado";
 const TODAS_SITUACOES = "que declararam patrimônio";
+const TODOS_MUNICIPIOS = "qualquer município"
 
 @Injectable()
 export class DataService {
@@ -119,6 +120,10 @@ export class DataService {
 
     if (situacao === TODAS_SITUACOES) {
       situacao = TODOS_CONSULTA;
+    }
+
+    if (municipio === TODOS_MUNICIPIOS) {
+      municipio = TODOS_CONSULTA;
     }
 
     return new Promise((resolve, reject) =>
@@ -297,6 +302,10 @@ export class DataService {
 
   public getTodasSituacoes() {
     return TODAS_SITUACOES;
+  }
+
+  public getTodosMunicipios(){
+    return TODOS_MUNICIPIOS;
   }
 
   public getEstado() {

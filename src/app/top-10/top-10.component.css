@@ -19,11 +19,19 @@
 }
 
 .mat-expansion-panel-body {
-  padding: 0;
+  padding: 0; 
 }
 
 .top10-nomeUrna{
   text-decoration: underline;
   color: #1b3b6f;
   cursor: pointer;
+  font-size: 1em;
+}
+.text-top10 {
+  font-size: 1em;
+}
+
+.mat-sort-header-arrow {
+  display: none !important;
 }

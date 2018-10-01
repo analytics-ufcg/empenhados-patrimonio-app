@@ -50,6 +50,7 @@ export class FilterComponent implements OnInit {
   private todosCargos;
   private todosEstados;
   private todasSituacoes;
+  private todosMunicipios;
 
   public subscriptions: Subscription[] = [];
   public eventoVoltar;
@@ -136,6 +137,7 @@ export class FilterComponent implements OnInit {
     this.todosCargos = dataService.getTodosCargos();
     this.todosEstados = dataService.getTodosEstados();
     this.todasSituacoes = dataService.getTodasSituacoes();
+    this.todosMunicipios = dataService.getTodosMunicipios();
 
     this.estados_prep_em.push(this.todosEstados);
 
@@ -238,6 +240,7 @@ export class FilterComponent implements OnInit {
         data => {
           let municipios = data;
           this.listaMunicipios = this.jsonToArray(municipios);
+          this.listaMunicipios.push(this.todosMunicipios);
 
           if (this.isVereador && !this.listaMunicipios.includes(this.municipioSelecionado)) {
             this.municipioSelecionado = this.encontraCapital(
@@ -263,8 +266,8 @@ export class FilterComponent implements OnInit {
       ) {
         this.anoSelecionado = 2014;
       } else {
-        this.anoSelecionado = 2016;                
-      } 
+        this.anoSelecionado = 2016;
+      }
       await this.permalinkService.updateUrlParams('ano', this.anoSelecionado);
     }
 
@@ -280,9 +283,14 @@ export class FilterComponent implements OnInit {
 
     // Controla o aparecimento ou não da opção todos os estados, a depender do cargo selecionado.
     if (["PREFEITO", "VEREADOR"].includes(novoCargo)) {
+
       if (this.listaEstados) {
+        // Melhorar esta solução
         this.listaEstados.splice(28, 1); // remove opcao todos os estados
+        this.listaEstados.splice(7, 1); // remove a opção DF
+        this.listaEstados.splice(5, 1); // remove a opção BR
       }
+
       let novoEstado;
       if (this.estadoSelecionado === this.todosEstados) {
         novoEstado = this.listaEstados[
@@ -304,7 +312,7 @@ export class FilterComponent implements OnInit {
     this.atualizaFiltroAno();
     this.atualizaFiltroMunicipio();
 
-    if( novoCargo === "GOVERNADOR" ) {
+    if (novoCargo === "GOVERNADOR") {
       await this.permalinkService.updateUrlParams('estado', null);
     }
 
@@ -312,6 +320,9 @@ export class FilterComponent implements OnInit {
   }
 
   async onChangeMunicipio(novoMunicipio) {
+  
+    if(novoMunicipio === "") { return; }
+    
     this.municipioSelecionado = novoMunicipio;
     this.dataService.mudamunicipio(novoMunicipio);
 
@@ -422,7 +433,7 @@ export class FilterComponent implements OnInit {
   private agrupaCargos() {
     this.listaCargosAgrupados = this.listaCargos.filter(
       cargo =>
-        ["VICE-PREFEITO", "VICE-GOVERNADOR", "DEPUTADO DISTRITAL"].indexOf(
+        ["VICE-PREFEITO", "VICE-GOVERNADOR", "VICE-PRESIDENTE", "DEPUTADO DISTRITAL"].indexOf(
           cargo.cargo_pleiteado_2
         ) === -1
     );
@@ -534,7 +545,7 @@ export class FilterComponent implements OnInit {
     if (queryParams['situacao']) {
       await this.onChangeSituacao(queryParams['situacao']);
     }
-    if (queryParams['estado']) {      
+    if (queryParams['estado']) {
       await this.onChangeEstado(queryParams['estado']);
     }
     if (queryParams['municipio']) {
