@@ -284,11 +284,10 @@ export class FilterComponent implements OnInit {
     // Controla o aparecimento ou não da opção todos os estados, a depender do cargo selecionado.
     if (["PREFEITO", "VEREADOR"].includes(novoCargo)) {
 
-      if (this.listaEstados) {
-        // Melhorar esta solução
-        this.listaEstados.splice(28, 1); // remove opcao todos os estados
-        this.listaEstados.splice(7, 1); // remove a opção DF
-        this.listaEstados.splice(5, 1); // remove a opção BR
+      if (this.listaEstados) {           
+        this.removeEstado(this.todosEstados);
+        this.removeEstado("DF");
+        this.removeEstado("BR");
       }
 
       let novoEstado;
@@ -303,7 +302,7 @@ export class FilterComponent implements OnInit {
       this.atualizaFiltroAno();
       return;
     } else {
-      if (this.listaEstados !== undefined && this.listaEstados.length != 29) {
+      if (this.listaEstados !== undefined && this.listaEstados.length === 26) {
         this.listaEstados.push({ estado: this.todosEstados });
       }
     }
@@ -561,5 +560,12 @@ export class FilterComponent implements OnInit {
 
     var initURL = { cargo: "deputado-federal", situacao: "eleito", ano: "2014", estado: "qualquer-estado" };
     this.router.navigate([], { queryParams: initURL });
+  }
+
+  private removeEstado(nomeEstado) {
+    let obj = this.listaEstados.find(e => e.estado === nomeEstado);
+    let index = this.listaEstados.indexOf(obj);
+
+    index < 0 ? null : this.listaEstados.splice(index, 1);
   }
 }
