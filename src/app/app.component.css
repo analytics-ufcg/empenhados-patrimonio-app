@@ -23,7 +23,7 @@
 
 .title {
   cursor: pointer !important;
-  padding: 5px 0 5px 5%;
+  padding: 5px 0 5px 0;
   position: relative;
   display: flex;
   align-items: center;
@@ -52,7 +52,7 @@ footer {
   white-space: initial;
   line-height: 1.5em;
   padding: 1%;
-  margin-left: 5%;
+  margin-left: 0%;
   width: 100%;
 }
 

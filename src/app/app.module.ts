@@ -1,12 +1,14 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { HttpClientModule, HttpClient } from "@angular/common/http";
+import { HttpClientModule } from "@angular/common/http";
 import { GlobalService } from "./services/global.service";
 import { RequestService } from "./services/request.service";
 import { DataService } from "./services/data.service";
 import { UtilsService } from "./services/utils.service";
 import { AlertService } from "./services/alert.service";
+import { VisPatrimonioService } from "./services/vis-patrimonio.service";
+import { PermalinkService } from "./services/permalink.service";
 import { CandidatoService } from "./services/candidato.service";
 import { FlexLayoutModule } from "@angular/flex-layout";
 
@@ -45,6 +47,8 @@ import { AboutComponent } from "./about/about.component";
 import { HomeComponent } from "./home/home.component";
 import { ReadmeComponent } from "./readme/readme.component";
 import { Top10Component } from "./top-10/top-10.component";
+
+import { AppRoutingModule } from "./app-routing.module";
 
 @NgModule({
   declarations: [
@@ -85,7 +89,8 @@ import { Top10Component } from "./top-10/top-10.component";
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-    MatExpansionModule
+    MatExpansionModule,
+    AppRoutingModule
   ],
   providers: [
     HttpClientModule,
@@ -94,7 +99,9 @@ import { Top10Component } from "./top-10/top-10.component";
     DataService,
     UtilsService,
     AlertService,
-    CandidatoService
+    CandidatoService,
+    VisPatrimonioService,
+    PermalinkService
   ],
   bootstrap: [AppComponent],
   entryComponents: [AboutComponent, ReadmeComponent]

@@ -12,10 +12,15 @@ import { DataService } from "../services/data.service";
 import { AlertService } from "../services/alert.service";
 import { FormControl } from "@angular/forms";
 import { UtilsService } from "../services/utils.service";
+import { VisPatrimonioService } from '../services/vis-patrimonio.service';
 import { Observable } from "rxjs/Observable";
 import { startWith } from "rxjs/operators/startWith";
 import { map } from "rxjs/operators/map";
 import "rxjs/add/observable/interval";
+
+import { Params } from '@angular/router';
+import { PermalinkService } from "../services/permalink.service";
+
 
 import { ReadmeComponent } from "../readme/readme.component";
 
@@ -84,8 +89,18 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     private dataService: DataService,
     private alertService: AlertService,
     private utilsService: UtilsService,
+    private visPatrimonioService: VisPatrimonioService,
+    private permalinkService: PermalinkService,
     public dialog: MatDialog
   ) {
+
+    // Atualiza service para incluir a função de remover tooltip. Este serviço pode ser reusado por outros componentes.
+    this.visPatrimonioService.apagaTooltipSource_.subscribe(
+      () => {
+        this.apagaTooltip()
+      }
+    );
+
     this.margin = { top: 20, right: 30, bottom: 20, left: 40 };
     this.transitionTime = { short: 1000, medium: 1500, long: 2000 };
     this.circleRadius = 6;
@@ -112,6 +127,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         this.plotPatrimonio();
       }
     });
+
   }
 
   defineHeight(width: number) {
@@ -159,40 +175,12 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     } else {
       // atualiza ano com o valor do ano dois encontrado no primeiro candidato recuperado através do filtro
       this.ano = this.data[0].ano_dois;
-
-      // if (this.g) {
-
-      // TODO: verificar o motivo da visualização ser desenhada mais de uma vez
-
-      // verifica se o filtro foi modificado desde a última vez que a função foi chamada
-      // if (
-      //   this.estadoAtual === this.filtroAnterior.estado &&
-      //   this.cargo === this.filtroAnterior.cargo &&
-      //   this.situacao === this.filtroAnterior.situacao &&
-      //   this.ano === this.filtroAnterior.ano &&
-      //   this.municipioAtual == this.filtroAnterior.municipio
-      // ) {
-      //   return;
-      // }
-      // this.filtroAnterior = {
-      //   estado: this.estadoAtual,
-      //   cargo: this.cargo,
-      //   situacao: this.situacao,
-      //   ano: this.ano,
-      //   municipio: this.municipioAtual
-      // };
-
+      
       if (this.g) {
         // remove tooltip ao alterar os dados
         this.g.selectAll("circle").call(this.tip.hide);
       }
-
-      // if (!this.isFirstPlot) {
-      //  this.animacaoTimer.unsubscribe();
-      // }
-
-      // this.isFirstPlot = false;
-
+      
       this.maiorPatrimonioEleicao1 = d3.max(
         this.data,
         (d: any) => d.patrimonio_eleicao_1
@@ -217,7 +205,6 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         this.data,
         (d: any) => d.patrimonio_eleicao_1 - d.patrimonio_eleicao_2
       );
-
       this.initD3Patrimonio();
     }
   }
@@ -250,6 +237,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     if (this.initAnimacaoCandidatos) {
       this.initAnimacaoCandidatos();
     }
+    this.getCPFfromURL();
   }
 
   private initX() {
@@ -313,6 +301,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
             .attr("dy", "0.32em")
             .attr("text-anchor", "middle")
             .attr("font-weight", "bold")
+            .attr("font-size", "1.2em")
             .text("Patrimônio em " + (this.ano.valueOf() - 4))
         );
 
@@ -340,10 +329,11 @@ export class ScatterplotPatrimonioComponent implements OnInit {
             .attr("id", "y-title")
             .attr("fill", "#000")
             .attr("x", 5)
-            .attr("y", this.margin.top)
+            .attr("y", 10)
             .attr("dy", "0.32em")
             .attr("text-anchor", "start")
             .attr("font-weight", "bold")
+            .attr("font-size", "1.2em")
             .text("Diferença de patrimônio")
         );
   }
@@ -472,6 +462,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
         this.clickedCircle = { d: d, i: i, n: n };
         this.highlightCircle(n[i]);
         this.emiteSelecaoCandidato(d);
+        this.permalinkService.updateUrlParams("cpf", d.cpf)
       }
     };
   }
@@ -811,9 +802,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
           d3
             .axisBottom(this.x)
             .ticks(
-              Math.log10(this.maiorPatrimonioEleicao1) -
-                Math.log10(this.menorPatrimonioEleicao1) +
-                1
+              Math.log10(this.maiorPatrimonioEleicao1) - 
+                Math.log10(this.menorPatrimonioEleicao1)
             )
             .tickFormat((d: any) => {
               return this.formataTick(d);
@@ -844,8 +834,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
             .axisLeft(this.y)
             .ticks(
               Math.log10(this.maiorPatrimonioEleicao2) -
-                Math.log10(this.menorPatrimonioEleicao2) +
-                1
+                Math.log10(this.menorPatrimonioEleicao2)
             )
             .tickFormat((d: any) => {
               return this.formataTick(d);
@@ -919,7 +908,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     ];
     var tickLabel;
 
-    tickLabel = d <= 2 ? Math.pow(10, d) : ticksBase10[d - 3];
+    tickLabel = d <= 2 ? Math.pow(10, d) : ticksBase10[d - 3];        
 
     return tickLabel;
   }
@@ -1057,7 +1046,45 @@ export class ScatterplotPatrimonioComponent implements OnInit {
     });
   }
 
-  apagaTooltip() {
-    d3.selectAll("svg > #tooltip").remove();
+  apagaTooltip() {        
+    this.g.selectAll("circle").call(this.tip.hide);
+    this.animacaoTimer.unsubscribe();
   }
+
+  getCPFfromURL() {
+    var queryParams: Params = this.permalinkService.getQueryParams();
+    if (queryParams['cpf']) {
+      let cpf = queryParams['cpf'];
+
+      this.apagaTooltip();
+      
+      d3.select("#candidato-sorteado")
+        .attr("id", "candidato")
+        .attr("r", this.circleRadius)
+        .style("stroke", "none");
+
+      this.g
+        .selectAll("circle")
+        .filter(function(d: any) {
+          return d.cpf === cpf;
+        })
+        .attr("r", this.circleRadius * 1.8)
+        .attr("id", "candidato-sorteado")
+        .style("stroke", "#230a4f")
+        .style("stroke-width", 13)
+        .style("cursor", "pointer");
+
+      var candidatoSorteado = document.getElementById("candidato-sorteado");
+      var event = new MouseEvent("click");
+      if (candidatoSorteado) {
+        candidatoSorteado.dispatchEvent(event);
+        let candidato = d3.select(candidatoSorteado);
+      }
+    }
+  }
+
+  deleteCPFfromURL(){
+    this.permalinkService.updateUrlParams("cpf", null);
+  }
+
 }

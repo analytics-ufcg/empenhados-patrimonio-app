@@ -1,7 +1,8 @@
-import { Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
-import { AboutComponent } from './about/about.component';
+import { VisPatrimonioService } from './services/vis-patrimonio.service';
+
 import { MatIconRegistry } from "@angular/material/icon";
 import { DomSanitizer } from "@angular/platform-browser";
 
@@ -13,10 +14,12 @@ import { DomSanitizer } from "@angular/platform-browser";
 })
 export class AppComponent {
   title = 'Capital dos Candidatos';
-
+  
   constructor(public dialog: MatDialog,
+              private visPatrimonioService: VisPatrimonioService,
               private matIconRegistry: MatIconRegistry,
               private domSanitizer: DomSanitizer) {
+
     this.matIconRegistry.addSvgIcon(
       `facebook`,
       this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/facebook-box.svg")
@@ -27,17 +30,9 @@ export class AppComponent {
     );    
   }
 
-  openDialog(): void {
-    const dialogRef = this.dialog.open(AboutComponent, {
-      width: '80%',
-      height: '90%'
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
+  apagaTooltip() {
+    this.visPatrimonioService.apagaTooltip();
   }
-
 
 }
 
