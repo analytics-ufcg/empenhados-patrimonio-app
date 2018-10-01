@@ -101,7 +101,7 @@ export class FilterComponent implements OnInit {
     { sigla: "PR", capital: "Curitiba" },
     { sigla: "PE", capital: "Recife" },
     { sigla: "PI", capital: "Teresina" },
-    { sigla: "RJ", capital: "Rio de Janeiro" },
+    { sigla: "RJ", capital: "Rio De Janeiro" },
     { sigla: "RN", capital: "Natal" },
     { sigla: "RS", capital: "Porto Alegre" },
     { sigla: "RO", capital: "Porto Velho" },
@@ -185,7 +185,7 @@ export class FilterComponent implements OnInit {
   }
 
   async emiteEventoVisualizacao() {
-    await this.mudaDados();
+    await this.mudaDados();    
     this.visualizaClique.next();
   }
 
@@ -211,12 +211,12 @@ export class FilterComponent implements OnInit {
       } else if (this.cargoSelecionado && this.estadoSelecionado) {
         return true;
       }
-    }
+    }    
     return false;
   }
 
   // Se o filtro estiver pronto, exibe visualização de patrimônio
-  decideSobreVisualizacao() {
+  decideSobreVisualizacao() {   
     if (this.filtroPronto()) {
       this.emiteEventoVisualizacao();
     } else {
