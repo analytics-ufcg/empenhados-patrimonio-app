@@ -7,9 +7,11 @@ import { map } from "rxjs/operators/map";
 import { Subscription } from 'rxjs/Subscription';
 import { DataService } from "../services/data.service";
 import { PermalinkService } from "../services/permalink.service";
+import { AlertService } from "../services/alert.service"
 import { ViewEncapsulation } from "@angular/core";
 import { Router, Params, ActivatedRoute } from '@angular/router';
 import { PlatformLocation } from '@angular/common'
+
 
 const ELEICOES_FEDERAIS = 1;
 const ELEICOES_MUNICIPAIS = 2;
@@ -28,6 +30,7 @@ export class FilterComponent implements OnInit {
   @Output()
   apagaVisualizacao = new EventEmitter<any>();
 
+
   public listaEstados: any;
   public listaCargos: any;
   public listaMunicipios: any;
@@ -43,11 +46,8 @@ export class FilterComponent implements OnInit {
   public anoSelecionado: number;
   public situacaoSelecionada: string;
 
-  private estadoAnterior = "";
-  private cargoAnterior = "";
-  private municipioAnterior = "";
-  private anoAnterior = 0;
-  private situacaoAnterior = "";
+  private urlParams: Params;
+  private validUrlParams: Params;
 
   public isVereador;
   public isExecutivo;
@@ -135,7 +135,8 @@ export class FilterComponent implements OnInit {
     private permalinkService: PermalinkService,
     private router: Router,
     private route: ActivatedRoute,
-    location: PlatformLocation
+    location: PlatformLocation,
+    private alertService: AlertService
   ) {
     this.listaMunicipios = [];
 
@@ -232,7 +233,6 @@ export class FilterComponent implements OnInit {
 
   /* Altera a lista de municipios a partir de um estado selecionado */
   async onChangeEstado(novoEstado) {
-    this.estadoAnterior = this.estadoSelecionado;
     this.estadoSelecionado = novoEstado;
     this.dataService.mudaEstado(novoEstado);
     await this.permalinkService.updateUrlParams('estado', novoEstado);
@@ -266,8 +266,6 @@ export class FilterComponent implements OnInit {
 
   // Atualiza cargo atual selecionado
   async onChangeCargo(novoCargo) {
-    this.cargoAnterior = this.cargoSelecionado ? this.cargoSelecionado : novoCargo;
-
     if (!this.mesmoTipoEleicao(novoCargo, this.cargoSelecionado)) {
       if (
         CARGOS_MUNICIPAIS.indexOf(novoCargo) === -1 &&
@@ -328,8 +326,6 @@ export class FilterComponent implements OnInit {
   }
 
   async onChangeMunicipio(novoMunicipio) {
-    this.municipioAnterior = this.municipioSelecionado ? this.municipioSelecionado : novoMunicipio;
-
     if(novoMunicipio === "") { return; }
     
     this.municipioSelecionado = novoMunicipio;
@@ -365,7 +361,6 @@ export class FilterComponent implements OnInit {
   }
 
   async onChangeAno(novoAno) {
-    this.anoAnterior = this.anoSelecionado;
     this.anoSelecionado = novoAno;
     await this.permalinkService.updateUrlParams('ano', novoAno);
 
@@ -385,7 +380,6 @@ export class FilterComponent implements OnInit {
   }
 
   async onChangeSituacao(novaSituacao) {
-    this.situacaoAnterior = this.situacaoSelecionada;
     this.situacaoSelecionada = novaSituacao;
     this.dataService.mudaSituacao(novaSituacao);
     await this.permalinkService.updateUrlParams('situacao', novaSituacao);
@@ -414,14 +408,19 @@ export class FilterComponent implements OnInit {
   }
 
   private async mudaDados() {
+    this.urlParams = this.permalinkService.getQueryParams();
     await this.dataService.mudaDados(
       this.estadoSelecionado,
       this.anoSelecionado,
       this.cargoSelecionado,
       this.situacaoSelecionada,
       this.municipioSelecionado
-    ).catch(err => {
-      this.retornaDados()
+    ).then(() => { // Se a promisse for resolvida
+      this.validUrlParams = this.urlParams;
+    }, async () => { // Se a promisse for rejeitada
+      await this.alertService.openSnackBar("Não temos dados para este filtro! Você foi retornado para o último filtro válido", "OK");
+      await this.permalinkService.updateAllUrlParams(this.validUrlParams);
+      this.getUrlParams();
     })
   }
 
@@ -543,16 +542,6 @@ export class FilterComponent implements OnInit {
     ) {
       this.preposicao_estado = "em";
     }
-  }
-
-  private retornaDados() {
-    console.log("Não temos dados");
-    console.log("O filtro retornará para:", this.anoAnterior, this.cargoAnterior, this.estadoAnterior, this.situacaoAnterior, this.municipioAnterior);
-    this.onChangeAno(this.anoAnterior);
-    this.onChangeCargo(this.cargoAnterior);
-    this.onChangeEstado(this.estadoAnterior);
-    this.onChangeSituacao(this.situacaoAnterior);
-    this.onChangeMunicipio(this.municipioAnterior);
   }
 
   private async getUrlParams() {
