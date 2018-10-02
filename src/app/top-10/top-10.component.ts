@@ -1,9 +1,10 @@
-import { Component, ViewChild } from "@angular/core";
+import { Component, ViewChild, Output, EventEmitter } from "@angular/core";
 import { MatTableDataSource, MatSort, MatPaginator } from "@angular/material";
 import { ViewEncapsulation } from "@angular/core";
 
 import { DataService } from "../services/data.service";
 import { UtilsService } from "../services/utils.service";
+import { PermalinkService } from "../services/permalink.service";
 
 @Component({
   selector: "app-top-10",
@@ -12,6 +13,8 @@ import { UtilsService } from "../services/utils.service";
   encapsulation: ViewEncapsulation.None
 })
 export class Top10Component {
+  @Output()
+  selecaoCandidato = new EventEmitter<any>();
   public displayedColumns: string[] = [
     "nome_urna",
     "unidade_eleitoral",
@@ -27,17 +30,16 @@ export class Top10Component {
 
   constructor(
     private dataService: DataService,
-    private utilsService: UtilsService
+    private utilsService: UtilsService,
+    private permalinkService: PermalinkService
   ) {}
 
   ranking() {
     this.dataService.dadosPatrimonio.subscribe(data => {
       this.dataSource = new MatTableDataSource(data);
       this.dataSource.paginator = this.translatePaginator(this.paginator);
-
       this.dataSource.sortingDataAccessor = this.sortingDataAccessor;
       this.dataSource.sortData = this.sortData;
-
       this.dataSource.sort = this.sort;
     });
   }
@@ -47,7 +49,6 @@ export class Top10Component {
     p._intl.lastPageLabel = "Última página";
     p._intl.nextPageLabel = "Próxima";
     p._intl.previousPageLabel = "Anterior";
-
     p._intl.getRangeLabel = this.getRangeLabel;
 
     return p;
@@ -72,9 +73,9 @@ export class Top10Component {
       case "dif-abs":
         return item.patrimonio_eleicao_2 - item.patrimonio_eleicao_1; // retorna a diferença de patrimônios
       case "nome_urna":
-        return item[property].normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // remove acentos
+        return item[property].normalize("NFD").replace(/[\u0300-\u036f]/g, null); // remove acentos
       case "unidade_eleitoral":
-        return item[property].normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // remove acentos
+        return item[property].normalize("NFD").replace(/[\u0300-\u036f]/g, null); // remove acentos
       default:
         return item[property];
     }
@@ -85,7 +86,7 @@ export class Top10Component {
   sortData = (data: any[], sort: MatSort): any[] => {
     const active = sort.active;
     const direction = sort.direction;
-    if (!active || direction == "") {
+    if (!active || direction == null) {
       return data;
     }
 
@@ -119,5 +120,10 @@ export class Top10Component {
     return (Math.max(numero1, numero2) / Math.min(numero1, numero2))
       .toFixed(2)
       .split(".");
+  }
+
+  async selecionaCandidato(cpf) {
+    await this.permalinkService.updateUrlParams("cpf", cpf);
+    this.selecaoCandidato.next();
   }
 }
