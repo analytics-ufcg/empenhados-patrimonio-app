@@ -39,6 +39,12 @@ export class FilterComponent implements OnInit {
   public anoSelecionado: number;
   public situacaoSelecionada: String;
 
+  private estadoAnterior = "";
+  private cargoAnterior = "";
+  private municipioAnterior = "";
+  private anoAnterior = 0;
+  private situacaoAnterior = "";
+
   public isVereador;
   public isExecutivo;
   private tipoEleicao;
@@ -198,6 +204,7 @@ export class FilterComponent implements OnInit {
 
   /* Altera a lista de municipios a partir de um estado selecionado */
   async onChangeEstado(novoEstado) {
+    this.estadoAnterior = this.estadoSelecionado;
     this.estadoSelecionado = novoEstado;
     this.dataService.mudaEstado(novoEstado);
     this.definePreposicao();
@@ -226,6 +233,7 @@ export class FilterComponent implements OnInit {
 
   // Atualiza cargo atual selecionado
   onChangeCargo(novoCargo) {
+    this.cargoAnterior = this.cargoSelecionado;
     if (!this.mesmoTipoEleicao(novoCargo, this.cargoSelecionado)) {
       if (
         CARGOS_MUNICIPAIS.indexOf(novoCargo) === -1 &&
@@ -266,6 +274,7 @@ export class FilterComponent implements OnInit {
   }
 
   onChangeMunicipio(novoMunicipio) {
+    this.municipioAnterior = this.municipioSelecionado;
     this.municipioSelecionado = novoMunicipio;
     this.dataService.mudamunicipio(novoMunicipio);
 
@@ -295,6 +304,7 @@ export class FilterComponent implements OnInit {
   }
 
   onChangeAno(novoAno) {
+    this.anoAnterior = this.anoSelecionado;
     this.anoSelecionado = novoAno;
 
     if (novoAno === 2018) {
@@ -312,6 +322,7 @@ export class FilterComponent implements OnInit {
   }
 
   onChangeSituacao(novaSituacao) {
+    this.situacaoAnterior = this.situacaoSelecionada;
     this.situacaoSelecionada = novaSituacao;
     this.dataService.mudaSituacao(novaSituacao);
 
@@ -345,7 +356,9 @@ export class FilterComponent implements OnInit {
       this.cargoSelecionado,
       this.situacaoSelecionada,
       this.municipioSelecionado
-    );
+    ).catch(err => {
+      this.retornaDados()
+    })
   }
 
   // Recupera lista de cargos
@@ -471,4 +484,13 @@ export class FilterComponent implements OnInit {
       this.preposicao_estado = "em";
     }
   }
+
+  private retornaDados() {
+    console.log("Não temos dados função!")
+    this.onChangeAno(this.anoAnterior);
+    this.onChangeCargo(this.cargoAnterior);
+    this.onChangeEstado(this.estadoAnterior);
+    this.onChangeSituacao(this.situacaoAnterior);
+    this.onChangeMunicipio(this.municipioAnterior);
+    }
 }

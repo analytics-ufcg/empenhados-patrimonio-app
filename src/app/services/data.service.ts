@@ -127,6 +127,9 @@ export class DataService {
         .subscribe(
           data => {
             dadosBD = data;
+            if (Array.from(dadosBD).length === 0) {
+              return reject("Não temos dados para esse filtro!");
+            }
             this._dadosPatrimonio.next(this.parseData(dadosBD));
             return resolve("Dados alterados");
           },
