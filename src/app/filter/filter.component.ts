@@ -418,7 +418,7 @@ export class FilterComponent implements OnInit {
     ).then(() => { // Se a promisse for resolvida
       this.validUrlParams = this.urlParams;
     }, async () => { // Se a promisse for rejeitada
-      await this.alertService.openSnackBar("Não temos dados para este filtro! Você foi retornado para o último filtro válido", "OK");
+      await this.alertService.openSnackBar("Não temos dados para este filtro! Você foi redirecionado para o último filtro válido.", "OK");
       await this.permalinkService.updateAllUrlParams(this.validUrlParams);
       this.getUrlParams();
     })
