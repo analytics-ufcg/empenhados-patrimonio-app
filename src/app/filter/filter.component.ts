@@ -7,9 +7,11 @@ import { map } from "rxjs/operators/map";
 import { Subscription } from 'rxjs/Subscription';
 import { DataService } from "../services/data.service";
 import { PermalinkService } from "../services/permalink.service";
+import { AlertService } from "../services/alert.service"
 import { ViewEncapsulation } from "@angular/core";
 import { Router, Params, ActivatedRoute } from '@angular/router';
 import { PlatformLocation } from '@angular/common'
+
 
 const ELEICOES_FEDERAIS = 1;
 const ELEICOES_MUNICIPAIS = 2;
@@ -28,6 +30,7 @@ export class FilterComponent implements OnInit {
   @Output()
   apagaVisualizacao = new EventEmitter<any>();
 
+
   public listaEstados: any;
   public listaCargos: any;
   public listaMunicipios: any;
@@ -42,6 +45,9 @@ export class FilterComponent implements OnInit {
   public municipioSelecionado: string;
   public anoSelecionado: number;
   public situacaoSelecionada: string;
+
+  private urlParams: Params;
+  private validUrlParams: Params;
 
   public isVereador;
   public isExecutivo;
@@ -129,7 +135,8 @@ export class FilterComponent implements OnInit {
     private permalinkService: PermalinkService,
     private router: Router,
     private route: ActivatedRoute,
-    location: PlatformLocation
+    location: PlatformLocation,
+    private alertService: AlertService
   ) {
     this.listaMunicipios = [];
 
@@ -319,7 +326,6 @@ export class FilterComponent implements OnInit {
   }
 
   async onChangeMunicipio(novoMunicipio) {
-  
     if(novoMunicipio === "") { return; }
     
     this.municipioSelecionado = novoMunicipio;
@@ -402,13 +408,20 @@ export class FilterComponent implements OnInit {
   }
 
   private async mudaDados() {
+    this.urlParams = this.permalinkService.getQueryParams();
     await this.dataService.mudaDados(
       this.estadoSelecionado,
       this.anoSelecionado,
       this.cargoSelecionado,
       this.situacaoSelecionada,
       this.municipioSelecionado
-    );
+    ).then(() => { // Se a promisse for resolvida
+      this.validUrlParams = this.urlParams;
+    }, async () => { // Se a promisse for rejeitada
+      await this.alertService.openSnackBar("Não temos dados para este filtro! Você foi redirecionado para o último filtro válido.", "OK");
+      await this.permalinkService.updateAllUrlParams(this.validUrlParams);
+      this.getUrlParams();
+    })
   }
 
   // Recupera lista de cargos

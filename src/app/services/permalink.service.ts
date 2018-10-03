@@ -24,6 +24,11 @@ export class PermalinkService {
     return this.parseURLToFilters(queryParams);    
   }
 
+  async updateAllUrlParams(queryParams: Params) {
+    await this.router.navigate([], {queryParams});
+
+  }
+
   private parseFiltersToURL(queryParams) {    
     Object.keys(queryParams).map(function(key, index) {   
       var parameter = queryParams[key];

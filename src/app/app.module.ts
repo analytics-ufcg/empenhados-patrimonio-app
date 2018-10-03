@@ -62,7 +62,7 @@ import { AppRoutingModule } from "./app-routing.module";
     HomeComponent,
     ReadmeComponent,
     Top10Component
-  ],
+    ],
   imports: [
     BrowserAnimationsModule,
     FlexLayoutModule,
