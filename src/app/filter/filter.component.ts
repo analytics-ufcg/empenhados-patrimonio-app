@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from "@angular/core";
+import { Component, OnInit, Output, EventEmitter, ViewChild } from "@angular/core";
 import { RequestService } from "../services/request.service";
 import { FormControl } from "@angular/forms";
 import { Observable } from "rxjs/Observable";
@@ -11,6 +11,8 @@ import { AlertService } from "../services/alert.service"
 import { ViewEncapsulation } from "@angular/core";
 import { Router, Params, ActivatedRoute } from '@angular/router';
 import { PlatformLocation } from '@angular/common'
+import { NoDataDialogComponent } from "../no-data-dialog/no-data-dialog.component";
+import { MatDialog } from "@angular/material";
 
 
 const ELEICOES_FEDERAIS = 1;
@@ -29,7 +31,6 @@ export class FilterComponent implements OnInit {
   visualizaClique = new EventEmitter<any>();
   @Output()
   apagaVisualizacao = new EventEmitter<any>();
-
 
   public listaEstados: any;
   public listaCargos: any;
@@ -136,7 +137,8 @@ export class FilterComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     location: PlatformLocation,
-    private alertService: AlertService
+    private alertService: AlertService,
+    public dialog: MatDialog
   ) {
     this.listaMunicipios = [];
 
@@ -418,7 +420,7 @@ export class FilterComponent implements OnInit {
     ).then(() => { // Se a promisse for resolvida
       this.validUrlParams = this.urlParams;
     }, async () => { // Se a promisse for rejeitada
-      await this.alertService.openSnackBar("Não temos dados para este filtro! Você foi redirecionado para o último filtro válido.", "OK");
+      this.openNoDataDialog()
       await this.permalinkService.updateAllUrlParams(this.validUrlParams);
       this.getUrlParams();
     })
@@ -581,4 +583,18 @@ export class FilterComponent implements OnInit {
 
     index < 0 ? null : this.listaEstados.splice(index, 1);
   }
+
+  openNoDataDialog(): void {
+    const dialogRef = this.dialog.open(NoDataDialogComponent, {
+      width: "30%",
+      height: "20%"
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log("The dialog was closed");
+    });
+  }
+
 }
+
+
