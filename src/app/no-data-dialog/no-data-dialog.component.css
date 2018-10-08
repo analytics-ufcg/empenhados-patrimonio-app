@@ -6,10 +6,8 @@
 }
 
 .no-data-div {
-    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-family: Roboto, sans-serif;
     font-size: 16px;
-}
-
-.accept-button {
-    margin-top: 20px;
+    padding-left: 0px;
+    padding-right: 0px;
 }
