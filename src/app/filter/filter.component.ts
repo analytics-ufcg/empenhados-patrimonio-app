@@ -585,6 +585,9 @@ export class FilterComponent implements OnInit {
   }
 
   openNoDataDialog(): void {
+    if(this.dialog) {
+      this.dialog.closeAll();
+    }
     const dialogRef = this.dialog.open(NoDataDialogComponent, {
       width: "400px",
       height: "200px"

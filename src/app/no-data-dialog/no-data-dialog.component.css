@@ -1,3 +1,15 @@
 .accept-button{
     float: right;
 }
+.no-data-title {
+    font-weight: bold;
+}
+
+.no-data-div {
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-size: 16px;
+}
+
+.accept-button {
+    margin-top: 20px;
+}
