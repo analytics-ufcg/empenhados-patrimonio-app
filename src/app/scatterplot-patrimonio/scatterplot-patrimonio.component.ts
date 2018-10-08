@@ -914,6 +914,9 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   }
 
   openReadme(): void {
+    if(this.dialog) {
+      this.dialog.closeAll();
+    }
     const dialogRef = this.dialog.open(ReadmeComponent, {
       width: "80%",
       height: "90%",
