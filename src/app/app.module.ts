@@ -49,6 +49,7 @@ import { ReadmeComponent } from "./readme/readme.component";
 import { Top10Component } from "./top-10/top-10.component";
 
 import { AppRoutingModule } from "./app-routing.module";
+import { NoDataDialogComponent } from './no-data-dialog/no-data-dialog.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { AppRoutingModule } from "./app-routing.module";
     AboutComponent,
     HomeComponent,
     ReadmeComponent,
-    Top10Component
+    Top10Component,
+    NoDataDialogComponent
     ],
   imports: [
     BrowserAnimationsModule,
@@ -104,6 +106,6 @@ import { AppRoutingModule } from "./app-routing.module";
     PermalinkService
   ],
   bootstrap: [AppComponent],
-  entryComponents: [AboutComponent, ReadmeComponent]
+  entryComponents: [AboutComponent, ReadmeComponent, NoDataDialogComponent]
 })
 export class AppModule {}
