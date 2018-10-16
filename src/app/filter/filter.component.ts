@@ -366,11 +366,6 @@ export class FilterComponent implements OnInit {
     this.anoSelecionado = novoAno;
     await this.permalinkService.updateUrlParams('ano', novoAno);
 
-    if (novoAno === 2018) {
-      this.situacaoSelecionada = this.todasSituacoes;
-      await this.permalinkService.updateUrlParams('situacao', this.situacaoSelecionada);
-    }
-
     if (this.anoSelecionado % 4) {
       this.tipoEleicao = ELEICOES_FEDERAIS;
     } else {
