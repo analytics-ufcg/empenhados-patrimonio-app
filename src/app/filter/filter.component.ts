@@ -452,8 +452,7 @@ export class FilterComponent implements OnInit {
     this.requestService.recuperaSituacoes().subscribe(
       data => {
         this.listaSituacoes = data;
-        this.listaSituacoes.push({ situacao_eleicao_2: this.todasSituacoes });
-        this.listaSituacoes.splice(2, 1); // remove situação "indefinidos"        
+        this.listaSituacoes.push({ situacao_eleicao_2: this.todasSituacoes });        
       },
       err => {
         console.log(err);
@@ -565,10 +564,10 @@ export class FilterComponent implements OnInit {
   private async initFilter() {
     await this.onChangeCargo("DEPUTADO FEDERAL");
     await this.onChangeSituacao("ELEITO");
-    await this.onChangeAno(2014);
+    await this.onChangeAno(2018);
     await this.onChangeEstado("qualquer estado");
 
-    var initURL = { cargo: "deputado-federal", situacao: "eleito", ano: "2014", estado: "qualquer-estado" };
+    var initURL = { cargo: "deputado-federal", situacao: "eleito", ano: "2018", estado: "qualquer-estado" };
     this.router.navigate([], { queryParams: initURL });
   }
 
