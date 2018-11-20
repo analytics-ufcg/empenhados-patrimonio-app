@@ -42,7 +42,7 @@ Em seguida compactar a pasta gerada (dist/) usando
 
 zip -r dist.zip dist/
 
-Copiar este arquivo para o diretório /var/html na vm do projeto e descompactar.
+Copiar este arquivo para o diretório /var/www na vm do projeto e descompactar.
 
 unzip dist.zip
 
