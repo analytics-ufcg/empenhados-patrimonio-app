@@ -34,7 +34,7 @@
     "d3-tip": "^0.9.1",
     "express": "^4.16.3",
     "hammerjs": "^2.0.8",
-    "hawk": "^7.0.7",
+    "hawk": "^9.0.1",
     "https-proxy-agent": "^2.2.3",
     "log4js": "^3.0.4",
     "mailgun-js": "^0.20.0",
